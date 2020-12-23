@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE project>
+<project name="DBDT JAXB Code Generator" basedir=".." default="build">
+
+    <property name="schema.dir" value="${basedir}/gen" />
+    <property name="src.dir" value="${basedir}/src" />
+    <property name="model.dir" value="${src.dir}/io/github/erde/editor/persistent" />
+    <property name="lib.dir" value="${basedir}/target/dependency-jars" />
+
+    <property name="jdbcUrlTemplate.rng" value="jdbcUrlTemplate.rng" />
+    <property name="jdbcUrlTemplate.schema" value="jdbcUrlTemplate.xsd" />
+    <property name="jdbcUrlTemplate.src" value="${model.dir}/db" />
+
+    <property name="sqltype.rng" value="sqltype.rng" />
+    <property name="sqltype.schema" value="sqltype.xsd" />
+    <property name="sqltype.src" value="${model.dir}/sqltype" />
+
+	<property name="diagram.rng" value="diagram.rng" />
+    <property name="diagram.schema" value="diagram.xsd" />
+    <property name="diagram.src" value="${model.dir}/diagram" />
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="*.jar" />
+    </path>
+
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+        <classpath refid="classpath" />
+    </taskdef>
+
+    <!-- jdbcUrlTemplate・スキーマファイル作成 -->
+    <target name="gen.jdbcUrlTemplate.schema">
+        <java jar="${lib.dir}/trang-20181222.jar" fork="true">
+            <arg value="${schema.dir}/${jdbcUrlTemplate.rng}" />
+            <arg value="${schema.dir}/${jdbcUrlTemplate.schema}" />
+        </java>
+    </target>
+
+    <!-- jdbcUrlTemplate・javaファイル作成 -->
+    <target name="gen.jdbcUrlTemplate.java" depends="gen.jdbcUrlTemplate.schema">
+        <xjc removeOldOutput="yes" destdir="${src.dir}" encoding="UTF-8">
+            <schema dir="${schema.dir}" includes="${jdbcUrlTemplate.schema}"/>
+            <arg value="-extension" />
+            <arg value="-no-header" />
+            <arg value="-b" />
+            <arg value="${schema.dir}/jdbcUrlTemplate.xjb" />
+        </xjc>
+    </target>
+
+    <!-- sqltype・スキーマファイル作成 -->
+    <target name="gen.sqltype.schema">
+        <java jar="${lib.dir}/trang-20181222.jar" fork="true">
+            <arg value="${schema.dir}/${sqltype.rng}" />
+            <arg value="${schema.dir}/${sqltype.schema}" />
+        </java>
+    </target>
+
+    <!-- sqltype・javaファイル作成 -->
+    <target name="gen.sqltype.java" depends="gen.sqltype.schema">
+        <xjc removeOldOutput="yes" destdir="${src.dir}" encoding="UTF-8">
+            <schema dir="${schema.dir}" includes="${sqltype.schema}"/>
+            <arg value="-extension" />
+            <arg value="-no-header" />
+            <arg value="-b" />
+            <arg value="${schema.dir}/sqltype.xjb" />
+        </xjc>
+    </target>
+
+    <!-- diagram・スキーマファイル作成 -->
+    <target name="gen.diagram.schema">
+        <java jar="${lib.dir}/trang-20181222.jar" fork="true">
+            <arg value="${schema.dir}/${diagram.rng}" />
+            <arg value="${schema.dir}/${diagram.schema}" />
+        </java>
+    </target>
+
+    <!-- diagram・javaファイル作成 -->
+    <target name="gen.diagram.java" depends="gen.diagram.schema">
+        <xjc removeOldOutput="yes" destdir="${src.dir}" encoding="UTF-8">
+            <schema dir="${schema.dir}" includes="${diagram.schema}"/>
+            <arg value="-extension" />
+            <arg value="-no-header" />
+            <arg value="-b" />
+            <arg value="${schema.dir}/diagram.xjb" />
+        </xjc>
+    </target>
+
+    <target name="clear">
+        <delete>
+            <fileset dir="${jdbcUrlTemplate.src}" includes="*.java" erroronmissingdir="false"/>
+            <fileset dir="${sqltype.src}" includes="*.java" erroronmissingdir="false"/>
+            <fileset dir="${diagram.src}" includes="*.java" erroronmissingdir="false"/>
+        </delete>
+    </target>
+
+    <target name="gen" depends="clear">
+        <echo message="Generate jdbcUrlTemplate..." />
+        <antcall target="gen.jdbcUrlTemplate.java" />
+
+    	<echo message="Generate sqltype..." />
+        <antcall target="gen.sqltype.java" />
+
+        <echo message="Generate diagram..." />
+        <antcall target="gen.diagram.java" />
+    </target>
+
+    <target name="build" depends="gen">
+        <!--
+        ビルドエラーが発生する場合以下の手順でantの実行環境設定を確認
+        1. build.xmlを選択し右クリックでコンテキストメニューを表示
+        2.[実行]-[外部ツールの構成(E)...]を選択
+        3.[JRE]タブを選択し、ランタイムJREが[ワークスペースと同じJREで実行]が選択されていること
+        -->
+        <echo message="Full build..." />
+        <eclipse.refreshLocal resource="erde" depth="infinite" />
+        <eclipse.incrementalBuild project="erde" kind="full" />
+    </target>
+
+</project>
+
+

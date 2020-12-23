@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>$msg.get("title")</title>
+        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    </head>
+    <body onload="setTitle()">
+        <script type="text/javascript">
+        function setTitle(){
+          parent.document.title="$table.physicalName";
+        }
+        </script>
+        <h2 #if($table.linkedtable) class="imported" #end> ${util.escapeHTML2($table.physicalName)} #if(!$util.isEmpty($table.logicalName)) (${util.escapeHTML2($table.logicalName)}) #end </h2>
+         #if(!$util.isEmpty($table.description))
+        <p>$util.escapeHTML2($table.description)</p>
+         #end #if($table.linkedTable)
+        <p class="note">$msg.get("note.importedTable")</p>
+         #end
+        <table>
+            <tbody>
+                <tr class="TableHeadingColor">
+                    <th width="1%">$msg.get("column.rownum")</th>
+                    <th width="1%">$msg.get("column.primaryKey")</th>
+                    <th width="14%">$msg.get("column.physicalName")</th>
+                    <th width="14%">$msg.get("column.logicalName")</th>
+                    <th width="10%">$msg.get("column.type")</th>
+                    <th width="3%">$msg.get("column.notNull")</th>
+                    <th width="3%">$msg.get("column.unique")</th>
+                    <th width="10%">$msg.get("column.defaultValue")</th>
+                    <th width="30%">$msg.get("column.description")</th>
+                </tr>
+                 #foreach($column in $table.columns)
+                <tr>
+                    <td align="right" nowrap>
+                         $foreach.count
+                    </td>
+                    <td align="center" nowrap>
+                         #if($column.primaryKey == true)
+                        <img src="../images/primarykey.gif">
+                         #end
+                    </td>
+                    <td>
+                        <strong>
+                            <code>$util.escapeHTML2($column.physicalName)</code>
+                        </strong>
+                    </td>
+                    <td>
+                        <strong>$util.escapeHTML2($column.logicalName)</strong>
+                    </td>
+                    <td>
+                        <code>
+                            $util.escapeHTML2($column.columnType.physicalName)#if($column.columnType.sizeSupported && $column.columnSize && $column.decimal)($column.columnSize,  && $column.decimal)#elseif($column.columnType.sizeSupported && $column.columnSize)($column.columnSize)#end
+                        </code>
+                    </td>
+                    <td align="center"> #if($column.notNull == true) Yes #end </td>
+                    <td align="center"> #if($column.uniqueKey == true) Yes #end </td>
+                    <td>$util.escapeHTML2($column.defaultValue)</td>
+                    <td>
+                         #if($column.domain) ${msg.get("column.description.domain")}: ${util.escapeHTML($column.domain.name)}
+                        <br>
+                         #end #if($column.autoIncrement == true) AUTO INCREMENT
+                        <br>
+                         #end #if($column.description!="") $util.escapeHTML($column.description) #elseif($column.autoIncrement == false && !$column.domain) &#xa0; #end
+                    </td>
+                </tr>
+                 #end
+            </tbody>
+        </table>
+         #if(!$table.modelSourceConnections.empty)
+        <br>
+        <table border="1">
+            <tbody>
+                <tr class="TableHeadingColor">
+                    <td>
+                        <strong>$msg.get("foreignKeys")</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+         #foreach($conn in $table.modelSourceConnections) #if($foreach.count != 1)
+        <hr>
+         #end
+        <h3>$conn.foreignKeyName</h3>
+        <table border="1" cellpadding="3" cellspacing="0">
+            <tbody>
+                <tr>
+                    <th>Column</th>
+                    <th>Referenced Column</th>
+                </tr>
+                 #foreach($mapping in $conn.mapping)
+                <tr>
+                    <td>
+                        <code>$mapping.refer.columnName</code>
+                    </td>
+                    <td>
+                        <code>
+                            <a href="${conn.target.tableName}.html">${util.escapeHTML($conn.target.tableName)}.${util.escapeHTML($mapping.target.columnName)}</a>
+                        </code>
+                    </td>
+                </tr>
+                 #end
+            </tbody>
+        </table>
+         #end #end #if(!$util.isEmpty($table.indices))
+        <br>
+        <table border="1">
+            <tbody>
+                <tr class="TableHeadingColor">
+                    <td>
+                        <strong>$msg.get("indices")</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+         #foreach($index in $table.indices) #if($foreach.count  != 1)
+        <hr>
+         #end
+        <h3>$index.indexName ($index.indexType.name)</h3>
+        <dl>
+            <dt>
+                <strong>Columns:</strong>
+            </dt>
+            <dd>
+                 #foreach($indexColumn in $index.columns)
+                <code>$indexColumn</code>
+                <br>
+                 #end
+            </dd>
+        </dl>
+         #end #end #if(!$table.modelTargetConnections.empty)
+        <br>
+        <table border="1">
+            <tbody>
+                <tr class="TableHeadingColor">
+                    <td>
+                        <strong>$msg.get("referencedTables")</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table border="1">
+            <tbody>
+                <tr>
+                    <th>Table</th>
+                    <th>Column</th>
+                </tr>
+                 #foreach($conn in $table.modelTargetConnections) #foreach($mapping in $conn.mapping)
+                <tr>
+                    <td>
+                        <code>
+                            <a href="${conn.source.tableName}.html">${conn.source.tableName}.${mapping.refer.columnName}</a>
+                        </code>
+                    </td>
+                    <td>
+                        <code>$mapping.target.columnName</code>
+                        <br>
+                    </td>
+                </tr>
+                 #end #end
+            </tbody>
+        </table>
+         #end
+    </body>
+</html>

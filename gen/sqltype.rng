@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://www.kohsuke.org/relaxng/tutorial.ja.html -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+
+    <include href="sheard.rng"/>
+
+    <start>
+        <element name="sqlTypes">
+            <zeroOrMore>
+                <element name="product">
+                    <attribute name="name">
+                        <ref name="productName" />
+                    </attribute>
+                    <zeroOrMore>
+                        <ref name="sqlTypeContent" />
+                    </zeroOrMore>
+                </element>
+            </zeroOrMore>
+        </element>
+    </start>
+
+<!--
+    <define name="productName" combine="choice">
+        <choice>
+            <value type="string">HSQLDB</value>
+            <value type="string">DB2</value>
+            <value type="string">PostgreSQL</value>
+            <value type="string">MySQL</value>
+            <value type="string">H2</value>
+            <value type="string">MSSQL</value>
+            <value type="string">Oracle</value>
+            <value type="string">Other</value>
+        </choice>
+    </define>
+-->
+
+    <define name="sqlTypeContent">
+        <element name="sqlType">
+            <attribute name="id">
+                <text />
+            </attribute>
+            <element name="javaClass">
+                <text />
+            </element>
+            <element name="needArgs">
+                <data type="boolean" />
+            </element>
+            <element name="fullTextIndexable">
+                <data type="boolean" />
+            </element>
+            <element name="value">
+                <text />
+            </element>
+        </element>
+    </define>
+
+</grammar>
+

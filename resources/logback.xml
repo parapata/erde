@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
+<configuration>
+
+    <appender name="STDOUT"
+        class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d %-5level %logger{36}:%4line - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <logger name="io.github.erde">
+        <level value="DEBUG" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

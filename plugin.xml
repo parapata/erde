@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!DOCTYPE project>
+<plugin>
+    <extension-point id="dialects" name="dialects" schema="schema/dialects.exsd"/>
+    <extension-point id="generators" name="generators" schema="schema/generators.exsd"/>
+
+    <extension point="org.eclipse.ui.newWizards">
+      <category id="io.github.erde" name="%Bundle-Name"/>
+      <wizard category="io.github.erde"
+            class="io.github.erde.wizard.NewDiagramWizard"
+            icon="icons/table.gif"
+            id="io.github.erde.wizard.NewDiagramWizard"
+            name="%Bundle-Name"/>
+    </extension>
+
+    <extension point="org.eclipse.ui.editors">
+      <editor
+            id="io.github.erde.editor.ERDiagramEditor"
+            name="%Bundle-Name"
+            icon="icons/table.gif"
+            extensions="ere"
+            class="io.github.erde.editor.ERDiagramEditor"
+            contributorClass="io.github.erde.editor.ERDiagramContributor">
+      </editor>
+    </extension>
+
+    <extension point="io.github.erde.dialects">
+        <dialect
+            class="io.github.erde.dialect.H2Dialect"
+            name="H2"/>
+        <dialect
+            class="io.github.erde.dialect.HsqldbDialect"
+            name="HSQLDB"/>
+        <dialect
+            class="io.github.erde.dialect.MSSQLDialect"
+            name="MSSQL"/>
+        <dialect
+            class="io.github.erde.dialect.MySQLDialect"
+            name="MySQL"/>
+        <dialect
+            class="io.github.erde.dialect.OracleDialect"
+            name="Oracle"/>
+        <dialect
+            class="io.github.erde.dialect.PostgreSQLDialect"
+            name="PostgreSQL"/>
+    </extension>
+
+    <extension point="io.github.erde.generators">
+        <generator class="io.github.erde.generate.DDLGenerater"/>
+        <generator class="io.github.erde.generate.HTMLGenerator"/>
+        <generator class="io.github.erde.generate.ExcelGenerator"/>
+        <generator class="io.github.erde.generate.ImageGenerator"/>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.preferencePages">
+        <page
+              class="io.github.erde.preference.ERDPreferencePage"
+              id="io.github.erde.preference.ERDPreferencePage"
+              name="%Bundle-Name"/>
+        <page
+            class="io.github.erde.preference.ValidationPreferencePage"
+            id="io.github.erde.preference.ValidationPreferencePage"
+            name="%plugin.erd.preference.validation"
+            category="io.github.erde.preference.ERDPreferencePage"/>
+        <page
+            class="io.github.erde.preference.DictionaryPreferencePage"
+            id="io.github.erde.preference.DictionaryPreferencePage"
+            name="%plugin.erd.preference.dictionary"
+            category="io.github.erde.preference.ERDPreferencePage"/>
+    </extension>
+
+    <extension point="org.eclipse.core.runtime.preferences">
+        <initializer
+            class="io.github.erde.preference.DBPreferenceInitializer">
+        </initializer>
+    </extension>
+
+    <!--
+    <extension point="org.eclipse.ui.commands">
+        <command name="Quick Outline"
+            description="Quick Outline"
+            categoryId="org.eclipse.gef.category.view"
+            id="org.dbflute.erflute.quickOutline">
+        </command>
+    </extension>
+
+    <extension point="org.eclipse.ui.bindings">
+        <key sequence="Ctrl+O"
+            commandId="org.dbflute.erflute.quickOutline"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+    </extension>
+    -->
+
+</plugin>
