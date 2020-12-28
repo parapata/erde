@@ -17,7 +17,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.text,
  org.eclipse.jface.text,
  org.eclipse.search,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ org.junit,
+ org.junit.jupiter.api
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: io.github.erde
 Bundle-ActivationPolicy: lazy
