@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://www.kohsuke.org/relaxng/tutorial.ja.html -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="erde">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="color"/>
+        <xs:element ref="font"/>
+        <xs:element ref="dialectName"/>
+        <xs:element ref="schemaName"/>
+        <xs:element ref="lowerCase"/>
+        <xs:element ref="logicalMode"/>
+        <xs:element ref="includeView"/>
+        <xs:element ref="notation"/>
+        <xs:element ref="dbSettings"/>
+        <xs:element ref="diagram"/>
+        <xs:group ref="domains"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dialectName" type="xs:string"/>
+  <xs:element name="schemaName" type="xs:string"/>
+  <xs:element name="lowerCase" type="xs:boolean"/>
+  <xs:element name="logicalMode" type="xs:boolean"/>
+  <xs:element name="includeView" type="xs:boolean"/>
+  <xs:element name="notation">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="IE"/>
+        <xs:enumeration value="IDEF1X"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="dbSettings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="jarFile"/>
+        <xs:element ref="jdbcDriver"/>
+        <xs:element ref="jdbcUrl"/>
+        <xs:element ref="jdbcCatalog"/>
+        <xs:element ref="jdbcSchema"/>
+        <xs:element ref="jdbcUser"/>
+        <xs:element ref="jdbcPassword"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="jarFile" type="xs:string"/>
+  <xs:element name="jdbcDriver" type="xs:string"/>
+  <xs:element name="jdbcUrl" type="xs:string"/>
+  <xs:element name="jdbcCatalog" type="xs:string"/>
+  <xs:element name="jdbcSchema" type="xs:string"/>
+  <xs:element name="jdbcUser" type="xs:string"/>
+  <xs:element name="jdbcPassword" type="xs:string"/>
+  <xs:element name="diagram">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="tables"/>
+        <xs:group ref="notes"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="referenceOption">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NO_ACTION"/>
+      <xs:enumeration value="RESTRICT"/>
+      <xs:enumeration value="CASCADE"/>
+      <xs:enumeration value="SET_NULL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="color">
+    <xs:complexType>
+      <xs:attribute name="r" use="required" type="xs:int"/>
+      <xs:attribute name="g" use="required" type="xs:int"/>
+      <xs:attribute name="b" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="font">
+    <xs:complexType>
+      <xs:attribute name="fontName" use="required"/>
+      <xs:attribute name="fontSize" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="location">
+    <xs:complexType>
+      <xs:attribute name="x" use="required" type="xs:int"/>
+      <xs:attribute name="y" use="required" type="xs:int"/>
+      <xs:attribute name="width" use="required" type="xs:int"/>
+      <xs:attribute name="height" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="property">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tableProperties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="schema"/>
+        <xs:choice>
+          <xs:sequence>
+            <xs:element ref="characterSet"/>
+            <xs:element ref="collation"/>
+            <xs:element ref="storageEngine"/>
+            <xs:element ref="primaryKeyLengthOfText"/>
+          </xs:sequence>
+          <xs:element ref="withoutOIDs"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="schema" type="xs:string"/>
+  <xs:element name="characterSet" type="xs:string"/>
+  <xs:element name="collation" type="xs:string"/>
+  <xs:element name="storageEngine" type="xs:string"/>
+  <xs:element name="primaryKeyLengthOfText" type="xs:integer"/>
+  <xs:element name="withoutOIDs" type="xs:boolean"/>
+  <xs:group name="notes">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="note"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="note">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="location"/>
+        <xs:element ref="text"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="noteConnection"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="text" type="xs:string"/>
+  <xs:element name="noteConnection">
+    <xs:complexType>
+      <xs:attribute name="targetId" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="tables">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="table"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="table">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="location"/>
+        <xs:element ref="font"/>
+        <xs:element ref="color"/>
+        <xs:element ref="physicalName"/>
+        <xs:element ref="logicalName"/>
+        <xs:element ref="description"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="column"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="index"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="foreignKey"/>
+        <xs:element ref="tableProperties"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="physicalName" type="xs:string"/>
+  <xs:element name="logicalName" type="xs:string"/>
+  <xs:element name="description" type="xs:string"/>
+  <xs:element name="column">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="physicalName"/>
+        <xs:element ref="logicalName"/>
+        <xs:element ref="domainId"/>
+        <xs:element ref="type"/>
+        <xs:element ref="columnSize"/>
+        <xs:element ref="decimal"/>
+        <xs:element ref="unsigned"/>
+        <xs:element ref="description"/>
+        <xs:element ref="autoIncrement"/>
+        <xs:element ref="notNull"/>
+        <xs:element ref="primaryKey"/>
+        <xs:element ref="uniqueKey"/>
+        <xs:element ref="defaultValue"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="domainId" type="xs:string"/>
+  <xs:element name="type" type="xs:string"/>
+  <xs:element name="columnSize" type="xs:integer"/>
+  <xs:element name="decimal" type="xs:integer"/>
+  <xs:element name="unsigned" type="xs:boolean"/>
+  <xs:element name="autoIncrement" type="xs:boolean"/>
+  <xs:element name="notNull" type="xs:boolean"/>
+  <xs:element name="primaryKey" type="xs:boolean"/>
+  <xs:element name="uniqueKey" type="xs:boolean"/>
+  <xs:element name="defaultValue" type="xs:string"/>
+  <xs:element name="index">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="columnName"/>
+      </xs:sequence>
+      <xs:attribute name="indexName" use="required"/>
+      <xs:attribute name="indexType" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="columnName" type="xs:string"/>
+  <xs:element name="foreignKey">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onUpdateOption"/>
+        <xs:element ref="onDeleteOption"/>
+        <xs:element ref="sourceCardinality"/>
+        <xs:element ref="targetCardinality"/>
+        <xs:element maxOccurs="unbounded" ref="foreignKeyMapping"/>
+      </xs:sequence>
+      <xs:attribute name="sourceId" use="required"/>
+      <xs:attribute name="foreignKeyName" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="onUpdateOption" type="referenceOption"/>
+  <xs:element name="onDeleteOption" type="referenceOption"/>
+  <xs:element name="sourceCardinality" type="xs:string"/>
+  <xs:element name="targetCardinality" type="xs:string"/>
+  <xs:element name="foreignKeyMapping">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="referenceName"/>
+        <xs:element ref="targetName"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="referenceName" type="xs:string"/>
+  <xs:element name="targetName" type="xs:string"/>
+  <xs:group name="domains">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="domain"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="domain">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="domainName"/>
+        <xs:element ref="type"/>
+        <xs:element ref="columnSize"/>
+        <xs:element ref="decimal"/>
+        <xs:element ref="unsigned"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="domainName" type="xs:string"/>
+</xs:schema>

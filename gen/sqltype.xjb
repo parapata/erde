@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" version="2.1">
+
+    <jaxb:globalBindings>
+        <jaxb:serializable uid="1" />
+        <!-- All generated classes must have MySignature interface (supplied in dependencies)
+        <xjc:superClass name="io.github.erde.editors.persistent.model.AbstractModel" />
+        <xjc:superInterface name="com.cigna.framework.InterfaceTest" />
+        -->
+
+        <!-- All temporal fields are implemented as Joda DateTime and use DateUtils as an adapter
+        <jaxb:javaType name="org.joda.time.DateTime"
+            xmlType="xs:time"
+            parseMethod="com.cigna.framework.util.DateUtil.stringToDateTime"
+            printMethod="com.cigna.framework.util.DateUtil.dateTimeToString" />
+        -->
+        <xjc:simple />
+    </jaxb:globalBindings>
+
+    <jaxb:bindings schemaLocation="sqltype.xsd" node="/xs:schema">
+        <jaxb:schemaBindings>
+            <jaxb:package name="io.github.erde.editor.persistent.sqltype" />
+            <jaxb:nameXmlTransform>
+                <jaxb:elementName suffix="XmlModel" />
+            </jaxb:nameXmlTransform>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+    <!--
+    -->
+
+</jaxb:bindings>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://www.kohsuke.org/relaxng/tutorial.ja.html -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:include schemaLocation="sheard.xsd"/>
+  <xs:element name="sqlTypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="product"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="product">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="sqlType"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="productName"/>
+    </xs:complexType>
+  </xs:element>
+  <!--
+    <define name="productName" combine="choice">
+        <choice>
+            <value type="string">HSQLDB</value>
+            <value type="string">DB2</value>
+            <value type="string">PostgreSQL</value>
+            <value type="string">MySQL</value>
+            <value type="string">H2</value>
+            <value type="string">MSSQL</value>
+            <value type="string">Oracle</value>
+            <value type="string">Other</value>
+        </choice>
+    </define>
+  -->
+  <xs:element name="sqlType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="javaClass"/>
+        <xs:element ref="needArgs"/>
+        <xs:element ref="fullTextIndexable"/>
+        <xs:element ref="value"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="javaClass" type="xs:string"/>
+  <xs:element name="needArgs" type="xs:boolean"/>
+  <xs:element name="fullTextIndexable" type="xs:boolean"/>
+  <xs:element name="value" type="xs:string"/>
+</xs:schema>

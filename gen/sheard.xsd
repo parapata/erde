@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://www.kohsuke.org/relaxng/tutorial.ja.html -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:simpleType name="productName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HSQLDB"/>
+      <xs:enumeration value="DB2"/>
+      <xs:enumeration value="PostgreSQL"/>
+      <xs:enumeration value="MySQL"/>
+      <xs:enumeration value="H2"/>
+      <xs:enumeration value="MSSQL"/>
+      <xs:enumeration value="Oracle"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
