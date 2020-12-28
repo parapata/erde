@@ -1,14 +1,17 @@
 package io.github.erde.dialect.type;
 
-import java.io.Serializable;
 import java.sql.Types;
+
+import org.apache.commons.lang3.SerializationUtils;
+
+import io.github.erde.editor.diagram.model.IModel;
 
 /**
  * ColumnType.
  *
  * @author modified by parapata
  */
-public class ColumnType implements IColumnType, Serializable {
+public class ColumnType implements IColumnType, IModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -93,6 +96,11 @@ public class ColumnType implements IColumnType, Serializable {
         } else {
             return false;
         }
+    }
+
+    @Override
+    protected ColumnType clone() throws CloneNotSupportedException {
+        return SerializationUtils.clone(this);
     }
 
     @Override

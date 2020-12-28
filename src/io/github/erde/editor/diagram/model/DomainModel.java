@@ -7,10 +7,10 @@ import io.github.erde.dialect.type.IColumnType;
 
 /**
  * DomainModel.
- * 
+ *
  * @author modified by parapata
  */
-public class DomainModel extends ColumnType implements Cloneable, IModel {
+public class DomainModel extends ColumnType implements IModel {
 
     /** . */
     private static final long serialVersionUID = 1L;
@@ -103,8 +103,8 @@ public class DomainModel extends ColumnType implements Cloneable, IModel {
 
     @Override
     public DomainModel clone() {
-        DomainModel model = DomainModel.newInstance(id, domainName, this, columnSize, decimal, unsigned);
-        return model;
+        DomainModel newModel = DomainModel.newInstance(id, domainName, this, columnSize, decimal, unsigned);
+        return newModel;
     }
 
     @Override

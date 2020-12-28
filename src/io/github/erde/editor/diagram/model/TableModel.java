@@ -3,14 +3,15 @@ package io.github.erde.editor.diagram.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import io.github.erde.IMessages;
+import io.github.erde.dialect.type.ColumnType;
 
 /**
  * TableModel.
@@ -37,9 +38,7 @@ public class TableModel extends BaseEntityModel implements IMessages {
     private List<IndexModel> indices = new ArrayList<>();
 
     private String schema;
-
     private String error;
-
     private RGB backgroundColor;
 
     public TableModel() {
@@ -221,35 +220,20 @@ public class TableModel extends BaseEntityModel implements IMessages {
     }
 
     @Override
-    public BaseEntityModel clone() {
-        TableModel table = new TableModel(getId());
-        table.setPhysicalName(getPhysicalName());
-        table.setLogicalName(getLogicalName());
-        table.setDescription(getDescription());
-        table.setConstraint(new Rectangle(getConstraint()));
-        table.setBackgroundColor(getBackgroundColor());
-        table.setSchema(getSchema());
+    public TableModel clone() {
 
-        List<ColumnModel> newColumns = new ArrayList<>();
+        TableModel newModel = SerializationUtils.clone(this);
+        List<ColumnModel> columns = newModel.getColumns();
 
         getColumns().forEach(oldColumn -> {
-            ColumnModel newColumn = new ColumnModel();
-            newColumn.setPhysicalName(oldColumn.getPhysicalName());
-            newColumn.setLogicalName(oldColumn.getLogicalName());
-            newColumn.setDescription(oldColumn.getDescription());
-            newColumn.setDefaultValue(oldColumn.getDefaultValue());
-            newColumn.setColumnType(oldColumn.getColumnType());
-            newColumn.setNotNull(oldColumn.isNotNull());
-            newColumn.setPrimaryKey(oldColumn.isPrimaryKey());
-            newColumn.setColumnSize(oldColumn.getColumnSize());
-            newColumns.add(newColumn);
+            ColumnModel newColumn = SerializationUtils.clone(oldColumn);
+            newColumn.setColumnType(SerializationUtils.clone((ColumnType) oldColumn.getColumnType()));
+            columns.add(newColumn);
         });
-
-        table.setColumns(newColumns);
 
         // TODO Copy Index...?
         // TODO Copy Connection...?
 
-        return table;
+        return newModel;
     }
 }

@@ -1,6 +1,5 @@
 package io.github.erde.editor.diagram.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ import io.github.erde.IMessages;
  *
  * @author modified by parapata
  */
-public class RelationshipModel extends BaseConnectionModel implements IMessages, Serializable {
+public class RelationshipModel extends BaseConnectionModel implements IMessages {
 
     private static final long serialVersionUID = 1L;
 

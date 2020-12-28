@@ -1,5 +1,6 @@
 package io.github.erde.editor.diagram.model;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -93,5 +94,10 @@ public class NoteModel extends BaseEntityModel implements IMessages {
         if (id.equals(P_CONTENT)) {
             setContent((String) value);
         }
+    }
+
+    @Override
+    public NoteModel clone() {
+        return SerializationUtils.clone(this);
     }
 }

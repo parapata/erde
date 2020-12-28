@@ -2,12 +2,15 @@ package io.github.erde.editor.diagram.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.SerializationUtils;
 
 import io.github.erde.dialect.type.IIndexType;
 
 /**
  * IndexModel.
- * 
+ *
  * @author modified by parapata
  */
 public class IndexModel implements IModel {
@@ -50,6 +53,13 @@ public class IndexModel implements IModel {
 
     public void setColumns(List<String> columns) {
         this.columns = columns;
+    }
+
+    @Override
+    protected IndexModel clone() throws CloneNotSupportedException {
+        IndexModel newModel = SerializationUtils.clone(this);
+        newModel.setColumns(columns.stream().collect(Collectors.toList()));
+        return newModel;
     }
 
     @Override

@@ -13,7 +13,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  *
  * @author modified by parapata
  */
-public abstract class BaseEntityModel extends BaseModel implements IPropertySource, Cloneable {
+public abstract class BaseEntityModel extends BaseModel implements IPropertySource {
 
     private static final long serialVersionUID = 1L;
 

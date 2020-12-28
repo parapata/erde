@@ -7,5 +7,5 @@ import java.io.Serializable;
  *
  * @author modified by parapata
  */
-public interface IModel extends Serializable {
+public interface IModel extends Cloneable, Serializable {
 }

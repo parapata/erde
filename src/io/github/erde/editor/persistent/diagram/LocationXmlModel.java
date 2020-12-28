@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -26,12 +26,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "location")
 public class LocationXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlAttribute(name = "x", required = true)
@@ -45,6 +48,7 @@ public class LocationXmlModel
 
     /**
      * xプロパティの値を取得します。
+     * 
      */
     public int getX() {
         return x;
@@ -52,6 +56,7 @@ public class LocationXmlModel
 
     /**
      * xプロパティの値を設定します。
+     * 
      */
     public void setX(int value) {
         this.x = value;
@@ -59,6 +64,7 @@ public class LocationXmlModel
 
     /**
      * yプロパティの値を取得します。
+     * 
      */
     public int getY() {
         return y;
@@ -66,6 +72,7 @@ public class LocationXmlModel
 
     /**
      * yプロパティの値を設定します。
+     * 
      */
     public void setY(int value) {
         this.y = value;
@@ -73,6 +80,7 @@ public class LocationXmlModel
 
     /**
      * widthプロパティの値を取得します。
+     * 
      */
     public int getWidth() {
         return width;
@@ -80,6 +88,7 @@ public class LocationXmlModel
 
     /**
      * widthプロパティの値を設定します。
+     * 
      */
     public void setWidth(int value) {
         this.width = value;
@@ -87,6 +96,7 @@ public class LocationXmlModel
 
     /**
      * heightプロパティの値を取得します。
+     * 
      */
     public int getHeight() {
         return height;
@@ -94,6 +104,7 @@ public class LocationXmlModel
 
     /**
      * heightプロパティの値を設定します。
+     * 
      */
     public void setHeight(int value) {
         this.height = value;

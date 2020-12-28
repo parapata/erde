@@ -1,5 +1,6 @@
 package io.github.erde.editor.diagram.model;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.erde.dialect.type.ColumnType;
@@ -160,6 +161,11 @@ public class ColumnModel implements IModel {
 
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = StringUtils.defaultString(defaultValue);
+    }
+
+    @Override
+    protected ColumnModel clone() throws CloneNotSupportedException {
+        return SerializationUtils.clone(this);
     }
 
     @Override
