@@ -24,6 +24,7 @@ public class TableModel extends BaseEntityModel implements IMessages {
 
     public static final String P_ERROR = "p_error";
     public static final String P_TABLE_NAME = "p_table_name";
+
     public static final String P_LOGICAL_NAME = "p_logical_name";
     public static final String P_COLUMNS = "p_columns";
     public static final String P_INDICES = "p_indices";
@@ -234,14 +235,14 @@ public class TableModel extends BaseEntityModel implements IMessages {
             newColumn.setColumnType(SerializationUtils.clone((ColumnType) oldColumn.getColumnType()));
             newColumns.add(newColumn);
         });
-        newModel.setColumns(newColumns);
+        newModel.columns = newColumns;
 
         List<IndexModel> newIndices = new ArrayList<>();
         getIndices().forEach(oldIndex -> {
             IndexModel newIndex = SerializationUtils.clone(oldIndex);
             newIndices.add(newIndex);
         });
-        newModel.setIndices(newIndices);
+        newModel.indices = newIndices;
 
         // TODO Copy Connection...?
         return newModel;

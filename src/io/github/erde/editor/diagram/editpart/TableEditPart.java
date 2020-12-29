@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,7 @@ import io.github.erde.editor.diagram.figure.TableFigure;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
+import io.github.erde.editor.diagram.model.DomainModel;
 import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
@@ -95,8 +98,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
     @Override
     public void doubleClicked() {
         TableModel model = (TableModel) getModel();
-        RootModel root = (RootModel) getParent().getModel();
-        openTableEditDialog(getViewer(), root, model);
+        openTableEditDialog(getViewer(), model);
     }
 
     private void updateFigure(TableFigure figure) {
@@ -217,34 +219,34 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
      *
      * @param viewer the viewer
      * @param tableModel the table model
-     * @param rootModel the root model
      */
-    public static void openTableEditDialog(EditPartViewer viewer, RootModel rootModel, TableModel tableModel) {
-        openTableEditDialog(viewer, rootModel, tableModel, (ColumnModel) null);
+    public static void openTableEditDialog(EditPartViewer viewer, TableModel tableModel) {
+        openTableEditDialog(viewer, tableModel, (ColumnModel) null);
     }
 
     /**
      * Opens the {@link TableEditDialog} to edit a given column.
      *
      * @param viewer the viewer
-     * @param rootModel the root model
      * @param tableModel the table model
      * @param editColumnModel the editing target column model
      */
-    public static void openTableEditDialog(EditPartViewer viewer, RootModel rootModel, TableModel tableModel,
-            ColumnModel editColumnModel) {
+    public static void openTableEditDialog(EditPartViewer viewer, TableModel tableModel, ColumnModel editColumnModel) {
 
-        TableEditDialog dialog = new TableEditDialog(viewer.getControl().getShell(), rootModel.getDialectName(),
-                tableModel, editColumnModel, false, null, rootModel.getDomains());
+        Shell shell = viewer.getControl().getShell();
+        RootModel rootModel = getRootModel(viewer);
+        String dialectName = rootModel.getDialectName();
+        List<DomainModel> domains = rootModel.getDomains();
+
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, tableModel, editColumnModel, false, null,
+                domains);
 
         if (dialog.open() == Window.OK) {
             List<ColumnModel> columns = dialog.getColumnModels();
-            List<IndexModel> indices = dialog.getResultIncices();
+            List<IndexModel> indices = dialog.getIndexModels();
 
             viewer.getEditDomain().getCommandStack().execute(
-                    new TableEditCommand(tableModel,
-                            dialog.getTablePyhgicalName(),
-                            dialog.getTableLogicalName(),
+                    new TableEditCommand(tableModel, dialog.getTablePyhgicalName(), dialog.getTableLogicalName(),
                             dialog.getTableDescription(), columns, indices));
         }
     }
@@ -253,23 +255,31 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
      * Opens the {@link TableEditDialog} to edit a given index.
      *
      * @param viewer the viewer
-     * @param tableModel the table model
      * @param rootModel the root model
      * @param editIndexModel the editing target index model
      */
-    public static void openTableEditDialog(EditPartViewer viewer, RootModel rootModel, TableModel tableModel,
-            IndexModel editIndexModel) {
+    public static void openTableEditDialog(EditPartViewer viewer, TableModel tableModel, IndexModel editIndexModel) {
 
-        TableEditDialog dialog = new TableEditDialog(viewer.getControl().getShell(), rootModel.getDialectName(),
-                tableModel, null, true, editIndexModel, rootModel.getDomains());
+        Shell shell = viewer.getControl().getShell();
+        RootModel rootModel = getRootModel(viewer);
+        String dialectName = rootModel.getDialectName();
+        List<DomainModel> domains = rootModel.getDomains();
+
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, tableModel, null, true, editIndexModel,
+                domains);
 
         if (dialog.open() == Window.OK) {
             List<ColumnModel> columns = dialog.getColumnModels();
-            List<IndexModel> indices = dialog.getResultIncices();
+            List<IndexModel> indices = dialog.getIndexModels();
 
             viewer.getEditDomain().getCommandStack().execute(
                     new TableEditCommand(tableModel, dialog.getTablePyhgicalName(),
                             dialog.getTableLogicalName(), dialog.getTableDescription(), columns, indices));
         }
+    }
+
+    private static RootModel getRootModel(EditPartViewer viewer) {
+        EditPart rootEditPart = viewer.getContents();
+        return (RootModel) rootEditPart.getModel();
     }
 }

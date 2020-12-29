@@ -62,7 +62,7 @@ public class IndexModel implements IModel {
     protected IndexModel clone() throws CloneNotSupportedException {
         IndexModel newModel = SerializationUtils.clone(this);
         List<String> newColumns = SerializationUtils.clone((ArrayList<String>) newModel.getColumns());
-        newModel.setColumns(newColumns);
+        newModel.columns = newColumns;
         return newModel;
     }
 

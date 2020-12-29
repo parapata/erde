@@ -37,7 +37,7 @@ public class ModelEditor implements IMessages {
         if (model instanceof TableModel) {
             if (editTable) {
                 TableModel tableModel = (TableModel) model;
-                TableEditPart.openTableEditDialog(viewer, rootModel, tableModel);
+                TableEditPart.openTableEditDialog(viewer, tableModel);
             } else {
                 EditPart select = getSelectEditPart(rootEditPart, model);
                 if (select != null) {
@@ -63,7 +63,7 @@ public class ModelEditor implements IMessages {
                 }
             }
             if (parent != null) {
-                TableEditPart.openTableEditDialog(viewer, rootModel, parent, (ColumnModel) model);
+                TableEditPart.openTableEditDialog(viewer, parent, (ColumnModel) model);
             }
 
         } else if (model instanceof FolderModel) {
@@ -83,7 +83,7 @@ public class ModelEditor implements IMessages {
                 }
             }
             if (parent != null) {
-                TableEditPart.openTableEditDialog(viewer, rootModel, parent, (IndexModel) model);
+                TableEditPart.openTableEditDialog(viewer, parent, (IndexModel) model);
             }
         }
 

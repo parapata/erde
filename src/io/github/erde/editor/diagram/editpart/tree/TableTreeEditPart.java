@@ -15,7 +15,6 @@ import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart.FolderModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
-import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 
 /**
@@ -81,8 +80,7 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
             @Override
             public void doEdit() {
                 TableModel table = (TableModel) getModel();
-                TableEditPart.openTableEditDialog(getViewer(), (RootModel) getRoot().getContents().getModel(), table,
-                        (IndexModel) null);
+                TableEditPart.openTableEditDialog(getViewer(), table, (IndexModel) null);
             }
 
             @Override

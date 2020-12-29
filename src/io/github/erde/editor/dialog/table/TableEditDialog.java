@@ -1,6 +1,5 @@
 package io.github.erde.editor.dialog.table;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -34,14 +33,11 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     private IDialect dialect;
 
-    private String tablePyhgicalName;
-    private String tableLogicalName;
-    private String tableDescription;
+    private TableModel tableModel;
 
-    private List<ColumnModel> columnModels = new ArrayList<>();
     private int editColumnIndex = -1;
-    private List<IndexModel> indexModels = new ArrayList<>();
     private int editIndexIndex = -1;
+
     private boolean indexEditing = false;
 
     private List<BaseConnectionModel> referenceKeyModels;
@@ -65,16 +61,12 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
         super(parentShell);
         setShellStyle(getShellStyle() | SWT.RESIZE);
         this.dialect = DialectProvider.getDialect(dialectName);
-        this.tablePyhgicalName = tableModel.getPhysicalName();
-        this.tableLogicalName = tableModel.getLogicalName();
-        this.tableDescription = tableModel.getDescription();
-
+        this.tableModel = tableModel.clone();
         this.editColumnIndex = tableModel.getColumns().indexOf(editColumnModel);
-        this.columnModels = tableModel.getColumns();
-
         this.editIndexIndex = tableModel.getIndices().indexOf(editIndexModel);
-        this.indexModels = tableModel.getIndices();
         this.indexEditing = indexEditing;
+
+        //
         this.referenceKeyModels = tableModel.getModelSourceConnections();
         this.foreignKeyModels = tableModel.getModelTargetConnections();
 
@@ -106,7 +98,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
         // Index tab
         IndexTabCreator indexTabCreator = new IndexTabCreator(this, editIndexIndex, indexEditing);
-        indexTabCreator.create(getShell(), tabFolder, tablePyhgicalName);
+        indexTabCreator.create(getShell(), tabFolder, tableModel.getPhysicalName());
 
         return tabFolder;
     }
@@ -123,42 +115,42 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     @Override
     public List<ColumnModel> getColumnModels() {
-        return this.columnModels;
+        return tableModel.getColumns();
     }
 
     @Override
     public List<IndexModel> getIndexModels() {
-        return this.indexModels;
+        return tableModel.getIndices();
     }
 
     @Override
     public String getTablePyhgicalName() {
-        return this.tablePyhgicalName;
+        return tableModel.getPhysicalName();
     }
 
     @Override
     public void setTablePyhgicalName(String tablePyhgicalName) {
-        this.tablePyhgicalName = tablePyhgicalName;
+        tableModel.setPhysicalName(tablePyhgicalName);
     }
 
     @Override
     public String getTableLogicalName() {
-        return this.tableLogicalName;
+        return tableModel.getLogicalName();
     }
 
     @Override
     public void setTableLogicalName(String tableLogicalName) {
-        this.tableLogicalName = tableLogicalName;
+        tableModel.setLogicalName(tableLogicalName);
     }
 
     @Override
     public String getTableDescription() {
-        return this.tableDescription;
+        return tableModel.getDescription();
     }
 
     @Override
     public void setTableDescription(String tableDescription) {
-        this.tableDescription = tableDescription;
+        tableModel.setDescription(tableDescription);
     }
 
     @Override
@@ -187,9 +179,5 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
             }
         }
         return false;
-    }
-
-    public List<IndexModel> getResultIncices() {
-        return this.indexModels;
     }
 }
