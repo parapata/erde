@@ -10,11 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -28,14 +28,17 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "template"
+    "template"
 })
 @XmlRootElement(name = "driver")
 public class DriverXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -48,8 +51,9 @@ public class DriverXmlModel
      * templateプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getTemplate() {
         return template;
@@ -59,8 +63,9 @@ public class DriverXmlModel
      * templateプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setTemplate(String value) {
         this.template = value;
@@ -70,8 +75,9 @@ public class DriverXmlModel
      * nameプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getName() {
         return name;
@@ -81,8 +87,9 @@ public class DriverXmlModel
      * nameプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setName(String value) {
         this.name = value;

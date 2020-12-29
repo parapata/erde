@@ -9,11 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -24,12 +24,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "noteConnection")
 public class NoteConnectionXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlAttribute(name = "targetId", required = true)
@@ -40,8 +43,9 @@ public class NoteConnectionXmlModel
      * targetIdプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getTargetId() {
         return targetId;
@@ -51,8 +55,9 @@ public class NoteConnectionXmlModel
      * targetIdプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setTargetId(String value) {
         this.targetId = value;

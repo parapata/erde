@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -25,12 +25,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "color")
 public class ColorXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlAttribute(name = "r", required = true)
@@ -42,6 +45,7 @@ public class ColorXmlModel
 
     /**
      * rプロパティの値を取得します。
+     * 
      */
     public int getR() {
         return r;
@@ -49,6 +53,7 @@ public class ColorXmlModel
 
     /**
      * rプロパティの値を設定します。
+     * 
      */
     public void setR(int value) {
         this.r = value;
@@ -56,6 +61,7 @@ public class ColorXmlModel
 
     /**
      * gプロパティの値を取得します。
+     * 
      */
     public int getG() {
         return g;
@@ -63,6 +69,7 @@ public class ColorXmlModel
 
     /**
      * gプロパティの値を設定します。
+     * 
      */
     public void setG(int value) {
         this.g = value;
@@ -70,6 +77,7 @@ public class ColorXmlModel
 
     /**
      * bプロパティの値を取得します。
+     * 
      */
     public int getB() {
         return b;
@@ -77,6 +85,7 @@ public class ColorXmlModel
 
     /**
      * bプロパティの値を設定します。
+     * 
      */
     public void setB(int value) {
         this.b = value;

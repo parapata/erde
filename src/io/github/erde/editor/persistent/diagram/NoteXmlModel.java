@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -32,16 +32,19 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "location",
-        "text",
-        "noteConnections"
+    "location",
+    "text",
+    "noteConnections"
 })
 @XmlRootElement(name = "note")
 public class NoteXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -58,8 +61,9 @@ public class NoteXmlModel
      * locationプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link LocationXmlModel }
+     *     possible object is
+     *     {@link LocationXmlModel }
+     *     
      */
     public LocationXmlModel getLocation() {
         return location;
@@ -69,8 +73,9 @@ public class NoteXmlModel
      * locationプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link LocationXmlModel }
+     *     allowed object is
+     *     {@link LocationXmlModel }
+     *     
      */
     public void setLocation(LocationXmlModel value) {
         this.location = value;
@@ -80,8 +85,9 @@ public class NoteXmlModel
      * textプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getText() {
         return text;
@@ -91,8 +97,9 @@ public class NoteXmlModel
      * textプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setText(String value) {
         this.text = value;
@@ -100,20 +107,25 @@ public class NoteXmlModel
 
     /**
      * Gets the value of the noteConnections property.
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the noteConnections property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
-     * 
      * <pre>
-     * getNoteConnections().add(newItem);
+     *    getNoteConnections().add(newItem);
      * </pre>
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link NoteConnectionXmlModel }
+     * 
+     * 
      */
     public List<NoteConnectionXmlModel> getNoteConnections() {
         if (noteConnections == null) {
@@ -126,8 +138,9 @@ public class NoteXmlModel
      * idプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getId() {
         return id;
@@ -137,8 +150,9 @@ public class NoteXmlModel
      * idプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setId(String value) {
         this.id = value;

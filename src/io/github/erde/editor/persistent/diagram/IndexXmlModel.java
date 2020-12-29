@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -31,14 +31,17 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "columnNames"
+    "columnNames"
 })
 @XmlRootElement(name = "index")
 public class IndexXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "columnName")
@@ -52,20 +55,25 @@ public class IndexXmlModel
 
     /**
      * Gets the value of the columnNames property.
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the columnNames property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
-     * 
      * <pre>
-     * getColumnNames().add(newItem);
+     *    getColumnNames().add(newItem);
      * </pre>
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
+     * 
+     * 
      */
     public List<String> getColumnNames() {
         if (columnNames == null) {
@@ -78,8 +86,9 @@ public class IndexXmlModel
      * indexNameプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getIndexName() {
         return indexName;
@@ -89,8 +98,9 @@ public class IndexXmlModel
      * indexNameプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setIndexName(String value) {
         this.indexName = value;
@@ -100,8 +110,9 @@ public class IndexXmlModel
      * indexTypeプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getIndexType() {
         return indexType;
@@ -111,8 +122,9 @@ public class IndexXmlModel
      * indexTypeプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setIndexType(String value) {
         this.indexType = value;

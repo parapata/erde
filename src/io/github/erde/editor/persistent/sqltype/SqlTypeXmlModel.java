@@ -10,11 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -31,17 +31,20 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "javaClass",
-        "needArgs",
-        "fullTextIndexable",
-        "value"
+    "javaClass",
+    "needArgs",
+    "fullTextIndexable",
+    "value"
 })
 @XmlRootElement(name = "sqlType")
 public class SqlTypeXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -58,8 +61,9 @@ public class SqlTypeXmlModel
      * javaClassプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJavaClass() {
         return javaClass;
@@ -69,8 +73,9 @@ public class SqlTypeXmlModel
      * javaClassプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJavaClass(String value) {
         this.javaClass = value;
@@ -78,6 +83,7 @@ public class SqlTypeXmlModel
 
     /**
      * needArgsプロパティの値を取得します。
+     * 
      */
     public boolean isNeedArgs() {
         return needArgs;
@@ -85,6 +91,7 @@ public class SqlTypeXmlModel
 
     /**
      * needArgsプロパティの値を設定します。
+     * 
      */
     public void setNeedArgs(boolean value) {
         this.needArgs = value;
@@ -92,6 +99,7 @@ public class SqlTypeXmlModel
 
     /**
      * fullTextIndexableプロパティの値を取得します。
+     * 
      */
     public boolean isFullTextIndexable() {
         return fullTextIndexable;
@@ -99,6 +107,7 @@ public class SqlTypeXmlModel
 
     /**
      * fullTextIndexableプロパティの値を設定します。
+     * 
      */
     public void setFullTextIndexable(boolean value) {
         this.fullTextIndexable = value;
@@ -108,8 +117,9 @@ public class SqlTypeXmlModel
      * valueプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getValue() {
         return value;
@@ -119,8 +129,9 @@ public class SqlTypeXmlModel
      * valueプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setValue(String value) {
         this.value = value;
@@ -130,8 +141,9 @@ public class SqlTypeXmlModel
      * idプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getId() {
         return id;
@@ -141,8 +153,9 @@ public class SqlTypeXmlModel
      * idプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setId(String value) {
         this.id = value;

@@ -14,11 +14,11 @@ import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import io.github.erde.editor.persistent.adapter.BooleanAdapter;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -41,24 +41,27 @@ import io.github.erde.editor.persistent.adapter.BooleanAdapter;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "color",
-        "font",
-        "dialectName",
-        "schemaName",
-        "lowerCase",
-        "logicalMode",
-        "includeView",
-        "notation",
-        "dbSettings",
-        "diagram",
-        "domains"
+    "color",
+    "font",
+    "dialectName",
+    "schemaName",
+    "lowerCase",
+    "logicalMode",
+    "includeView",
+    "notation",
+    "dbSettings",
+    "diagram",
+    "domains"
 })
 @XmlRootElement(name = "erde")
 public class ErdeXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -95,8 +98,9 @@ public class ErdeXmlModel
      * colorプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link ColorXmlModel }
+     *     possible object is
+     *     {@link ColorXmlModel }
+     *     
      */
     public ColorXmlModel getColor() {
         return color;
@@ -106,8 +110,9 @@ public class ErdeXmlModel
      * colorプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link ColorXmlModel }
+     *     allowed object is
+     *     {@link ColorXmlModel }
+     *     
      */
     public void setColor(ColorXmlModel value) {
         this.color = value;
@@ -117,8 +122,9 @@ public class ErdeXmlModel
      * fontプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link FontXmlModel }
+     *     possible object is
+     *     {@link FontXmlModel }
+     *     
      */
     public FontXmlModel getFont() {
         return font;
@@ -128,8 +134,9 @@ public class ErdeXmlModel
      * fontプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link FontXmlModel }
+     *     allowed object is
+     *     {@link FontXmlModel }
+     *     
      */
     public void setFont(FontXmlModel value) {
         this.font = value;
@@ -139,8 +146,9 @@ public class ErdeXmlModel
      * dialectNameプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getDialectName() {
         return dialectName;
@@ -150,8 +158,9 @@ public class ErdeXmlModel
      * dialectNameプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setDialectName(String value) {
         this.dialectName = value;
@@ -161,8 +170,9 @@ public class ErdeXmlModel
      * schemaNameプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getSchemaName() {
         return schemaName;
@@ -172,8 +182,9 @@ public class ErdeXmlModel
      * schemaNameプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setSchemaName(String value) {
         this.schemaName = value;
@@ -183,8 +194,9 @@ public class ErdeXmlModel
      * lowerCaseプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public Boolean isLowerCase() {
         return lowerCase;
@@ -194,8 +206,9 @@ public class ErdeXmlModel
      * lowerCaseプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setLowerCase(Boolean value) {
         this.lowerCase = value;
@@ -205,8 +218,9 @@ public class ErdeXmlModel
      * logicalModeプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public Boolean isLogicalMode() {
         return logicalMode;
@@ -216,8 +230,9 @@ public class ErdeXmlModel
      * logicalModeプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setLogicalMode(Boolean value) {
         this.logicalMode = value;
@@ -227,8 +242,9 @@ public class ErdeXmlModel
      * includeViewプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public Boolean isIncludeView() {
         return includeView;
@@ -238,8 +254,9 @@ public class ErdeXmlModel
      * includeViewプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setIncludeView(Boolean value) {
         this.includeView = value;
@@ -249,8 +266,9 @@ public class ErdeXmlModel
      * notationプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getNotation() {
         return notation;
@@ -260,8 +278,9 @@ public class ErdeXmlModel
      * notationプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setNotation(String value) {
         this.notation = value;
@@ -271,8 +290,9 @@ public class ErdeXmlModel
      * dbSettingsプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link DbSettingsXmlModel }
+     *     possible object is
+     *     {@link DbSettingsXmlModel }
+     *     
      */
     public DbSettingsXmlModel getDbSettings() {
         return dbSettings;
@@ -282,8 +302,9 @@ public class ErdeXmlModel
      * dbSettingsプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link DbSettingsXmlModel }
+     *     allowed object is
+     *     {@link DbSettingsXmlModel }
+     *     
      */
     public void setDbSettings(DbSettingsXmlModel value) {
         this.dbSettings = value;
@@ -293,8 +314,9 @@ public class ErdeXmlModel
      * diagramプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link DiagramXmlModel }
+     *     possible object is
+     *     {@link DiagramXmlModel }
+     *     
      */
     public DiagramXmlModel getDiagram() {
         return diagram;
@@ -304,8 +326,9 @@ public class ErdeXmlModel
      * diagramプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link DiagramXmlModel }
+     *     allowed object is
+     *     {@link DiagramXmlModel }
+     *     
      */
     public void setDiagram(DiagramXmlModel value) {
         this.diagram = value;
@@ -313,20 +336,25 @@ public class ErdeXmlModel
 
     /**
      * Gets the value of the domains property.
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the domains property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
-     * 
      * <pre>
-     * getDomains().add(newItem);
+     *    getDomains().add(newItem);
      * </pre>
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link DomainXmlModel }
+     * 
+     * 
      */
     public List<DomainXmlModel> getDomains() {
         if (domains == null) {

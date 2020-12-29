@@ -13,11 +13,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import io.github.erde.editor.persistent.adapter.BooleanAdapter;
 import io.github.erde.editor.persistent.adapter.IntegerAdapter;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -35,18 +35,21 @@ import io.github.erde.editor.persistent.adapter.IntegerAdapter;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "domainName",
-        "type",
-        "columnSize",
-        "decimal",
-        "unsigned"
+    "domainName",
+    "type",
+    "columnSize",
+    "decimal",
+    "unsigned"
 })
 @XmlRootElement(name = "domain")
 public class DomainXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -73,8 +76,9 @@ public class DomainXmlModel
      * domainNameプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getDomainName() {
         return domainName;
@@ -84,8 +88,9 @@ public class DomainXmlModel
      * domainNameプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setDomainName(String value) {
         this.domainName = value;
@@ -95,8 +100,9 @@ public class DomainXmlModel
      * typeプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getType() {
         return type;
@@ -106,8 +112,9 @@ public class DomainXmlModel
      * typeプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setType(String value) {
         this.type = value;
@@ -117,8 +124,9 @@ public class DomainXmlModel
      * columnSizeプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public Integer getColumnSize() {
         return columnSize;
@@ -128,8 +136,9 @@ public class DomainXmlModel
      * columnSizeプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setColumnSize(Integer value) {
         this.columnSize = value;
@@ -139,8 +148,9 @@ public class DomainXmlModel
      * decimalプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public Integer getDecimal() {
         return decimal;
@@ -150,8 +160,9 @@ public class DomainXmlModel
      * decimalプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setDecimal(Integer value) {
         this.decimal = value;
@@ -161,8 +172,9 @@ public class DomainXmlModel
      * unsignedプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public Boolean isUnsigned() {
         return unsigned;
@@ -172,8 +184,9 @@ public class DomainXmlModel
      * unsignedプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setUnsigned(Boolean value) {
         this.unsigned = value;
@@ -183,8 +196,9 @@ public class DomainXmlModel
      * idプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getId() {
         return id;
@@ -194,8 +208,9 @@ public class DomainXmlModel
      * idプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setId(String value) {
         this.id = value;

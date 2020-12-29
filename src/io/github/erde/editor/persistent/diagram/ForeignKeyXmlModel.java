@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -35,18 +35,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "onUpdateOption",
-        "onDeleteOption",
-        "sourceCardinality",
-        "targetCardinality",
-        "foreignKeyMappings"
+    "onUpdateOption",
+    "onDeleteOption",
+    "sourceCardinality",
+    "targetCardinality",
+    "foreignKeyMappings"
 })
 @XmlRootElement(name = "foreignKey")
 public class ForeignKeyXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -72,8 +75,9 @@ public class ForeignKeyXmlModel
      * onUpdateOptionプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link ReferenceOption }
+     *     possible object is
+     *     {@link ReferenceOption }
+     *     
      */
     public ReferenceOption getOnUpdateOption() {
         return onUpdateOption;
@@ -83,8 +87,9 @@ public class ForeignKeyXmlModel
      * onUpdateOptionプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link ReferenceOption }
+     *     allowed object is
+     *     {@link ReferenceOption }
+     *     
      */
     public void setOnUpdateOption(ReferenceOption value) {
         this.onUpdateOption = value;
@@ -94,8 +99,9 @@ public class ForeignKeyXmlModel
      * onDeleteOptionプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link ReferenceOption }
+     *     possible object is
+     *     {@link ReferenceOption }
+     *     
      */
     public ReferenceOption getOnDeleteOption() {
         return onDeleteOption;
@@ -105,8 +111,9 @@ public class ForeignKeyXmlModel
      * onDeleteOptionプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link ReferenceOption }
+     *     allowed object is
+     *     {@link ReferenceOption }
+     *     
      */
     public void setOnDeleteOption(ReferenceOption value) {
         this.onDeleteOption = value;
@@ -116,8 +123,9 @@ public class ForeignKeyXmlModel
      * sourceCardinalityプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getSourceCardinality() {
         return sourceCardinality;
@@ -127,8 +135,9 @@ public class ForeignKeyXmlModel
      * sourceCardinalityプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setSourceCardinality(String value) {
         this.sourceCardinality = value;
@@ -138,8 +147,9 @@ public class ForeignKeyXmlModel
      * targetCardinalityプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getTargetCardinality() {
         return targetCardinality;
@@ -149,8 +159,9 @@ public class ForeignKeyXmlModel
      * targetCardinalityプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setTargetCardinality(String value) {
         this.targetCardinality = value;
@@ -158,20 +169,25 @@ public class ForeignKeyXmlModel
 
     /**
      * Gets the value of the foreignKeyMappings property.
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the foreignKeyMappings property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
-     * 
      * <pre>
-     * getForeignKeyMappings().add(newItem);
+     *    getForeignKeyMappings().add(newItem);
      * </pre>
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ForeignKeyMappingXmlModel }
+     * 
+     * 
      */
     public List<ForeignKeyMappingXmlModel> getForeignKeyMappings() {
         if (foreignKeyMappings == null) {
@@ -184,8 +200,9 @@ public class ForeignKeyXmlModel
      * sourceIdプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getSourceId() {
         return sourceId;
@@ -195,8 +212,9 @@ public class ForeignKeyXmlModel
      * sourceIdプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setSourceId(String value) {
         this.sourceId = value;
@@ -206,8 +224,9 @@ public class ForeignKeyXmlModel
      * foreignKeyNameプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getForeignKeyName() {
         return foreignKeyName;
@@ -217,8 +236,9 @@ public class ForeignKeyXmlModel
      * foreignKeyNameプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setForeignKeyName(String value) {
         this.foreignKeyName = value;

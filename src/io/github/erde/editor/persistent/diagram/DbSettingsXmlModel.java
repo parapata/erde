@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -31,20 +31,23 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "jarFile",
-        "jdbcDriver",
-        "jdbcUrl",
-        "jdbcCatalog",
-        "jdbcSchema",
-        "jdbcUser",
-        "jdbcPassword"
+    "jarFile",
+    "jdbcDriver",
+    "jdbcUrl",
+    "jdbcCatalog",
+    "jdbcSchema",
+    "jdbcUser",
+    "jdbcPassword"
 })
 @XmlRootElement(name = "dbSettings")
 public class DbSettingsXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -66,8 +69,9 @@ public class DbSettingsXmlModel
      * jarFileプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJarFile() {
         return jarFile;
@@ -77,8 +81,9 @@ public class DbSettingsXmlModel
      * jarFileプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJarFile(String value) {
         this.jarFile = value;
@@ -88,8 +93,9 @@ public class DbSettingsXmlModel
      * jdbcDriverプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJdbcDriver() {
         return jdbcDriver;
@@ -99,8 +105,9 @@ public class DbSettingsXmlModel
      * jdbcDriverプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJdbcDriver(String value) {
         this.jdbcDriver = value;
@@ -110,8 +117,9 @@ public class DbSettingsXmlModel
      * jdbcUrlプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJdbcUrl() {
         return jdbcUrl;
@@ -121,8 +129,9 @@ public class DbSettingsXmlModel
      * jdbcUrlプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJdbcUrl(String value) {
         this.jdbcUrl = value;
@@ -132,8 +141,9 @@ public class DbSettingsXmlModel
      * jdbcCatalogプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJdbcCatalog() {
         return jdbcCatalog;
@@ -143,8 +153,9 @@ public class DbSettingsXmlModel
      * jdbcCatalogプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJdbcCatalog(String value) {
         this.jdbcCatalog = value;
@@ -154,8 +165,9 @@ public class DbSettingsXmlModel
      * jdbcSchemaプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJdbcSchema() {
         return jdbcSchema;
@@ -165,8 +177,9 @@ public class DbSettingsXmlModel
      * jdbcSchemaプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJdbcSchema(String value) {
         this.jdbcSchema = value;
@@ -176,8 +189,9 @@ public class DbSettingsXmlModel
      * jdbcUserプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJdbcUser() {
         return jdbcUser;
@@ -187,8 +201,9 @@ public class DbSettingsXmlModel
      * jdbcUserプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJdbcUser(String value) {
         this.jdbcUser = value;
@@ -198,8 +213,9 @@ public class DbSettingsXmlModel
      * jdbcPasswordプロパティの値を取得します。
      * 
      * @return
-     *         possible object is
-     *         {@link String }
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getJdbcPassword() {
         return jdbcPassword;
@@ -209,8 +225,9 @@ public class DbSettingsXmlModel
      * jdbcPasswordプロパティの値を設定します。
      * 
      * @param value
-     *            allowed object is
-     *            {@link String }
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setJdbcPassword(String value) {
         this.jdbcPassword = value;

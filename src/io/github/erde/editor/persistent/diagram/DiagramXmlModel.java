@@ -10,11 +10,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * anonymous complex typeのJavaクラス。
- * <p>
- * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ * <p>anonymous complex typeのJavaクラス。
+ * 
+ * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -28,15 +28,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "tables",
-        "notes"
+    "tables",
+    "notes"
 })
 @XmlRootElement(name = "diagram")
 public class DiagramXmlModel
-        implements Serializable {
+    implements Serializable
+{
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "table")
@@ -46,20 +49,25 @@ public class DiagramXmlModel
 
     /**
      * Gets the value of the tables property.
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the tables property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
-     * 
      * <pre>
-     * getTables().add(newItem);
+     *    getTables().add(newItem);
      * </pre>
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link TableXmlModel }
+     * 
+     * 
      */
     public List<TableXmlModel> getTables() {
         if (tables == null) {
@@ -70,20 +78,25 @@ public class DiagramXmlModel
 
     /**
      * Gets the value of the notes property.
+     * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the notes property.
+     * 
      * <p>
      * For example, to add a new item, do as follows:
-     * 
      * <pre>
-     * getNotes().add(newItem);
+     *    getNotes().add(newItem);
      * </pre>
+     * 
+     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link NoteXmlModel }
+     * 
+     * 
      */
     public List<NoteXmlModel> getNotes() {
         if (notes == null) {
