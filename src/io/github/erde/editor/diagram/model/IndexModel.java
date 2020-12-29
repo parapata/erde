@@ -2,7 +2,6 @@ package io.github.erde.editor.diagram.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -52,18 +51,24 @@ public class IndexModel implements IModel {
     }
 
     public void setColumns(List<String> columns) {
-        this.columns = columns;
+        if (columns == null) {
+            this.columns.clear();
+        } else {
+            this.columns = columns;
+        }
     }
 
     @Override
     protected IndexModel clone() throws CloneNotSupportedException {
         IndexModel newModel = SerializationUtils.clone(this);
-        newModel.setColumns(columns.stream().collect(Collectors.toList()));
+        List<String> newColumns = SerializationUtils.clone((ArrayList<String>) newModel.getColumns());
+        newModel.setColumns(newColumns);
         return newModel;
     }
 
     @Override
     public String toString() {
-        return String.format("%s - %s(%s)", indexName, indexType.getName(), String.join(", ", columns));
+        String indexTypeName = indexType == null ? "" : indexType.getName();
+        return String.format("%s - %s(%s)", indexName, indexTypeName, String.join(", ", columns));
     }
 }

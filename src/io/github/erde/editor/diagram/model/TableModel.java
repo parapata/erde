@@ -126,7 +126,11 @@ public class TableModel extends BaseEntityModel implements IMessages {
     }
 
     public void setColumns(List<ColumnModel> columns) {
-        this.columns = columns;
+        if (columns == null) {
+            this.columns.clear();
+        } else {
+            this.columns = columns;
+        }
         firePropertyChange(P_COLUMNS, null, columns);
     }
 
@@ -144,14 +148,15 @@ public class TableModel extends BaseEntityModel implements IMessages {
     }
 
     public List<IndexModel> getIndices() {
-        if (indices == null) {
-            indices = new ArrayList<>();
-        }
         return indices;
     }
 
     public void setIndices(List<IndexModel> indices) {
-        this.indices = indices;
+        if (indices == null) {
+            this.indices.clear();
+        } else {
+            this.indices = indices;
+        }
         firePropertyChange(P_INDICES, null, indices);
     }
 
@@ -221,19 +226,24 @@ public class TableModel extends BaseEntityModel implements IMessages {
 
     @Override
     public TableModel clone() {
-
         TableModel newModel = SerializationUtils.clone(this);
-        List<ColumnModel> columns = newModel.getColumns();
 
+        List<ColumnModel> newColumns = new ArrayList<>();
         getColumns().forEach(oldColumn -> {
             ColumnModel newColumn = SerializationUtils.clone(oldColumn);
             newColumn.setColumnType(SerializationUtils.clone((ColumnType) oldColumn.getColumnType()));
-            columns.add(newColumn);
+            newColumns.add(newColumn);
         });
+        newModel.setColumns(newColumns);
 
-        // TODO Copy Index...?
+        List<IndexModel> newIndices = new ArrayList<>();
+        getIndices().forEach(oldIndex -> {
+            IndexModel newIndex = SerializationUtils.clone(oldIndex);
+            newIndices.add(newIndex);
+        });
+        newModel.setIndices(newIndices);
+
         // TODO Copy Connection...?
-
         return newModel;
     }
 }
