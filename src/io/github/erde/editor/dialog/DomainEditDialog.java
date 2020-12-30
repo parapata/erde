@@ -185,8 +185,8 @@ public class DomainEditDialog extends Dialog implements IMessages {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 IColumnType defaultType = dialect.getDefaultColumnType();
-                DomainModel domain = DomainModel.newInstance(null, getResource("dialog.domain.name"), defaultType,
-                        null, null, false);
+                String domainName = String.format("%s%d", getResource("dialog.domain.name"), domainModels.size() + 1);
+                DomainModel domain = DomainModel.newInstance(null, domainName, defaultType, null, null, false);
                 domainModels.add(domain);
                 viewer.refresh();
             }

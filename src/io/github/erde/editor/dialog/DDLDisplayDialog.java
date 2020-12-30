@@ -31,12 +31,12 @@ public class DDLDisplayDialog extends Dialog {
     public DDLDisplayDialog(Shell parentShell, String ddl) {
         super(parentShell);
         this.ddl = ddl;
-        setShellStyle(getShellStyle() | SWT.RESIZE);
+        setShellStyle(getShellStyle() | SWT.TITLE | SWT.RESIZE | SWT.MAX);
     }
 
     @Override
     protected Point getInitialSize() {
-        return new Point(600, 450);
+        return new Point(800, 600);
     }
 
     @Override

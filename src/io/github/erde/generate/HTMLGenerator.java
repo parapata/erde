@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 
 import io.github.erde.Activator;
 import io.github.erde.core.util.IOUtils;
+import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.generate.html.HTMLGen;
@@ -65,6 +66,8 @@ public class HTMLGenerator implements IGenerator {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            UIUtils.projectRefresh();
         }
     }
 

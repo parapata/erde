@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 
+import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 
 /**
@@ -76,6 +77,7 @@ public class ImageGenerator implements IGenerator {
             e.printStackTrace();
         } finally {
             rootEditPart.getZoomManager().setZoom(zoom);
+            UIUtils.projectRefresh();
         }
     }
 }

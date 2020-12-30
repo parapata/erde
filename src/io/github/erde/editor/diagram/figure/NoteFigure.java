@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class NoteFigure extends Shape {
 
-    private static final int RETURN_WIDTH = 15;
+    private static final int RETURN_WIDTH = 5;
 
     private static final Color DEFAULT_BG_COLOR = new Color(Display.getCurrent(), 255, 255, 153);;
 

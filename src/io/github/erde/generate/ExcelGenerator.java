@@ -17,6 +17,7 @@ import org.jxls.util.JxlsHelper;
 
 import io.github.erde.Activator;
 import io.github.erde.IMessages;
+import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
@@ -50,11 +51,11 @@ public class ExcelGenerator implements IGenerator, IMessages {
             return;
         }
 
-        List<TableData> tables = extracted(root, path);
-        extracted3(path, tables);
+        List<TableData> tables = getTableData(root, path);
+        export(path, tables);
     }
 
-    private List<TableData> extracted(RootModel root, String path) {
+    private List<TableData> getTableData(RootModel root, String path) {
         List<TableData> tables = new ArrayList<>();
 
         for (TableModel table : root.getTables()) {
@@ -108,7 +109,7 @@ public class ExcelGenerator implements IGenerator, IMessages {
         return tables;
     }
 
-    private void extracted3(String path, List<TableData> tables) {
+    private void export(String path, List<TableData> tables) {
         List<String> sheetNames = tables.stream()
                 .map(column -> column.getPhysicalTableName())
                 .collect(Collectors.toList());
@@ -120,6 +121,8 @@ public class ExcelGenerator implements IGenerator, IMessages {
             JxlsHelper.getInstance().processTemplate(in, out, context);
         } catch (Exception e) {
             Activator.logException(e);
+        } finally {
+            UIUtils.projectRefresh();
         }
     }
 }

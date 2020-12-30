@@ -1,5 +1,11 @@
 package io.github.erde.core.util;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -15,6 +21,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import io.github.erde.Activator;
 import io.github.erde.IMessages;
 import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -142,6 +149,18 @@ public class UIUtils {
         String title = messages.getResource("dialog.info.title");
         String message = messages.getResource(messageKey);
         MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message);
+    }
+
+    public static void projectRefresh() {
+        try {
+            for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+                project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+            }
+            IWorkspaceRoot wsroot = ResourcesPlugin.getWorkspace().getRoot();
+            wsroot.refreshLocal(IResource.DEPTH_ONE, new NullProgressMonitor());
+        } catch (CoreException e) {
+            Activator.logException(e);
+        }
     }
 
     /**
