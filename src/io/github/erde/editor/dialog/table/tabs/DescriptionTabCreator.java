@@ -38,8 +38,8 @@ public class DescriptionTabCreator implements IMessages {
         UIUtils.createLabel(composite, "dialog.table.description");
         txtTableDescription = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtTableDescription.setLayoutData(new GridData(GridData.FILL_BOTH));
-        txtTableDescription.setText(tableEdit.getTableDescription());
+        txtTableDescription.setText(tableEdit.getDescription());
 
-        txtTableDescription.addModifyListener(event -> tableEdit.setTableDescription(txtTableDescription.getText()));
+        txtTableDescription.addModifyListener(event -> tableEdit.setDescription(txtTableDescription.getText()));
     }
 }

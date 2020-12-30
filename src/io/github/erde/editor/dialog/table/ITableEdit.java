@@ -14,21 +14,21 @@ import io.github.erde.editor.diagram.model.IndexModel;
 public interface ITableEdit {
     IDialect getDialect();
 
-    List<ColumnModel> getColumnModels();
+    String getPhysicalName();
 
-    List<IndexModel> getIndexModels();
+    void setPhysicalName(String physicalName);
 
-    String getTablePyhgicalName();
+    String getLogicalName();
 
-    void setTablePyhgicalName(String tablePyhgicalName);
+    void setLogicalName(String logicalName);
 
-    String getTableLogicalName();
+    String getDescription();
 
-    void setTableLogicalName(String tableLogicalName);
+    void setDescription(String description);
 
-    String getTableDescription();
+    List<ColumnModel> getColumns();
 
-    void setTableDescription(String tableDescription);
+    List<IndexModel> getIndices();
 
     boolean isForeignkey(String physicalName);
 

@@ -95,7 +95,7 @@ public class IndexTabCreator implements IMessages {
 
         lstIndexs = new org.eclipse.swt.widgets.List(indexArea, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
         lstIndexs.setLayoutData(new GridData(GridData.FILL_BOTH));
-        for (IndexModel index : tableEdit.getIndexModels()) {
+        for (IndexModel index : tableEdit.getIndices()) {
             lstIndexs.add(index.toString());
         }
         lstIndexs.addSelectionListener(new SelectionAdapter() {
@@ -119,9 +119,9 @@ public class IndexTabCreator implements IMessages {
                 IndexModel indexModel = new IndexModel();
                 indexModel.setIndexType(IndexType.UNIQUE);
                 String indexName = String.format("IDX_%s_%d", tablePyhgicalName,
-                        (tableEdit.getIndexModels().size() + 1));
+                        (tableEdit.getIndices().size() + 1));
                 indexModel.setIndexName(indexName.toUpperCase());
-                tableEdit.getIndexModels().add(indexModel);
+                tableEdit.getIndices().add(indexModel);
                 lstIndexs.add(indexModel.toString());
             }
         });
@@ -134,7 +134,7 @@ public class IndexTabCreator implements IMessages {
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexs.getSelectionIndex();
                 lstIndexs.remove(index);
-                tableEdit.getIndexModels().remove(index);
+                tableEdit.getIndices().remove(index);
                 lstIndexs.select(index - 1);
                 indexSelectionChanged();
             }
@@ -149,7 +149,7 @@ public class IndexTabCreator implements IMessages {
         cmbIndexType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+                IndexModel model = tableEdit.getIndices().get(editIndexIndex);
                 model.setIndexType(IndexType.toIndexType(cmbIndexType.getText()));
                 lstIndexs.setItem(editIndexIndex, model.toString());
             }
@@ -161,7 +161,7 @@ public class IndexTabCreator implements IMessages {
         txtIndexName.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent event) {
-                IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+                IndexModel model = tableEdit.getIndices().get(editIndexIndex);
                 model.setIndexName(txtIndexName.getText().toUpperCase());
                 lstIndexs.setItem(editIndexIndex, model.toString());
             }
@@ -196,7 +196,7 @@ public class IndexTabCreator implements IMessages {
             public void widgetSelected(SelectionEvent event) {
                 List<String> selectedList = Arrays.asList(lstIndexColumns.getItems());
 
-                List<ColumnModel> items = tableEdit.getColumnModels()
+                List<ColumnModel> items = tableEdit.getColumns()
                         .stream()
                         .filter(predicate -> !selectedList.contains(predicate.getPhysicalName()))
                         .collect(Collectors.toList());
@@ -205,7 +205,7 @@ public class IndexTabCreator implements IMessages {
                 if (dialog.open() == Window.OK) {
                     dialog.getSelectedColumns().forEach(column -> {
                         String columnName = column.getPhysicalName();
-                        IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+                        IndexModel model = tableEdit.getIndices().get(editIndexIndex);
                         model.getColumns().add(columnName);
                         lstIndexColumns.add(columnName);
                         lstIndexs.setItem(editIndexIndex, model.toString());
@@ -223,7 +223,7 @@ public class IndexTabCreator implements IMessages {
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
                 if (index >= 0) {
-                    IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+                    IndexModel model = tableEdit.getIndices().get(editIndexIndex);
                     model.getColumns().remove(index);
                     lstIndexColumns.remove(index);
                     lstIndexs.setItem(editIndexIndex, model.toString());
@@ -241,7 +241,7 @@ public class IndexTabCreator implements IMessages {
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
                 if (index > 0) {
-                    IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+                    IndexModel model = tableEdit.getIndices().get(editIndexIndex);
                     String columnName = model.getColumns().get(index);
                     model.getColumns().remove(index);
                     model.getColumns().add(index - 1, columnName);
@@ -261,8 +261,8 @@ public class IndexTabCreator implements IMessages {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
-                if (index < tableEdit.getIndexModels().get(editIndexIndex).getColumns().size() - 1) {
-                    IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+                if (index < tableEdit.getIndices().get(editIndexIndex).getColumns().size() - 1) {
+                    IndexModel model = tableEdit.getIndices().get(editIndexIndex);
                     String columnName = model.getColumns().get(index);
                     model.getColumns().remove(index);
                     model.getColumns().add(index + 1, columnName);
@@ -279,7 +279,7 @@ public class IndexTabCreator implements IMessages {
     private void indexSelectionChanged() {
         editIndexIndex = lstIndexs.getSelectionIndex();
         if (editIndexIndex >= 0) {
-            IndexModel model = tableEdit.getIndexModels().get(editIndexIndex);
+            IndexModel model = tableEdit.getIndices().get(editIndexIndex);
             txtIndexName.setEnabled(true);
             cmbIndexType.setEnabled(true);
             lstIndexColumns.setEnabled(true);

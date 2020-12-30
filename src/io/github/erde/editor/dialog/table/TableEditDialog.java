@@ -33,7 +33,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     private IDialect dialect;
 
-    private TableModel tableModel;
+    private TableModel editTableModel;
 
     private int editColumnIndex = -1;
     private int editIndexIndex = -1;
@@ -61,7 +61,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
         super(parentShell);
         setShellStyle(getShellStyle() | SWT.RESIZE);
         this.dialect = DialectProvider.getDialect(dialectName);
-        this.tableModel = tableModel.clone();
+        this.editTableModel = tableModel.clone();
         this.editColumnIndex = tableModel.getColumns().indexOf(editColumnModel);
         this.editIndexIndex = tableModel.getIndices().indexOf(editIndexModel);
         this.indexEditing = indexEditing;
@@ -98,7 +98,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
         // Index tab
         IndexTabCreator indexTabCreator = new IndexTabCreator(this, editIndexIndex, indexEditing);
-        indexTabCreator.create(getShell(), tabFolder, tableModel.getPhysicalName());
+        indexTabCreator.create(getShell(), tabFolder, editTableModel.getPhysicalName());
 
         return tabFolder;
     }
@@ -114,43 +114,43 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
     }
 
     @Override
-    public List<ColumnModel> getColumnModels() {
-        return tableModel.getColumns();
+    public List<ColumnModel> getColumns() {
+        return editTableModel.getColumns();
     }
 
     @Override
-    public List<IndexModel> getIndexModels() {
-        return tableModel.getIndices();
+    public List<IndexModel> getIndices() {
+        return editTableModel.getIndices();
     }
 
     @Override
-    public String getTablePyhgicalName() {
-        return tableModel.getPhysicalName();
+    public String getPhysicalName() {
+        return editTableModel.getPhysicalName();
     }
 
     @Override
-    public void setTablePyhgicalName(String tablePyhgicalName) {
-        tableModel.setPhysicalName(tablePyhgicalName);
+    public void setPhysicalName(String physicalName) {
+        editTableModel.setPhysicalName(physicalName);
     }
 
     @Override
-    public String getTableLogicalName() {
-        return tableModel.getLogicalName();
+    public String getLogicalName() {
+        return editTableModel.getLogicalName();
     }
 
     @Override
-    public void setTableLogicalName(String tableLogicalName) {
-        tableModel.setLogicalName(tableLogicalName);
+    public void setLogicalName(String logicalName) {
+        editTableModel.setLogicalName(logicalName);
     }
 
     @Override
-    public String getTableDescription() {
-        return tableModel.getDescription();
+    public String getDescription() {
+        return editTableModel.getDescription();
     }
 
     @Override
-    public void setTableDescription(String tableDescription) {
-        tableModel.setDescription(tableDescription);
+    public void setDescription(String description) {
+        editTableModel.setDescription(description);
     }
 
     @Override

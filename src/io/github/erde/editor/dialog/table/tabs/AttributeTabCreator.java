@@ -92,14 +92,14 @@ public class AttributeTabCreator implements IMessages {
         UIUtils.createLabel(table, "dialog.table.tablePyhgicalName");
         txtTablePyhgicalName = new Text(table, SWT.BORDER);
         txtTablePyhgicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        txtTablePyhgicalName.setText(tableEdit.getTablePyhgicalName());
-        txtTablePyhgicalName.addModifyListener(event -> tableEdit.setTablePyhgicalName(txtTablePyhgicalName.getText()));
+        txtTablePyhgicalName.setText(tableEdit.getPhysicalName());
+        txtTablePyhgicalName.addModifyListener(event -> tableEdit.setPhysicalName(txtTablePyhgicalName.getText()));
 
         UIUtils.createLabel(table, "dialog.table.tableLogicalName");
         txtTableLogicalName = new Text(table, SWT.BORDER);
         txtTableLogicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        txtTableLogicalName.setText(tableEdit.getTableLogicalName());
-        txtTableLogicalName.addModifyListener(event -> tableEdit.setTableLogicalName(txtTableLogicalName.getText()));
+        txtTableLogicalName.setText(tableEdit.getLogicalName());
+        txtTableLogicalName.addModifyListener(event -> tableEdit.setLogicalName(txtTableLogicalName.getText()));
 
         Composite tableArea = new Composite(composite, SWT.NULL);
         GridLayout layout = new GridLayout(2, false);
@@ -122,7 +122,7 @@ public class AttributeTabCreator implements IMessages {
         UIUtils.createColumn(tblColumns, "dialog.table.columnNotNull", 55);
         UIUtils.createColumn(tblColumns, "dialog.table.columnUnique", 55);
 
-        for (ColumnModel model : tableEdit.getColumnModels()) {
+        for (ColumnModel model : tableEdit.getColumns()) {
             TableItem item = new TableItem(tblColumns, SWT.NULL);
             updateTableItem(item, model);
         }
@@ -151,18 +151,18 @@ public class AttributeTabCreator implements IMessages {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 ColumnModel column = new ColumnModel();
-                column.setPhysicalName("COLUMN_" + (tableEdit.getColumnModels().size() + 1));
-                column.setLogicalName(getResource("label.column") + (tableEdit.getColumnModels().size() + 1));
+                column.setPhysicalName("COLUMN_" + (tableEdit.getColumns().size() + 1));
+                column.setLogicalName(getResource("label.column") + (tableEdit.getColumns().size() + 1));
                 column.setColumnType(tableEdit.getDialect().getDefaultColumnType());
                 int index = tblColumns.getSelectionIndex();
                 if (index == -1) {
-                    tableEdit.getColumnModels().add(column);
+                    tableEdit.getColumns().add(column);
                     TableItem item = new TableItem(tblColumns, SWT.NULL);
                     updateTableItem(item, column);
-                    tblColumns.setSelection(tableEdit.getColumnModels().size() - 1);
+                    tblColumns.setSelection(tableEdit.getColumns().size() - 1);
                     tableSelectionChanged();
                 } else {
-                    tableEdit.getColumnModels().add(index + 1, column);
+                    tableEdit.getColumns().add(index + 1, column);
                     syncColumnModelsToTable();
                     tblColumns.setSelection(index + 1);
                     tableSelectionChanged();
@@ -177,7 +177,7 @@ public class AttributeTabCreator implements IMessages {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 int index = tblColumns.getSelectionIndex();
-                tableEdit.getColumnModels().remove(index);
+                tableEdit.getColumns().remove(index);
                 tblColumns.remove(index);
                 tblColumns.select(index - 1);
                 tableSelectionChanged();
@@ -191,9 +191,9 @@ public class AttributeTabCreator implements IMessages {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 int index = tblColumns.getSelectionIndex();
-                ColumnModel column = tableEdit.getColumnModels().get(index);
-                tableEdit.getColumnModels().remove(index);
-                tableEdit.getColumnModels().add(index - 1, column);
+                ColumnModel column = tableEdit.getColumns().get(index);
+                tableEdit.getColumns().remove(index);
+                tableEdit.getColumns().add(index - 1, column);
                 syncColumnModelsToTable();
                 tblColumns.setSelection(index - 1);
                 tableSelectionChanged();
@@ -207,9 +207,9 @@ public class AttributeTabCreator implements IMessages {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 int index = tblColumns.getSelectionIndex();
-                ColumnModel column = tableEdit.getColumnModels().get(index);
-                tableEdit.getColumnModels().remove(index);
-                tableEdit.getColumnModels().add(index + 1, column);
+                ColumnModel column = tableEdit.getColumns().get(index);
+                tableEdit.getColumns().remove(index);
+                tableEdit.getColumns().add(index + 1, column);
                 syncColumnModelsToTable();
 
                 tblColumns.setSelection(index + 1);
@@ -326,7 +326,7 @@ public class AttributeTabCreator implements IMessages {
 
     private void updateColumn() {
         if (editColumnIndex != -1 && cmbColumnType.getSelectionIndex() != -1) {
-            ColumnModel model = tableEdit.getColumnModels().get(editColumnIndex);
+            ColumnModel model = tableEdit.getColumns().get(editColumnIndex);
             model.setPhysicalName(txtColumnName.getText());
             model.setLogicalName(txtColumnLogicalName.getText());
 
@@ -422,7 +422,7 @@ public class AttributeTabCreator implements IMessages {
 
     private void syncColumnModelsToTable() {
         tblColumns.removeAll();
-        for (ColumnModel model : tableEdit.getColumnModels()) {
+        for (ColumnModel model : tableEdit.getColumns()) {
             TableItem item = new TableItem(tblColumns, SWT.NULL);
             updateTableItem(item, model);
         }
@@ -431,7 +431,7 @@ public class AttributeTabCreator implements IMessages {
     private void tableSelectionChanged() {
         int selectedIndex = tblColumns.getSelectionIndex();
         if (selectedIndex > -1) {
-            ColumnModel model = tableEdit.getColumnModels().get(selectedIndex);
+            ColumnModel model = tableEdit.getColumns().get(selectedIndex);
             IColumnType columnType = model.getColumnType();
 
             // -----
@@ -535,7 +535,7 @@ public class AttributeTabCreator implements IMessages {
         btnDownColumn.setEnabled(false);
         int index = tblColumns.getSelectionIndex();
         if (index >= 0) {
-            String physicalName = tableEdit.getColumnModels().get(index).getPhysicalName();
+            String physicalName = tableEdit.getColumns().get(index).getPhysicalName();
             if (tableEdit.isReferenceKey(physicalName) || tableEdit.isForeignkey(physicalName)) {
                 btnRemoveColumn.setEnabled(false);
             } else {
@@ -545,7 +545,7 @@ public class AttributeTabCreator implements IMessages {
             if (index > 0) {
                 btnUpColumn.setEnabled(true);
             }
-            if (index < tableEdit.getColumnModels().size() - 1) {
+            if (index < tableEdit.getColumns().size() - 1) {
                 btnDownColumn.setEnabled(true);
             }
         }

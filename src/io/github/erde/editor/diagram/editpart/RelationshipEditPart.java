@@ -111,14 +111,7 @@ public class RelationshipEditPart extends AbstractERDConnectionEditPart implemen
             CommandStack commandStack = getViewer().getEditDomain().getCommandStack();
             if (dialog.open() == Window.OK) {
                 TableModel model = relationshipModel.getTarget();
-                // model.firePropertyChange(TableModel.P_COLUMNS, null, model.getColumns());
-
-                commandStack.execute(new TableEditCommand(model,
-                        model.getPhysicalName(),
-                        model.getLogicalName(),
-                        model.getDescription(),
-                        model.getColumns(),
-                        model.getIndices()));
+                commandStack.execute(new TableEditCommand(model, model));
             } else {
                 DeleteConnectionCommand command = new DeleteConnectionCommand(relationshipModel);
                 commandStack.execute(command);
@@ -142,18 +135,10 @@ public class RelationshipEditPart extends AbstractERDConnectionEditPart implemen
                 ((RootModel) getRoot().getContents().getModel()).isLogicalMode());
 
         if (dialog.open() == Window.OK) {
-
             EditPartViewer viewer = getViewer();
             TableModel model = relationshipModel.getTarget();
-            // model.firePropertyChange(TableModel.P_COLUMNS, null, model.getColumns());
-
-            viewer.getEditDomain().getCommandStack().execute(
-                    new TableEditCommand(model,
-                            model.getPhysicalName(),
-                            model.getLogicalName(),
-                            model.getDescription(),
-                            model.getColumns(),
-                            model.getIndices()));
+            CommandStack commandStack = viewer.getEditDomain().getCommandStack();
+            commandStack.execute(new TableEditCommand(model, model));
         }
     }
 

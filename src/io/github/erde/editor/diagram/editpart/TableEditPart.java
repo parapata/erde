@@ -8,6 +8,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -228,26 +230,23 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
      * Opens the {@link TableEditDialog} to edit a given column.
      *
      * @param viewer the viewer
-     * @param tableModel the table model
-     * @param editColumnModel the editing target column model
+     * @param table the table model
+     * @param editColumn the editing target column model
      */
-    public static void openTableEditDialog(EditPartViewer viewer, TableModel tableModel, ColumnModel editColumnModel) {
+    public static void openTableEditDialog(EditPartViewer viewer, TableModel table, ColumnModel editColumn) {
 
         Shell shell = viewer.getControl().getShell();
-        RootModel rootModel = getRootModel(viewer);
-        String dialectName = rootModel.getDialectName();
-        List<DomainModel> domains = rootModel.getDomains();
+        RootModel root = getRootModel(viewer);
+        String dialectName = root.getDialectName();
+        List<DomainModel> domains = root.getDomains();
 
-        TableEditDialog dialog = new TableEditDialog(shell, dialectName, tableModel, editColumnModel, false, null,
-                domains);
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, false, null, domains);
 
         if (dialog.open() == Window.OK) {
-            List<ColumnModel> columns = dialog.getColumnModels();
-            List<IndexModel> indices = dialog.getIndexModels();
+            Command command = new TableEditCommand(table, dialog);
 
-            viewer.getEditDomain().getCommandStack().execute(
-                    new TableEditCommand(tableModel, dialog.getTablePyhgicalName(), dialog.getTableLogicalName(),
-                            dialog.getTableDescription(), columns, indices));
+            CommandStack commandStack = viewer.getEditDomain().getCommandStack();
+            commandStack.execute(command);
         }
     }
 
@@ -255,26 +254,23 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
      * Opens the {@link TableEditDialog} to edit a given index.
      *
      * @param viewer the viewer
-     * @param rootModel the root model
-     * @param editIndexModel the editing target index model
+     * @param table the table model
+     * @param editIndex the editing target index model
      */
-    public static void openTableEditDialog(EditPartViewer viewer, TableModel tableModel, IndexModel editIndexModel) {
+    public static void openTableEditDialog(EditPartViewer viewer, TableModel table, IndexModel editIndex) {
 
         Shell shell = viewer.getControl().getShell();
-        RootModel rootModel = getRootModel(viewer);
-        String dialectName = rootModel.getDialectName();
-        List<DomainModel> domains = rootModel.getDomains();
+        RootModel root = getRootModel(viewer);
+        String dialectName = root.getDialectName();
+        List<DomainModel> domains = root.getDomains();
 
-        TableEditDialog dialog = new TableEditDialog(shell, dialectName, tableModel, null, true, editIndexModel,
-                domains);
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, true, editIndex, domains);
 
         if (dialog.open() == Window.OK) {
-            List<ColumnModel> columns = dialog.getColumnModels();
-            List<IndexModel> indices = dialog.getIndexModels();
+            Command command = new TableEditCommand(table, dialog);
 
-            viewer.getEditDomain().getCommandStack().execute(
-                    new TableEditCommand(tableModel, dialog.getTablePyhgicalName(),
-                            dialog.getTableLogicalName(), dialog.getTableDescription(), columns, indices));
+            CommandStack commandStack = viewer.getEditDomain().getCommandStack();
+            commandStack.execute(command);
         }
     }
 

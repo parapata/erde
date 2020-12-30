@@ -11,14 +11,16 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import io.github.erde.IMessages;
+import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.ColumnType;
+import io.github.erde.editor.dialog.table.ITableEdit;
 
 /**
  * TableModel.
  *
  * @author modified by parapata
  */
-public class TableModel extends BaseEntityModel implements IMessages {
+public class TableModel extends BaseEntityModel implements IMessages, ITableEdit {
 
     private static final long serialVersionUID = 1L;
 
@@ -100,28 +102,34 @@ public class TableModel extends BaseEntityModel implements IMessages {
         firePropertyChange(P_ERROR, null, this.error);
     }
 
+    @Override
     public String getLogicalName() {
         return logicalName;
     }
 
+    @Override
     public void setLogicalName(String logicalName) {
         this.logicalName = StringUtils.defaultString(logicalName);
         firePropertyChange(P_LOGICAL_NAME, null, this.logicalName);
     }
 
+    @Override
     public void setPhysicalName(String tableName) {
         this.physicalName = StringUtils.defaultString(tableName);
         firePropertyChange(P_TABLE_NAME, null, this.physicalName);
     }
 
+    @Override
     public String getPhysicalName() {
         return StringUtils.defaultString(physicalName);
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = StringUtils.defaultString(description);
     }
 
+    @Override
     public String getDescription() {
         return StringUtils.defaultString(this.description);
     }
@@ -135,19 +143,12 @@ public class TableModel extends BaseEntityModel implements IMessages {
         firePropertyChange(P_COLUMNS, null, columns);
     }
 
+    @Override
     public List<ColumnModel> getColumns() {
         return this.columns;
     }
 
-    public ColumnModel getColumn(String columnName) {
-        for (ColumnModel column : columns) {
-            if (column.getPhysicalName().equals(columnName)) {
-                return column;
-            }
-        }
-        return null;
-    }
-
+    @Override
     public List<IndexModel> getIndices() {
         return indices;
     }
@@ -168,6 +169,15 @@ public class TableModel extends BaseEntityModel implements IMessages {
     public void setSchema(String schema) {
         this.schema = StringUtils.defaultString(schema);
         firePropertyChange(P_SCHEMA, null, this.schema);
+    }
+
+    public ColumnModel getColumn(String columnName) {
+        for (ColumnModel column : columns) {
+            if (column.getPhysicalName().equals(columnName)) {
+                return column;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -245,6 +255,22 @@ public class TableModel extends BaseEntityModel implements IMessages {
         newModel.indices = newIndices;
 
         // TODO Copy Connection...?
+
         return newModel;
+    }
+
+    @Override
+    public IDialect getDialect() {
+        throw new UnsupportedClassVersionError();
+    }
+
+    @Override
+    public boolean isForeignkey(String physicalName) {
+        throw new UnsupportedClassVersionError();
+    }
+
+    @Override
+    public boolean isReferenceKey(String physicalName) {
+        throw new UnsupportedClassVersionError();
     }
 }
