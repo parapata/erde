@@ -420,12 +420,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     /**
      * Creates <code>PaletteEntry</code> for the connection.
      *
-     * @param itemName
-     *            the display name
-     * @param clazz
-     *            the model class
-     * @param icon
-     *            the icon path
+     * @param itemName the display name
+     * @param clazz the model class
+     * @param icon the icon path
      * @return created <code>PaletteEntry</code>
      */
     private PaletteEntry createConnectionEntry(String itemName, Class<?> clazz, String icon) {
@@ -442,12 +439,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     /**
      * Creates <code>PaletteEntry</code> for the entity.
      *
-     * @param itemName
-     *            the display name
-     * @param clazz
-     *            the model class
-     * @param icon
-     *            the icon path
+     * @param itemName the display name
+     * @param clazz the model class
+     * @param icon the icon path
      * @return created <code>PaletteEntry</code>
      */
     private PaletteEntry createEntityEntry(String itemName, Class<?> clazz, String icon) {

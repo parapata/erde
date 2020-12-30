@@ -15,11 +15,12 @@ public class ColumnTreeEditPart extends DBTreeEditPart {
         ColumnModel model = (ColumnModel) getModel();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(model.getPhysicalName()).append("(").append(model.getLogicalName()).append(")");
-        sb.append(" - ");
-        sb.append(model.getColumnType().getPhysicalName());
+        sb.append(String.format("%s(%s) - %s",
+                model.getPhysicalName(),
+                model.getLogicalName(),
+                model.getColumnType().getPhysicalName()));
         if (model.getColumnType().isSizeSupported()) {
-            sb.append("(").append(model.getColumnSize()).append(")");
+            sb.append(String.format("(%d)", model.getColumnSize()));
         }
 
         setWidgetText(sb.toString());

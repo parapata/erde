@@ -71,7 +71,7 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
         browse.setText(resource.getString("button.browse"));
         browse.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
+            public void widgetSelected(SelectionEvent event) {
                 selectFile();
             }
         });
@@ -82,7 +82,7 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
 
         list.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
+            public void widgetSelected(SelectionEvent event) {
                 String[] selectedTableNames = list.getSelection();
                 for (String tableName : selectedTableNames) {
                     setErrorMessage(null);
@@ -128,7 +128,6 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
                 IFile selectedFile = (IFile) dialog.getFirstResult();
                 file.setText(selectedFile.getFullPath().toString());
 
-                // TODO
                 selectedRootModel = new ERDiagramSerializer().read(selectedFile.getContents());
                 list.removeAll();
                 for (BaseEntityModel entity : selectedRootModel.getChildren()) {

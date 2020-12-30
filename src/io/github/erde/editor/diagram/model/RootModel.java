@@ -211,9 +211,6 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
         return this.children;
     }
 
-    /**
-     * @since 1.0.6
-     */
     public List<TableModel> getTables() {
         List<TableModel> result = new ArrayList<>();
         for (BaseEntityModel model : getChildren()) {

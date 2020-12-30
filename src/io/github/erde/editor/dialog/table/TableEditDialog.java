@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 
 import io.github.erde.IMessages;
+import io.github.erde.core.exception.ValidateException;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
@@ -105,7 +106,11 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     @Override
     protected void okPressed() {
-        super.okPressed();
+        try {
+            validate();
+            super.okPressed();
+        } catch (ValidateException e) {
+        }
     }
 
     @Override
@@ -179,5 +184,9 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
             }
         }
         return false;
+    }
+
+    private void validate() throws ValidateException {
+        throw new ValidateException();
     }
 }

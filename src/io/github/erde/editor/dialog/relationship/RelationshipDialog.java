@@ -55,7 +55,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
     private Text txtForeignKeyName;
     private Combo cmbReferenceKey;
 
-    private Map<String, String> mapping;
+    private Map<String, String> relationMap;
 
     private Combo cmbOnUpdate;
     private Combo cmbOnDelete;
@@ -79,6 +79,13 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
         Shell shell = getShell();
         shell.pack();
         shell.setSize(400, shell.getSize().y);
+    }
+
+    @Override
+    protected Control createContents(Composite parent) {
+        Control control = super.createContents(parent);
+        getButton(OK).setEnabled(!relationMap.containsValue(""));
+        return control;
     }
 
     @Override
@@ -191,7 +198,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
         List<String> foreignKeyCandidates = helper.getForeignKeyCandidates(relationshipModel, exclusions);
 
         // マッピング情報をクリア
-        mapping = new LinkedHashMap<>();
+        relationMap = new LinkedHashMap<>();
 
         referrdColumns.forEach(columnName -> {
             Label sourceLabel = new Label(group, SWT.NONE);
@@ -200,13 +207,13 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
             Label equalLabel = new Label(group, SWT.NONE);
             equalLabel.setText("=");
 
-            Combo targetCombo = new Combo(group, SWT.READ_ONLY);
-            targetCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            targetCombo.setData(columnName);
+            Combo cmbTarget = new Combo(group, SWT.READ_ONLY);
+            cmbTarget.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            cmbTarget.setData(columnName);
 
-            mapping.put(columnName, "");
+            relationMap.put(columnName, "");
 
-            foreignKeyCandidates.forEach(column -> targetCombo.add(column));
+            foreignKeyCandidates.forEach(column -> cmbTarget.add(column));
 
             //
             relationshipModel.getTarget().getModelTargetConnections().forEach(conn -> {
@@ -216,19 +223,20 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
                         model.getMappings().forEach(relationship -> {
                             if (helper.getColumnName(relationship.getReferenceKey()).equals(columnName)) {
                                 String foreignKey = helper.getColumnName(relationship.getForeignKey());
-                                mapping.put(columnName, foreignKey);
-                                targetCombo.setText(foreignKey);
+                                relationMap.put(columnName, foreignKey);
+                                cmbTarget.setText(foreignKey);
                             }
                         });
                     }
                 }
             });
 
-            targetCombo.addSelectionListener(new SelectionAdapter() {
+            cmbTarget.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent event) {
-                    logger.info("change fKey : {} = {}", targetCombo.getData(), targetCombo.getText());
-                    mapping.put(targetCombo.getData().toString(), targetCombo.getText());
+                    logger.info("change fKey : {} = {}", cmbTarget.getData(), cmbTarget.getText());
+                    relationMap.put(cmbTarget.getData().toString(), cmbTarget.getText());
+                    getButton(OK).setEnabled(!relationMap.containsValue(""));
                 }
             });
         });
@@ -299,7 +307,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
         List<RelationshipMappingModel> newRelationshipMappings = new ArrayList<>();
 
         AtomicInteger index = new AtomicInteger();
-        mapping.entrySet().forEach(entry -> {
+        relationMap.entrySet().forEach(entry -> {
             String sourceColumnName = entry.getKey();
             String targetColumnName = entry.getValue();
 
@@ -334,6 +342,8 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
         relationshipModel.setSourceCardinality(cmbSourceCardinality.getText());
         relationshipModel.setTargetCardinality(cmbTargetCardinality.getText());
         relationshipModel.setMapping(newRelationshipMappings);
+
+        validate();
 
         super.okPressed();
     }
