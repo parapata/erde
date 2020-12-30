@@ -2,6 +2,7 @@ package io.github.erde.editor.dialog.table;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -12,6 +13,7 @@ import org.eclipse.swt.widgets.TabFolder;
 
 import io.github.erde.IMessages;
 import io.github.erde.core.exception.ValidateException;
+import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
@@ -34,15 +36,15 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     private IDialect dialect;
 
-    private TableModel editTableModel;
+    private TableModel editTable;
 
     private int editColumnIndex = -1;
     private int editIndexIndex = -1;
 
     private boolean indexEditing = false;
 
-    private List<BaseConnectionModel> referenceKeyModels;
-    private List<BaseConnectionModel> foreignKeyModels;
+    private List<BaseConnectionModel> referenceKeys;
+    private List<BaseConnectionModel> foreignKeys;
 
     private List<DomainModel> domains;
 
@@ -62,14 +64,14 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
         super(parentShell);
         setShellStyle(getShellStyle() | SWT.RESIZE);
         this.dialect = DialectProvider.getDialect(dialectName);
-        this.editTableModel = tableModel.clone();
+        this.editTable = tableModel.clone();
         this.editColumnIndex = tableModel.getColumns().indexOf(editColumnModel);
         this.editIndexIndex = tableModel.getIndices().indexOf(editIndexModel);
         this.indexEditing = indexEditing;
 
         //
-        this.referenceKeyModels = tableModel.getModelSourceConnections();
-        this.foreignKeyModels = tableModel.getModelTargetConnections();
+        this.referenceKeys = tableModel.getModelSourceConnections();
+        this.foreignKeys = tableModel.getModelTargetConnections();
 
         this.domains = domains;
     }
@@ -99,7 +101,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
         // Index tab
         IndexTabCreator indexTabCreator = new IndexTabCreator(this, editIndexIndex, indexEditing);
-        indexTabCreator.create(getShell(), tabFolder, editTableModel.getPhysicalName());
+        indexTabCreator.create(getShell(), tabFolder, editTable.getPhysicalName());
 
         return tabFolder;
     }
@@ -110,6 +112,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
             validate();
             super.okPressed();
         } catch (ValidateException e) {
+            UIUtils.openAlertDialog(e.getMessage());
         }
     }
 
@@ -120,47 +123,47 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     @Override
     public List<ColumnModel> getColumns() {
-        return editTableModel.getColumns();
+        return editTable.getColumns();
     }
 
     @Override
     public List<IndexModel> getIndices() {
-        return editTableModel.getIndices();
+        return editTable.getIndices();
     }
 
     @Override
     public String getPhysicalName() {
-        return editTableModel.getPhysicalName();
+        return editTable.getPhysicalName();
     }
 
     @Override
     public void setPhysicalName(String physicalName) {
-        editTableModel.setPhysicalName(physicalName);
+        editTable.setPhysicalName(physicalName);
     }
 
     @Override
     public String getLogicalName() {
-        return editTableModel.getLogicalName();
+        return editTable.getLogicalName();
     }
 
     @Override
     public void setLogicalName(String logicalName) {
-        editTableModel.setLogicalName(logicalName);
+        editTable.setLogicalName(logicalName);
     }
 
     @Override
     public String getDescription() {
-        return editTableModel.getDescription();
+        return editTable.getDescription();
     }
 
     @Override
     public void setDescription(String description) {
-        editTableModel.setDescription(description);
+        editTable.setDescription(description);
     }
 
     @Override
     public boolean isForeignkey(String physicalName) {
-        for (BaseConnectionModel conn : foreignKeyModels) {
+        for (BaseConnectionModel conn : foreignKeys) {
             if (conn instanceof RelationshipModel) {
                 for (RelationshipMappingModel item : ((RelationshipModel) conn).getMappings()) {
                     if (physicalName.equals(item.getForeignKey().getPhysicalName())) {
@@ -174,7 +177,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
 
     @Override
     public boolean isReferenceKey(String physicalName) {
-        for (BaseConnectionModel conn : referenceKeyModels) {
+        for (BaseConnectionModel conn : referenceKeys) {
             if (conn instanceof RelationshipModel) {
                 for (RelationshipMappingModel item : ((RelationshipModel) conn).getMappings()) {
                     if (physicalName.equals(item.getReferenceKey().getPhysicalName())) {
@@ -187,6 +190,71 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
     }
 
     private void validate() throws ValidateException {
-        throw new ValidateException();
+
+        List<TableModel> tables = UIUtils.getRootModel().getTables();
+
+        // Physical table name check
+        if (StringUtils.isEmpty(editTable.getPhysicalName())) {
+            throw new ValidateException(getResource("validation.error.physicalTableName.required"));
+        }
+
+        long count = tables.stream()
+                .filter(table -> !StringUtils.equals(editTable.getId(), table.getId())
+                        && StringUtils.equalsIgnoreCase(editTable.getPhysicalName(), table.getPhysicalName()))
+                .count();
+        if (count > 0) {
+            throw new ValidateException(getResource("validation.error.physicalTableName.duplicated"));
+        }
+
+        // Logical table name check
+        if (StringUtils.isEmpty(editTable.getLogicalName())) {
+            throw new ValidateException(getResource("validation.error.logicalTableName.required"));
+        }
+
+        count = tables.stream()
+                .filter(table -> !StringUtils.equals(editTable.getId(), table.getId())
+                        && StringUtils.equalsIgnoreCase(editTable.getLogicalName(), table.getLogicalName()))
+                .count();
+        if (count > 0) {
+            throw new ValidateException(getResource("validation.error.logicalTableName.duplicated"));
+        }
+
+        // Physical column name check
+        count = editTable.getColumns()
+                .stream()
+                .map(column -> column.getPhysicalName())
+                .filter(columnName -> StringUtils.isNotEmpty(columnName))
+                .count();
+        if (editTable.getColumns().size() != count) {
+            throw new ValidateException(getResource("validation.error.physicalColumnName.required"));
+        }
+
+        count = editTable.getColumns()
+                .stream()
+                .map(column -> column.getPhysicalName())
+                .distinct()
+                .count();
+        if (editTable.getColumns().size() != count) {
+            throw new ValidateException(getResource("validation.error.physicalColumnName.duplicated"));
+        }
+
+        // Logical column name check
+        count = editTable.getColumns()
+                .stream()
+                .map(column -> column.getLogicalName())
+                .filter(columnName -> StringUtils.isNotEmpty(columnName))
+                .count();
+        if (editTable.getColumns().size() != count) {
+            throw new ValidateException(getResource("validation.error.logicalColumnName.required"));
+        }
+
+        count = editTable.getColumns()
+                .stream()
+                .map(column -> column.getLogicalName())
+                .distinct()
+                .count();
+        if (editTable.getColumns().size() != count) {
+            throw new ValidateException(getResource("validation.error.logicalColumnName.duplicated"));
+        }
     }
 }

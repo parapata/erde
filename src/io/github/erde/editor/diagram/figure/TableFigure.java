@@ -7,6 +7,8 @@ import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
 import io.github.erde.editor.diagram.editpart.editpolicy.ERDiagramFrameBorder;
@@ -20,12 +22,16 @@ import io.github.erde.editor.diagram.editpart.editpolicy.ERDiagramFrameBorder;
 // public class TableFigure extends RectangleFigure {
 public class TableFigure extends Figure {
 
+    private static final int COLUMN_NAME = 0;
+    private static final int COLUMN_TYPE = 1;
+    private static final int NN = 2;
+
     private ERDiagramFrameBorder border;
     private ColumnLayoutFigure columnFigure;
     private CompartmentFigure columnNameFigure;
     private CompartmentFigure columnTypeFigure;
     private CompartmentFigure notNullFigure;
-    private int flag = 0;
+    private int activeColumn = 0;
 
     public TableFigure() {
         super();
@@ -49,9 +55,14 @@ public class TableFigure extends Figure {
         setLayoutManager(layout);
 
         border = new ERDiagramFrameBorder();
-        // LineBorder border = new LineBorder(ColorConstants.black, 3);
         setBorder(border);
         setOpaque(true);
+
+        Font font = Display.getCurrent().getSystemFont();
+        FontData[] fd = font.getFontData();
+        fd[0].height = fd[0].height + 2;
+        fd[0].setStyle(SWT.BOLD);
+        border.setFont(new Font(font.getDevice(), fd));
 
         add(this.columnFigure);
         repaint();
@@ -60,15 +71,15 @@ public class TableFigure extends Figure {
     @Override
     public void add(IFigure figure, Object constraint, int index) {
         if (figure instanceof ColumnFigure) {
-            if (flag == 0) {
+            if (activeColumn == COLUMN_NAME) {
                 columnNameFigure.add(figure);
-                flag = 1;
-            } else if (flag == 1) {
+                activeColumn = COLUMN_TYPE;
+            } else if (activeColumn == COLUMN_TYPE) {
                 columnTypeFigure.add(figure);
-                flag = 2;
+                activeColumn = NN;
             } else {
                 notNullFigure.add(figure);
-                flag = 0;
+                activeColumn = COLUMN_NAME;
             }
         } else {
             super.add(figure, constraint, index);

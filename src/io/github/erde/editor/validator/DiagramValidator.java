@@ -74,13 +74,13 @@ public class DiagramValidator implements IMessages {
             deManager.addError(
                     store.getString(Activator.PREF_VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED),
                     table,
-                    getResource("validation.error.tableName.required"));
+                    getResource("validation.error.physicalTableName.required"));
 
         } else if (tableNames.contains(tableName)) {
             deManager.addError(
                     store.getString(Activator.PREF_VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED),
                     table,
-                    getResource("validation.error.tableName.duplicated"));
+                    getResource("validation.error.physicalTableName.duplicated"));
         } else {
             tableNames.add(tableName);
         }
@@ -122,14 +122,14 @@ public class DiagramValidator implements IMessages {
                             store.getString(Activator.PREF_VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED),
                             table,
                             column,
-                            getResource("validation.error.columnName.required"));
+                            getResource("validation.error.physicalcolumnName.required"));
 
                 } else if (columnNames.contains(columnName)) {
                     deManager.addError(
                             store.getString(Activator.PREF_VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED),
                             table,
                             column,
-                            getResource("validation.error.columnName.duplicated"));
+                            getResource("validation.error.physicalColumnName.duplicated"));
                 } else {
                     columnNames.add(columnName);
                 }

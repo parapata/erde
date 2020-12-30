@@ -1,5 +1,6 @@
 package io.github.erde.core.util;
 
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -16,6 +17,7 @@ import org.eclipse.ui.PlatformUI;
 
 import io.github.erde.IMessages;
 import io.github.erde.editor.ERDiagramEditor;
+import io.github.erde.editor.diagram.model.RootModel;
 
 /**
  * UIUtils.
@@ -145,7 +147,7 @@ public class UIUtils {
     /**
      * Returns an active ERD editor in the workbench.
      *
-     * @return an instance of an active ERD editor
+     * @return an instance of active ERD editor
      */
     public static ERDiagramEditor getActiveEditor() {
         IWorkbench workbench = PlatformUI.getWorkbench();
@@ -154,6 +156,32 @@ public class UIUtils {
         IEditorPart editorPart = page.getActiveEditor();
         if (editorPart instanceof ERDiagramEditor) {
             return (ERDiagramEditor) editorPart;
+        }
+        return null;
+    }
+
+    /**
+     * Returns an GraphicalViewer in the ERDiagramEditor.
+     *
+     * @return an instance of GraphicalViewer
+     */
+    public static GraphicalViewer getGraphicalViewer() {
+        ERDiagramEditor editor = getActiveEditor();
+        if (editor != null) {
+            return (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
+        }
+        return null;
+    }
+
+    /**
+     * Returns an root model in the GraphicalViewer.
+     *
+     * @return an instance of RootModel
+     */
+    public static RootModel getRootModel() {
+        GraphicalViewer viewer = getGraphicalViewer();
+        if (viewer != null) {
+            return (RootModel) viewer.getContents().getModel();
         }
         return null;
     }
