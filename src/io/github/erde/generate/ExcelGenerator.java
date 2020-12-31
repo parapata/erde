@@ -70,7 +70,12 @@ public class ExcelGenerator implements IGenerator, IMessages {
                 columnData.setLogicalColumnName(column.getLogicalName());
                 columnData.setPhysicalColumnName(column.getPhysicalName());
                 columnData.setDescription(column.getDescription());
-                columnData.setType(column.getColumnType().getPhysicalName());
+                if (column.isUnsigned()) {
+                    String columnTypeName = String.format("%s UNSIGNED", column.getColumnType().getPhysicalName());
+                    columnData.setType(columnTypeName);
+                } else {
+                    columnData.setType(column.getColumnType().getPhysicalName());
+                }
                 columnData.setDefaultValue(column.getDefaultValue());
                 if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
                     columnData.setColumnSize(String.valueOf(column.getColumnSize()));
@@ -83,6 +88,9 @@ public class ExcelGenerator implements IGenerator, IMessages {
                 }
                 if (column.isUniqueKey()) {
                     columnData.setUnique(getResource("label.o"));
+                }
+                if (column.isAutoIncrement()) {
+                    columnData.setAutoIncrement(getResource("label.o"));
                 }
 
                 LOOP: for (BaseConnectionModel conn : table.getModelSourceConnections()) {
