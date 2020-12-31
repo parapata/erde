@@ -99,7 +99,7 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
     @Override
     protected void refreshVisuals() {
         TableModel model = (TableModel) getModel();
-        setWidgetText(String.format("%s - %s", model.getPhysicalName(), model.getLogicalName()));
+        setWidgetText(String.format("%s(%s)", model.getPhysicalName(), model.getLogicalName()));
 
         if (model.getError().isEmpty()) {
             setWidgetImage(Activator.getImage(Activator.ICON_TABLE));
@@ -121,7 +121,7 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
         TableModel model = (TableModel) getModel();
 
         if (TableModel.P_LOGICAL_NAME.equals(propName) || TableModel.P_TABLE_NAME.equals(propName)) {
-            setWidgetText(String.format("%s - %s", model.getPhysicalName(), model.getLogicalName()));
+            setWidgetText(String.format("%s(%s)", model.getPhysicalName(), model.getLogicalName()));
         } else if (TableModel.P_ERROR.equals(propName)) {
             refreshVisuals();
 
