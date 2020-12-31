@@ -17,6 +17,7 @@ public class ColumnData {
     private String description = "";
     private String nullable = "";
     private String unique = "";
+    private String autoIncrement = "";
     private String defaultValue = "";
     private int index;
 
@@ -98,6 +99,14 @@ public class ColumnData {
 
     public void setUnique(String unique) {
         this.unique = unique;
+    }
+
+    public String getAutoIncrement() {
+        return autoIncrement;
+    }
+
+    public void setAutoIncrement(String autoIncrement) {
+        this.autoIncrement = autoIncrement;
     }
 
     public String getDefaultValue() {
