@@ -92,7 +92,7 @@ public class ColumnType implements IColumnType, IModel {
                 || type == Types.SMALLINT
                 || type == Types.INTEGER
                 || type == Types.BIGINT) {
-            return true;
+            return !"YEAR".equals(physicalName);
         } else {
             return false;
         }
