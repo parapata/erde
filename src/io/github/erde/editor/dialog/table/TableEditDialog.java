@@ -62,7 +62,7 @@ public class TableEditDialog extends Dialog implements ITableEdit, IMessages {
             boolean indexEditing, IndexModel editIndexModel, List<DomainModel> domains) {
 
         super(parentShell);
-        setShellStyle(getShellStyle() | SWT.RESIZE);
+        setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX | SWT.MIN);
         this.dialect = DialectProvider.getDialect(dialectName);
         this.editTable = tableModel.clone();
         this.editColumnIndex = tableModel.getColumns().indexOf(editColumnModel);

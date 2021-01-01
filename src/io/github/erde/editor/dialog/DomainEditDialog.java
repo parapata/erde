@@ -68,7 +68,7 @@ public class DomainEditDialog extends Dialog implements IMessages {
 
     public DomainEditDialog(Shell parentShell, RootModel rootModel, DomainModel editDomain) {
         super(parentShell);
-        setShellStyle(getShellStyle() | SWT.RESIZE);
+        setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX | SWT.MIN);
         for (DomainModel model : rootModel.getDomains()) {
             DomainModel clonedModel = model.clone();
             if (editDomain != null && model == editDomain) {
@@ -110,9 +110,9 @@ public class DomainEditDialog extends Dialog implements IMessages {
         table.setHeaderVisible(true);
         table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createColumn(table, "dialog.domain.name", 150);
-        UIUtils.createColumn(table, "dialog.domain.type", 150);
-        UIUtils.createColumn(table, "dialog.domain.unsigned", 150);
+        UIUtils.createColumn(table, "dialog.domain.name", 250);
+        UIUtils.createColumn(table, "dialog.domain.type", 200);
+        UIUtils.createColumn(table, "dialog.domain.unsigned", 100);
 
         viewer.setContentProvider(new ArrayContentProvider());
         viewer.setLabelProvider(new ITableLabelProvider() {
@@ -169,6 +169,11 @@ public class DomainEditDialog extends Dialog implements IMessages {
         });
         viewer.setInput(domainModels);
 
+        viewer.addSelectionChangedListener(event -> {
+            editAreaSelectionChanged();
+        });
+
+        // ----------
         Composite buttons = new Composite(composite, SWT.NULL);
         GridLayout buttonsLayout = new GridLayout(1, false);
         buttonsLayout.horizontalSpacing = 0;
@@ -192,6 +197,7 @@ public class DomainEditDialog extends Dialog implements IMessages {
             }
         });
 
+        // ----------
         btnRemoveButton = new Button(buttons, SWT.PUSH);
         btnRemoveButton.setText(getResource("dialog.domain.removeDomain"));
         btnRemoveButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -243,8 +249,6 @@ public class DomainEditDialog extends Dialog implements IMessages {
                 updateDomainModel();
             }
         });
-        txtDomainName.setText("");
-        txtDomainName.setEnabled(false);
 
         // ----------
         new Label(editArea, SWT.NULL).setText(getResource("dialog.domain.editDomain.type"));
@@ -253,9 +257,6 @@ public class DomainEditDialog extends Dialog implements IMessages {
             cmbColumnType.add(dialect.getColumnTypes().get(i).toString());
             cmbColumnType.setData(String.valueOf(i), dialect.getColumnTypes().get(i));
         }
-        // for (IColumnType type : dialect.getColumnTypes()) {
-        // cmbColumnType.add(type.toString());
-        // }
         cmbColumnType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -264,8 +265,6 @@ public class DomainEditDialog extends Dialog implements IMessages {
             }
         });
         cmbColumnType.setLayoutData(UIUtils.createGridData(1));
-        cmbColumnType.setText("");
-        cmbColumnType.setEnabled(false);
 
         // ----------
         new Label(editArea, SWT.NULL).setText(getResource("dialog.domain.editDomain.size"));
@@ -279,8 +278,6 @@ public class DomainEditDialog extends Dialog implements IMessages {
         GridData columnSizeGrid = new GridData();
         columnSizeGrid.widthHint = 50;
         txtColumnSize.setLayoutData(columnSizeGrid);
-        txtColumnSize.setText("");
-        txtColumnSize.setEnabled(false);
 
         // ----------
         new Label(editArea, SWT.NULL).setText(getResource("dialog.domain.editDomain.decimal"));
@@ -294,8 +291,6 @@ public class DomainEditDialog extends Dialog implements IMessages {
         GridData decimalSizeGrid = new GridData();
         decimalSizeGrid.widthHint = 50;
         txtDecimalSize.setLayoutData(decimalSizeGrid);
-        txtDecimalSize.setText("");
-        txtDecimalSize.setEnabled(false);
 
         // ----------
         btnChkUnsigned = new Button(editArea, SWT.CHECK);
@@ -309,10 +304,7 @@ public class DomainEditDialog extends Dialog implements IMessages {
             }
         });
 
-        // ----------
-        viewer.addSelectionChangedListener(event -> {
-            editAreaSelectionChanged();
-        });
+        editAreaSelectionChanged();
     }
 
     private void editAreaSelectionChanged() {

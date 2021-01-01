@@ -219,7 +219,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         registry.registerAction(new ZoomOutAction(manager));
 
         // 可能なスケール(拡大縮小率)のリスト
-        double[] zoomLevels = { 0.1, 0.25, 0.5, 0.7, 0.85, 1.0, 1.25, 1.5 };
+        double[] zoomLevels = { 0.1,0.15, 0.25, 0.35, 0.5, 0.65, 0.75, 0.85, 1.0, 1.25, 1.5, 1.75 };
         manager.setZoomLevels(zoomLevels);
         List<String> zoomContributions = Arrays.asList(ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT,
                 ZoomManager.FIT_WIDTH);
