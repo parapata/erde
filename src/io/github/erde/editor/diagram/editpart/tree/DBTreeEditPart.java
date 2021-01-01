@@ -4,6 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.BaseModel;
@@ -14,6 +16,8 @@ import io.github.erde.editor.diagram.model.BaseModel;
  * @author modified by parapata
  */
 public class DBTreeEditPart extends AbstractTreeEditPart implements PropertyChangeListener {
+
+    private Logger logger = LoggerFactory.getLogger(DBTreeEditPart.class);
 
     @Override
     public void activate() {
@@ -33,6 +37,7 @@ public class DBTreeEditPart extends AbstractTreeEditPart implements PropertyChan
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
+        logger.info("更新処理イベント発生(TreeView) : {}", event.getPropertyName());
         String propName = event.getPropertyName();
         if (BaseEntityModel.P_SOURCE_CONNECTION.equals(propName)) {
             refreshChildren();
