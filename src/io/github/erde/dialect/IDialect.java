@@ -194,7 +194,7 @@ public interface IDialect {
     }
 
     default void createForeignKey(RootModel root, TableModel model, StringBuilder additions) {
-        for (BaseConnectionModel conn : model.getModelSourceConnections()) {
+        for (BaseConnectionModel conn : model.getModelTargetConnections()) {
 
             if (conn instanceof RelationshipModel) {
 
@@ -206,6 +206,7 @@ public interface IDialect {
                 }
 
                 TableModel source = (TableModel) conn.getSource();
+                String sourceTableName = source.getPhysicalName();
                 String targetTableName = getTableName(root, model);
 
                 List<String> refkeys = new ArrayList<>();
@@ -222,15 +223,13 @@ public interface IDialect {
                 additions.append(String.format("ALTER TABLE %s", targetTableName));
                 additions.append(LS);
                 additions.append(TAB_SPACE);
-                additions.append(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(targetTableName)));
+                additions.append(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
                 additions.append(LS);
                 additions.append(TAB_SPACE);
                 additions.append(String.format("FOREIGN KEY (%s)", String.join(", ", fkeys)));
                 additions.append(LS);
                 additions.append(TAB_SPACE);
-                additions.append(String.format("REFERENCES %s (%s)",
-                        source.getPhysicalName(),
-                        String.join(", ", refkeys)));
+                additions.append(String.format("REFERENCES %s (%s)", sourceTableName, String.join(", ", refkeys)));
                 if (StringUtils.isNotEmpty(fk.getOnUpdateOption())) {
                     additions.append(LS);
                     additions.append(TAB_SPACE);

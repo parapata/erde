@@ -116,7 +116,10 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                 ResultSet rs = stmt.executeQuery(dialect.getColumnMetadataSQL(tableName));) {
 
             DatabaseMetaData meta = conn.getMetaData();
-            try (ResultSet columns = meta.getColumns(jdbcConn.getCatalog(), jdbcConn.getSchema(), tableName, "%")) {
+            String catalog = jdbcConn.getCatalog();
+            String schema = jdbcConn.getSchema();
+
+            try (ResultSet columns = meta.getColumns(catalog, schema, tableName, "%")) {
                 ResultSetMetaData rm = rs.getMetaData();
                 while (columns.next()) {
                     IColumnType type = dialect.getColumnType(columns.getString("TYPE_NAME"));
@@ -146,7 +149,7 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                 }
             }
 
-            try (ResultSet keys = meta.getPrimaryKeys(jdbcConn.getCatalog(), jdbcConn.getSchema(), tableName)) {
+            try (ResultSet keys = meta.getPrimaryKeys(catalog, schema, tableName)) {
                 while (keys.next()) {
                     String columnName = keys.getString("COLUMN_NAME");
                     for (ColumnModel column : list) {
@@ -254,8 +257,7 @@ public class DefaultSchemaLoader implements ISchemaLoader {
             TableModel table = (TableModel) element;
             Map<String, Map<String, Object>> map = new HashMap<>();
 
-            try (ResultSet rs = meta.getImportedKeys(jdbcConn.getCatalog(), jdbcConn.getSchema(),
-                    table.getPhysicalName())) {
+            try (ResultSet rs = meta.getImportedKeys(jdbcConn.getCatalog(), jdbcConn.getSchema(), table.getPhysicalName())) {
                 while (rs.next()) {
                     String pkTable = rs.getString("PKTABLE_NAME");
                     String pkColumn = rs.getString("PKCOLUMN_NAME");
