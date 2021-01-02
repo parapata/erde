@@ -19,13 +19,14 @@
         <table>
             <tbody>
                 <tr class="TableHeadingColor">
-                    <th width="1%">$msg.get("column.rownum")</th>
+                    <th width="1%">#</th>
                     <th width="1%">$msg.get("column.primaryKey")</th>
                     <th width="14%">$msg.get("column.physicalName")</th>
                     <th width="14%">$msg.get("column.logicalName")</th>
                     <th width="10%">$msg.get("column.type")</th>
                     <th width="3%">$msg.get("column.notNull")</th>
                     <th width="3%">$msg.get("column.unique")</th>
+                    <th width="3%">$msg.get("column.unsigned")</th>
                     <th width="10%">$msg.get("column.defaultValue")</th>
                     <th width="30%">$msg.get("column.description")</th>
                 </tr>
@@ -54,6 +55,7 @@
                     </td>
                     <td align="center"> #if($column.notNull == true) Yes #end </td>
                     <td align="center"> #if($column.uniqueKey == true) Yes #end </td>
+                    <td align="center"> #if($column.unsigned == true) Yes #end </td>
                     <td>$util.escapeHTML2($column.defaultValue)</td>
                     <td>
                          #if($column.domain) ${msg.get("column.description.domain")}: ${util.escapeHTML($column.domain.name)}

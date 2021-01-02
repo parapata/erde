@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.swt.widgets.TreeItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.github.erde.IMessages;
 import io.github.erde.editor.ERDiagramOutlinePage;
@@ -20,6 +24,8 @@ import io.github.erde.editor.diagram.model.TableModel;
  * @author modified by parapata
  */
 public class RootTreeEditPart extends DBTreeEditPart implements IMessages {
+
+    private Logger logger = LoggerFactory.getLogger(RootTreeEditPart.class);
 
     @Override
     protected List<FolderModel> getModelChildren() {
@@ -82,10 +88,23 @@ public class RootTreeEditPart extends DBTreeEditPart implements IMessages {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void propertyChange(PropertyChangeEvent event) {
+        logger.info("更新処理イベント発生(TreeView) : {}", event.getPropertyName());
         String propName = event.getPropertyName();
-        if (RootModel.P_CHILDREN.equals(propName) || RootModel.P_DOMAINS.equals(propName)) {
+
+        if (RootModel.P_CHILDREN.equals(propName)) {
             refreshChildren();
+
+        } else if (RootModel.P_DOMAINS.equals(propName)) {
+            children.forEach(child -> {
+                FolderTreeEditPart editPart = (FolderTreeEditPart) child;
+                if (editPart.isDomain()) {
+                    editPart.refresh();
+                    ((TreeItem) ((AbstractTreeEditPart) editPart).getWidget()).setExpanded(true);
+                    editPart.setFocus(true);
+                }
+            });
         }
     }
 }

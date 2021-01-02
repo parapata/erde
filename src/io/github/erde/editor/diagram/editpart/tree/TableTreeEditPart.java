@@ -8,6 +8,8 @@ import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.github.erde.Activator;
 import io.github.erde.IMessages;
@@ -23,6 +25,8 @@ import io.github.erde.editor.diagram.model.TableModel;
  * @author modified by parapata
  */
 public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
+
+    private Logger logger = LoggerFactory.getLogger(TableTreeEditPart.class);
 
     private static final String IMAGE_TABLE_ERROR = "image_table_error";
     private static final String IMAGE_TABLE_WARNING = "image_table_warning";
@@ -116,7 +120,9 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
+        logger.info("更新処理イベント発生(TreeView) : {}", event.getPropertyName());
         super.propertyChange(event);
+
         String propName = event.getPropertyName();
         TableModel model = (TableModel) getModel();
 

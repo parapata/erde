@@ -31,7 +31,7 @@ public class DDLDisplayDialog extends Dialog {
     public DDLDisplayDialog(Shell parentShell, String ddl) {
         super(parentShell);
         this.ddl = ddl;
-        setShellStyle(getShellStyle() | SWT.TITLE | SWT.RESIZE | SWT.MAX);
+        setShellStyle(getShellStyle() | SWT.TITLE | SWT.RESIZE | SWT.MAX | SWT.MIN);
     }
 
     @Override
