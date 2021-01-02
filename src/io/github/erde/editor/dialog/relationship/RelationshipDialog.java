@@ -341,7 +341,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
         }
         relationshipModel.setSourceCardinality(cmbSourceCardinality.getText());
         relationshipModel.setTargetCardinality(cmbTargetCardinality.getText());
-        relationshipModel.setMapping(newRelationshipMappings);
+        relationshipModel.setMappings(newRelationshipMappings);
 
         validate();
 

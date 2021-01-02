@@ -31,7 +31,7 @@ public class ModelUtils {
                         ColumnModel newColumn = newTable.getColumn(oldColumn.getPhysicalName());
                         mapping.setReferenceKey(newColumn);
                     }
-                    fk.setMapping(mappings);
+                    fk.setMappings(mappings);
                 }
                 conn.setSource(newTable);
                 newTable.addSourceConnection(conn);
@@ -46,7 +46,7 @@ public class ModelUtils {
                         ColumnModel newColumn = newTable.getColumn(oldColumn.getPhysicalName());
                         mapping.setForeignKey(newColumn);
                     }
-                    fk.setMapping(mappings);
+                    fk.setMappings(mappings);
                 }
                 conn.setTarget(newTable);
                 newTable.addTargetConnection(conn);

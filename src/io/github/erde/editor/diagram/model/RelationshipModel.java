@@ -40,7 +40,7 @@ public class RelationshipModel extends BaseConnectionModel implements IMessages 
         return StringUtils.defaultString(this.foreignKeyName);
     }
 
-    public void setMapping(List<RelationshipMappingModel> mapping) {
+    public void setMappings(List<RelationshipMappingModel> mapping) {
         relationMap.clear();
         for (RelationshipMappingModel entry : mapping) {
             relationMap.put(entry.getReferenceKey(), entry.getForeignKey());

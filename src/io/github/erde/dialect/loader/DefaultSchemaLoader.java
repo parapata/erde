@@ -40,6 +40,13 @@ public class DefaultSchemaLoader implements ISchemaLoader {
 
     private Logger logger = LoggerFactory.getLogger(DefaultSchemaLoader.class);
 
+    private static final String METAKEY_PKTABLE_NAME = "PKTABLE_NAME";
+    private static final String METAKEY_PKCOLUMN_NAME = "PKCOLUMN_NAME";
+    private static final String METAKEY_FKTABLE_NAME = "FKTABLE_NAME";
+    private static final String METAKEY_FKCOLUMN_NAME = "FKCOLUMN_NAME";
+    private static final String METAKEY_FK_NAME = "FK_NAME";
+    private static final String KEY_RELATIONSHIP = "RELATION_MAPPING";
+    
     private IDialect dialect;
     private JDBCConnection jdbcConn;
 
@@ -257,13 +264,14 @@ public class DefaultSchemaLoader implements ISchemaLoader {
             TableModel table = (TableModel) element;
             Map<String, Map<String, Object>> map = new HashMap<>();
 
-            try (ResultSet rs = meta.getImportedKeys(jdbcConn.getCatalog(), jdbcConn.getSchema(), table.getPhysicalName())) {
+            try (ResultSet rs = meta.getImportedKeys(jdbcConn.getCatalog(), jdbcConn.getSchema(),
+                    table.getPhysicalName())) {
                 while (rs.next()) {
-                    String pkTable = rs.getString("PKTABLE_NAME");
-                    String pkColumn = rs.getString("PKCOLUMN_NAME");
-                    String fkTable = rs.getString("FKTABLE_NAME");
-                    String fkColumn = rs.getString("FKCOLUMN_NAME");
-                    String keyName = rs.getString("FK_NAME");
+                    String pkTable = rs.getString(METAKEY_PKTABLE_NAME);
+                    String pkColumn = rs.getString(METAKEY_PKCOLUMN_NAME);
+                    String fkTable = rs.getString(METAKEY_FKTABLE_NAME);
+                    String fkColumn = rs.getString(METAKEY_FKCOLUMN_NAME);
+                    String keyName = rs.getString(METAKEY_FK_NAME);
 
                     logger.info("{} : {}.{} = {}.{}", keyName, pkTable, pkColumn, fkTable, fkColumn);
 
@@ -285,18 +293,17 @@ public class DefaultSchemaLoader implements ISchemaLoader {
 
                         if (map.get(keyName) == null) {
                             Map<String, Object> entry = new HashMap<>();
-                            entry.put("mappings", new ArrayList<RelationshipMappingModel>());
+                            entry.put(KEY_RELATIONSHIP, new ArrayList<RelationshipMappingModel>());
 
-                            // TODO 使ってない
-                            entry.put("pkTable", pkTable);
-                            entry.put("fkTable", fkTable);
+                            entry.put(METAKEY_PKTABLE_NAME, pkTable);
+                            entry.put(METAKEY_FKTABLE_NAME, fkTable);
 
                             map.put(keyName, entry);
                         }
 
                         @SuppressWarnings("unchecked")
                         List<RelationshipMappingModel> mappings = (List<RelationshipMappingModel>) map.get(keyName)
-                                .get("mappings");
+                                .get(KEY_RELATIONSHIP);
                         RelationshipMappingModel mapping = new RelationshipMappingModel();
 
                         logger.info("{}", sourceTableModel.getColumn(fkColumn).getPhysicalName());
@@ -307,25 +314,26 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                         mappings.add(mapping);
 
                         // TODO 追加
-                        foreignKeyModel.setMapping(mappings);
+                        foreignKeyModel.setMappings(mappings);
                     }
                 }
             }
 
-            Iterator<Map.Entry<String, Map<String, Object>>> ite = map.entrySet().iterator();
-            while (ite.hasNext()) {
-                Map.Entry<String, Map<String, Object>> entry = ite.next();
+            Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, Map<String, Object>> entry = iterator.next();
                 Map<String, Object> entryMap = entry.getValue();
 
                 @SuppressWarnings("unchecked")
-                List<RelationshipMappingModel> mappings = (List<RelationshipMappingModel>) entryMap.get("mappings");
+                List<RelationshipMappingModel> mappings = (List<RelationshipMappingModel>) entryMap
+                        .get(KEY_RELATIONSHIP);
 
                 RelationshipModel fkeyModel = new RelationshipModel();
                 fkeyModel.setForeignKeyName(entry.getKey());
-                fkeyModel.setMapping(mappings);
+                fkeyModel.setMappings(mappings);
 
-                fkeyModel.setSource(root.getTable((String) entryMap.get("fkTable")));
-                fkeyModel.setTarget(root.getTable((String) entryMap.get("pkTable")));
+                fkeyModel.setSource(root.getTable((String) entryMap.get(METAKEY_FKTABLE_NAME)));
+                fkeyModel.setTarget(root.getTable((String) entryMap.get(METAKEY_PKTABLE_NAME)));
                 fkeyModel.attachSource();
                 fkeyModel.attachTarget();
             }

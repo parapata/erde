@@ -100,7 +100,7 @@ public interface IERDiagramReader {
                             mappings.add(mappingModel);
                         });
 
-                        foreignKeyModel.setMapping(mappings);
+                        foreignKeyModel.setMappings(mappings);
                     });
                 });
 
