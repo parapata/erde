@@ -6,11 +6,18 @@ Lightweight ER-Diagram editor for Eclipse.
 
 eclipse 2020-12(java11)
 
+
+[source]
+----
+dropins
+ |-erde
+    |-eclipse
+       |-plugins
+          |-erde-x.x.x.jar
+----
+
 == Licence
 https://opensource.org/licenses/EPL-2.0[Eclipse Public License version 2.0]
 
 == Thanks
 https://github.com/takezoe/amateras-modeler[Amateras Modeler], http://ermaster.sourceforge.net/[ERMaster]
-
-== History
-
