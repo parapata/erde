@@ -62,6 +62,7 @@ public class AttributeTabCreator implements IMessages {
     private Combo cmbColumnType;
     private Text txtColumnSize;
     private Text txtDecimal;
+    private Text txtEnum;
     private Button btnChkUnsigned;
     private Button btnChkNotNull;
     private Button btnChkIsPK;
