@@ -1,5 +1,8 @@
 package io.github.erde.editor.diagram.model;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,6 +21,7 @@ public class ColumnModel implements IModel {
     private String physicalName;
     private String logicalName;
     private IColumnType columnType;
+    private Set<String> enumNames = new LinkedHashSet<>();
     private Integer columnSize;
     private Integer decimal;
     private boolean unsigned;
@@ -58,6 +62,14 @@ public class ColumnModel implements IModel {
                 this.unsigned = domain.isUnsigned();
             }
         }
+    }
+
+    public Set<String> getEnumNames() {
+        return enumNames;
+    }
+
+    public void setEnumNames(Set<String> enumNames) {
+        this.enumNames = enumNames;
     }
 
     public Integer getColumnSize() {

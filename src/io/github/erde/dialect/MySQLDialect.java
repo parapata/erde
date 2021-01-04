@@ -47,7 +47,8 @@ public class MySQLDialect extends AbstractDialect {
             ColumnType.newInstance("TINYTEXT", resource.getString("type.string"), false, Types.VARCHAR),
             ColumnType.newInstance("TEXT", resource.getString("type.string"), false, Types.VARCHAR),
             ColumnType.newInstance("MEDIUMTEXT", resource.getString("type.string"), false, Types.VARCHAR),
-            ColumnType.newInstance("LONGTEXT", resource.getString("type.string"), false, Types.VARCHAR));
+            ColumnType.newInstance("LONGTEXT", resource.getString("type.string"), false, Types.VARCHAR),
+            ColumnType.newInstance("ENUM", resource.getString("type.string"), false, Types.OTHER));
 
     public MySQLDialect() {
         super(COLUMN_TYPES);

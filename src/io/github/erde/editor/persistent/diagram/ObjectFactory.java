@@ -46,6 +46,7 @@ public class ObjectFactory {
     private final static QName _Description_QNAME = new QName("", "description");
     private final static QName _DomainId_QNAME = new QName("", "domainId");
     private final static QName _Type_QNAME = new QName("", "type");
+    private final static QName _EnumName_QNAME = new QName("", "enumName");
     private final static QName _ColumnSize_QNAME = new QName("", "columnSize");
     private final static QName _Decimal_QNAME = new QName("", "decimal");
     private final static QName _Unsigned_QNAME = new QName("", "unsigned");
@@ -441,6 +442,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "type")
     public JAXBElement<String> createType(String value) {
         return new JAXBElement<String>(_Type_QNAME, String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "", name = "enumName")
+    public JAXBElement<String> createEnumName(String value) {
+        return new JAXBElement<String>(_EnumName_QNAME, String.class, null, value);
     }
 
     /**

@@ -1,9 +1,11 @@
 package io.github.erde.editor.dialog.table.tabs;
 
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -17,11 +19,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +34,7 @@ import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.DomainModel;
+import io.github.erde.editor.dialog.EnumEditDialog;
 import io.github.erde.editor.dialog.parts.NumericVerifyListener;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
@@ -62,6 +67,8 @@ public class AttributeTabCreator implements IMessages {
     private Combo cmbColumnType;
     private Text txtColumnSize;
     private Text txtDecimal;
+    private Combo cmbEnum;
+    private Button btnEnumEdit;
     private Button btnChkUnsigned;
     private Button btnChkNotNull;
     private Button btnChkIsPK;
@@ -84,7 +91,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    /** 型が変更された場合の処理. */
+    // カラムタイプが変更された場合の処理.
     private SelectionListener columnTypeSelectionChanged = new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {
@@ -93,7 +100,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    /** カラム情報(TEXT)が更新された場合の処理. */
+    // カラム情報(TEXT)が更新された場合の処理.
     private FocusListener updateColumnInfoChanged = new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent event) {
@@ -102,7 +109,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    /** カラム情報(CheckBox)が更新された場合の処理. */
+    // カラム情報(CheckBox)が更新された場合の処理.
     private SelectionListener columnInfoSelectionChanged = new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {
@@ -158,8 +165,7 @@ public class AttributeTabCreator implements IMessages {
         layout.marginWidth = 0;
         tableArea.setLayout(layout);
         tableArea.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-        tblColumns = new Table(tableArea, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
+        tblColumns = new Table(tableArea, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
         tblColumns.setLayoutData(new GridData(GridData.FILL_BOTH));
         tblColumns.setHeaderVisible(true);
         tblColumns.addSelectionListener(columnListSelectionChanged);
@@ -173,7 +179,7 @@ public class AttributeTabCreator implements IMessages {
         UIUtils.createColumn(tblColumns, "dialog.table.columnUnique", 55);
 
         for (ColumnModel model : tableEdit.getColumns()) {
-            TableItem item = new TableItem(tblColumns, SWT.NULL);
+            TableItem item = new TableItem(tblColumns, SWT.NULL | SWT.FILL);
             setTableItem(item, model);
         }
 
@@ -327,6 +333,34 @@ public class AttributeTabCreator implements IMessages {
         btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
+        UIUtils.createLabel(group, "");
+        Composite enumArea = new Composite(group, SWT.NULL);
+        enumArea.setLayout(new GridLayout(5, false));
+        enumArea.setLayoutData(UIUtils.createGridData(6));
+        UIUtils.createLabel(enumArea, getResource("Enum/Set:"));
+
+        GridData cmbEnumGridData = new GridData();
+        cmbEnumGridData.widthHint = 160;
+        cmbEnum = new Combo(enumArea, SWT.DROP_DOWN | SWT.READ_ONLY);
+        cmbEnum.setLayoutData(cmbEnumGridData);
+
+        btnEnumEdit = new Button(enumArea, SWT.PUSH);
+        btnEnumEdit.setText(getResource("編集"));
+        btnEnumEdit.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event) {
+                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                EnumEditDialog dialog = new EnumEditDialog(shell, cmbEnum.getItems());
+                if (dialog.open() == Window.OK) {
+                    cmbEnum.removeAll();
+                    cmbEnum.setItems(dialog.getItems());
+                    cmbEnum.select(0);
+                    updateColumnInfo();
+                }
+            }
+        });
+
+        // -----
         UIUtils.createLabel(group, "dialog.table.editColumn.defaultValue");
         txtDefaultValue = new Text(group, SWT.BORDER);
         GridData defaultValueGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -442,13 +476,23 @@ public class AttributeTabCreator implements IMessages {
                 btnChkUnsigned.setEnabled((columnType.isUnsignedSupported()));
             }
 
-            // -----
-            txtColumnDescription.setText(column.getDescription());
-            txtColumnDescription.setEnabled(true);
+            if (Types.OTHER == columnType.getType() && "ENUM".equals(columnType.getPhysicalName())) {
+                cmbEnum.setItems(column.getEnumNames().toArray(new String[0]));
+                cmbEnum.setEnabled(true);
+                btnEnumEdit.setEnabled(true);
+            } else {
+                cmbEnum.setItems();
+                cmbEnum.setEnabled(false);
+                btnEnumEdit.setEnabled(false);
+            }
 
             // -----
             txtDefaultValue.setText(column.getDefaultValue());
             txtDefaultValue.setEnabled(true);
+
+            // -----
+            txtColumnDescription.setText(column.getDescription());
+            txtColumnDescription.setEnabled(true);
 
             // -----
             btnChkIsPK.setSelection(column.isPrimaryKey());
@@ -540,7 +584,14 @@ public class AttributeTabCreator implements IMessages {
             column.setUnsigned(false);
             btnChkUnsigned.setSelection(false);
         }
-
+        if (Types.OTHER == columnType.getType() && "ENUM".equals(columnType.getPhysicalName())) {
+            column.getEnumNames().clear();
+            for (String enumName : cmbEnum.getItems()) {
+                column.getEnumNames().add(enumName);
+            }
+        } else {
+            column.getEnumNames().clear();
+        }
         if (columnType.isSizeSupported()) {
             Integer columnSize = column.getColumnSize();
             if (columnSize == null) {
@@ -660,6 +711,12 @@ public class AttributeTabCreator implements IMessages {
 
         txtDecimal.setText("");
         txtDecimal.setEnabled(false);
+
+        cmbEnum.setItems();
+        cmbEnum.select(-1);
+        cmbEnum.setEnabled(false);
+
+        btnEnumEdit.setEnabled(false);
 
         btnChkUnsigned.setSelection(false);
         btnChkUnsigned.setEnabled(false);

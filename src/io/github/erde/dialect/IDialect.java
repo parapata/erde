@@ -68,6 +68,7 @@ public interface IDialect {
         map.put("REF_CURSOR", Types.REF_CURSOR);
         map.put("TIME_WITH_TIMEZONE", Types.TIME_WITH_TIMEZONE);
         map.put("TIMESTAMP_WITH_TIMEZONE", Types.TIMESTAMP_WITH_TIMEZONE);
+        map.put("ENUM", Types.OTHER);
         return Collections.unmodifiableMap(map);
     }
 

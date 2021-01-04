@@ -2,6 +2,7 @@ package io.github.erde.editor.persistent;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -176,7 +177,7 @@ public interface IERDiagramReader {
                         unsigned);
                 model.setColumnType(domainModel);
             }
-
+            model.setEnumNames(new LinkedHashSet<String>(column.getEnumNames()));
             model.setDescription(column.getDescription());
             if (column.isNotNull() != null) {
                 model.setNotNull(column.isNotNull());
