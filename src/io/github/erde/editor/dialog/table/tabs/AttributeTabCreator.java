@@ -1,9 +1,11 @@
 package io.github.erde.editor.dialog.table.tabs;
 
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -17,11 +19,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +34,7 @@ import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.DomainModel;
+import io.github.erde.editor.dialog.EnumEditDialog;
 import io.github.erde.editor.dialog.parts.NumericVerifyListener;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
@@ -62,6 +67,8 @@ public class AttributeTabCreator implements IMessages {
     private Combo cmbColumnType;
     private Text txtColumnSize;
     private Text txtDecimal;
+    private Combo cmbEnum;
+    private Button btnEnumEdit;
     private Button btnChkUnsigned;
     private Button btnChkNotNull;
     private Button btnChkIsPK;
@@ -327,6 +334,25 @@ public class AttributeTabCreator implements IMessages {
         btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
+        UIUtils.createLabel(group, "");
+        Composite test = new Composite(group, SWT.NULL);
+        test.setLayout(new GridLayout(5, false));
+        test.setLayoutData(UIUtils.createGridData(6));
+        UIUtils.createLabel(test, getResource("Enum/Set:"));
+        cmbEnum = new Combo(test, SWT.READ_ONLY);
+        btnEnumEdit = new Button(test, SWT.PUSH);
+        btnEnumEdit.setText(getResource("編集"));
+        btnEnumEdit.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event) {
+                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                EnumEditDialog dialog = new EnumEditDialog(shell);
+                if (dialog.open() == Window.OK) {
+                }
+            }
+        });
+
+        // -----
         UIUtils.createLabel(group, "dialog.table.editColumn.defaultValue");
         txtDefaultValue = new Text(group, SWT.BORDER);
         GridData defaultValueGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -540,6 +566,13 @@ public class AttributeTabCreator implements IMessages {
             column.setUnsigned(false);
             btnChkUnsigned.setSelection(false);
         }
+        if (Types.OTHER == columnType.getType() && "ENUM".equals(columnType.getPhysicalName())) {
+            cmbEnum.setEnabled(true);
+            btnEnumEdit.setEnabled(true);
+        } else {
+            cmbEnum.setEnabled(false);
+            btnEnumEdit.setEnabled(false);
+        }
 
         if (columnType.isSizeSupported()) {
             Integer columnSize = column.getColumnSize();
@@ -660,6 +693,11 @@ public class AttributeTabCreator implements IMessages {
 
         txtDecimal.setText("");
         txtDecimal.setEnabled(false);
+
+        cmbEnum.select(-1);
+        cmbEnum.setEnabled(false);
+
+        btnEnumEdit.setEnabled(false);
 
         btnChkUnsigned.setSelection(false);
         btnChkUnsigned.setEnabled(false);
