@@ -62,7 +62,8 @@ public class AttributeTabCreator implements IMessages {
     private Combo cmbColumnType;
     private Text txtColumnSize;
     private Text txtDecimal;
-    private Text txtEnum;
+    private Combo cmbEnum;
+    private Button btnEnumEdit;
     private Button btnChkUnsigned;
     private Button btnChkNotNull;
     private Button btnChkIsPK;
@@ -326,6 +327,21 @@ public class AttributeTabCreator implements IMessages {
         btnChkUnsigned = new Button(group, SWT.CHECK);
         btnChkUnsigned.setText(getResource("dialog.table.editColumn.unsigned"));
         btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        UIUtils.createLabel(group, "");
+        Composite test = new Composite(group, SWT.NULL);
+        test.setLayout(new GridLayout(5, false));
+        test.setLayoutData(UIUtils.createGridData(6));
+        UIUtils.createLabel(test, getResource("Enum/Set:"));
+        cmbEnum = new Combo(test, SWT.READ_ONLY);
+        btnEnumEdit = new Button(test, SWT.PUSH);
+        btnEnumEdit.setText(getResource("編集"));
+        btnEnumEdit.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event) {
+            }
+        });
 
         // -----
         UIUtils.createLabel(group, "dialog.table.editColumn.defaultValue");
@@ -661,6 +677,11 @@ public class AttributeTabCreator implements IMessages {
 
         txtDecimal.setText("");
         txtDecimal.setEnabled(false);
+
+        cmbEnum.select(-1);
+        cmbEnum.setEnabled(false);
+
+        btnEnumEdit.setEnabled(false);
 
         btnChkUnsigned.setSelection(false);
         btnChkUnsigned.setEnabled(false);
