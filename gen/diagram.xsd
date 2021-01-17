@@ -169,6 +169,7 @@
         <xs:element ref="logicalName"/>
         <xs:element ref="domainId"/>
         <xs:element ref="type"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="enumName"/>
         <xs:element ref="columnSize"/>
         <xs:element ref="decimal"/>
         <xs:element ref="unsigned"/>
@@ -183,6 +184,7 @@
   </xs:element>
   <xs:element name="domainId" type="xs:string"/>
   <xs:element name="type" type="xs:string"/>
+  <xs:element name="enumName" type="xs:string"/>
   <xs:element name="columnSize" type="xs:integer"/>
   <xs:element name="decimal" type="xs:integer"/>
   <xs:element name="unsigned" type="xs:boolean"/>

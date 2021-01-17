@@ -4,6 +4,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -281,7 +282,15 @@ public interface IDialect {
                 .append(SPACE)
                 .append(columnModel.getColumnType().getPhysicalName());
 
-        if (columnModel.getColumnType().isSizeSupported() && columnModel.getColumnSize() != null) {
+        if (columnModel.getColumnType().isEnum()) {
+            if (!columnModel.getEnumNames().isEmpty()) {
+                List<String> enumNemaes = new LinkedList<String>();
+                columnModel.getEnumNames().forEach(enumName -> {
+                    enumNemaes.add(String.format("'%s'", enumName));
+                });
+                ddl.append(String.format("(%s)", String.join(",", enumNemaes)));
+            }
+        } else if (columnModel.getColumnType().isSizeSupported() && columnModel.getColumnSize() != null) {
             if (columnModel.getDecimal() == null) {
                 ddl.append(String.format("(%d)", columnModel.getColumnSize()));
             } else {
