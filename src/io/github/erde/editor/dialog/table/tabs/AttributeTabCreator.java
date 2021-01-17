@@ -1,6 +1,5 @@
 package io.github.erde.editor.dialog.table.tabs;
 
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -476,7 +475,7 @@ public class AttributeTabCreator implements IMessages {
                 btnChkUnsigned.setEnabled((columnType.isUnsignedSupported()));
             }
 
-            if (Types.OTHER == columnType.getType() && "ENUM".equals(columnType.getPhysicalName())) {
+            if (columnType.isEnum()) {
                 cmbEnum.setItems(column.getEnumNames().toArray(new String[0]));
                 cmbEnum.setEnabled(true);
                 btnEnumEdit.setEnabled(true);
@@ -584,7 +583,7 @@ public class AttributeTabCreator implements IMessages {
             column.setUnsigned(false);
             btnChkUnsigned.setSelection(false);
         }
-        if (Types.OTHER == columnType.getType() && "ENUM".equals(columnType.getPhysicalName())) {
+        if (columnType.isEnum()) {
             column.getEnumNames().clear();
             for (String enumName : cmbEnum.getItems()) {
                 column.getEnumNames().add(enumName);
@@ -620,8 +619,6 @@ public class AttributeTabCreator implements IMessages {
             btnChkNotNull.setEnabled(false);
             btnChkIsUnique.setSelection(false);
             btnChkIsUnique.setEnabled(false);
-
-            // TODO 整数の場合の判定分を追加する
             if (tableEdit.getDialect().isAutoIncrement()) {
                 if (btnChkIsPK.getSelection()) {
                     btnAutoIncrement.setEnabled(true);
