@@ -92,10 +92,15 @@ public class ColumnType implements IColumnType, IModel {
                 || type == Types.SMALLINT
                 || type == Types.INTEGER
                 || type == Types.BIGINT) {
-            return !"YEAR".equals(physicalName);
+            return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean isEnum() {
+        return type == Types.OTHER && "ENUM".equals(physicalName);
     }
 
     @Override

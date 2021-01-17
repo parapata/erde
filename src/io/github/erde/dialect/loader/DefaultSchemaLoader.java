@@ -277,10 +277,8 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                     TableModel sourceTableModel = root.getTable(pkTable);
                     TableModel targetTableModel = root.getTable(fkTable);
 
-                    // if (root.getTable(pkTable) != null && root.getTable(fkTable) != null) {
                     if (sourceTableModel != null && targetTableModel != null) {
 
-                        // TODO 追加
                         RelationshipModel foreignKeyModel = new RelationshipModel();
                         foreignKeyModel.setForeignKeyName(keyName);
 
@@ -293,10 +291,6 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                         if (map.get(keyName) == null) {
                             Map<String, Object> entry = new HashMap<>();
                             entry.put(KEY_RELATIONSHIP, new ArrayList<RelationshipMappingModel>());
-
-//                            entry.put(METAKEY_PKTABLE_NAME, pkTable);
-//                            entry.put(METAKEY_FKTABLE_NAME, fkTable);
-
                             map.put(keyName, entry);
                         }
 
@@ -316,35 +310,12 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                                 sourceTableModel.getPhysicalName(), fkColumn,
                                 targetTableModel.getPhysicalName(), fkColumn);
 
-                        // TODO 追加
                         foreignKeyModel.setMappings(mappings);
-
-                        // TODO TEST CODE START
                         foreignKeyModel.attachSource();
                         foreignKeyModel.attachTarget();
-                        // TODO TEST CODE END
                     }
                 }
             }
-
-//            Iterator<Map.Entry<String, Map<String, Object>>> iterator = map.entrySet().iterator();
-//            while (iterator.hasNext()) {
-//                Map.Entry<String, Map<String, Object>> entry = iterator.next();
-//                Map<String, Object> entryMap = entry.getValue();
-//
-//                @SuppressWarnings("unchecked")
-//                List<RelationshipMappingModel> mappings = (List<RelationshipMappingModel>) entryMap
-//                        .get(KEY_RELATIONSHIP);
-//
-//                RelationshipModel fkeyModel = new RelationshipModel();
-//                fkeyModel.setForeignKeyName(entry.getKey());
-//                fkeyModel.setMappings(mappings);
-//
-//                fkeyModel.setSource(root.getTable((String) entryMap.get(METAKEY_FKTABLE_NAME)));
-//                fkeyModel.setTarget(root.getTable((String) entryMap.get(METAKEY_PKTABLE_NAME)));
-//                fkeyModel.attachSource();
-//                fkeyModel.attachTarget();
-//            }
         }
     }
 

@@ -16,6 +16,8 @@ public interface IColumnType {
 
     boolean isUnsignedSupported();
 
+    boolean isEnum();
+
     int getType();
 
     boolean isDomain();

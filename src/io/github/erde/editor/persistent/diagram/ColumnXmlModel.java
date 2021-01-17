@@ -2,6 +2,8 @@
 package io.github.erde.editor.persistent.diagram;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,6 +29,7 @@ import io.github.erde.editor.persistent.adapter.IntegerAdapter;
  *         &lt;element ref="{}logicalName"/&gt;
  *         &lt;element ref="{}domainId"/&gt;
  *         &lt;element ref="{}type"/&gt;
+ *         &lt;element ref="{}enumName" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element ref="{}columnSize"/&gt;
  *         &lt;element ref="{}decimal"/&gt;
  *         &lt;element ref="{}unsigned"/&gt;
@@ -50,6 +53,7 @@ import io.github.erde.editor.persistent.adapter.IntegerAdapter;
     "logicalName",
     "domainId",
     "type",
+    "enumNames",
     "columnSize",
     "decimal",
     "unsigned",
@@ -74,6 +78,8 @@ public class ColumnXmlModel
     protected String domainId;
     @XmlElement(required = true)
     protected String type;
+    @XmlElement(name = "enumName")
+    protected List<String> enumNames;
     @XmlElement(required = true, type = String.class)
     @XmlJavaTypeAdapter(IntegerAdapter.class)
     @XmlSchemaType(name = "integer")
@@ -201,6 +207,35 @@ public class ColumnXmlModel
      */
     public void setType(String value) {
         this.type = value;
+    }
+
+    /**
+     * Gets the value of the enumNames property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the enumNames property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getEnumNames().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getEnumNames() {
+        if (enumNames == null) {
+            enumNames = new ArrayList<String>();
+        }
+        return this.enumNames;
     }
 
     /**

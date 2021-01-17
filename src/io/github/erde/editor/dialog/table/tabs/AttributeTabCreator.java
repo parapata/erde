@@ -91,7 +91,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    /** 型が変更された場合の処理. */
+    // カラムタイプが変更された場合の処理
     private SelectionListener columnTypeSelectionChanged = new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {
@@ -100,7 +100,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    /** カラム情報(TEXT)が更新された場合の処理. */
+    // カラム情報(TEXT)が更新された場合の処理
     private FocusListener updateColumnInfoChanged = new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent event) {
@@ -109,7 +109,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    /** カラム情報(CheckBox)が更新された場合の処理. */
+    // カラム情報(CheckBox)が更新された場合の処理
     private SelectionListener columnInfoSelectionChanged = new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {
@@ -165,8 +165,7 @@ public class AttributeTabCreator implements IMessages {
         layout.marginWidth = 0;
         tableArea.setLayout(layout);
         tableArea.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-        tblColumns = new Table(tableArea, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
+        tblColumns = new Table(tableArea, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
         tblColumns.setLayoutData(new GridData(GridData.FILL_BOTH));
         tblColumns.setHeaderVisible(true);
         tblColumns.addSelectionListener(columnListSelectionChanged);
@@ -180,7 +179,7 @@ public class AttributeTabCreator implements IMessages {
         UIUtils.createColumn(tblColumns, "dialog.table.columnUnique", 55);
 
         for (ColumnModel model : tableEdit.getColumns()) {
-            TableItem item = new TableItem(tblColumns, SWT.NULL);
+            TableItem item = new TableItem(tblColumns, SWT.NULL | SWT.FILL);
             setTableItem(item, model);
         }
 
@@ -335,19 +334,28 @@ public class AttributeTabCreator implements IMessages {
 
         // -----
         UIUtils.createLabel(group, "");
-        Composite test = new Composite(group, SWT.NULL);
-        test.setLayout(new GridLayout(5, false));
-        test.setLayoutData(UIUtils.createGridData(6));
-        UIUtils.createLabel(test, getResource("Enum/Set:"));
-        cmbEnum = new Combo(test, SWT.READ_ONLY);
-        btnEnumEdit = new Button(test, SWT.PUSH);
+        Composite enumArea = new Composite(group, SWT.NULL);
+        enumArea.setLayout(new GridLayout(5, false));
+        enumArea.setLayoutData(UIUtils.createGridData(6));
+        UIUtils.createLabel(enumArea, getResource("Enum/Set:"));
+
+        GridData cmbEnumGridData = new GridData();
+        cmbEnumGridData.widthHint = 160;
+        cmbEnum = new Combo(enumArea, SWT.DROP_DOWN | SWT.READ_ONLY);
+        cmbEnum.setLayoutData(cmbEnumGridData);
+
+        btnEnumEdit = new Button(enumArea, SWT.PUSH);
         btnEnumEdit.setText(getResource("編集"));
         btnEnumEdit.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                EnumEditDialog dialog = new EnumEditDialog(shell);
+                EnumEditDialog dialog = new EnumEditDialog(shell, cmbEnum.getItems());
                 if (dialog.open() == Window.OK) {
+                    cmbEnum.removeAll();
+                    cmbEnum.setItems(dialog.getItems());
+                    cmbEnum.select(0);
+                    updateColumnInfo();
                 }
             }
         });
@@ -468,13 +476,23 @@ public class AttributeTabCreator implements IMessages {
                 btnChkUnsigned.setEnabled((columnType.isUnsignedSupported()));
             }
 
-            // -----
-            txtColumnDescription.setText(column.getDescription());
-            txtColumnDescription.setEnabled(true);
+            if (columnType.isEnum()) {
+                cmbEnum.setItems(column.getEnumNames().toArray(new String[0]));
+                cmbEnum.setEnabled(true);
+                btnEnumEdit.setEnabled(true);
+            } else {
+                cmbEnum.setItems();
+                cmbEnum.setEnabled(false);
+                btnEnumEdit.setEnabled(false);
+            }
 
             // -----
             txtDefaultValue.setText(column.getDefaultValue());
             txtDefaultValue.setEnabled(true);
+
+            // -----
+            txtColumnDescription.setText(column.getDescription());
+            txtColumnDescription.setEnabled(true);
 
             // -----
             btnChkIsPK.setSelection(column.isPrimaryKey());
@@ -566,14 +584,14 @@ public class AttributeTabCreator implements IMessages {
             column.setUnsigned(false);
             btnChkUnsigned.setSelection(false);
         }
-        if (Types.OTHER == columnType.getType() && "ENUM".equals(columnType.getPhysicalName())) {
-            cmbEnum.setEnabled(true);
-            btnEnumEdit.setEnabled(true);
+        if (columnType.isEnum()) {
+            column.getEnumNames().clear();
+            for (String enumName : cmbEnum.getItems()) {
+                column.getEnumNames().add(enumName);
+            }
         } else {
-            cmbEnum.setEnabled(false);
-            btnEnumEdit.setEnabled(false);
+            column.getEnumNames().clear();
         }
-
         if (columnType.isSizeSupported()) {
             Integer columnSize = column.getColumnSize();
             if (columnSize == null) {
@@ -602,8 +620,6 @@ public class AttributeTabCreator implements IMessages {
             btnChkNotNull.setEnabled(false);
             btnChkIsUnique.setSelection(false);
             btnChkIsUnique.setEnabled(false);
-
-            // TODO 整数の場合の判定分を追加する
             if (tableEdit.getDialect().isAutoIncrement()) {
                 if (btnChkIsPK.getSelection()) {
                     btnAutoIncrement.setEnabled(true);
@@ -694,6 +710,7 @@ public class AttributeTabCreator implements IMessages {
         txtDecimal.setText("");
         txtDecimal.setEnabled(false);
 
+        cmbEnum.setItems();
         cmbEnum.select(-1);
         cmbEnum.setEnabled(false);
 

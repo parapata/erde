@@ -133,6 +133,9 @@ public interface IERDiagramWriter {
                     column.setUnsigned(columnModel.isUnsigned());
                 }
             }
+            columnModel.getEnumNames().forEach(enumName -> {
+                column.getEnumNames().add(enumName);
+            });
             if (columnModel.isNotNull()) {
                 column.setNotNull(columnModel.isNotNull());
             }

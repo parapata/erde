@@ -219,6 +219,11 @@
                         <element name="type">
                             <text />
                         </element>
+                        <zeroOrMore>
+                            <element name="enumName">
+                                <text />
+                            </element>
+                        </zeroOrMore>
                         <element name="columnSize">
                             <data type="integer" />
                         </element>
