@@ -1,5 +1,10 @@
 package io.github.erde.editor.dialog;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -24,8 +29,13 @@ import io.github.erde.IMessages;
 
 public class EnumEditDialog extends Dialog implements IMessages {
 
-    public EnumEditDialog(Shell parentShell) {
+    private List<String> items;
+
+    private TableViewer viewer;
+
+    public EnumEditDialog(Shell parentShell, String[] items) {
         super(parentShell);
+        this.items = Arrays.asList(items);
     }
 
     @Override
@@ -37,35 +47,35 @@ public class EnumEditDialog extends Dialog implements IMessages {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        // return super.createDialogArea(parent);
 
         Shell shell = super.getShell();
         shell.setText("Enum設定");
         shell.setLayout(new FillLayout());
 
-        TableViewer viewer = new TableViewer(parent,
+        viewer = new TableViewer(parent,
                 SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
+
         Table table = viewer.getTable();
         table.setLayout(new GridLayout(1, false));
         table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        // Tableウィジェットを生成
-        // Table table = new Table(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
 
         // カラムを設定
-        String[] cols = { "名前" };
-        for (int i = 0; i < cols.length; i++) {
-            TableColumn col = new TableColumn(table, SWT.LEFT);
-            col.setText(cols[i]);
-            col.setWidth (350);
-        }
+        TableColumn column = new TableColumn(table, SWT.LEFT);
+        column.setText("名前");
+        column.setWidth(360);
 
         // 行データを追加
-        TableItem item = new TableItem(table, SWT.NULL);
-        item.setText(0, "Name1");
-        item.setText(1, "Name2");
+        for (int i = 0; i < 64; i++) {
+            TableItem item = new TableItem(table, SWT.NULL | SWT.FILL);
+            if (i < items.size()) {
+                item.setText(0, items.get(i));
+            } else {
+                item.setText(0, "");
+            }
+        }
 
         // TableEditorを生成
         TableEditor tableEditor = new TableEditor(table);
@@ -105,5 +115,19 @@ public class EnumEditDialog extends Dialog implements IMessages {
             }
         });
         return parent;
+    }
+
+    @Override
+    protected void buttonPressed(int buttonId) {
+        items = Arrays.asList(viewer.getTable().getItems())
+                .stream()
+                .map(tableItem -> tableItem.getText(0))
+                .filter(predicate -> StringUtils.isNoneEmpty(predicate) && !StringUtils.trim(predicate).isEmpty())
+                .collect(Collectors.toList());
+        super.buttonPressed(buttonId);
+    }
+
+    public String[] getItems() {
+        return items.toArray(new String[0]);
     }
 }
