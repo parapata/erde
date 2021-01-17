@@ -90,7 +90,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    // カラムタイプが変更された場合の処理.
+    // カラムタイプが変更された場合の処理
     private SelectionListener columnTypeSelectionChanged = new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {
@@ -99,7 +99,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    // カラム情報(TEXT)が更新された場合の処理.
+    // カラム情報(TEXT)が更新された場合の処理
     private FocusListener updateColumnInfoChanged = new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent event) {
@@ -108,7 +108,7 @@ public class AttributeTabCreator implements IMessages {
         }
     };
 
-    // カラム情報(CheckBox)が更新された場合の処理.
+    // カラム情報(CheckBox)が更新された場合の処理
     private SelectionListener columnInfoSelectionChanged = new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {

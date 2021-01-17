@@ -85,4 +85,8 @@ public class MySQLDialect extends AbstractDialect {
         return String.format("SELECT * FROM %s LIMIT 0, 1", tableName);
     }
 
+    @Override
+    public String getEnumMetadataSQL() {
+        return "SELECT substring(column_type, 6, length(substring(column_type, 6)) - 1) AS enum_content FROM information_schema.columns WHERE table_name = ? AND column_name = ?";
+    }
 }

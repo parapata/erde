@@ -2,6 +2,7 @@ package io.github.erde.dialect.loader;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.slf4j.Logger;
@@ -66,6 +68,7 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                 }
 
                 TableModel table = getTableInfo(conn, tableNames.get(i));
+                logger.info("Import table : {}", table.getPhysicalName());
 
                 // merge
                 for (BaseEntityModel obj : root.getChildren()) {
@@ -126,8 +129,31 @@ public class DefaultSchemaLoader implements ISchemaLoader {
             String schema = jdbcConn.getSchema();
 
             try (ResultSet columns = meta.getColumns(catalog, schema, tableName, "%")) {
-                ResultSetMetaData rm = rs.getMetaData();
                 while (columns.next()) {
+
+                    logger.info("Table column infomation : {}", tableName);
+                    logger.info("TABLE_CAT         :{}", columns.getString("TABLE_CAT"));
+                    logger.info("TABLE_SCHEM       :{}", columns.getString("TABLE_SCHEM"));
+                    logger.info("TABLE_NAME        :{}", columns.getString("TABLE_NAME"));
+                    logger.info("COLUMN_NAME       :{}", columns.getString("COLUMN_NAME"));
+                    logger.info("DATA_TYPE         :{}", columns.getString("DATA_TYPE"));
+                    logger.info("TYPE_NAME         :{}", columns.getString("TYPE_NAME"));
+                    logger.info("COLUMN_SIZE       :{}", columns.getString("COLUMN_SIZE"));
+                    logger.info("BUFFER_LENGTH     :{}", columns.getString("BUFFER_LENGTH"));
+                    logger.info("DECIMAL_DIGITS    :{}", columns.getString("DECIMAL_DIGITS"));
+                    logger.info("NUM_PREC_RADIX    :{}", columns.getString("NUM_PREC_RADIX"));
+                    logger.info("NULLABLE          :{}", columns.getString("NULLABLE"));
+                    logger.info("CHAR_OCTET_LENGTH :{}", columns.getString("CHAR_OCTET_LENGTH"));
+                    logger.info("ORDINAL_POSITION  :{}", columns.getString("ORDINAL_POSITION"));
+                    logger.info("REMARKS           :{}", columns.getString("REMARKS"));
+                    logger.info("SQL_DATA_TYPE     :{}", columns.getString("SQL_DATA_TYPE"));
+                    logger.info("SQL_DATETIME_SUB  :{}", columns.getString("SQL_DATETIME_SUB"));
+                    logger.info("COLUMN_DEF        :{}", columns.getString("COLUMN_DEF"));
+                    logger.info("ORDINAL_POSITION  :{}", columns.getString("ORDINAL_POSITION"));
+                    logger.info("IS_AUTOINCREMENT  :{}", columns.getString("IS_AUTOINCREMENT"));
+                    logger.info("IS_GENERATEDCOLUMN:{}", columns.getString("IS_GENERATEDCOLUMN"));
+                    logger.info("IS_NULLABLE       :{}", columns.getString("IS_NULLABLE"));
+
                     IColumnType type = dialect.getColumnType(columns.getString("TYPE_NAME"));
                     if (type == null) {
                         type = dialect.getColumnType(columns.getInt("DATA_TYPE"));
@@ -137,17 +163,40 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                     }
 
                     ColumnModel column = new ColumnModel();
-                    column.setPhysicalName(columns.getString("COLUMN_NAME"));
+                    String columnName = columns.getString("COLUMN_NAME");
+                    column.setPhysicalName(columnName);
+
+                    // get enum data
+                    if (StringUtils.equalsIgnoreCase("ENUM", type.getPhysicalName())) {
+                        String query = dialect.getEnumMetadataSQL();
+                        if (StringUtils.isNotEmpty(query)) {
+                            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                                pstmt.setString(1, tableName);
+                                pstmt.setString(2, columnName);
+                                try (ResultSet enumRs = pstmt.executeQuery()) {
+                                    if (enumRs != null && enumRs.next()) {
+                                        for (String str : StringUtils.split(enumRs.getString(1), ',')) {
+                                            column.getEnumNames().add(str.substring(1, str.length() - 1));
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            logger.warn("Importing enum data is not supported");
+                        }
+                    }
+
                     if (jdbcConn.isAutoConvert()) {
-                        column.setLogicalName(NameConverter.physical2logical(column.getPhysicalName()));
+                        column.setLogicalName(NameConverter.physical2logical(columnName));
                     } else {
-                        column.setLogicalName(column.getPhysicalName());
+                        column.setLogicalName(columnName);
                     }
                     column.setColumnType(type);
                     column.setColumnSize(columns.getInt("COLUMN_SIZE"));
                     column.setNotNull(columns.getString("IS_NULLABLE").equals("NO"));
 
-                    int rmIndex = getResultSetMetaDataIndex(rm, column.getPhysicalName());
+                    ResultSetMetaData rm = rs.getMetaData();
+                    int rmIndex = getResultSetMetaDataIndex(rm, columnName);
                     if (rmIndex > 0) {
                         column.setAutoIncrement(rm.isAutoIncrement(rmIndex));
                     }

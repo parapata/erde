@@ -129,8 +129,7 @@ public interface IDialect {
             createTableDDL(root, table, ddl, additions);
         }
 
-        for (TableModel table : tables) {
-            createForeignKey(root, table, additions);
+        for (TableModel table : tables) {            createForeignKey(root, table, additions);
         }
 
         for (TableModel table : tables) {
@@ -320,6 +319,10 @@ public interface IDialect {
      */
     default String getColumnMetadataSQL(String tableName) {
         return String.format("SELECT * FROM %s", tableName);
+    }
+
+    default String getEnumMetadataSQL() {
+        return "";
     }
 
     /**
