@@ -62,7 +62,7 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         setLocation(new Point(x, y));
         addFocusListener(new FocusAdapter() {
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent event) {
                 dispose();
             }
         });
