@@ -2,8 +2,8 @@ version: "3"
 services:
   db:
     image: mysql:8.0
-    volumes:
-      - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf
+#    volumes:
+#      - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf
     environment:
       - MYSQL_DATABASE=demo
       - MYSQL_USER=demo
@@ -11,4 +11,4 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Asia/Tokyo
     ports:
-      - 13306:3306
+      - 3306:3306
