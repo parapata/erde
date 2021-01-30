@@ -1,12 +1,8 @@
-version: '3'
+version: "3"
 services:
   db:
     image: oracle/database:19.3.0-se2
     container_name: oracle-19.3.0-se2
-#    image: oracle/database:19.3.0-ee
-#    container_name: oracle-19.3.0-ee
-#    image: oracle/database:18.4.0-xe
-#    container_name: oracle-18.4.0-xe
     ports:
       - 1521:1521
       - 5500:5500

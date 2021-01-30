@@ -1,23 +1,15 @@
 docker-compose up -d
-
-
 docker-compose down --volumes
-
 
 docker-compose ps
 
-
 docker-compose exec db mysql -V
-
 
 docker-compose exec db bash -c "mysql -udemo -pdemo demo"
 docker-compose exec db bash -c "mysql -uroot -proot"
-
-
+docker-compose exec db bash
 
 show variables like '%char%';
 select Host, User from mysql.user;
-
-
 
 https://qiita.com/ucan-lab/items/b094dbfc12ac1cbee8cb
