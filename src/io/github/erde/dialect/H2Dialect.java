@@ -54,6 +54,11 @@ public class H2Dialect extends AbstractDialect {
     }
 
     @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.H2;
+    }
+
+    @Override
     public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel, StringBuilder sb,
             StringBuilder additions) {
         sb.append(columnModel.getPhysicalName());

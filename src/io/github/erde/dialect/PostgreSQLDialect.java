@@ -49,6 +49,11 @@ public class PostgreSQLDialect extends AbstractDialect {
     }
 
     @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.PostgreSQL;
+    }
+
+    @Override
     public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel,
             StringBuilder ddl, StringBuilder additions) {
 

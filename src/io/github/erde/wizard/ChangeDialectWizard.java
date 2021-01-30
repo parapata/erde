@@ -12,20 +12,20 @@ import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
-import io.github.erde.wizard.page.ChangeDBTypeWizardPage;
+import io.github.erde.wizard.page.ChangeDialectWizardPage;
 
 /**
- * ChangeDBTypeWizard.
+ * ChangeDialectWizard.
  *
  * @author modified by parapata
  */
-public class ChangeDBTypeWizard extends Wizard implements IMessages {
+public class ChangeDialectWizard extends Wizard implements IMessages {
 
     private CommandStack commandStack;
     private RootModel root;
-    private ChangeDBTypeWizardPage page;
+    private ChangeDialectWizardPage page;
 
-    public ChangeDBTypeWizard(CommandStack commandStack, RootModel rootModel) {
+    public ChangeDialectWizard(CommandStack commandStack, RootModel rootModel) {
         setWindowTitle(getResource("wizard.changedb.title"));
         this.commandStack = commandStack;
         this.root = rootModel;
@@ -33,15 +33,15 @@ public class ChangeDBTypeWizard extends Wizard implements IMessages {
 
     @Override
     public void addPages() {
-        page = new ChangeDBTypeWizardPage(root.getDialectName());
+        page = new ChangeDialectWizardPage(root.getDialectName());
         addPage(page);
     }
 
     @Override
     public boolean performFinish() {
-        String result = page.getDbType();
-        if (!result.equals(root.getDialectName())) {
-            IDialect dialect = DialectProvider.getDialect(result);
+        String dialectName = page.getDialectName();
+        if (!dialectName.equals(root.getDialectName())) {
+            IDialect dialect = DialectProvider.getDialect(dialectName);
             for (BaseEntityModel entity : root.getChildren()) {
                 if (entity instanceof TableModel) {
                     TableModel table = (TableModel) entity;
@@ -52,7 +52,7 @@ public class ChangeDBTypeWizard extends Wizard implements IMessages {
                     table.setColumns(table.getColumns());
                 }
             }
-            root.setDialectName(result);
+            root.setDialectName(dialectName);
             commandStack.execute(new ChangeDBTypeCommand());
         }
         return true;

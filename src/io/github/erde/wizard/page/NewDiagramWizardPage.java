@@ -3,6 +3,7 @@ package io.github.erde.wizard.page;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
 
@@ -56,11 +57,13 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage implements I
         productLabel.setText(getResource("wizard.new.erd.product"));
 
         products = new Combo(composite, SWT.READ_ONLY);
-        String[] dialectNames = DialectProvider.getDialectNames();
-        for (String dialectName : dialectNames) {
+        List<String> dialectNames = DialectProvider.getDialectNames();
+
+        dialectNames.forEach(dialectName -> {
             products.add(dialectName);
-        }
-        products.setText(dialectNames[0]);
+        });
+
+        products.setText(dialectNames.get(0));
 
         composite.setLayout(layout);
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

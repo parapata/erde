@@ -19,7 +19,7 @@ import io.github.erde.editor.validator.DiagramErrorManager;
 
 /**
  * OracleDialect.
- * 
+ *
  * @author modified by parapata
  */
 public class OracleDialect extends AbstractDialect {
@@ -41,6 +41,11 @@ public class OracleDialect extends AbstractDialect {
     public OracleDialect() {
         super(COLUMN_TYPES);
         setAutoIncrement(false);
+    }
+
+    @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.Oracle;
     }
 
     @Override

@@ -56,6 +56,11 @@ public class MySQLDialect extends AbstractDialect {
     }
 
     @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.MySQL;
+    }
+
+    @Override
     public String dropTableDDL(String tableName) {
         return String.format("DROP TABLE IF EXISTS %s;", tableName);
     }

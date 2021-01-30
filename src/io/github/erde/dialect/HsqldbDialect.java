@@ -51,6 +51,11 @@ public class HsqldbDialect extends AbstractDialect {
     }
 
     @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.HSQLDB;
+    }
+
+    @Override
     public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel, StringBuilder ddl,
             StringBuilder additions) {
         ddl.append(columnModel.getPhysicalName());

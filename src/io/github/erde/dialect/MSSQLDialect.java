@@ -51,6 +51,11 @@ public class MSSQLDialect extends AbstractDialect {
     }
 
     @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.MSSQL;
+    }
+
+    @Override
     public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel, StringBuilder ddl,
             StringBuilder additions) {
         super.createColumnDDL(root, tableModel, columnModel, ddl, additions);

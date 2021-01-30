@@ -5,7 +5,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
 
 import io.github.erde.editor.diagram.model.RootModel;
-import io.github.erde.wizard.ChangeDBTypeWizard;
+import io.github.erde.wizard.ChangeDialectWizard;
 
 /**
  * Changes a database dialect and convert column types from the old dialect to the new dialect.
@@ -27,7 +27,7 @@ public class ChangeDBTypeAction extends Action implements IERDEAction {
         RootModel root = (RootModel) viewer.getContents().getModel();
         WizardDialog dialog = new WizardDialog(
                 viewer.getControl().getShell(),
-                new ChangeDBTypeWizard(getCommandStack2(), root));
+                new ChangeDialectWizard(getCommandStack2(), root));
         dialog.open();
     }
 }

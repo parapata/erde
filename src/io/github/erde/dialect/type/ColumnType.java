@@ -75,10 +75,11 @@ public class ColumnType implements IColumnType, IModel {
 
     @Override
     public boolean isDecimalSupported() {
-        if (type == Types.DECIMAL
-                || type == Types.FLOAT
-                || type == Types.DOUBLE
-                || type == Types.NUMERIC) {
+        if (isSizeSupported() &&
+                (type == Types.DECIMAL
+                        || type == Types.FLOAT
+                        || type == Types.DOUBLE
+                        || type == Types.NUMERIC)) {
             return true;
         } else {
             return false;
