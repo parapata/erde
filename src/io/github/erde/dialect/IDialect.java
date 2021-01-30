@@ -129,8 +129,7 @@ public interface IDialect {
             createTableDDL(root, table, ddl, additions);
         }
 
-        for (TableModel table : tables) {
-            createForeignKey(root, table, additions);
+        for (TableModel table : tables) {            createForeignKey(root, table, additions);
         }
 
         for (TableModel table : tables) {
@@ -297,7 +296,7 @@ public interface IDialect {
                 ddl.append(String.format("(%d, %d)", columnModel.getColumnSize(), columnModel.getDecimal()));
             }
         }
-        if (columnModel.getColumnType().isUnsignedSupported()) {
+        if (columnModel.getColumnType().isUnsignedSupported() && columnModel.isUnsigned()) {
             ddl.append(" UNSIGNED");
         }
         if (columnModel.isNotNull()) {
@@ -320,6 +319,10 @@ public interface IDialect {
      */
     default String getColumnMetadataSQL(String tableName) {
         return String.format("SELECT * FROM %s", tableName);
+    }
+
+    default String getEnumMetadataSQL() {
+        return "";
     }
 
     /**

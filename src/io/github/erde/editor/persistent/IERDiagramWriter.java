@@ -129,7 +129,7 @@ public interface IERDiagramWriter {
                         column.setDecimal(columnModel.getDecimal());
                     }
                 }
-                if (columnModel.isUnsigned()) {
+                if (columnModel.getColumnType().isUnsignedSupported()) {
                     column.setUnsigned(columnModel.isUnsigned());
                 }
             }

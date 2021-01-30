@@ -34,7 +34,7 @@ import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.DomainModel;
-import io.github.erde.editor.dialog.EnumEditDialog;
+import io.github.erde.editor.dialog.enumeration.EnumEditDialog;
 import io.github.erde.editor.dialog.parts.NumericVerifyListener;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
@@ -476,12 +476,19 @@ public class AttributeTabCreator implements IMessages {
                 btnChkUnsigned.setEnabled((columnType.isUnsignedSupported()));
             }
 
+            // -----
             if (columnType.isEnum()) {
                 cmbEnum.setItems(column.getEnumNames().toArray(new String[0]));
+                if (cmbEnum.getItemCount() > 0) {
+                    cmbEnum.select(0);
+                } else {
+                    cmbEnum.select(-1);
+                }
                 cmbEnum.setEnabled(true);
                 btnEnumEdit.setEnabled(true);
             } else {
                 cmbEnum.setItems();
+                cmbEnum.select(-1);
                 cmbEnum.setEnabled(false);
                 btnEnumEdit.setEnabled(false);
             }
