@@ -1,6 +1,8 @@
 package io.github.erde.dialect;
 
-import java.sql.Types;
+import static io.github.erde.dialect.DialectProvider.*;
+import static java.sql.Types.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,18 +27,18 @@ import io.github.erde.editor.validator.DiagramErrorManager;
 public class OracleDialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance("NUMBER", resource.getString("type.numeric"), true, Types.NUMERIC),
-            ColumnType.newInstance("INTEGER", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("BINARY_FLOAT", resource.getString("type.bit"), false, Types.FLOAT),
-            ColumnType.newInstance("DOUBLE PRECISION", resource.getString("type.real"), false, Types.DOUBLE),
-            ColumnType.newInstance("VARCHAR2", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("CHAR", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("CLOB", resource.getString("type.string"), true, Types.CLOB),
-            ColumnType.newInstance("LONG", resource.getString("type.string"), false, Types.CLOB),
-            ColumnType.newInstance("DATE", resource.getString("type.date"), false, Types.DATE),
-            ColumnType.newInstance("TIMESTAMP", resource.getString("type.date"), false, Types.TIMESTAMP),
-            ColumnType.newInstance("RAW", resource.getString("type.binary"), false, Types.BINARY),
-            ColumnType.newInstance("BLOB", resource.getString("type.binary"), false, Types.BLOB));
+            ColumnType.newInstance(Oracle, "NUMBER", "type.numeric", true, NUMERIC),
+            ColumnType.newInstance(Oracle, "INTEGER", "type.integer", false, INTEGER),
+            ColumnType.newInstance(Oracle, "BINARY_FLOAT", "type.bit", false, FLOAT),
+            ColumnType.newInstance(Oracle, "DOUBLE PRECISION", "type.real", false, DOUBLE),
+            ColumnType.newInstance(Oracle, "VARCHAR2", "type.string", true, VARCHAR),
+            ColumnType.newInstance(Oracle, "CHAR", "type.char", true, CHAR),
+            ColumnType.newInstance(Oracle, "CLOB", "type.string", true, CLOB),
+            ColumnType.newInstance(Oracle, "LONG", "type.string", false, CLOB),
+            ColumnType.newInstance(Oracle, "DATE", "type.date", false, DATE),
+            ColumnType.newInstance(Oracle, "TIMESTAMP", "type.date", false, TIMESTAMP),
+            ColumnType.newInstance(Oracle, "RAW", "type.binary", false, BINARY),
+            ColumnType.newInstance(Oracle, "BLOB", "type.binary", false, BLOB));
 
     public OracleDialect() {
         super(COLUMN_TYPES);

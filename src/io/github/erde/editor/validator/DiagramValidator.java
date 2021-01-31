@@ -57,7 +57,7 @@ public class DiagramValidator implements IMessages {
                 validateTable(deManager, model, table);
             }
         }
-        String dialectName = model.getDialectName();
+        String dialectName = model.getDialectProvider().name();
         IDialect dialect = DialectProvider.getDialect(dialectName);
         dialect.validate(deManager, model);
 

@@ -237,7 +237,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
 
         Shell shell = viewer.getControl().getShell();
         RootModel root = getRootModel(viewer);
-        String dialectName = root.getDialectName();
+        String dialectName = root.getDialectProvider().name();
         List<DomainModel> domains = root.getDomains();
 
         TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, false, null, domains);
@@ -261,7 +261,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
 
         Shell shell = viewer.getControl().getShell();
         RootModel root = getRootModel(viewer);
-        String dialectName = root.getDialectName();
+        String dialectName = root.getDialectProvider().name();
         List<DomainModel> domains = root.getDomains();
 
         TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, true, editIndex, domains);

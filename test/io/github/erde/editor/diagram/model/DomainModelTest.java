@@ -4,15 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.type.ColumnType;
 
 class DomainModelTest {
 
     @Test
     void testClone() {
-
-        ColumnType columnType = ColumnType.newInstance("physicaName", "logicalName", true, 5);
-        DomainModel expected = DomainModel.newInstance("1", "domain_name", columnType, 10, 3, true);
+        DialectProvider provider = DialectProvider.MySQL;
+        ColumnType columnType = ColumnType.newInstance(provider, "physicaName", "logicalName", true, 5);
+        DomainModel expected = DomainModel.newInstance(provider, "1", "domain_name", columnType, 10, 3, true);
 
         DomainModel actual = expected.clone();
         assertEquals(expected.getColumnSize(), actual.getColumnSize());

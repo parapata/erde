@@ -13,6 +13,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import io.github.erde.IMessages;
 import io.github.erde.core.util.FontPropertyDescriptor;
 import io.github.erde.core.util.FontPropertyDescriptor.FontDataWrapper;
+import io.github.erde.dialect.DialectProvider;
 
 /**
  * The root model of the ER diagram.
@@ -31,7 +32,7 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
     public static final String P_DOMAINS = "p_domains";
     public static final String P_FONT = "p_font";
 
-    private String dialectName;
+    private DialectProvider dialectProvider;
     private String schemaName;
     private boolean lowercase;
     private boolean logicalMode;
@@ -51,7 +52,7 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
     private List<DomainModel> domains = new ArrayList<>();
 
     public void copyFrom(RootModel model) {
-        setDialectName(model.getDialectName());
+        setDialectProvider(model.getDialectProvider());
         setLowercase(model.isLowercase());
         setLogicalMode(model.isLogicalMode());
         setIncludeView(model.isIncludeView());
@@ -73,12 +74,12 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
         firePropertyChange(P_CHILDREN, null, null);
     }
 
-    public String getDialectName() {
-        return StringUtils.defaultString(dialectName);
+    public DialectProvider getDialectProvider() {
+        return dialectProvider;
     }
 
-    public void setDialectName(String dialectName) {
-        this.dialectName = StringUtils.defaultString(dialectName);
+    public void setDialectProvider(DialectProvider dialectProvider) {
+        this.dialectProvider = dialectProvider;
     }
 
     public String getSchemaName() {

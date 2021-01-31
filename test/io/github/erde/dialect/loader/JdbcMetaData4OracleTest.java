@@ -5,11 +5,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-class JdbcMetaData4MySQLTest extends JdbcMetaDataTest {
+class JdbcMetaData4OracleTest extends JdbcMetaDataTest {
 
     @BeforeAll
     static void beforeAll() throws Exception {
-        init("jdbc/MySQL.properties");
+        init("jdbc/Oracle.properties");
     }
 
     @AfterAll

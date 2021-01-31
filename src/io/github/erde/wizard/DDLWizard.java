@@ -15,7 +15,6 @@ import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 import io.github.erde.Activator;
 import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
-import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.wizard.page.DDLWizardPage;
@@ -58,7 +57,7 @@ public class DDLWizard extends FileSystemExportWizard implements IMessages {
 
     @Override
     public boolean performFinish() {
-        IDialect dialect = DialectProvider.getDialect(root.getDialectName());
+        IDialect dialect = root.getDialectProvider().getDialect();
         dialect.setSchema(page.getSchema().getSelection());
         dialect.setDrop(page.getDrop().getSelection());
         dialect.setComment(page.getComment().getSelection());

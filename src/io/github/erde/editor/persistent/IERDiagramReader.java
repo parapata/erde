@@ -11,6 +11,7 @@ import javax.xml.bind.JAXB;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import io.github.erde.Activator;
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IndexType;
@@ -42,26 +43,26 @@ public interface IERDiagramReader {
 
         ErdeXmlModel erde = JAXB.unmarshal(is, ErdeXmlModel.class);
 
-        RootModel result = new RootModel();
-        result.setDialectName(erde.getDialectName());
-        result.setSchemaName(erde.getSchemaName());
-        result.setLowercase(erde.isLowerCase());
-        result.setLogicalMode(erde.isLogicalMode());
-        result.setIncludeView(erde.isIncludeView());
-        result.setNotation(erde.getNotation());
+        RootModel rootModel = new RootModel();
+        rootModel.setDialectProvider(DialectProvider.valueOf(erde.getDialectName()));
+        rootModel.setSchemaName(erde.getSchemaName());
+        rootModel.setLowercase(erde.isLowerCase());
+        rootModel.setLogicalMode(erde.isLogicalMode());
+        rootModel.setIncludeView(erde.isIncludeView());
+        rootModel.setNotation(erde.getNotation());
 
         DbSettingsXmlModel dbSettings = erde.getDbSettings();
 
-        result.setJarFile(dbSettings.getJarFile());
-        result.setJdbcDriver(dbSettings.getJdbcDriver());
-        result.setJdbcUrl(dbSettings.getJdbcUrl());
-        result.setJdbcCatalog(dbSettings.getJdbcCatalog());
-        result.setJdbcSchema(dbSettings.getJdbcSchema());
-        result.setJdbcUser(dbSettings.getJdbcUser());
-        result.setJdbcPassword(dbSettings.getJdbcUser());
+        rootModel.setJarFile(dbSettings.getJarFile());
+        rootModel.setJdbcDriver(dbSettings.getJdbcDriver());
+        rootModel.setJdbcUrl(dbSettings.getJdbcUrl());
+        rootModel.setJdbcCatalog(dbSettings.getJdbcCatalog());
+        rootModel.setJdbcSchema(dbSettings.getJdbcSchema());
+        rootModel.setJdbcUser(dbSettings.getJdbcUser());
+        rootModel.setJdbcPassword(dbSettings.getJdbcUser());
 
-        addTables(erde, result.getChildren());
-        addNotes(erde, result.getChildren());
+        addTables(erde, rootModel.getChildren());
+        addNotes(erde, rootModel.getChildren());
 
         // ForeignKeyコネクションの追加
         erde.getDiagram().getTables()
@@ -80,11 +81,11 @@ public interface IERDiagramReader {
                         foreignKeyModel.setSourceCardinality(foreignKey.getSourceCardinality());
                         foreignKeyModel.setTargetCardinality(foreignKey.getTargetCardinality());
 
-                        TableModel sourceTableModel = getTableModel(result.getTables(), foreignKey.getSourceId());
+                        TableModel sourceTableModel = getTableModel(rootModel.getTables(), foreignKey.getSourceId());
                         foreignKeyModel.setSource(sourceTableModel);
                         sourceTableModel.getModelSourceConnections().add(foreignKeyModel);
 
-                        TableModel targetTableModel = getTableModel(result.getTables(), table.getId());
+                        TableModel targetTableModel = getTableModel(rootModel.getTables(), table.getId());
                         foreignKeyModel.setTarget(targetTableModel);
                         targetTableModel.getModelTargetConnections().add(foreignKeyModel);
 
@@ -110,13 +111,13 @@ public interface IERDiagramReader {
                 .forEach(note -> {
                     String sourceId = note.getId();
                     note.getNoteConnections().forEach(target -> {
-                        addNoteConnection(sourceId, target.getTargetId(), result.getChildren());
+                        addNoteConnection(sourceId, target.getTargetId(), rootModel.getChildren());
                     });
                 });
 
-        addDomains(erde, result.getDomains());
+        addDomains(rootModel.getDialectProvider(), erde, rootModel.getDomains());
 
-        return result;
+        return rootModel;
     }
 
     private Rectangle toRectangle(LocationXmlModel location) {
@@ -138,15 +139,17 @@ public interface IERDiagramReader {
 
             LocationXmlModel location = table.getLocation();
             model.setConstraint(toRectangle(location));
-            addColumns(model, erde.getDialectName(), table.getColumns(), erde.getDomains());
+
+            addColumns(DialectProvider.valueOf(erde.getDialectName()), model, erde.getDialectName(), table.getColumns(),
+                    erde.getDomains());
             addIndices(model, table.getIndices());
 
             children.add(model);
         });
     }
 
-    private void addColumns(TableModel tableModel, String dialectName, List<ColumnXmlModel> columns,
-            List<DomainXmlModel> domains) {
+    private void addColumns(DialectProvider dialectProvider, TableModel tableModel, String dialectName,
+            List<ColumnXmlModel> columns, List<DomainXmlModel> domains) {
 
         IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
         columns.forEach(column -> {
@@ -169,6 +172,7 @@ public interface IERDiagramReader {
                 IColumnType columnType = dialect.getColumnType(domain.getType());
                 boolean unsigned = (domain.isUnsigned() != null && domain.isUnsigned());
                 DomainModel domainModel = DomainModel.newInstance(
+                        dialectProvider,
                         domain.getId(),
                         domain.getDomainName(),
                         columnType,
@@ -252,13 +256,13 @@ public interface IERDiagramReader {
                 .orElseThrow(RuntimeException::new);
     }
 
-    private void addDomains(ErdeXmlModel erde, List<DomainModel> domains) {
+    private void addDomains(DialectProvider dialectProvider, ErdeXmlModel erde, List<DomainModel> domains) {
 
         String dialectName = erde.getDialectName();
         IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
 
         erde.getDomains().forEach(domain -> {
-            DomainModel model = new DomainModel();
+            DomainModel model = new DomainModel(dialectProvider);
             model.setId(domain.getId());
             model.setDomainName(domain.getDomainName());
             model.setColumnType(dialect.getColumnType(domain.getType()));

@@ -4,6 +4,8 @@ import java.sql.Types;
 
 import org.apache.commons.lang3.SerializationUtils;
 
+import io.github.erde.IMessages;
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.model.IModel;
 
 /**
@@ -11,25 +13,33 @@ import io.github.erde.editor.diagram.model.IModel;
  *
  * @author modified by parapata
  */
-public class ColumnType implements IColumnType, IModel {
+public class ColumnType implements IColumnType, IModel, IMessages {
 
     private static final long serialVersionUID = 1L;
 
-    public static ColumnType newInstance(String physicaName, String logicalName, boolean sizeSupported, int type) {
-        ColumnType columnType = new ColumnType();
-        columnType.physicalName = physicaName;
-        columnType.logicalName = logicalName;
+    public static ColumnType newInstance(DialectProvider dialectProvider, String physicaNameKey, String logicalName,
+            boolean sizeSupported, int type) {
+        ColumnType columnType = new ColumnType(dialectProvider);
+        columnType.physicalName = physicaNameKey;
+        columnType.logicalName = resource.getString(logicalName);
         columnType.sizeSupported = sizeSupported;
         columnType.type = type;
         return columnType;
     }
 
+    private DialectProvider dialectProvider;
     private String physicalName;
     private String logicalName;
     private boolean sizeSupported;
     private int type;
 
-    public ColumnType() {
+    public ColumnType(DialectProvider dialectProvider) {
+        this.dialectProvider = dialectProvider;
+    }
+
+    @Override
+    public DialectProvider getDialectProvider() {
+        return dialectProvider;
     }
 
     @Override
@@ -88,11 +98,11 @@ public class ColumnType implements IColumnType, IModel {
 
     @Override
     public boolean isUnsignedSupported() {
-        if (isDecimalSupported()
-                || type == Types.TINYINT
-                || type == Types.SMALLINT
-                || type == Types.INTEGER
-                || type == Types.BIGINT) {
+        if (!DialectProvider.PostgreSQL.equals(dialectProvider)
+                && (type == Types.TINYINT
+                        || type == Types.SMALLINT
+                        || type == Types.INTEGER
+                        || type == Types.BIGINT)) {
             return true;
         } else {
             return false;

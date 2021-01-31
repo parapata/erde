@@ -1,6 +1,8 @@
 package io.github.erde.dialect;
 
-import java.sql.Types;
+import static io.github.erde.dialect.DialectProvider.*;
+import static java.sql.Types.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,35 +20,35 @@ import io.github.erde.editor.diagram.model.TableModel;
 public class H2Dialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance("IDENTITY", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("INT", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("INTEGER", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("BOOLEAN", resource.getString("type.boolean"), false, Types.BOOLEAN),
-            ColumnType.newInstance("BIT", resource.getString("type.boolean"), false, Types.BOOLEAN),
-            ColumnType.newInstance("BOOL", resource.getString("type.boolean"), false, Types.BOOLEAN),
-            ColumnType.newInstance("TINYINT", resource.getString("type.integer"), false, Types.TINYINT),
-            ColumnType.newInstance("BIGINT", resource.getString("type.integer"), false, Types.BIGINT),
-            ColumnType.newInstance("DECIMAL", resource.getString("type.numeric"), true, Types.DECIMAL),
-            ColumnType.newInstance("NUMBER", resource.getString("type.numeric"), true, Types.DECIMAL),
-            ColumnType.newInstance("NUMERIC", resource.getString("type.numeric"), true, Types.DECIMAL),
-            ColumnType.newInstance("DOUBLE", resource.getString("type.real"), false, Types.DOUBLE),
-            ColumnType.newInstance("FLOAT", resource.getString("type.real"), false, Types.DOUBLE),
-            ColumnType.newInstance("REAL", resource.getString("type.real"), false, Types.REAL),
-            ColumnType.newInstance("TIME", resource.getString("type.time"), false, Types.TIME),
-            ColumnType.newInstance("DATE", resource.getString("type.date"), false, Types.DATE),
-            ColumnType.newInstance("TIMESTAMP", resource.getString("type.datetime"), false, Types.TIMESTAMP),
-            ColumnType.newInstance("DATETIME", resource.getString("type.datetime"), false, Types.TIMESTAMP),
-            ColumnType.newInstance("BINATY", resource.getString("type.binary"), true, Types.BINARY),
-            ColumnType.newInstance("OBJECT", resource.getString("type.object"), false, Types.OTHER),
-            ColumnType.newInstance("VARCHAR", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("VARCHAR_CASESENSITIVE", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("VARCHAR_IGNORECASE", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("CHAR", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("CHARACTER", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("BLOB", resource.getString("type.binary"), false, Types.BLOB),
-            ColumnType.newInstance("CLOB", resource.getString("type.string"), true, Types.CLOB),
-            ColumnType.newInstance("TEXT", resource.getString("type.string"), true, Types.CLOB),
-            ColumnType.newInstance("ARRAY", resource.getString("type.string"), true, Types.ARRAY));
+            ColumnType.newInstance(H2, "IDENTITY", "type.integer", false, INTEGER),
+            ColumnType.newInstance(H2, "INT", "type.integer", false, INTEGER),
+            ColumnType.newInstance(H2, "INTEGER", "type.integer", false, INTEGER),
+            ColumnType.newInstance(H2, "BOOLEAN", "type.boolean", false, BOOLEAN),
+            ColumnType.newInstance(H2, "BIT", "type.boolean", false, BOOLEAN),
+            ColumnType.newInstance(H2, "BOOL", "type.boolean", false, BOOLEAN),
+            ColumnType.newInstance(H2, "TINYINT", "type.integer", false, TINYINT),
+            ColumnType.newInstance(H2, "BIGINT", "type.integer", false, BIGINT),
+            ColumnType.newInstance(H2, "DECIMAL", "type.numeric", true, DECIMAL),
+            ColumnType.newInstance(H2, "NUMBER", "type.numeric", true, DECIMAL),
+            ColumnType.newInstance(H2, "NUMERIC", "type.numeric", true, DECIMAL),
+            ColumnType.newInstance(H2, "DOUBLE", "type.real", false, DOUBLE),
+            ColumnType.newInstance(H2, "FLOAT", "type.real", false, DOUBLE),
+            ColumnType.newInstance(H2, "REAL", "type.real", false, REAL),
+            ColumnType.newInstance(H2, "TIME", "type.time", false, TIME),
+            ColumnType.newInstance(H2, "DATE", "type.date", false, DATE),
+            ColumnType.newInstance(H2, "TIMESTAMP", "type.datetime", false, TIMESTAMP),
+            ColumnType.newInstance(H2, "DATETIME", "type.datetime", false, TIMESTAMP),
+            ColumnType.newInstance(H2, "BINATY", "type.binary", true, BINARY),
+            ColumnType.newInstance(H2, "OBJECT", "type.object", false, OTHER),
+            ColumnType.newInstance(H2, "VARCHAR", "type.string", true, VARCHAR),
+            ColumnType.newInstance(H2, "VARCHAR_CASESENSITIVE", "type.string", true, VARCHAR),
+            ColumnType.newInstance(H2, "VARCHAR_IGNORECASE", "type.string", true, VARCHAR),
+            ColumnType.newInstance(H2, "CHAR", "type.char", true, CHAR),
+            ColumnType.newInstance(H2, "CHARACTER", "type.char", true, CHAR),
+            ColumnType.newInstance(H2, "BLOB", "type.binary", false, BLOB),
+            ColumnType.newInstance(H2, "CLOB", "type.string", true, CLOB),
+            ColumnType.newInstance(H2, "TEXT", "type.string", true, CLOB),
+            ColumnType.newInstance(H2, "ARRAY", "type.string", true, ARRAY));
 
     public H2Dialect() {
         super(COLUMN_TYPES);

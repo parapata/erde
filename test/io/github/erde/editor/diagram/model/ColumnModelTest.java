@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.type.ColumnType;
 
 class ColumnModelTest {
@@ -23,7 +24,7 @@ class ColumnModelTest {
         expected.setUniqueKey(true);
         expected.setUnsigned(true);
 
-        ColumnType columnType = ColumnType.newInstance("physicaName", "logicalName", true, 5);
+        ColumnType columnType = ColumnType.newInstance(DialectProvider.MySQL, "physicaName", "logicalName", true, 5);
         expected.setColumnType(columnType);
 
         ColumnModel actual = expected.clone();

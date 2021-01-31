@@ -1,6 +1,8 @@
 package io.github.erde.dialect;
 
-import java.sql.Types;
+import static io.github.erde.dialect.DialectProvider.*;
+import static java.sql.Types.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,35 +22,35 @@ import io.github.erde.editor.diagram.model.TableModel;
 public class MySQLDialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance("BOOL", resource.getString("type.boolean"), false, Types.BOOLEAN),
-            ColumnType.newInstance("BOOLEAN", resource.getString("type.boolean"), false, Types.BOOLEAN),
-            ColumnType.newInstance("BIT", resource.getString("type.bit"), true, Types.BIT),
-            ColumnType.newInstance("TINYINT", resource.getString("type.integer"), true, Types.TINYINT),
-            ColumnType.newInstance("SMALLINT", resource.getString("type.integer"), true, Types.SMALLINT),
-            ColumnType.newInstance("MEDIUMINT", resource.getString("type.integer"), true, Types.INTEGER),
-            ColumnType.newInstance("INT", resource.getString("type.integer"), true, Types.INTEGER),
-            ColumnType.newInstance("INTEGER", resource.getString("type.integer"), true, Types.INTEGER),
-            ColumnType.newInstance("BIGINT", resource.getString("type.integer"), true, Types.BIGINT),
-            ColumnType.newInstance("FLOAT", resource.getString("type.real"), true, Types.FLOAT),
-            ColumnType.newInstance("DOUBLE", resource.getString("type.real"), true, Types.DOUBLE),
-            ColumnType.newInstance("DECIMAL", resource.getString("type.real"), true, Types.DECIMAL),
-            ColumnType.newInstance("DEC", resource.getString("type.real"), true, Types.DECIMAL),
-            ColumnType.newInstance("DATE", resource.getString("type.date"), false, Types.DATE),
-            ColumnType.newInstance("DATETIME", resource.getString("type.datetime"), false, Types.DATE),
-            ColumnType.newInstance("TIME", resource.getString("type.time"), false, Types.TIME),
-            ColumnType.newInstance("TIMESTAMP", resource.getString("type.datetime"), false, Types.TIMESTAMP),
-            ColumnType.newInstance("YEAR", resource.getString("type.year"), false, Types.INTEGER),
-            ColumnType.newInstance("CHAR", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("CHARACTER", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("VARCHAR", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("BINARY", resource.getString("type.binary"), true, Types.BINARY),
-            ColumnType.newInstance("VARBINARY", resource.getString("type.binary"), true, Types.VARBINARY),
-            ColumnType.newInstance("BLOB", resource.getString("type.binary"), false, Types.BLOB),
-            ColumnType.newInstance("TINYTEXT", resource.getString("type.string"), false, Types.VARCHAR),
-            ColumnType.newInstance("TEXT", resource.getString("type.string"), false, Types.VARCHAR),
-            ColumnType.newInstance("MEDIUMTEXT", resource.getString("type.string"), false, Types.VARCHAR),
-            ColumnType.newInstance("LONGTEXT", resource.getString("type.string"), false, Types.VARCHAR),
-            ColumnType.newInstance("ENUM", resource.getString("type.string"), false, Types.OTHER));
+            ColumnType.newInstance(MySQL, "BOOL", "type.boolean", false, BOOLEAN),
+            ColumnType.newInstance(MySQL, "BOOLEAN", "type.boolean", false, BOOLEAN),
+            ColumnType.newInstance(MySQL, "BIT", "type.bit", true, BIT),
+            ColumnType.newInstance(MySQL, "TINYINT", "type.integer", true, TINYINT),
+            ColumnType.newInstance(MySQL, "SMALLINT", "type.integer", true, SMALLINT),
+            ColumnType.newInstance(MySQL, "MEDIUMINT", "type.integer", true, INTEGER),
+            ColumnType.newInstance(MySQL, "INT", "type.integer", true, INTEGER),
+            ColumnType.newInstance(MySQL, "INTEGER", "type.integer", true, INTEGER),
+            ColumnType.newInstance(MySQL, "BIGINT", "type.integer", true, BIGINT),
+            ColumnType.newInstance(MySQL, "FLOAT", "type.real", true, FLOAT),
+            ColumnType.newInstance(MySQL, "DOUBLE", "type.real", true, DOUBLE),
+            ColumnType.newInstance(MySQL, "DECIMAL", "type.real", true, DECIMAL),
+            ColumnType.newInstance(MySQL, "DEC", "type.real", true, DECIMAL),
+            ColumnType.newInstance(MySQL, "DATE", "type.date", false, DATE),
+            ColumnType.newInstance(MySQL, "DATETIME", "type.datetime", false, DATE),
+            ColumnType.newInstance(MySQL, "TIME", "type.time", false, TIME),
+            ColumnType.newInstance(MySQL, "TIMESTAMP", "type.datetime", false, TIMESTAMP),
+            ColumnType.newInstance(MySQL, "YEAR", "type.year", false, INTEGER),
+            ColumnType.newInstance(MySQL, "CHAR", "type.char", true, CHAR),
+            ColumnType.newInstance(MySQL, "CHARACTER", "type.char", true, CHAR),
+            ColumnType.newInstance(MySQL, "VARCHAR", "type.string", true, VARCHAR),
+            ColumnType.newInstance(MySQL, "BINARY", "type.binary", true, BINARY),
+            ColumnType.newInstance(MySQL, "VARBINARY", "type.binary", true, VARBINARY),
+            ColumnType.newInstance(MySQL, "BLOB", "type.binary", false, BLOB),
+            ColumnType.newInstance(MySQL, "TINYTEXT", "type.string", false, VARCHAR),
+            ColumnType.newInstance(MySQL, "TEXT", "type.string", false, VARCHAR),
+            ColumnType.newInstance(MySQL, "MEDIUMTEXT", "type.string", false, VARCHAR),
+            ColumnType.newInstance(MySQL, "LONGTEXT", "type.string", false, VARCHAR),
+            ColumnType.newInstance(MySQL, "ENUM", "type.string", false, OTHER));
 
     public MySQLDialect() {
         super(COLUMN_TYPES);

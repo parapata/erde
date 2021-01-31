@@ -9,7 +9,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
-import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -45,7 +44,7 @@ public class SelectedTablesDDLAction extends Action implements IERDEAction {
             }
 
             RootModel root = ((RootModel) viewer.getContents().getModel());
-            IDialect dialect = DialectProvider.getDialect(root.getDialectName());
+            IDialect dialect = root.getDialectProvider().getDialect();
 
             dialect.setSchema(false);
             dialect.setDrop(true);

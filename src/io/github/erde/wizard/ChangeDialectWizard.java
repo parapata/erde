@@ -33,14 +33,14 @@ public class ChangeDialectWizard extends Wizard implements IMessages {
 
     @Override
     public void addPages() {
-        page = new ChangeDialectWizardPage(root.getDialectName());
+        page = new ChangeDialectWizardPage(root.getDialectProvider().name());
         addPage(page);
     }
 
     @Override
     public boolean performFinish() {
         String dialectName = page.getDialectName();
-        if (!dialectName.equals(root.getDialectName())) {
+        if (!dialectName.equals(root.getDialectProvider().name())) {
             IDialect dialect = DialectProvider.getDialect(dialectName);
             for (BaseEntityModel entity : root.getChildren()) {
                 if (entity instanceof TableModel) {
@@ -52,7 +52,8 @@ public class ChangeDialectWizard extends Wizard implements IMessages {
                     table.setColumns(table.getColumns());
                 }
             }
-            root.setDialectName(dialectName);
+
+            root.setDialectProvider(DialectProvider.valueOf(dialectName));
             commandStack.execute(new ChangeDBTypeCommand());
         }
         return true;

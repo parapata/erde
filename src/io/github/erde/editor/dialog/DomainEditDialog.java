@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
-import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
@@ -77,7 +76,7 @@ public class DomainEditDialog extends Dialog implements IMessages {
             domainModels.add(clonedModel);
         }
         this.rootModel = rootModel;
-        this.dialect = DialectProvider.getDialect(rootModel.getDialectName());
+        this.dialect = rootModel.getDialectProvider().getDialect();
     }
 
     @Override
@@ -191,7 +190,9 @@ public class DomainEditDialog extends Dialog implements IMessages {
             public void widgetSelected(SelectionEvent event) {
                 IColumnType defaultType = dialect.getDefaultColumnType();
                 String domainName = String.format("%s_%d", getResource("dialog.domain.name"), domainModels.size() + 1);
-                DomainModel domain = DomainModel.newInstance(null, domainName, defaultType, null, null, false);
+
+                DomainModel domain = DomainModel.newInstance(rootModel.getDialectProvider(), null, domainName,
+                        defaultType, null, null, false);
                 domainModels.add(domain);
                 viewer.refresh();
             }

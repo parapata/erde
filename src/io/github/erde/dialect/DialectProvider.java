@@ -14,22 +14,22 @@ import io.github.erde.Activator;
 public enum DialectProvider {
 
     /** H2. */
-    H2("H2"),
+    H2,
 
     /** HSQLDB. */
-    HSQLDB("HSQLDB"),
+    HSQLDB,
 
     /** MSSQL. */
-    MSSQL("MSSQL"),
+    MSSQL,
 
     /** MySQL. */
-    MySQL("MySQL"),
+    MySQL,
 
     /** Oracle. */
-    Oracle("Oracle"),
+    Oracle,
 
     /** PostgreSQL. */
-    PostgreSQL("PostgreSQL");
+    PostgreSQL;
 
     private static Map<String, IDialect> dialectMap = Activator.getDefault().getContributedDialects();
 
@@ -41,18 +41,7 @@ public enum DialectProvider {
         return dialectMap.get(dialectName);
     }
 
-    private String dialectName;
-
-    /**
-     * Constructor.
-     *
-     * @param dialectName the dialect name
-     */
-    private DialectProvider(String dialectName) {
-        this.dialectName = dialectName;
-    }
-
-    public String getDialectName() {
-        return dialectName;
+    public IDialect getDialect() {
+        return dialectMap.get(name());
     }
 }

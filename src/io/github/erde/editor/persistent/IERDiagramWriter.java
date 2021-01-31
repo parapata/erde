@@ -37,7 +37,7 @@ public interface IERDiagramWriter {
     default ErdeXmlModel toErde(RootModel rootModel) {
         ErdeXmlModel result = new ErdeXmlModel();
 
-        result.setDialectName(rootModel.getDialectName());
+        result.setDialectName(rootModel.getDialectProvider().name());
         if (StringUtils.isNotEmpty(rootModel.getSchemaName())) {
             result.setSchemaName(rootModel.getSchemaName());
         }
