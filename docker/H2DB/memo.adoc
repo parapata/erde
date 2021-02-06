@@ -24,20 +24,10 @@
 == shell起動
 [source]
 ----
-# java -cp /opt/h2/bin/h2-1.4.200.jar org.h2.tools.Shell
+# java -cp /opt/h2/bin/h2-1.4.200.jar org.h2.tools.Shell -url jdbc:h2:/opt/h2/data/test -user sa -password ""
 
 Welcome to H2 Shell 1.4.200 (2019-10-14)
 Exit with Ctrl+C
-[Enter]   jdbc:h2:~/test
-URL       jdbc:h2:/opt/h2/data/test
-[Enter]   org.h2.Driver
-Driver
-[Enter]
-User      sa
-Password
-Type the same password again to confirm database creation.
-Password
-Connected
 Commands are case insensitive; SQL statements end with ';'
 help or ?      Display this help
 list           Toggle result list / stack trace mode
@@ -46,6 +36,5 @@ autocommit     Enable or disable autocommit
 history        Show the last 20 statements
 quit or exit   Close the connection and exit
 
-sql> quit
-Connection closed
+sql>
 ----
