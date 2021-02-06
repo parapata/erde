@@ -1,0 +1,8 @@
+version: "3"
+services:
+  db:
+    image: h2db
+    ports:
+      - "9092:9092"
+      - "5435:5435"
+      - "8082:8082"
