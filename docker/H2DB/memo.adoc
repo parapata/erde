@@ -1,5 +1,18 @@
 = Doker/H2DBコンテナ構築メモ
 
+== H2DBのイメージ作成
+[source]
+----
+> docker build -t h2db .
+----
+
+
+== H2DBコンテナ起動
+[source]
+----
+> docker up -d
+----
+
 
 == bash起動
 [source]
