@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 abstract class JdbcMetaDataTest {
 
-    private Logger logger = LoggerFactory.getLogger(JdbcMetaDataTest.class);
+    private static Logger logger = LoggerFactory.getLogger(JdbcMetaDataTest.class);
 
     private static Driver driver;
     private static Properties prop;
@@ -31,6 +31,18 @@ abstract class JdbcMetaDataTest {
             @SuppressWarnings("unchecked")
             Class<Driver> driverClass = (Class<Driver>) urlClassLoader.loadClass(prop.getProperty("driver"));
             driver = (Driver) driverClass.getDeclaredConstructor().newInstance();
+
+            logger.info("jarfile :{}", prop.getProperty("jarfile"));
+            logger.info("driver  :{}", prop.getProperty("driver"));
+            logger.info("url     :{}", prop.getProperty("url"));
+            logger.info("catalog :{}", prop.getProperty("catalog"));
+            logger.info("schem   :{}", prop.getProperty("schem"));
+            logger.info("user    :{}", prop.getProperty("user"));
+            logger.info("password:{}", prop.getProperty("password"));
+
+        } catch (Exception e) {
+            logger.error("", e);
+            throw e;
         }
     }
 
@@ -50,6 +62,9 @@ abstract class JdbcMetaDataTest {
             logger.info("Driver version          :{}", dbmd.getDriverVersion());
             logger.info("Driver major version    :{}", dbmd.getDriverMajorVersion());
             logger.info("Driver minor version    :{}", dbmd.getDriverMinorVersion());
+        } catch (Exception e) {
+            logger.error("", e);
+            throw e;
         }
     }
 
@@ -93,6 +108,9 @@ abstract class JdbcMetaDataTest {
                     logger.info("IS_NULLABLE       :{}", rs.getString("IS_NULLABLE"));
                 }
             }
+        } catch (Exception e) {
+            logger.error("", e);
+            throw e;
         }
     }
 }
