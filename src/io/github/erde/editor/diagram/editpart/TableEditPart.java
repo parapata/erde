@@ -196,7 +196,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
             }
         }
 
-        if (model.isNotNull()) {
+        if (!model.isPrimaryKey() && model.isNotNull()) {
             lblNotNull.setText("(NN)");
         }
 
