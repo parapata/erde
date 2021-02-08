@@ -2,3 +2,5 @@ version: "3"
 services:
   db:
     image: hsqldb
+    ports:
+        - "9001:9001"
