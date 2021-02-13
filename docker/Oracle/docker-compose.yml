@@ -10,3 +10,5 @@ services:
       - ORACLE_PWD=manager
       - ORACLE_SID=ORCLCDB
       - ORACLE_PDB=ORCLPDB
+      - ORACLE_CHARACTERSET=AL32UTF8
+

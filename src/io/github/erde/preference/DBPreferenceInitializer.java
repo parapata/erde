@@ -11,7 +11,7 @@ import io.github.erde.core.util.NameConverter.DictionaryEntry;
 
 /**
  * DBPreferenceInitializer.
- * 
+ *
  * @author modified by parapata
  */
 public class DBPreferenceInitializer extends AbstractPreferenceInitializer {
@@ -33,6 +33,7 @@ public class DBPreferenceInitializer extends AbstractPreferenceInitializer {
         store.setDefault(Activator.PREF_VALIDATE_FOREIGN_KEY_COLUMN_TYPE, Activator.LEVEL_ERROR);
         store.setDefault(Activator.PREF_VALIDATE_FOREIGN_KEY_COLUMN_SIZE, Activator.LEVEL_ERROR);
         store.setDefault(Activator.PREF_SHOW_GRID, true);
+        store.setDefault(Activator.PREF_ENABLED_GRID, true);
         store.setDefault(Activator.PREF_GRID_SIZE, 12);
         store.setDefault(Activator.PREF_SNAP_GEOMETRY, false);
 

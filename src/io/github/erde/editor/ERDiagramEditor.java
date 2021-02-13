@@ -485,13 +485,18 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         GraphicalViewer viewer = getGraphicalViewer();
-        viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
-                Boolean.valueOf(store.getBoolean(Activator.PREF_SHOW_GRID)));
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
                 Boolean.valueOf(store.getBoolean(Activator.PREF_SHOW_GRID)));
 
         int gridSize = store.getInt(Activator.PREF_GRID_SIZE);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_SPACING, new Dimension(gridSize, gridSize));
+
+        if (store.getBoolean(Activator.PREF_SHOW_GRID) && store.getBoolean(Activator.PREF_ENABLED_GRID)) {
+            viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.TRUE);
+        } else {
+            viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.FALSE);
+        }
+
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
                 Boolean.valueOf(store.getBoolean(Activator.PREF_SNAP_GEOMETRY)));
     }
