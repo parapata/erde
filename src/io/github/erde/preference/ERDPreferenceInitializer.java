@@ -10,11 +10,11 @@ import io.github.erde.core.util.NameConverter;
 import io.github.erde.core.util.NameConverter.DictionaryEntry;
 
 /**
- * DBPreferenceInitializer.
+ * ERDPreferenceInitializer.
  *
  * @author modified by parapata
  */
-public class DBPreferenceInitializer extends AbstractPreferenceInitializer {
+public class ERDPreferenceInitializer extends AbstractPreferenceInitializer {
 
     @Override
     public void initializeDefaultPreferences() {
@@ -36,6 +36,7 @@ public class DBPreferenceInitializer extends AbstractPreferenceInitializer {
         store.setDefault(Activator.PREF_ENABLED_GRID, true);
         store.setDefault(Activator.PREF_GRID_SIZE, 12);
         store.setDefault(Activator.PREF_SNAP_GEOMETRY, false);
+        store.setDefault(Activator.PREF_SHOW_NOT_NULL, false);
 
         StringBuilder sb = new StringBuilder();
         for (DictionaryEntry entry : NameConverter.loadDefaultDictionary()) {

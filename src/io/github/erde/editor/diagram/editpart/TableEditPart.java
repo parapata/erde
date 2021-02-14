@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.Activator;
 import io.github.erde.IMessages;
 import io.github.erde.core.util.FontPropertyDescriptor;
 import io.github.erde.editor.diagram.editpart.command.CreateConnectionCommand;
@@ -196,10 +197,10 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
             }
         }
 
-        if (!model.isPrimaryKey() && model.isNotNull()) {
+        if (model.isNotNull()
+                && Activator.getDefault().getPreferenceStore().getBoolean(Activator.PREF_SHOW_NOT_NULL)) {
             lblNotNull.setText("(NN)");
         }
-
         return new ColumnFigure[] { lblColumnName, lblColumnType, lblNotNull };
     }
 
