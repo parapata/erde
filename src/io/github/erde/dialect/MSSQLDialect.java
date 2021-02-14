@@ -1,6 +1,8 @@
 package io.github.erde.dialect;
 
-import java.sql.Types;
+import static io.github.erde.dialect.DialectProvider.*;
+import static java.sql.Types.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,36 +20,41 @@ import io.github.erde.editor.diagram.model.TableModel;
 public class MSSQLDialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance("IDENTITY", resource.getString("type.numeric"), true, Types.NUMERIC),
-            ColumnType.newInstance("BIT", resource.getString("type.bit"), false, Types.BIT),
-            ColumnType.newInstance("INT", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("BIGINT", resource.getString("type.integer"), false, Types.BIGINT),
-            ColumnType.newInstance("SMALLINT", resource.getString("type.integer"), false, Types.SMALLINT),
-            ColumnType.newInstance("TINYINT", resource.getString("type.integer"), false, Types.TINYINT),
-            ColumnType.newInstance("DECIMAL", resource.getString("type.numeric"), false, Types.DECIMAL),
-            ColumnType.newInstance("NUMERIC", resource.getString("type.numeric"), false, Types.NUMERIC),
-            ColumnType.newInstance("MONEY", resource.getString("type.money"), false, Types.DECIMAL),
-            ColumnType.newInstance("SMALLMONEY", resource.getString("type.money"), false, Types.DECIMAL),
-            ColumnType.newInstance("FLOAT", resource.getString("type.real"), true, Types.FLOAT),
-            ColumnType.newInstance("REAL", resource.getString("type.real"), false, Types.REAL),
-            ColumnType.newInstance("DATETIME", resource.getString("type.date"), false, Types.DATE), // TIMESTAMPかも？
-            ColumnType.newInstance("SMALLDATETIME", resource.getString("type.date"), false, Types.DATE), // TIMESTAMPかも？
-            ColumnType.newInstance("CHAR", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("TEXT", resource.getString("type.text"), false, Types.VARCHAR),
-            ColumnType.newInstance("VARCHAR", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("NCHAR", resource.getString("type.nchar"), true, Types.NCHAR),
-            ColumnType.newInstance("NTEXT", resource.getString("type.ntext"), false, Types.VARCHAR),
-            ColumnType.newInstance("NVARCHAR", resource.getString("type.nstring"), true, Types.NVARCHAR),
-            ColumnType.newInstance("BINARY", resource.getString("type.binary"), true, Types.BLOB),
-            ColumnType.newInstance("VARBINARY", resource.getString("type.binary"), true, Types.BLOB),
-            ColumnType.newInstance("TIMESTAMP", resource.getString("type.timestamp"), false, Types.BINARY),
-            ColumnType.newInstance("SQL_VARIANT", resource.getString("type.variant"), false, Types.OTHER),
-            ColumnType.newInstance("UNIQUEIDENTIFIER", resource.getString("type.guid"), false, Types.OTHER),
-            ColumnType.newInstance("XML", resource.getString("type.xml"), false, Types.OTHER));
+            ColumnType.newInstance(MSSQL, "IDENTITY", "type.numeric", true, NUMERIC),
+            ColumnType.newInstance(MSSQL, "BIT", "type.bit", false, BIT),
+            ColumnType.newInstance(MSSQL, "INT", "type.integer", false, INTEGER),
+            ColumnType.newInstance(MSSQL, "BIGINT", "type.integer", false, BIGINT),
+            ColumnType.newInstance(MSSQL, "SMALLINT", "type.integer", false, SMALLINT),
+            ColumnType.newInstance(MSSQL, "TINYINT", "type.integer", false, TINYINT),
+            ColumnType.newInstance(MSSQL, "DECIMAL", "type.numeric", false, DECIMAL),
+            ColumnType.newInstance(MSSQL, "NUMERIC", "type.numeric", false, NUMERIC),
+            ColumnType.newInstance(MSSQL, "MONEY", "type.money", false, DECIMAL),
+            ColumnType.newInstance(MSSQL, "SMALLMONEY", "type.money", false, DECIMAL),
+            ColumnType.newInstance(MSSQL, "FLOAT", "type.real", true, FLOAT),
+            ColumnType.newInstance(MSSQL, "REAL", "type.real", false, REAL),
+            ColumnType.newInstance(MSSQL, "DATETIME", "type.date", false, DATE), // TIMESTAMPかも？
+            ColumnType.newInstance(MSSQL, "SMALLDATETIME", "type.date", false, DATE), // TIMESTAMPかも？
+            ColumnType.newInstance(MSSQL, "CHAR", "type.char", true, CHAR),
+            ColumnType.newInstance(MSSQL, "TEXT", "type.text", false, VARCHAR),
+            ColumnType.newInstance(MSSQL, "VARCHAR", "type.string", true, VARCHAR),
+            ColumnType.newInstance(MSSQL, "NCHAR", "type.nchar", true, NCHAR),
+            ColumnType.newInstance(MSSQL, "NTEXT", "type.ntext", false, VARCHAR),
+            ColumnType.newInstance(MSSQL, "NVARCHAR", "type.nstring", true, NVARCHAR),
+            ColumnType.newInstance(MSSQL, "BINARY", "type.binary", true, BLOB),
+            ColumnType.newInstance(MSSQL, "VARBINARY", "type.binary", true, BLOB),
+            ColumnType.newInstance(MSSQL, "TIMESTAMP", "type.timestamp", false, BINARY),
+            ColumnType.newInstance(MSSQL, "SQL_VARIANT", "type.variant", false, OTHER),
+            ColumnType.newInstance(MSSQL, "UNIQUEIDENTIFIER", "type.guid", false, OTHER),
+            ColumnType.newInstance(MSSQL, "XML", "type.xml", false, OTHER));
 
     public MSSQLDialect() {
         super(COLUMN_TYPES);
         setSeparator(LS + "go");
+    }
+
+    @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.MSSQL;
     }
 
     @Override

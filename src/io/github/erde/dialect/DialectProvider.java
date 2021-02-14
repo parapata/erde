@@ -1,10 +1,8 @@
 package io.github.erde.dialect;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import io.github.erde.Activator;
 
@@ -13,26 +11,37 @@ import io.github.erde.Activator;
  *
  * @author modified by parapata
  */
-public class DialectProvider {
+public enum DialectProvider {
 
-    private static Map<String, IDialect> dialects = Activator.getDefault().getContributedDialects();
+    /** H2. */
+    H2,
 
-    public static IDialect[] getDialects() {
-        Iterator<IDialect> ite = dialects.values().iterator();
-        List<IDialect> dialects = new ArrayList<>();
-        while (ite.hasNext()) {
-            dialects.add(ite.next());
-        }
-        return dialects.toArray(new IDialect[dialects.size()]);
+    /** HSQLDB. */
+    HSQLDB,
+
+    /** MSSQL. */
+    MSSQL,
+
+    /** MySQL. */
+    MySQL,
+
+    /** Oracle. */
+    Oracle,
+
+    /** PostgreSQL. */
+    PostgreSQL;
+
+    private static Map<String, IDialect> dialectMap = Activator.getDefault().getContributedDialects();
+
+    public static List<String> getDialectNames() {
+        return new ArrayList<>(dialectMap.keySet());
     }
 
-    public static String[] getDialectNames() {
-        Set<String> set = dialects.keySet();
-        return set.toArray(new String[set.size()]);
+    public static IDialect getDialect(String dialectName) {
+        return dialectMap.get(dialectName);
     }
 
-    public static IDialect getDialect(String dbName) {
-        return dialects.get(dbName);
+    public IDialect getDialect() {
+        return dialectMap.get(name());
     }
-
 }

@@ -1,0 +1,42 @@
+= MySQLメモ
+
+== bash起動
+[source]
+----
+docker-compose exec db bash
+----
+
+
+== MySQL接続(root)
+[source]
+----
+docker-compose exec db bash -c "mysql -uroot -proot"
+----
+
+
+== MySQL接続(demo)
+[source]
+----
+docker-compose exec db bash -c "mysql -udemo -pdemo demo"
+----
+
+
+== MySQL設定確認
+----
+-- 文字コード確認
+show variables like '%char%';
+
+-- ユーザ情報参照
+select Host, User from mysql.user;
+----
+
+
+== MySQLバージョン確認
+[source]
+----
+docker-compose exec db mysql -V
+----
+
+
+== 参考
+* https://qiita.com/ucan-lab/items/b094dbfc12ac1cbee8cb

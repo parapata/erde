@@ -53,6 +53,7 @@ public class Activator extends AbstractUIPlugin implements IMessages {
     public static final String PREF_VALIDATE_FOREIGN_KEY_COLUMN_TYPE = "pref_validate_foreign_key_column_type";
     public static final String PREF_VALIDATE_FOREIGN_KEY_COLUMN_SIZE = "pref_validate_foreign_key_column_size";
     public static final String PREF_SHOW_GRID = "pref_show_grid";
+    public static final String PREF_ENABLED_GRID = "pref_enabled_grid";
     public static final String PREF_GRID_SIZE = "pref_grid_size";
     public static final String PREF_SNAP_GEOMETRY = "pref_snap_geometry";
     public static final String PREF_SHOW_NOT_NULL = "pref_show_notnull";

@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.Activator;
 import io.github.erde.IMessages;
 import io.github.erde.core.util.FontPropertyDescriptor;
 import io.github.erde.editor.diagram.editpart.command.CreateConnectionCommand;
@@ -196,10 +197,10 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
             }
         }
 
-        if (model.isNotNull()) {
+        if (model.isNotNull()
+                && Activator.getDefault().getPreferenceStore().getBoolean(Activator.PREF_SHOW_NOT_NULL)) {
             lblNotNull.setText("(NN)");
         }
-
         return new ColumnFigure[] { lblColumnName, lblColumnType, lblNotNull };
     }
 
@@ -237,7 +238,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
 
         Shell shell = viewer.getControl().getShell();
         RootModel root = getRootModel(viewer);
-        String dialectName = root.getDialectName();
+        String dialectName = root.getDialectProvider().name();
         List<DomainModel> domains = root.getDomains();
 
         TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, false, null, domains);
@@ -261,7 +262,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
 
         Shell shell = viewer.getControl().getShell();
         RootModel root = getRootModel(viewer);
-        String dialectName = root.getDialectName();
+        String dialectName = root.getDialectProvider().name();
         List<DomainModel> domains = root.getDomains();
 
         TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, true, editIndex, domains);

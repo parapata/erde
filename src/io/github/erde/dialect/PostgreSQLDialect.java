@@ -1,6 +1,8 @@
 package io.github.erde.dialect;
 
-import java.sql.Types;
+import static io.github.erde.dialect.DialectProvider.*;
+import static java.sql.Types.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,34 +20,39 @@ import io.github.erde.editor.diagram.model.TableModel;
 public class PostgreSQLDialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance("SERIAL", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("BIGSERIAL", resource.getString("type.integer"), false, Types.BIGINT),
-            ColumnType.newInstance("BIGINT", resource.getString("type.integer"), false, Types.BIGINT),
-            ColumnType.newInstance("BIT", resource.getString("type.bit"), true, Types.BIT),
-            ColumnType.newInstance("VARBIT", resource.getString("type.bit"), true, Types.BIT),
-            ColumnType.newInstance("BOOLEAN", resource.getString("type.boolean"), false, Types.BOOLEAN),
-            ColumnType.newInstance("BYTEA", resource.getString("type.binary"), false, Types.BINARY),
-            ColumnType.newInstance("VARCHAR", resource.getString("type.string"), true, Types.VARCHAR),
-            ColumnType.newInstance("CHARACTER", resource.getString("type.char"), true, Types.CHAR),
-            ColumnType.newInstance("DATE", resource.getString("type.date"), false, Types.DATE),
-            ColumnType.newInstance("INTEGER", resource.getString("type.integer"), false, Types.INTEGER),
-            ColumnType.newInstance("NUMERIC", resource.getString("type.numeric"), true, Types.NUMERIC),
-            ColumnType.newInstance("REAL", resource.getString("type.real"), false, Types.REAL),
-            ColumnType.newInstance("SMALLINT", resource.getString("type.integer"), false, Types.SMALLINT),
-            ColumnType.newInstance("TEXT", resource.getString("type.string"), false, Types.VARCHAR),
-            ColumnType.newInstance("TIME", resource.getString("type.time"), false, Types.TIME),
-            ColumnType.newInstance("TIMESTAMP", resource.getString("type.datetime"), false, Types.TIMESTAMP),
-            ColumnType.newInstance("SERIAL", resource.getString("type.serial"), false, Types.INTEGER),
-            ColumnType.newInstance("BIGSERIAL", resource.getString("type.serial"), false, Types.BIGINT),
-            ColumnType.newInstance("XML", resource.getString("type.xml"), false, Types.SQLXML),
-            ColumnType.newInstance("INTERVAL", resource.getString("type.interval"), false, Types.OTHER),
-            ColumnType.newInstance("INET", resource.getString("type.networkaddress"), false, Types.OTHER),
-            ColumnType.newInstance("CIDR", resource.getString("type.networkaddress"), false, Types.OTHER),
-            ColumnType.newInstance("MACADDR", resource.getString("type.macaddress"), false, Types.OTHER));
+            ColumnType.newInstance(PostgreSQL, "SERIAL", "type.integer", false, INTEGER),
+            ColumnType.newInstance(PostgreSQL, "BIGSERIAL", "type.integer", false, BIGINT),
+            ColumnType.newInstance(PostgreSQL, "BIGINT", "type.integer", false, BIGINT),
+            ColumnType.newInstance(PostgreSQL, "BIT", "type.bit", true, BIT),
+            ColumnType.newInstance(PostgreSQL, "VARBIT", "type.bit", true, BIT),
+            ColumnType.newInstance(PostgreSQL, "BOOLEAN", "type.boolean", false, BOOLEAN),
+            ColumnType.newInstance(PostgreSQL, "BYTEA", "type.binary", false, BINARY),
+            ColumnType.newInstance(PostgreSQL, "VARCHAR", "type.string", true, VARCHAR),
+            ColumnType.newInstance(PostgreSQL, "CHARACTER", "type.char", true, CHAR),
+            ColumnType.newInstance(PostgreSQL, "DATE", "type.date", false, DATE),
+            ColumnType.newInstance(PostgreSQL, "INTEGER", "type.integer", false, INTEGER),
+            ColumnType.newInstance(PostgreSQL, "NUMERIC", "type.numeric", true, NUMERIC),
+            ColumnType.newInstance(PostgreSQL, "REAL", "type.real", false, REAL),
+            ColumnType.newInstance(PostgreSQL, "SMALLINT", "type.integer", false, SMALLINT),
+            ColumnType.newInstance(PostgreSQL, "TEXT", "type.string", false, VARCHAR),
+            ColumnType.newInstance(PostgreSQL, "TIME", "type.time", false, TIME),
+            ColumnType.newInstance(PostgreSQL, "TIMESTAMP", "type.datetime", false, TIMESTAMP),
+            ColumnType.newInstance(PostgreSQL, "SERIAL", "type.serial", false, INTEGER),
+            ColumnType.newInstance(PostgreSQL, "BIGSERIAL", "type.serial", false, BIGINT),
+            ColumnType.newInstance(PostgreSQL, "XML", "type.xml", false, SQLXML),
+            ColumnType.newInstance(PostgreSQL, "INTERVAL", "type.interval", false, OTHER),
+            ColumnType.newInstance(PostgreSQL, "INET", "type.networkaddress", false, OTHER),
+            ColumnType.newInstance(PostgreSQL, "CIDR", "type.networkaddress", false, OTHER),
+            ColumnType.newInstance(PostgreSQL, "MACADDR", "type.macaddress", false, OTHER));
 
     public PostgreSQLDialect() {
         super(COLUMN_TYPES);
         setAutoIncrement(false);
+    }
+
+    @Override
+    public DialectProvider getDialectProvider() {
+        return DialectProvider.PostgreSQL;
     }
 
     @Override

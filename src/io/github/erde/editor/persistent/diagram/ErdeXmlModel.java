@@ -33,6 +33,7 @@ import io.github.erde.editor.persistent.adapter.BooleanAdapter;
  *         &lt;element ref="{}logicalMode"/&gt;
  *         &lt;element ref="{}includeView"/&gt;
  *         &lt;element ref="{}notation"/&gt;
+ *         &lt;element ref="{}zoom"/&gt;
  *         &lt;element ref="{}dbSettings"/&gt;
  *         &lt;element ref="{}diagram"/&gt;
  *         &lt;group ref="{}domains"/&gt;
@@ -54,6 +55,7 @@ import io.github.erde.editor.persistent.adapter.BooleanAdapter;
     "logicalMode",
     "includeView",
     "notation",
+    "zoom",
     "dbSettings",
     "diagram",
     "domains"
@@ -87,6 +89,7 @@ public class ErdeXmlModel
     @XmlElement(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String notation;
+    protected double zoom;
     @XmlElement(required = true)
     protected DbSettingsXmlModel dbSettings;
     @XmlElement(required = true)
@@ -284,6 +287,22 @@ public class ErdeXmlModel
      */
     public void setNotation(String value) {
         this.notation = value;
+    }
+
+    /**
+     * zoomプロパティの値を取得します。
+     * 
+     */
+    public double getZoom() {
+        return zoom;
+    }
+
+    /**
+     * zoomプロパティの値を設定します。
+     * 
+     */
+    public void setZoom(double value) {
+        this.zoom = value;
     }
 
     /**

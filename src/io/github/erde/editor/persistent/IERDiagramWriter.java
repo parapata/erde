@@ -37,7 +37,7 @@ public interface IERDiagramWriter {
     default ErdeXmlModel toErde(RootModel rootModel) {
         ErdeXmlModel result = new ErdeXmlModel();
 
-        result.setDialectName(rootModel.getDialectName());
+        result.setDialectName(rootModel.getDialectProvider().name());
         if (StringUtils.isNotEmpty(rootModel.getSchemaName())) {
             result.setSchemaName(rootModel.getSchemaName());
         }
@@ -45,6 +45,9 @@ public interface IERDiagramWriter {
         result.setLogicalMode(rootModel.isLogicalMode());
         result.setIncludeView(rootModel.isIncludeView());
         result.setNotation(rootModel.getNotation());
+        if (rootModel.getZoom() != 1.0D) {
+            result.setZoom(rootModel.getZoom());
+        }
 
         ObjectFactory factory = new ObjectFactory();
 

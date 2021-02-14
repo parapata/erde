@@ -4,15 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.parapata.erde</groupId>
     <artifactId>io.github.erde</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <packaging>eclipse-plugin</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <tycho-version>1.7.0</tycho-version>
-        <ui.test.vmargs>-XstartOnFirstThread</ui.test.vmargs>
+        <tycho-version>2.2.0</tycho-version>
     </properties>
     <repositories>
         <repository>
@@ -112,13 +111,11 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>2.5.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -212,7 +209,7 @@
                     <finalName>erde-${version}</finalName>
                 </configuration>
             </plugin>
-        </plugins>
 
+        </plugins>
     </build>
 </project>

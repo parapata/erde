@@ -3,6 +3,8 @@ package io.github.erde.preference;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -25,6 +27,7 @@ public class ERDPreferencePage extends PreferencePage implements IMessages, IWor
 
     private BooleanFieldEditor showGrid;
     private SpinnerFieldEditor gridSize;
+    private BooleanFieldEditor enabledGrid;
     private BooleanFieldEditor snapToGeometry;
     private BooleanFieldEditor showNotNull;
 
@@ -42,10 +45,22 @@ public class ERDPreferencePage extends PreferencePage implements IMessages, IWor
         Group layoutGroup = new Group(composite, SWT.NULL);
         layoutGroup.setText(getResource("preference.layout"));
         layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        showGrid = new BooleanFieldEditor(Activator.PREF_SHOW_GRID, getResource("preference.layout.showGrid"),
-                layoutGroup);
+
+        showGrid = new BooleanFieldEditor(Activator.PREF_SHOW_GRID,
+                getResource("preference.layout.showGrid"), layoutGroup);
+        showGrid.setPropertyChangeListener(new IPropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent event) {
+                enabledGrid.setEnabled(showGrid.getBooleanValue(), layoutGroup);
+            }
+        });
+
         gridSize = new SpinnerFieldEditor(Activator.PREF_GRID_SIZE, getResource("preference.layout.gridSize"), 1, 100,
                 layoutGroup);
+
+        enabledGrid = new BooleanFieldEditor(Activator.PREF_ENABLED_GRID, getResource("preference.layout.enabledGrid"),
+                layoutGroup);
+
         snapToGeometry = new BooleanFieldEditor(Activator.PREF_SNAP_GEOMETRY,
                 getResource("preference.layout.snapToGeometry"), layoutGroup);
         layoutGroup.setLayout(new GridLayout(3, false));
@@ -60,8 +75,29 @@ public class ERDPreferencePage extends PreferencePage implements IMessages, IWor
 
         // Initializes values
         fillInitialValues();
+        enabledGrid.setEnabled(showGrid.getBooleanValue(), layoutGroup);
 
         return composite;
+    }
+
+    @Override
+    protected void performDefaults() {
+        super.performDefaults();
+        showGrid.loadDefault();
+        gridSize.loadDefault();
+        enabledGrid.loadDefault();
+        snapToGeometry.loadDefault();
+        showNotNull.loadDefault();
+    }
+
+    @Override
+    public boolean performOk() {
+        showGrid.store();
+        gridSize.store();
+        enabledGrid.store();
+        snapToGeometry.store();
+        showNotNull.store();
+        return true;
     }
 
     private void fillInitialValues() {
@@ -73,19 +109,13 @@ public class ERDPreferencePage extends PreferencePage implements IMessages, IWor
         gridSize.setPreferenceStore(store);
         gridSize.load();
 
+        enabledGrid.setPreferenceStore(store);
+        enabledGrid.load();
+
         snapToGeometry.setPreferenceStore(store);
         snapToGeometry.load();
 
         showNotNull.setPreferenceStore(store);
         showNotNull.load();
-    }
-
-    @Override
-    public boolean performOk() {
-        showGrid.store();
-        gridSize.store();
-        snapToGeometry.store();
-        showNotNull.store();
-        return true;
     }
 }

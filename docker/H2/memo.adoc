@@ -1,0 +1,40 @@
+= Doker/H2DBコンテナ構築メモ
+
+== H2DBのイメージ作成
+[source]
+----
+> docker build -t h2db .
+----
+
+
+== H2DBコンテナ起動
+[source]
+----
+> docker up -d
+----
+
+
+== bash起動
+[source]
+----
+> docker-compose exec db bash
+----
+
+
+== shell起動
+[source]
+----
+# java -cp /opt/h2/bin/h2-1.4.200.jar org.h2.tools.Shell -url jdbc:h2:/opt/h2/data/test -user sa -password ""
+
+Welcome to H2 Shell 1.4.200 (2019-10-14)
+Exit with Ctrl+C
+Commands are case insensitive; SQL statements end with ';'
+help or ?      Display this help
+list           Toggle result list / stack trace mode
+maxwidth       Set maximum column width (default is 100)
+autocommit     Enable or disable autocommit
+history        Show the last 20 statements
+quit or exit   Close the connection and exit
+
+sql>
+----

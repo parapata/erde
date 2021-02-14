@@ -2,11 +2,8 @@ package io.github.erde.dialect;
 
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,53 +28,16 @@ import io.github.erde.editor.validator.DiagramErrorManager;
  */
 public interface IDialect {
 
-    private static Map<String, Integer> createMap() {
-        Map<String, Integer> map = new LinkedHashMap<>();
-        map.put("TINYINT", Types.TINYINT);
-        map.put("SMALLINT", Types.SMALLINT);
-        map.put("INTEGER", Types.INTEGER);
-        map.put("BIGINT", Types.BIGINT);
-        map.put("FLOAT", Types.FLOAT);
-        map.put("REAL", Types.REAL);
-        map.put("DOUBLE", Types.DOUBLE);
-        map.put("NUMERIC", Types.NUMERIC);
-        map.put("DECIMAL", Types.DECIMAL);
-        map.put("CHAR", Types.CHAR);
-        map.put("VARCHAR", Types.VARCHAR);
-        map.put("LONGVARCHAR", Types.LONGVARCHAR);
-        map.put("DATE", Types.DATE);
-        map.put("TIME", Types.TIME);
-        map.put("TIMESTAMP", Types.TIMESTAMP);
-        map.put("BINARY", Types.BINARY);
-        map.put("VARBINARY", Types.VARBINARY);
-        map.put("LONGVARBINARY", Types.LONGVARBINARY);
-        map.put("NULL", Types.NULL);
-        map.put("OTHER", Types.OTHER);
-        map.put("JAVA_OBJECT", Types.JAVA_OBJECT);
-        map.put("DISTINCT", Types.DISTINCT);
-        map.put("STRUCT", Types.STRUCT);
-        map.put("BLOB", Types.BLOB);
-        map.put("CLOB", Types.CLOB);
-        map.put("DATALINK", Types.DATALINK);
-        map.put("BOOLEAN", Types.BOOLEAN);
-        map.put("ROWID", Types.ROWID);
-        map.put("NCHAR", Types.NCHAR);
-        map.put("NVARCHAR", Types.NVARCHAR);
-        map.put("LONGNVARCHAR", Types.LONGNVARCHAR);
-        map.put("NCLOB", Types.NCLOB);
-        map.put("SQLXML", Types.SQLXML);
-        map.put("REF_CURSOR", Types.REF_CURSOR);
-        map.put("TIME_WITH_TIMEZONE", Types.TIME_WITH_TIMEZONE);
-        map.put("TIMESTAMP_WITH_TIMEZONE", Types.TIMESTAMP_WITH_TIMEZONE);
-        map.put("ENUM", Types.OTHER);
-        return Collections.unmodifiableMap(map);
-    }
-
     String LS = System.getProperty("line.separator");
     String SPACE = new String(Character.toChars(0x20));
     String TAB_SPACE = SPACE + SPACE + SPACE + SPACE;
 
-    Map<String, Integer> CONST_MAP = createMap();
+    /**
+     * Get Dialect provider.
+     *
+     * @return Diarect provider
+     */
+    DialectProvider getDialectProvider();
 
     /**
      * Creates DDL from a given model.
@@ -129,7 +89,8 @@ public interface IDialect {
             createTableDDL(root, table, ddl, additions);
         }
 
-        for (TableModel table : tables) {            createForeignKey(root, table, additions);
+        for (TableModel table : tables) {
+            createForeignKey(root, table, additions);
         }
 
         for (TableModel table : tables) {

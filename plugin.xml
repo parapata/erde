@@ -73,7 +73,7 @@
 
     <extension point="org.eclipse.core.runtime.preferences">
         <initializer
-            class="io.github.erde.preference.DBPreferenceInitializer">
+            class="io.github.erde.preference.ERDPreferenceInitializer">
         </initializer>
     </extension>
 

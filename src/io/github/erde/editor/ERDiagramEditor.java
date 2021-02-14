@@ -24,7 +24,9 @@ import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -214,12 +216,31 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         viewer.setRootEditPart(rootEditPart);
 
         ZoomManager manager = rootEditPart.getZoomManager();
+        manager.addZoomListener(new ZoomListener() {
+            @Override
+            public void zoomChanged(double zoom) {
+                getCommandStack().execute(new Command("change in zoom") {
+                    @Override
+                    public void execute() {
+                        if (viewer.getContents() != null) {
+                            RootModel model = (RootModel) viewer.getContents().getModel();
+                            model.setZoom(zoom);
+                        }
+                    }
+
+                    @Override
+                    public void undo() {
+                    }
+                });
+            }
+        });
+
         ActionRegistry registry = getActionRegistry();
         registry.registerAction(new ZoomInAction(manager));
         registry.registerAction(new ZoomOutAction(manager));
 
         // 可能なスケール(拡大縮小率)のリスト
-        double[] zoomLevels = { 0.1,0.15, 0.25, 0.35, 0.5, 0.65, 0.75, 0.85, 1.0, 1.25, 1.5, 1.75 };
+        double[] zoomLevels = { 0.1, 0.15, 0.25, 0.35, 0.5, 0.65, 0.75, 0.85, 1.0, 1.25, 1.5, 1.75 };
         manager.setZoomLevels(zoomLevels);
         List<String> zoomContributions = Arrays.asList(ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT,
                 ZoomManager.FIT_WIDTH);
@@ -254,7 +275,6 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         // Zoom:-
         handler.put(KeyStroke.getPressed('-', SWT.KEYPAD_SUBTRACT, 0),
                 registry.getAction(GEFActionConstants.ZOOM_OUT));
-
     }
 
     @Override
@@ -287,6 +307,10 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         try {
             IFile file = ((IFileEditorInput) getEditorInput()).getFile();
             root = es.read(file.getContents());
+
+            ZoomManager zoomManager = ((ScalableRootEditPart) viewer.getRootEditPart()).getZoomManager();
+            zoomManager.setZoom(root.getZoom());
+
         } catch (Exception e) {
             Activator.logException(e);
             throw new SystemException(e);
@@ -299,6 +323,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     public void doSave(IProgressMonitor monitor) {
         logger.info("Call doSave : {}", monitor);
         RootModel model = (RootModel) getGraphicalViewer().getContents().getModel();
+
         IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 
         // Validate models
@@ -485,13 +510,18 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
         GraphicalViewer viewer = getGraphicalViewer();
-        viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED,
-                Boolean.valueOf(store.getBoolean(Activator.PREF_SHOW_GRID)));
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
                 Boolean.valueOf(store.getBoolean(Activator.PREF_SHOW_GRID)));
 
         int gridSize = store.getInt(Activator.PREF_GRID_SIZE);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_SPACING, new Dimension(gridSize, gridSize));
+
+        if (store.getBoolean(Activator.PREF_SHOW_GRID) && store.getBoolean(Activator.PREF_ENABLED_GRID)) {
+            viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.TRUE);
+        } else {
+            viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.FALSE);
+        }
+
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
                 Boolean.valueOf(store.getBoolean(Activator.PREF_SNAP_GEOMETRY)));
     }

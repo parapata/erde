@@ -12,20 +12,20 @@ import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 
 /**
- * ChangeDBTypeWizardPage.
+ * ChangeDialectWizardPage.
  *
  * @author modified by parapata
  */
-public class ChangeDBTypeWizardPage extends WizardPage implements IMessages {
+public class ChangeDialectWizardPage extends WizardPage implements IMessages {
 
-    private Combo dbType;
-    private String dbName;
+    private Combo cmbDialectName;
+    private String dialectName;
 
-    public ChangeDBTypeWizardPage(String dbName) {
-        super("ChangeDBTypeWizardPage");
+    public ChangeDialectWizardPage(String dialectName) {
+        super("ChangeDialectWizardPage");
         setTitle(getResource("wizard.changedb.title"));
         setDescription(getResource("wizard.changedb.description"));
-        this.dbName = dbName;
+        this.dialectName = dialectName;
     }
 
     @Override
@@ -36,17 +36,17 @@ public class ChangeDBTypeWizardPage extends WizardPage implements IMessages {
 
         UIUtils.createLabel(composite, "wizard.changedb.databaseType");
 
-        dbType = new Combo(composite, SWT.READ_ONLY);
-        for (String dbName : DialectProvider.getDialectNames()) {
-            dbType.add(dbName);
+        cmbDialectName = new Combo(composite, SWT.READ_ONLY);
+        for (String dialectName : DialectProvider.getDialectNames()) {
+            cmbDialectName.add(dialectName);
         }
 
-        dbType.setText(dbName);
+        cmbDialectName.setText(dialectName);
 
         setControl(composite);
     }
 
-    public String getDbType() {
-        return this.dbType.getText();
+    public String getDialectName() {
+        return this.cmbDialectName.getText();
     }
 }

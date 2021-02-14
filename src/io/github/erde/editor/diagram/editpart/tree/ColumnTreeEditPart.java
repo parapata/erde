@@ -54,6 +54,6 @@ public class ColumnTreeEditPart extends DBTreeEditPart {
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         logger.info("更新処理イベント発生(TreeView) : {}", event.getPropertyName());
-       super.propertyChange(event);
+        super.propertyChange(event);
     }
 }

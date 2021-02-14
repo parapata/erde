@@ -2,6 +2,7 @@ package io.github.erde.editor.diagram.model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 
@@ -15,9 +16,9 @@ public class DomainModel extends ColumnType implements IModel {
     /** . */
     private static final long serialVersionUID = 1L;
 
-    public static DomainModel newInstance(String id, String domainName, IColumnType columnType, Integer columnSize,
-            Integer decimal, boolean unsigned) {
-        DomainModel domain = new DomainModel();
+    public static DomainModel newInstance(DialectProvider dialectProvider, String id, String domainName,
+            IColumnType columnType, Integer columnSize, Integer decimal, boolean unsigned) {
+        DomainModel domain = new DomainModel(dialectProvider);
         if (StringUtils.isEmpty(id)) {
             domain.generateId();
         } else {
@@ -41,8 +42,8 @@ public class DomainModel extends ColumnType implements IModel {
     private Integer decimal;
     private boolean unsigned;
 
-    public DomainModel() {
-        super();
+    public DomainModel(DialectProvider dialectProvider) {
+        super(dialectProvider);
     }
 
     @Override
@@ -103,7 +104,8 @@ public class DomainModel extends ColumnType implements IModel {
 
     @Override
     public DomainModel clone() {
-        DomainModel newModel = DomainModel.newInstance(id, domainName, this, columnSize, decimal, unsigned);
+        DomainModel newModel = DomainModel.newInstance(getDialectProvider(), id, domainName, this, columnSize, decimal,
+                unsigned);
         return newModel;
     }
 

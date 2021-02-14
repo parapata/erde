@@ -12,7 +12,6 @@ import io.github.erde.Activator;
 import io.github.erde.core.exception.SystemException;
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.UIUtils;
-import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.loader.ISchemaLoader;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -43,7 +42,7 @@ public class ImportFromJDBCCommand extends Command {
         ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
         try {
             IRunnableWithProgress task = monitor -> {
-                IDialect dialect = DialectProvider.getDialect(root.getDialectName());
+                IDialect dialect = root.getDialectProvider().getDialect();
                 try {
                     ISchemaLoader loader = dialect.getSchemaLoader(jdbcConn);
                     loader.loadSchema(tableNames, root, monitor);
