@@ -36,6 +36,10 @@
                   </choice>
             </element>
 
+            <element name="zoom">
+                <data type="double" />
+            </element>
+
             <element name="dbSettings">
                 <element name="jarFile">
                     <text />

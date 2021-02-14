@@ -24,7 +24,9 @@ import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -214,6 +216,25 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         viewer.setRootEditPart(rootEditPart);
 
         ZoomManager manager = rootEditPart.getZoomManager();
+        manager.addZoomListener(new ZoomListener() {
+            @Override
+            public void zoomChanged(double zoom) {
+                getCommandStack().execute(new Command("change in zoom") {
+                    @Override
+                    public void execute() {
+                        if (viewer.getContents() != null) {
+                            RootModel model = (RootModel) viewer.getContents().getModel();
+                            model.setZoom(zoom);
+                        }
+                    }
+
+                    @Override
+                    public void undo() {
+                    }
+                });
+            }
+        });
+
         ActionRegistry registry = getActionRegistry();
         registry.registerAction(new ZoomInAction(manager));
         registry.registerAction(new ZoomOutAction(manager));
@@ -254,7 +275,6 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         // Zoom:-
         handler.put(KeyStroke.getPressed('-', SWT.KEYPAD_SUBTRACT, 0),
                 registry.getAction(GEFActionConstants.ZOOM_OUT));
-
     }
 
     @Override
@@ -287,6 +307,10 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         try {
             IFile file = ((IFileEditorInput) getEditorInput()).getFile();
             root = es.read(file.getContents());
+
+            ZoomManager zoomManager = ((ScalableRootEditPart) viewer.getRootEditPart()).getZoomManager();
+            zoomManager.setZoom(root.getZoom());
+
         } catch (Exception e) {
             Activator.logException(e);
             throw new SystemException(e);
@@ -299,6 +323,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     public void doSave(IProgressMonitor monitor) {
         logger.info("Call doSave : {}", monitor);
         RootModel model = (RootModel) getGraphicalViewer().getContents().getModel();
+
         IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 
         // Validate models

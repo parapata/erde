@@ -34,6 +34,7 @@ public class ObjectFactory {
     private final static QName _LogicalMode_QNAME = new QName("", "logicalMode");
     private final static QName _IncludeView_QNAME = new QName("", "includeView");
     private final static QName _Notation_QNAME = new QName("", "notation");
+    private final static QName _Zoom_QNAME = new QName("", "zoom");
     private final static QName _JarFile_QNAME = new QName("", "jarFile");
     private final static QName _JdbcDriver_QNAME = new QName("", "jdbcDriver");
     private final static QName _JdbcUrl_QNAME = new QName("", "jdbcUrl");
@@ -286,6 +287,19 @@ public class ObjectFactory {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     public JAXBElement<String> createNotation(String value) {
         return new JAXBElement<String>(_Notation_QNAME, String.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Double }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Double }{@code >}
+     */
+    @XmlElementDecl(namespace = "", name = "zoom")
+    public JAXBElement<Double> createZoom(Double value) {
+        return new JAXBElement<Double>(_Zoom_QNAME, Double.class, null, value);
     }
 
     /**

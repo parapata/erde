@@ -12,6 +12,7 @@
         <xs:element ref="logicalMode"/>
         <xs:element ref="includeView"/>
         <xs:element ref="notation"/>
+        <xs:element ref="zoom"/>
         <xs:element ref="dbSettings"/>
         <xs:element ref="diagram"/>
         <xs:group ref="domains"/>
@@ -31,6 +32,7 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="zoom" type="xs:double"/>
   <xs:element name="dbSettings">
     <xs:complexType>
       <xs:sequence>

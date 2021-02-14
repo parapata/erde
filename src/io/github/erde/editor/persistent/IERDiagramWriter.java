@@ -45,6 +45,9 @@ public interface IERDiagramWriter {
         result.setLogicalMode(rootModel.isLogicalMode());
         result.setIncludeView(rootModel.isIncludeView());
         result.setNotation(rootModel.getNotation());
+        if (rootModel.getZoom() != 1.0D) {
+            result.setZoom(rootModel.getZoom());
+        }
 
         ObjectFactory factory = new ObjectFactory();
 

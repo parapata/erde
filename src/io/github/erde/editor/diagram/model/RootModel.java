@@ -31,6 +31,7 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
     public static final String P_CHILDREN = "p_children";
     public static final String P_DOMAINS = "p_domains";
     public static final String P_FONT = "p_font";
+    public static final String P_ZOOM = "p_zoom";
 
     private DialectProvider dialectProvider;
     private String schemaName;
@@ -39,6 +40,7 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
     private boolean includeView;
     private String notation;
     private String fontData;
+    private double zoom;
 
     private String jarFile;
     private String jdbcDriver;
@@ -133,6 +135,15 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
     public void setFontData(FontData[] fontData) {
         this.fontData = PreferenceConverter.getStoredRepresentation(fontData);
         firePropertyChange(P_FONT, null, fontData);
+    }
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+        firePropertyChange(P_ZOOM, null, this.zoom);
     }
 
     public String getJarFile() {

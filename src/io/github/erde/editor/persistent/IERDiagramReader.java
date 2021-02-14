@@ -50,6 +50,7 @@ public interface IERDiagramReader {
         rootModel.setLogicalMode(erde.isLogicalMode());
         rootModel.setIncludeView(erde.isIncludeView());
         rootModel.setNotation(erde.getNotation());
+        rootModel.setZoom(erde.getZoom() == 0D ? 1.0D : erde.getZoom());
 
         DbSettingsXmlModel dbSettings = erde.getDbSettings();
 

@@ -73,7 +73,12 @@ public class RootEditPart extends AbstractERDEditPart {
                     conn.refresh();
                 }
             }
-
+        } else if (RootModel.P_ZOOM.equals(event.getPropertyName())) {
+            refresh();
+            refreshVisuals();
+            refreshChildren();
+        } else {
+            ;
         }
     }
 
