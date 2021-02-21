@@ -8,6 +8,7 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 import io.github.erde.Activator;
+import io.github.erde.preference.ERDPreferenceKey;
 
 /**
  * SQLKeywordPartitionScanner.
@@ -21,8 +22,8 @@ public class SQLKeywordPartitionScanner extends RuleBasedScanner {
             "left", "outer", "join", "having", "group", "create", "alter", "drop", "table" };
 
     public SQLKeywordPartitionScanner() {
-        IToken keyword = Activator.getDefault().getEditorColorProvider().getToken(Activator.PREF_COLOR_KEYWORD);
-        IToken other = Activator.getDefault().getEditorColorProvider().getToken(Activator.PREF_COLOR_DEFAULT);
+        IToken keyword = Activator.getDefault().getEditorColorProvider().getToken(ERDPreferenceKey.COLOR_KEYWORD);
+        IToken other = Activator.getDefault().getEditorColorProvider().getToken(ERDPreferenceKey.COLOR_DEFAULT);
 
         WordRule wordRule = new WordRule(new IWordDetector() {
             @Override

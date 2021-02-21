@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
@@ -19,7 +21,7 @@ public class ToggleNotationAction extends Action implements IERDEAction {
     public ToggleNotationAction() {
         super();
         setId(TOGGLE_NOTATION);
-        setText(getResource("action.toggleNotation"));
+        setText(ACTION_TOGGLE_NOTATION.getValue());
     }
 
     @Override

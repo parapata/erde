@@ -27,7 +27,7 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -39,7 +39,7 @@ import io.github.erde.editor.persistent.ERDiagramSerializer;
  *
  * @author modified by parapata
  */
-public class ImportFromDiagramWizardPage extends WizardPage implements IMessages {
+public class ImportFromDiagramWizardPage extends WizardPage {
 
     private IFile self;
 
@@ -49,9 +49,9 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
     private List list;
 
     public ImportFromDiagramWizardPage(IFile self, RootModel root) {
-        super(resource.getString("wizard.importFromDiagram.title"));
-        setTitle(resource.getString("wizard.importFromDiagram.title"));
-        setMessage(resource.getString("wizard.importFromDiagram.message"));
+        super(Resource.WIZARD_IMPORT_FROM_DIAGRAM_TITLE.getValue());
+        setTitle(Resource.WIZARD_IMPORT_FROM_DIAGRAM_TITLE.getValue());
+        setMessage(Resource.WIZARD_IMPORT_FROM_DIAGRAM_MESSAGE.getValue());
         this.self = self;
         this.root = root;
     }
@@ -62,13 +62,13 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
         composite.setLayout(new GridLayout(3, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createLabel(composite, "wizard.importFromDiagram.erdFile");
+        UIUtils.createLabel(composite, Resource.WIZARD_IMPORT_FROM_DIAGRAM_ERD_FILE);
         file = new Text(composite, SWT.BORDER);
         file.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         file.setEditable(false);
 
         Button browse = new Button(composite, SWT.PUSH);
-        browse.setText(resource.getString("button.browse"));
+        browse.setText(Resource.BUTTON_BROWSE.getValue());
         browse.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -76,7 +76,7 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
             }
         });
 
-        UIUtils.createLabel(composite, "wizard.new.import.tables");
+        UIUtils.createLabel(composite, Resource.WIZARD_NEW_IMPORT_TABLES);
         list = new List(composite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
         list.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -118,8 +118,8 @@ public class ImportFromDiagramWizardPage extends WizardPage implements IMessages
                 }
             };
 
-            dialog.setTitle(resource.getString("wizard.generate.browse.title"));
-            dialog.setMessage(resource.getString("wizard.generate.browse.message"));
+            dialog.setTitle(Resource.WIZARD_GENERATE_BROWSE_TITLE.getValue());
+            dialog.setMessage(Resource.WIZARD_GENERATE_BROWSE_MESSAGE.getValue());
             dialog.addFilter(filter);
             dialog.setInput(wsroot);
             dialog.setValidator(validator);

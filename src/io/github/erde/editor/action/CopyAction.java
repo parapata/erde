@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class CopyAction extends SelectionAction implements IERDEAction {
     public CopyAction(ERDiagramEditor editor, PasteAction pasteAction) {
         super(editor);
         setId(ActionFactory.COPY.getId());
-        setText(getResource("action.copy"));
+        setText(ACTION_COPY.getValue());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));

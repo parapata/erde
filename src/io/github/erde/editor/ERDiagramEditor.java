@@ -1,5 +1,7 @@
 package io.github.erde.editor;
 
+import static io.github.erde.Resource.*;
+
 import java.util.Arrays;
 import java.util.EventObject;
 import java.util.List;
@@ -70,7 +72,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.ICON;
 import io.github.erde.core.exception.SystemException;
 import io.github.erde.editor.action.CopyAction;
 import io.github.erde.editor.action.IERDEAction;
@@ -91,6 +93,7 @@ import io.github.erde.editor.validator.DiagramError;
 import io.github.erde.editor.validator.DiagramErrorManager;
 import io.github.erde.editor.validator.DiagramValidator;
 import io.github.erde.editor.validator.IERDGotoMarker;
+import io.github.erde.preference.ERDPreferenceKey;
 
 /**
  * ERDiagramEditor.
@@ -98,7 +101,7 @@ import io.github.erde.editor.validator.IERDGotoMarker;
  * @author modified by parapata
  */
 public class ERDiagramEditor extends GraphicalEditorWithPalette
-        implements IMessages, IResourceChangeListener, IPropertyChangeListener, IERDGotoMarker {
+        implements IResourceChangeListener, IPropertyChangeListener, IERDGotoMarker {
 
     private Logger logger = LoggerFactory.getLogger(ERDiagramEditor.class);
 
@@ -117,18 +120,17 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         logger.info("Call getPaletteRoot");
         PaletteRoot root = new PaletteRoot();
 
-        PaletteGroup group = new PaletteGroup(getResource("palette.tools"));
+        PaletteGroup group = new PaletteGroup(PALETTE_TOOLS.getValue());
         group.add(new SelectionToolEntry());
 
-        group.add(createEntityEntry(getResource("palette.node.table"), TableModel.class, "icons/table.gif"));
-        group.add(createConnectionEntry(getResource("palette.node.relationship"), RelationshipModel.class,
-                "icons/relation_1_n.gif"));
+        group.add(createEntityEntry(PALETTE_NODE_TABLE.getValue(), TableModel.class, ICON.TABLE.getPath()));
+        group.add(createConnectionEntry(PALETTE_NODE_RELATIONSHIP.getValue(), RelationshipModel.class, ICON.RELATION_1_N.getPath()));
 
         group.add(new PaletteSeparator());
 
-        group.add(createEntityEntry(getResource("palette.node.note"), NoteModel.class, "icons/note.gif"));
-        group.add(createConnectionEntry(getResource("palette.node.note.connector"), NoteConnectionModel.class,
-                "icons/comment_connection.gif"));
+        group.add(createEntityEntry(PALETTE_NODE_NOTE.getValue(), NoteModel.class, ICON.NOTE.getPath()));
+        group.add(createConnectionEntry(PALETTE_NODE_NOTE_CONNECTOR.getValue(), NoteConnectionModel.class,
+                ICON.COMMENT_CONNECTION.getPath()));
 
         group.add(new PaletteSeparator());
 
@@ -169,8 +171,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         registry.registerAction(deleteAction);
 
         PrintAction printAction = new PrintAction(this);
-        printAction.setText(getResource("action.print"));
-        printAction.setImageDescriptor(Activator.getImageDescriptor("icons/print.gif"));
+        printAction.setText(ACTION_PRINT.getValue());
+        printAction.setImageDescriptor(Activator.getImageDescriptor(ICON.PRINT.getPath()));
         registry.registerAction(printAction);
 
         // 整列アクションの作成
@@ -327,7 +329,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 
         // Validate models
-        if (Activator.getDefault().getPreferenceStore().getBoolean(Activator.PREF_VALIDATE_ON_SAVE)) {
+        if (Activator.getDefault().getPreferenceStore().getBoolean(ERDPreferenceKey.VALIDATE_ON_SAVE)) {
             try {
                 file.deleteMarkers(IMarker.PROBLEM, false, 0);
                 DiagramErrorManager deManager = new DiagramValidator(model).doValidate();
@@ -511,18 +513,18 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
 
         GraphicalViewer viewer = getGraphicalViewer();
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,
-                Boolean.valueOf(store.getBoolean(Activator.PREF_SHOW_GRID)));
+                Boolean.valueOf(store.getBoolean(ERDPreferenceKey.SHOW_GRID)));
 
-        int gridSize = store.getInt(Activator.PREF_GRID_SIZE);
+        int gridSize = store.getInt(ERDPreferenceKey.GRID_SIZE);
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_SPACING, new Dimension(gridSize, gridSize));
 
-        if (store.getBoolean(Activator.PREF_SHOW_GRID) && store.getBoolean(Activator.PREF_ENABLED_GRID)) {
+        if (store.getBoolean(ERDPreferenceKey.SHOW_GRID) && store.getBoolean(ERDPreferenceKey.ENABLED_GRID)) {
             viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.TRUE);
         } else {
             viewer.setProperty(SnapToGrid.PROPERTY_GRID_ENABLED, Boolean.FALSE);
         }
 
         viewer.setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED,
-                Boolean.valueOf(store.getBoolean(Activator.PREF_SNAP_GEOMETRY)));
+                Boolean.valueOf(store.getBoolean(ERDPreferenceKey.SNAP_GEOMETRY)));
     }
 }

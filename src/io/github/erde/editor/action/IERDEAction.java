@@ -3,7 +3,6 @@ package io.github.erde.editor.action;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
 
 /**
@@ -11,7 +10,7 @@ import io.github.erde.core.util.UIUtils;
  *
  * @author modified by parapata
  */
-public interface IERDEAction extends IMessages {
+public interface IERDEAction {
 
     String AUTO_LAYOUT = AutoLayoutAction.class.getName();
     String DOMAING_EDIT = DomainEditAction.class.getName();

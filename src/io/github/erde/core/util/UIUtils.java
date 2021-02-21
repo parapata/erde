@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.RootModel;
 
@@ -32,9 +32,6 @@ import io.github.erde.editor.diagram.model.RootModel;
  * @author modified by parapata
  */
 public class UIUtils {
-
-    private static IMessages messages = new IMessages() {
-    };
 
     private UIUtils() {
         throw new AssertionError();
@@ -86,8 +83,8 @@ public class UIUtils {
      * @param key the resource key of the column label
      * @param width the column width
      */
-    public static void createColumn(Table table, String key, int width) {
-        createColumn(table, key, width, SWT.NULL);
+    public static void createColumn(Table table, Resource message, int width) {
+        createColumn(table, message, width, SWT.NULL);
     }
 
     /**
@@ -98,9 +95,9 @@ public class UIUtils {
      * @param width the column width
      * @param style the column style
      */
-    public static void createColumn(Table table, String key, int width, int style) {
+    public static void createColumn(Table table, Resource message, int width, int style) {
         TableColumn column = new TableColumn(table, style);
-        column.setText(messages.getResource(key));
+        column.setText(message.getValue());
         column.setWidth(width);
     }
 
@@ -111,9 +108,9 @@ public class UIUtils {
      * @param key the resource key of the label text
      * @return the created label
      */
-    public static Label createLabel(Composite parent, String key) {
+    public static Label createLabel(Composite parent, Resource message) {
         Label label = new Label(parent, SWT.NULL);
-        label.setText(messages.getResource(key));
+        label.setText(message.getValue());
         return label;
     }
 
@@ -122,10 +119,21 @@ public class UIUtils {
      *
      * @param message message
      */
-    public static void openAlertDialog(String messageKey) {
-        String title = messages.getResource("dialog.alert.title");
-        String message = messages.getResource(messageKey);
-        MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message);
+    public static void openAlertDialog(Resource message) {
+        String title = Resource.DIALOG_ALERT_TITLE.getValue();
+        MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message.getValue());
+    }
+
+    /**
+     * Open the alert dialog.
+     *
+     * @param message message
+     */
+    public static void openAlertDialog(Resource message, String... messageArgs) {
+        String title = Resource.DIALOG_ALERT_TITLE.getValue();
+        MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                title,
+                message.createMessage(messageArgs));
     }
 
     /**
@@ -134,10 +142,11 @@ public class UIUtils {
      * @param message message
      * @return
      */
-    public static boolean openConfirmDialog(String messageKey, String... messageArgs) {
-        String title = messages.getResource("dialog.confirm.title");
-        String message = messages.createMessage(messageKey, messageArgs);
-        return MessageDialog.openConfirm(Display.getCurrent().getActiveShell(), title, message);
+    public static boolean openConfirmDialog(Resource message, String... messageArgs) {
+        String title = Resource.DIALOG_CONFIRM_TITLE.getValue();
+        return MessageDialog.openConfirm(Display.getCurrent().getActiveShell(),
+                title,
+                message.createMessage(messageArgs));
     }
 
     /**
@@ -145,10 +154,9 @@ public class UIUtils {
      *
      * @param message message
      */
-    public static void openInfoDialog(String messageKey) {
-        String title = messages.getResource("dialog.info.title");
-        String message = messages.getResource(messageKey);
-        MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message);
+    public static void openInfoDialog(Resource message) {
+        String title = Resource.DIALOG_INFO_TITLE.getValue();
+        MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message.getValue());
     }
 
     public static void projectRefresh() {

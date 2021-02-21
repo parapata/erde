@@ -1,11 +1,13 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.window.Window;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.editor.diagram.editpart.command.DomainEditCommand;
 import io.github.erde.editor.diagram.model.DomainModel;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -23,11 +25,11 @@ public class DomainEditAction extends Action implements IERDEAction {
     public DomainEditAction() {
         super();
         setId(DOMAING_EDIT);
-        setText(getResource("action.editDomain"));
+        setText(ACTION_EDIT_DOMAIN.getValue());
     }
 
     public DomainEditAction(DomainModel editDomain) {
-        super(IMessages.resource.getString("action.editDomain"));
+        super(Resource.ACTION_EDIT_DOMAIN.getValue());
         this.editDomain = editDomain;
     }
 

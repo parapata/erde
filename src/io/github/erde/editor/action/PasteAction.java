@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import java.util.List;
 
 import org.eclipse.gef.commands.CommandStack;
@@ -23,7 +25,7 @@ public class PasteAction extends SelectionAction implements IERDEAction {
     public PasteAction(ERDiagramEditor editor) {
         super(editor);
         setId(ActionFactory.PASTE.getId());
-        setText(getResource("action.paste"));
+        setText(ACTION_PASTE.getValue());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
         setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));

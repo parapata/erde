@@ -1,5 +1,7 @@
 package io.github.erde.editor.dialog.table.tabs;
 
+import static io.github.erde.Resource.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +24,6 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.dialect.type.IndexType;
@@ -36,7 +37,7 @@ import io.github.erde.editor.dialog.table.ITableEdit;
  *
  * @author modified by parapata
  */
-public class IndexTabCreator implements IMessages {
+public class IndexTabCreator {
 
     private ITableEdit tableEdit;
 
@@ -68,7 +69,7 @@ public class IndexTabCreator implements IMessages {
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         TabItem tab = new TabItem(tabFolder, SWT.NULL);
-        tab.setText(getResource("label.index"));
+        tab.setText(LABEL_INDEX.getValue());
         tab.setControl(composite);
 
         createIndexListArea(composite, tablePyhgicalName);
@@ -111,7 +112,7 @@ public class IndexTabCreator implements IMessages {
         indexButtons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
         btnAddIndex = new Button(indexButtons, SWT.PUSH);
-        btnAddIndex.setText(getResource("dialog.table.addIndex"));
+        btnAddIndex.setText(DIALOG_TABLE_ADD_INDEX.getValue());
         btnAddIndex.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnAddIndex.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -127,7 +128,7 @@ public class IndexTabCreator implements IMessages {
         });
 
         btnRemoveIndex = new Button(indexButtons, SWT.PUSH);
-        btnRemoveIndex.setText(getResource("dialog.table.removeIndex"));
+        btnRemoveIndex.setText(DIALOG_TABLE_REMOVE_INDEX.getValue());
         btnRemoveIndex.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnRemoveIndex.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -140,7 +141,7 @@ public class IndexTabCreator implements IMessages {
             }
         });
 
-        new Label(composite, SWT.NULL).setText(getResource("dialog.table.editIndex.indexType"));
+        new Label(composite, SWT.NULL).setText(DIALOG_TABLE_EDIT_INDEX_INDEX_TYPE.getValue());
         cmbIndexType = new Combo(composite, SWT.READ_ONLY);
         for (IIndexType type : tableEdit.getDialect().getIndexTypes()) {
             cmbIndexType.add(type.getName());
@@ -155,7 +156,7 @@ public class IndexTabCreator implements IMessages {
             }
         });
 
-        new Label(composite, SWT.NULL).setText(getResource("dialog.table.editIndex.indexName"));
+        new Label(composite, SWT.NULL).setText(DIALOG_TABLE_EDIT_INDEX_INDEX_NAME.getValue());
         txtIndexName = new Text(composite, SWT.BORDER);
         txtIndexName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtIndexName.addFocusListener(new FocusAdapter() {
@@ -170,7 +171,7 @@ public class IndexTabCreator implements IMessages {
 
     private void createIndexColumnListArea(Shell shell, Composite composite) {
         Group indexColumnGroup = new Group(composite, SWT.NULL);
-        indexColumnGroup.setText(getResource("dialog.table.editIndex.indexColumns"));
+        indexColumnGroup.setText(DIALOG_TABLE_EDIT_INDEX_INDEX_COLUMNS.getValue());
         indexColumnGroup.setLayout(new GridLayout(2, false));
         indexColumnGroup.setLayoutData(UIUtils.createGridData(3, GridData.FILL_BOTH));
 
@@ -190,7 +191,7 @@ public class IndexTabCreator implements IMessages {
 
         btnAddColumn = new Button(indexColumnButtons, SWT.PUSH);
         btnAddColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        btnAddColumn.setText(getResource("dialog.table.addColumn"));
+        btnAddColumn.setText(DIALOG_TABLE_ADD_COLUMN.getValue());
         btnAddColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -217,7 +218,7 @@ public class IndexTabCreator implements IMessages {
 
         btnRemoveColumn = new Button(indexColumnButtons, SWT.PUSH);
         btnRemoveColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        btnRemoveColumn.setText(getResource("dialog.table.removeColumn"));
+        btnRemoveColumn.setText(DIALOG_TABLE_REMOVE_COLUMN.getValue());
         btnRemoveColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -234,7 +235,7 @@ public class IndexTabCreator implements IMessages {
         });
 
         btnUpColumn = new Button(indexColumnButtons, SWT.PUSH);
-        btnUpColumn.setText(getResource("dialog.table.upColumn"));
+        btnUpColumn.setText(DIALOG_TABLE_UP_COLUMN.getValue());
         btnUpColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnUpColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -255,7 +256,7 @@ public class IndexTabCreator implements IMessages {
         });
 
         btnDownColumn = new Button(indexColumnButtons, SWT.PUSH);
-        btnDownColumn.setText(getResource("dialog.table.downColumn"));
+        btnDownColumn.setText(DIALOG_TABLE_DOWN_COLUMN.getValue());
         btnDownColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnDownColumn.addSelectionListener(new SelectionAdapter() {
             @Override

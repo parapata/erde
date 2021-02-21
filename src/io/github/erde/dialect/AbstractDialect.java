@@ -3,7 +3,6 @@ package io.github.erde.dialect;
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.erde.IMessages;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.dialect.type.IndexType;
@@ -13,7 +12,7 @@ import io.github.erde.dialect.type.IndexType;
  *
  * @author modified by parapata
  */
-public abstract class AbstractDialect implements IDialect, IMessages {
+public abstract class AbstractDialect implements IDialect {
 
     private List<IColumnType> types;
 

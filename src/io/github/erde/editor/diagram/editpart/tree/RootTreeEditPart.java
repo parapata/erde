@@ -1,5 +1,7 @@
 package io.github.erde.editor.diagram.editpart.tree;
 
+import static io.github.erde.Resource.*;
+
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.editor.ERDiagramOutlinePage;
 import io.github.erde.editor.action.DomainEditAction;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart.FolderModel;
@@ -23,14 +24,14 @@ import io.github.erde.editor.diagram.model.TableModel;
  *
  * @author modified by parapata
  */
-public class RootTreeEditPart extends DBTreeEditPart implements IMessages {
+public class RootTreeEditPart extends DBTreeEditPart {
 
     private Logger logger = LoggerFactory.getLogger(RootTreeEditPart.class);
 
     @Override
     protected List<FolderModel> getModelChildren() {
         List<FolderModel> children = new ArrayList<>();
-        children.add(new FolderModel(getResource("label.table"), (RootModel) getModel()) {
+        children.add(new FolderModel(LABEL_TABLE.getValue(), (RootModel) getModel()) {
             @Override
             public List<TableModel> getChildren() {
                 String filterText = ERDiagramOutlinePage.getFilterText();
@@ -60,7 +61,7 @@ public class RootTreeEditPart extends DBTreeEditPart implements IMessages {
         });
 
         if (StringUtils.isEmpty(ERDiagramOutlinePage.getFilterText())) {
-            children.add(new FolderModel(getResource("label.domain"), (RootModel) getModel()) {
+            children.add(new FolderModel(LABEL_DOMAIN.getValue(), (RootModel) getModel()) {
                 @Override
                 public List<DomainModel> getChildren() {
                     String filterText = ERDiagramOutlinePage.getFilterText();

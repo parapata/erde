@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -17,12 +19,11 @@ public class ChangeDBTypeAction extends Action implements IERDEAction {
     public ChangeDBTypeAction() {
         super();
         setId(CHANGE_DB_TYPE);
-        setText(getResource("action.changeDatabaseType"));
+        setText(ACTION_CHANGE_DB_TYPE.getValue());
     }
 
     @Override
     public void run() {
-
         GraphicalViewer viewer = getGraphicalViewer();
         RootModel root = (RootModel) viewer.getContents().getModel();
         WizardDialog dialog = new WizardDialog(

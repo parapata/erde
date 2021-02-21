@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -26,7 +28,7 @@ public class ValidateAction extends Action implements IERDEAction {
     public ValidateAction() {
         super();
         setId(VALIDATE);
-        setText(getResource("action.validation.executeValidation"));
+        setText(ACTION_VALI_DATION_EXECUTE_VALIDATION.getValue());
     }
 
     @Override

@@ -1,13 +1,13 @@
 package io.github.erde.editor.diagram.model;
 
-import io.github.erde.IMessages;
+import static io.github.erde.Resource.*;
 
 /**
  * RelationshipMappingModel.
  *
  * @author modified by parapata
  */
-public class RelationshipMappingModel implements IMessages {
+public class RelationshipMappingModel {
 
     private ColumnModel referenceKey;
     private ColumnModel foreignKey;
@@ -41,25 +41,25 @@ public class RelationshipMappingModel implements IMessages {
         StringBuilder sb = new StringBuilder();
         if (logicalMode) {
             if (getReferenceKey() == null) {
-                sb.append(getResource("label.undef"));
+                sb.append(LABEL_UNDEF.getValue());
             } else {
                 sb.append(getReferenceKey().getLogicalName());
             }
             sb.append("=");
             if (getForeignKey() == null) {
-                sb.append(getResource("label.undef"));
+                sb.append(LABEL_UNDEF.getValue());
             } else {
                 sb.append(getForeignKey().getLogicalName());
             }
         } else {
             if (getReferenceKey() == null) {
-                sb.append(getResource("label.undef"));
+                sb.append(LABEL_UNDEF.getValue());
             } else {
                 sb.append(getReferenceKey().getPhysicalName());
             }
             sb.append("=");
             if (getForeignKey() == null) {
-                sb.append(getResource("label.undef"));
+                sb.append(LABEL_UNDEF.getValue());
             } else {
                 sb.append(getForeignKey().getPhysicalName());
             }

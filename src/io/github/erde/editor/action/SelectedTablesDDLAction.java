@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class SelectedTablesDDLAction extends Action implements IERDEAction {
     public SelectedTablesDDLAction() {
         super();
         setId(SELECTED_TABLES_DDL);
-        setText(getResource("action.selectedTablesDDL"));
+        setText(ACTION_SELECTED_TABLES_DDL.getValue());
     }
 
     @Override

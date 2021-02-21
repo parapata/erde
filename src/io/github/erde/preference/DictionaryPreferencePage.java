@@ -15,7 +15,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
 import io.github.erde.core.util.NameConverter;
 import io.github.erde.core.util.NameConverter.DictionaryEntry;
 import io.github.erde.core.util.TableViewerSupport;
@@ -26,7 +25,7 @@ import io.github.erde.editor.dialog.EntryEditDialog;
  *
  * @author modified by parapata
  */
-public class DictionaryPreferencePage extends PreferencePage implements IMessages, IWorkbenchPreferencePage {
+public class DictionaryPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
     private TableViewer viewer;
     private List<DictionaryEntry> models;

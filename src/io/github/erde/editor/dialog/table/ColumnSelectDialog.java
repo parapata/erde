@@ -1,5 +1,7 @@
 package io.github.erde.editor.dialog.table;
 
+import static io.github.erde.Resource.*;
+
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -17,7 +19,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.ColumnModel;
 
@@ -26,7 +27,7 @@ import io.github.erde.editor.diagram.model.ColumnModel;
  *
  * @author modified by parapata
  */
-public class ColumnSelectDialog extends Dialog implements IMessages {
+public class ColumnSelectDialog extends Dialog {
 
     private List<ColumnModel> columns;
     private List<ColumnModel> selectedColumns;
@@ -45,14 +46,14 @@ public class ColumnSelectDialog extends Dialog implements IMessages {
     @Override
     protected Control createDialogArea(Composite parent) {
 
-        getShell().setText(getResource("dialog.columnSelect.title"));
+        getShell().setText(DIALOG_COLUMN_SELECT_TITLE.getValue());
         viewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER);
         Table table = viewer.getTable();
         table.setLinesVisible(true);
         table.setHeaderVisible(true);
 
-        UIUtils.createColumn(table, "dialog.table.columnPyhgicalName", 200);
-        UIUtils.createColumn(table, "dialog.table.columnType", 200);
+        UIUtils.createColumn(table, DIALOG_TABLE_COLUMN_PYHGICAL_NAME, 200);
+        UIUtils.createColumn(table, DIALOG_TABLE_COLUMN_TYPE, 200);
 
         viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         viewer.setContentProvider(new ArrayContentProvider());

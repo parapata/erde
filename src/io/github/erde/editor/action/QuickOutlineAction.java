@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
 
@@ -15,7 +17,7 @@ public class QuickOutlineAction extends Action implements IERDEAction {
     public QuickOutlineAction() {
         super();
         setId(IERDEAction.QUICK_OUTLINE);
-        setText(getResource("action.quickOutline"));
+        setText(ACTION_QUICK_OUTLINE.getValue());
     }
 
     @Override

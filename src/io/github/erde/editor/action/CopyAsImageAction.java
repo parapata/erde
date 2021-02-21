@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -17,7 +19,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * CopyAsImageAction.
- * 
+ *
  * @author modified by parapata
  */
 public class CopyAsImageAction extends Action implements IERDEAction {
@@ -25,7 +27,7 @@ public class CopyAsImageAction extends Action implements IERDEAction {
     public CopyAsImageAction() {
         super();
         setId(COPY_AS_IMAGE);
-        setText(getResource("action.copyAsImage"));
+        setText(ACTION_COPY_AS_IMAGE.getValue());
     }
 
     public void update(IStructuredSelection sel) {

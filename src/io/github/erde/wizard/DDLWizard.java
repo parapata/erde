@@ -13,7 +13,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -24,7 +24,7 @@ import io.github.erde.wizard.page.DDLWizardPage;
  *
  * @author modified by parapata
  */
-public class DDLWizard extends FileSystemExportWizard implements IMessages {
+public class DDLWizard extends FileSystemExportWizard {
 
     private IFile ddlFile;
     private RootModel root;
@@ -73,9 +73,8 @@ public class DDLWizard extends FileSystemExportWizard implements IMessages {
 
         File file = Paths.get(page.getOutputFolderResource(), page.getFilename().getText()).toFile();
         if (file.exists()) {
-            String messageKey = "wizard.generate.ddl.confirm.message";
             String[] messageArgs = new String[] { page.getFilename().getText() };
-            if (!UIUtils.openConfirmDialog(messageKey, messageArgs)) {
+            if (!UIUtils.openConfirmDialog(Resource.WIZARD_GENERATE_DDL_CONFIRM_MESSAGE, messageArgs)) {
                 return false;
             }
         }
@@ -91,7 +90,7 @@ public class DDLWizard extends FileSystemExportWizard implements IMessages {
             return false;
         } catch (IOException e) {
             Activator.logException(e);
-            UIUtils.openAlertDialog("wizard.generate.ddl.error.output");
+            UIUtils.openAlertDialog(Resource.WIZARD_GENERATE_DDL_ERR_OUTPUT);
             return false;
         } finally {
             UIUtils.projectRefresh();

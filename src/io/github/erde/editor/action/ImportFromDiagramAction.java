@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
@@ -21,7 +23,7 @@ public class ImportFromDiagramAction extends Action implements IERDEAction {
     public ImportFromDiagramAction() {
         super();
         setId(IMPORT_FROM_DIAGRAM);
-        setText(getResource("action.importFromDiagram"));
+        setText(ACTION_IMPORT_FROM_DIAGRAM.getValue());
     }
 
     @Override

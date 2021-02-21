@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.UIUtils;
 
 /**
@@ -21,7 +21,7 @@ import io.github.erde.core.util.UIUtils;
  *
  * @author modified by parapata
  */
-public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
+public class DDLWizardPage extends FolderSelectWizardPage {
 
     private static final String PATTERN_EDITER_FILE_NAME = String.format("\\%s$", Activator.EXTENSION_ERDE);
 
@@ -32,8 +32,8 @@ public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
     private Text encoding;
 
     public DDLWizardPage(IFile erdFile) {
-        super(erdFile, resource.getString("wizard.generate.ddl.title"));
-        setDescription(getResource("wizard.generate.ddl.description"));
+        super(erdFile, Resource.WIZARD_GENERATE_DDL_TITLE.getValue());
+        setDescription(Resource.WIZARD_GENERATE_DDL_DESCRIPTION.getValue());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
         Composite composite = (Composite) getControl();
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText(getResource("wizard.generate.ddl.filename"));
+        label.setText(Resource.WIZARD_GENERATE_DDL_FILE_NAME.getValue());
 
         filename = new Text(composite, SWT.BORDER);
         filename.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -53,24 +53,24 @@ public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
 
         new Label(composite, SWT.NULL);
 
-        new Label(composite, SWT.NULL).setText(getResource("wizard.generate.ddl.encoding"));
+        new Label(composite, SWT.NULL).setText(Resource.WIZARD_GENERATE_DDL_ENCODING.getValue());
         encoding = new Text(composite, SWT.BORDER);
         encoding.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         encoding.setText(setting.get("encoding"));
         encoding.addModifyListener(e -> doValidate());
 
         schema = new Button(composite, SWT.CHECK);
-        schema.setText(getResource("wizard.generate.ddl.schema"));
+        schema.setText(Resource.WIZARD_GENERATE_DDL_SCHEMA.getValue());
         schema.setLayoutData(UIUtils.createGridData(2));
         schema.setSelection(setting.getBoolean("schema"));
 
         drop = new Button(composite, SWT.CHECK);
-        drop.setText(getResource("wizard.generate.ddl.dropTable"));
+        drop.setText(Resource.WIZARD_GENERATE_DDL_DROP_TABLE.getValue());
         drop.setLayoutData(UIUtils.createGridData(2));
         drop.setSelection(setting.getBoolean("drop"));
 
         comment = new Button(composite, SWT.CHECK);
-        comment.setText(getResource("wizard.generate.ddl.comment"));
+        comment.setText(Resource.WIZARD_GENERATE_DDL_COMMENT.getValue());
         comment.setLayoutData(UIUtils.createGridData(2));
         comment.setSelection(setting.getBoolean("comment"));
     }
@@ -79,14 +79,14 @@ public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
     protected void doValidate() {
         super.doValidate();
         if (!new File(getOutputFolderResource()).exists()) {
-            setErrorMessage(getResource("wizard.generate.ddl.error.path"));
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERR_PATH.getValue());
             setPageComplete(false);
-        } else if (filename.getText().length() == 0) {
-            setErrorMessage(getResource("wizard.generate.ddl.error.filename"));
+        } else if (filename.getText().isEmpty()) {
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERR_FILE_NAME.getValue());
             setPageComplete(false);
             return;
         } else if (!isSupportedEncoding(encoding.getText())) {
-            setErrorMessage(getResource("wizard.generate.ddl.error.encoding"));
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERR_ENCODING.getValue());
             setPageComplete(false);
             return;
         }

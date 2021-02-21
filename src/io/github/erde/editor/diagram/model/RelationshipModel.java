@@ -1,5 +1,7 @@
 package io.github.erde.editor.diagram.model;
 
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import io.github.erde.IMessages;
-
 /**
  * RelationshipModel.
  *
  * @author modified by parapata
  */
-public class RelationshipModel extends BaseConnectionModel implements IMessages {
+public class RelationshipModel extends BaseConnectionModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -91,8 +91,7 @@ public class RelationshipModel extends BaseConnectionModel implements IMessages 
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
         List<IPropertyDescriptor> descriptoes = new ArrayList<>();
-
-        descriptoes.add(new TextPropertyDescriptor(P_FOREIGN_KEY_NAME, getResource("property.foreignKeyName")));
+        descriptoes.add(new TextPropertyDescriptor(P_FOREIGN_KEY_NAME, PROPERTY_FOREIGNKEY_NAME.getValue()));
         return descriptoes.toArray(new IPropertyDescriptor[descriptoes.size()]);
     }
 

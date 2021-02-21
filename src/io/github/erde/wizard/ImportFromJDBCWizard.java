@@ -1,5 +1,7 @@
 package io.github.erde.wizard;
 
+import static io.github.erde.Resource.*;
+
 import java.util.List;
 
 import org.eclipse.gef.GraphicalViewer;
@@ -8,7 +10,6 @@ import org.eclipse.jface.wizard.Wizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.editpart.command.ImportFromJDBCCommand;
@@ -21,7 +22,7 @@ import io.github.erde.wizard.page.ImportFromJDBCWizardPage2;
  *
  * @author modified by parapata
  */
-public class ImportFromJDBCWizard extends Wizard implements IMessages {
+public class ImportFromJDBCWizard extends Wizard {
 
     private Logger logger = LoggerFactory.getLogger(ImportFromJDBCWizard.class);
 
@@ -33,7 +34,7 @@ public class ImportFromJDBCWizard extends Wizard implements IMessages {
         super();
         this.viewer = viewer;
         setNeedsProgressMonitor(true);
-        setWindowTitle(getResource("wizard.new.import.title"));
+        setWindowTitle(WIZARD_NEW_IMPORT_TITLE.getValue());
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ImportFromJDBCWizard extends Wizard implements IMessages {
             stack.execute(new ImportFromJDBCCommand(root, jdbcConn, tableNames));
             page1.setJDBCSetting();
         } catch (Exception e) {
-            UIUtils.openAlertDialog(e.getMessage());
+            UIUtils.openAlertDialog(ERR_DB_IMPORT);
             return false;
         }
         return true;

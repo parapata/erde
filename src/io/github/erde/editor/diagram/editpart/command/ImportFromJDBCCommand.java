@@ -1,5 +1,7 @@
 package io.github.erde.editor.diagram.editpart.command;
 
+import static io.github.erde.Resource.*;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -56,10 +58,10 @@ public class ImportFromJDBCCommand extends Command {
             // arg3: 実行したい処理をカプセル化したオブジェクト
             dialog.run(false, true, task);
         } catch (InvocationTargetException e) {
-            UIUtils.openAlertDialog("エラーが発生しました。");
+            UIUtils.openAlertDialog(ERR_DB_IMPORT);
             Activator.logException(e);
         } catch (InterruptedException e) {
-            UIUtils.openInfoDialog("キャンセルされました。");
+            UIUtils.openInfoDialog(INFO_CANCEL);
             Activator.logException(e);
         }
     }

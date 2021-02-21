@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -18,7 +20,7 @@ import io.github.erde.editor.diagram.model.TableModel;
 
 /**
  * DeleteMarkerAction.
- * 
+ *
  * @author modified by parapata
  */
 public class DeleteMarkerAction extends Action implements IERDEAction {
@@ -26,7 +28,7 @@ public class DeleteMarkerAction extends Action implements IERDEAction {
     public DeleteMarkerAction() {
         super();
         setId(DELETE_MARKER);
-        setText(getResource("action.validation.deleteMarkers"));
+        setText(ACTION_VALI_DATION_DELETE_MARKERS.getValue());
     }
 
     @Override
