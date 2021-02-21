@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.EncryptedDocumentException;
@@ -21,6 +17,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+
+import io.github.erde.core.util.PropertiesEx;
 
 public class GenPropFile {
 
@@ -93,23 +91,6 @@ public class GenPropFile {
     }
 
     private void extracted(List<GenResourceBean> list) throws IOException {
-
-        class PropertiesEx extends Properties {
-            private boolean recurse;
-
-            @Override
-            public synchronized Set<Map.Entry<Object, Object>> entrySet() {
-                if (this.recurse) {
-                    return super.entrySet();
-                } else {
-                    this.recurse = true;
-                    TreeMap<Object, Object> treeMap = new TreeMap<>(this);
-                    Set<Map.Entry<Object, Object>> entries = treeMap.entrySet();
-                    this.recurse = false;
-                    return entries;
-                }
-            }
-        }
 
         // Generate properties file
         try (FileWriter usWriter = new FileWriter(new File(US_FILE_NAME));

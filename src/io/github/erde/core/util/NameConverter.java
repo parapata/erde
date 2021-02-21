@@ -127,7 +127,7 @@ public class NameConverter {
 
         @Override
         public String toString() {
-            return physicalName + "," + logicalName + "," + partialMatch;
+            return String.format("%s,%s,%s", physicalName, logicalName, partialMatch);
         }
     }
 

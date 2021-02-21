@@ -121,7 +121,7 @@ public class OracleDialect extends AbstractDialect {
 
     @Override
     public String dropTableDDL(String tableName) {
-        return String.format("DROP TABLE %s  CASCADE CONSTRAINTS;", tableName);
+        return String.format("DROP TABLE %s CASCADE CONSTRAINTS;", tableName);
     }
 
     @Override
