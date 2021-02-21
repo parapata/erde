@@ -64,7 +64,7 @@ public class ERDContextMenuProvider extends ContextMenuProvider {
         menu.add(new Separator());
 
         // Validation Actions
-        MenuManager validationMenuManager = new MenuManager(ACTION_VALI_DATION.getValue());
+        MenuManager validationMenuManager = new MenuManager(ACTION_VALIDATION.getValue());
         validationMenuManager.add(new ValidateAction());
         validationMenuManager.add(new DeleteMarkerAction());
         menu.add(validationMenuManager);

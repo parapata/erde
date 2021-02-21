@@ -149,7 +149,7 @@ public class EnumEditDialog extends Dialog {
                     .filter(predicate -> StringUtils.isNoneEmpty(predicate) && !StringUtils.trim(predicate).isEmpty())
                     .collect(Collectors.toList());
             if (items.size() != new HashSet<>(items).size()) {
-                UIUtils.openAlertDialog(ERR_KEY_DUPLICATE);
+                UIUtils.openAlertDialog(ERROR_KEY_DUPLICATE);
                 return;
             }
         }

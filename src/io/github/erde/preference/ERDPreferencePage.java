@@ -1,6 +1,7 @@
 package io.github.erde.preference;
 
 import static io.github.erde.Resource.*;
+import static io.github.erde.preference.ERDPreferenceKey.*;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -44,11 +45,10 @@ public class ERDPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
         // for Layout (Grid)
         Group layoutGroup = new Group(composite, SWT.NULL);
-        layoutGroup.setText(PREF_LAYOUT.getValue());
+        layoutGroup.setText(PREFERENCE_LAYOUT.getValue());
         layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        showGrid = new BooleanFieldEditor(ERDPreferenceKey.SHOW_GRID,
-                PREF_LAYOUT_SHOW_GRID.getValue(), layoutGroup);
+        showGrid = new BooleanFieldEditor(SHOW_GRID, PREFERENCE_LAYOUT_SHOW_GRID.getValue(), layoutGroup);
         showGrid.setPropertyChangeListener(new IPropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent event) {
@@ -56,22 +56,19 @@ public class ERDPreferencePage extends PreferencePage implements IWorkbenchPrefe
             }
         });
 
-        gridSize = new SpinnerFieldEditor(ERDPreferenceKey.GRID_SIZE, PREF_LAYOUT_GRID_SIZE.getValue(), 1, 100,
-                layoutGroup);
+        gridSize = new SpinnerFieldEditor(GRID_SIZE, PREFERENCE_LAYOUT_GRID_SIZE.getValue(), 1, 100, layoutGroup);
 
-        enabledGrid = new BooleanFieldEditor(ERDPreferenceKey.ENABLED_GRID, PREF_LAYOUT_ENABLED_GRID.getValue(),
-                layoutGroup);
+        enabledGrid = new BooleanFieldEditor(ENABLED_GRID, PREFERENCE_LAYOUT_ENABLED_GRID.getValue(), layoutGroup);
 
-        snapToGeometry = new BooleanFieldEditor(ERDPreferenceKey.SNAP_GEOMETRY,
-                PREF_LAYOUT_SNAP_TO_GEOMETRY.getValue(), layoutGroup);
+        snapToGeometry = new BooleanFieldEditor(SNAP_GEOMETRY, PREFERENCE_LAYOUT_SNAP_TO_GEOMETRY.getValue(),
+                layoutGroup);
         layoutGroup.setLayout(new GridLayout(3, false));
 
         // for Diagram (Grid)
         Group diagramGroup = new Group(composite, SWT.NULL);
-        diagramGroup.setText(PREF_DIAGRAM.getValue());
+        diagramGroup.setText(PREFERENCE_DIAGRAM.getValue());
         diagramGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        showNotNull = new BooleanFieldEditor(ERDPreferenceKey.SHOW_NOT_NULL, PREF_DIAGRAM_SHOW_NOT_NULL.getValue(),
-                diagramGroup);
+        showNotNull = new BooleanFieldEditor(SHOW_NOT_NULL, PREFERENCE_DIAGRAM_SHOW_NOT_NULL.getValue(), diagramGroup);
         diagramGroup.setLayout(new GridLayout(1, false));
 
         // Initializes values

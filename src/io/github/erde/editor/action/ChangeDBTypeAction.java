@@ -19,7 +19,7 @@ public class ChangeDBTypeAction extends Action implements IERDEAction {
     public ChangeDBTypeAction() {
         super();
         setId(CHANGE_DB_TYPE);
-        setText(ACTION_CHANGE_DB_TYPE.getValue());
+        setText(ACTION_CHANGE_DATABASE_TYPE.getValue());
     }
 
     @Override

@@ -333,7 +333,7 @@ public class AttributeTabCreator {
         btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
-        UIUtils.createLabel(group, MESSAGE_NONE);
+        UIUtils.createLabel(group, NONE);
         Composite enumArea = new Composite(group, SWT.NULL);
         enumArea.setLayout(new GridLayout(5, false));
         enumArea.setLayoutData(UIUtils.createGridData(6));

@@ -87,7 +87,7 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
         if (valid) {
             String fileName = getFileName();
             if (!fileName.endsWith(Activator.EXTENSION_ERDE)) {
-                setErrorMessage(Resource.ERR_ERD_EXTENSION.getValue());
+                setErrorMessage(Resource.ERROR_ERD_EXTENSION.getValue());
                 valid = false;
             }
         }

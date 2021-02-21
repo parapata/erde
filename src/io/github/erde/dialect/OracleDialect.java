@@ -138,14 +138,14 @@ public class OracleDialect extends AbstractDialect {
                 String tableName = table.getPhysicalName();
                 if (tableName.length() > 30) {
                     deManager.addError(Activator.LEVEL_ERROR,
-                            table, VALIDATION_ERR_ORACLE_TABLE_NAME_LENGTH.getValue());
+                            table, VALIDATION_ERROR_ORACLE_TABLE_NAME_LENGTH.getValue());
                 }
 
                 for (ColumnModel column : table.getColumns()) {
                     String columnName = column.getPhysicalName();
                     if (columnName.length() > 30) {
                         deManager.addError(Activator.LEVEL_ERROR, table, column,
-                                VALIDATION_ERR_ORACLE_COLUMN_NAME_LENGTH.getValue());
+                                VALIDATION_ERROR_ORACLE_COLUMN_NAME_LENGTH.getValue());
                     }
                 }
 
@@ -153,7 +153,7 @@ public class OracleDialect extends AbstractDialect {
                     String indexName = index.getIndexName();
                     if (indexName.length() > 30) {
                         deManager.addError(Activator.LEVEL_ERROR, table, index,
-                                VALIDATION_ERR_ORACLE_INDEX_NAME_LENGTH.getValue());
+                                VALIDATION_ERROR_ORACLE_INDEX_NAME_LENGTH.getValue());
                     }
                 }
             }

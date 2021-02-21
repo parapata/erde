@@ -66,7 +66,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_JARFILE);
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_JAR_FILE);
         txtJarFile = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJarFile.setEditable(false);
         txtJarFile.setLayoutData(UIUtils.createGridData(2));

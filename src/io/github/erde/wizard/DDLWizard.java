@@ -90,7 +90,7 @@ public class DDLWizard extends FileSystemExportWizard {
             return false;
         } catch (IOException e) {
             Activator.logException(e);
-            UIUtils.openAlertDialog(Resource.WIZARD_GENERATE_DDL_ERR_OUTPUT);
+            UIUtils.openAlertDialog(Resource.WIZARD_GENERATE_DDL_ERROR_OUTPUT);
             return false;
         } finally {
             UIUtils.projectRefresh();

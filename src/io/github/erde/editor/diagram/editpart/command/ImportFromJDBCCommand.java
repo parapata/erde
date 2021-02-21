@@ -58,7 +58,7 @@ public class ImportFromJDBCCommand extends Command {
             // arg3: 実行したい処理をカプセル化したオブジェクト
             dialog.run(false, true, task);
         } catch (InvocationTargetException e) {
-            UIUtils.openAlertDialog(ERR_DB_IMPORT);
+            UIUtils.openAlertDialog(ERROR_DB_IMPORT);
             Activator.logException(e);
         } catch (InterruptedException e) {
             UIUtils.openInfoDialog(INFO_CANCEL);

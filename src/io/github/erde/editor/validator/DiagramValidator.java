@@ -76,13 +76,13 @@ public class DiagramValidator {
             deManager.addError(
                     store.getString(VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED),
                     table,
-                    VALIDATION_ERR_PHYSICAL_COLUMN_NAME_REQUIRED.getValue());
+                    VALIDATION_ERROR_PHYSICAL_COLUMN_NAME_REQUIRED.getValue());
 
         } else if (tableNames.contains(tableName)) {
             deManager.addError(
                     store.getString(VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED),
                     table,
-                    VALIDATION_ERR_PHYSICAL_COLUMN_NAME_DUPLICATED.getValue());
+                    VALIDATION_ERROR_PHYSICAL_COLUMN_NAME_DUPLICATED.getValue());
         } else {
             tableNames.add(tableName);
         }
@@ -92,13 +92,13 @@ public class DiagramValidator {
             deManager.addError(
                     store.getString(VALIDATE_LOGICAL_TABLE_NAME_REQUIRED),
                     table,
-                    VALIDATION_ERR_LOGICAL_TABLE_NAME_REQUIRED.getValue());
+                    VALIDATION_ERROR_LOGICAL_TABLE_NAME_REQUIRED.getValue());
 
         } else if (logicalNames.contains(logicalName)) {
             deManager.addError(
                     store.getString(VALIDATE_LOGICAL_TABLE_NAME_DUPLICATED),
                     table,
-                    VALIDATION_ERR_LOGICAL_TABLE_NAME_DUPLICATED.getValue());
+                    VALIDATION_ERROR_LOGICAL_TABLE_NAME_DUPLICATED.getValue());
         } else {
             logicalNames.add(logicalName);
         }
@@ -109,7 +109,7 @@ public class DiagramValidator {
             deManager.addError(
                     store.getString(VALIDATE_NO_COLUMNS),
                     table,
-                    VALIDATION_ERR_NO_COLUMNS.getValue());
+                    VALIDATION_ERROR_NO_COLUMNS.getValue());
         } else {
             Set<String> columnNames = new HashSet<>();
             Set<String> logicalColumnNames = new HashSet<>();
@@ -124,14 +124,14 @@ public class DiagramValidator {
                             store.getString(VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED),
                             table,
                             column,
-                            VALIDATION_ERR_PHYSICAL_COLUMN_NAME_REQUIRED.getValue());
+                            VALIDATION_ERROR_PHYSICAL_COLUMN_NAME_REQUIRED.getValue());
 
                 } else if (columnNames.contains(columnName)) {
                     deManager.addError(
                             store.getString(VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED),
                             table,
                             column,
-                            VALIDATION_ERR_PHYSICAL_COLUMN_NAME_DUPLICATED.getValue());
+                            VALIDATION_ERROR_PHYSICAL_COLUMN_NAME_DUPLICATED.getValue());
                 } else {
                     columnNames.add(columnName);
                 }
@@ -142,14 +142,14 @@ public class DiagramValidator {
                             store.getString(VALIDATE_LOGICAL_COLUMN_NAME_REQUIRED),
                             table,
                             column,
-                            VALIDATION_ERR_LOGICAL_COLUMN_NAME_REQUIRED.getValue());
+                            VALIDATION_ERROR_LOGICAL_COLUMN_NAME_REQUIRED.getValue());
 
                 } else if (logicalColumnNames.contains(logicalColumnName)) {
                     deManager.addError(
                             store.getString(VALIDATE_LOGICAL_COLUMN_NAME_DUPLICATED),
                             table,
                             column,
-                            VALIDATION_ERR_LOGICAL_COLUMN_NAME_DUPLICATED.getValue());
+                            VALIDATION_ERROR_LOGICAL_COLUMN_NAME_DUPLICATED.getValue());
                 } else {
                     logicalColumnNames.add(logicalColumnName);
                 }
@@ -159,7 +159,7 @@ public class DiagramValidator {
                 deManager.addError(
                         store.getString(VALIDATE_PRIMARY_KEY),
                         table,
-                        VALIDATION_ERR_NO_PRIMARY_KEY.getValue());
+                        VALIDATION_ERROR_NO_PRIMARY_KEY.getValue());
             }
         }
 
@@ -178,7 +178,7 @@ public class DiagramValidator {
                         deManager.addError(store.getString(VALIDATE_FOREIGN_KEY_COLUMN_TYPE),
                                 table,
                                 referer,
-                                VALIDATION_ERR_FOREIGN_KEY_COLUMN_TYPE.getValue());
+                                VALIDATION_ERROR_FOREIGN_KEY_COLUMN_TYPE.getValue());
                         continue;
                     }
                     if (refererType.isSizeSupported() && !referer.getColumnSize().equals(target.getColumnSize())) {
@@ -186,7 +186,7 @@ public class DiagramValidator {
                                 store.getString(VALIDATE_FOREIGN_KEY_COLUMN_SIZE),
                                 table,
                                 referer,
-                                VALIDATION_ERR_FOREIGN_KEY_COLUMN_SIZE.getValue());
+                                VALIDATION_ERROR_FOREIGN_KEY_COLUMN_SIZE.getValue());
                         continue;
                     }
                 }

@@ -1,6 +1,7 @@
 package io.github.erde.preference;
 
 import static io.github.erde.Resource.*;
+import static io.github.erde.preference.ERDPreferenceKey.*;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -10,7 +11,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import io.github.erde.Activator;
-import io.github.erde.Resource;
 
 /**
  * ValidationPreferencePage.
@@ -20,9 +20,9 @@ import io.github.erde.Resource;
 public class ValidationPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
     private static final String[][] VALIDATION_LEVELS = new String[][] {
-            { PREF_VALIDATION_LEVEL_WARN.getValue(), Activator.LEVEL_WARNING },
-            { PREF_VALIDATION_LEVEL_ERR.getValue(), Activator.LEVEL_ERROR },
-            { PREF_VALIDATION_LEVEL_IGNORE.getValue(), Activator.LEVEL_IGNORE }, };
+            { PREFERENCE_VALIDATION_LEVEL_WARNING.getValue(), Activator.LEVEL_WARNING },
+            { PREFERENCE_VALIDATION_LEVEL_ERROR.getValue(), Activator.LEVEL_ERROR },
+            { PREFERENCE_VALIDATION_LEVEL_IGNORE.getValue(), Activator.LEVEL_IGNORE }, };
 
     public ValidationPreferencePage() {
         super(GRID);
@@ -40,35 +40,68 @@ public class ValidationPreferencePage extends FieldEditorPreferencePage implemen
 
         Composite parent = getFieldEditorParent();
 
-        addField(new BooleanFieldEditor(ERDPreferenceKey.VALIDATE_ON_SAVE, Resource.PREF_VALIDATION.getValue(),
+        addField(new BooleanFieldEditor(VALIDATE_ON_SAVE,
+                PREFERENCE_VALIDATION.getValue(),
                 parent));
 
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED,
-                PREF_VALIDATION_LOGICAL_TABLE_NAME_REQUIRED.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED,
-                PREF_VALIDATION_TABLE_NAME_DUPLICATED.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_LOGICAL_TABLE_NAME_REQUIRED,
-                PREF_VALIDATION_LOGICAL_TABLE_NAME_REQUIRED.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_LOGICAL_TABLE_NAME_DUPLICATED,
-                PREF_VALIDATION_LOGICAL_TABLE_NAME_DUPLICATED.getValue(), VALIDATION_LEVELS, parent));
+        addField(new ComboFieldEditor(VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED,
+                PREFERENCE_VALIDATION_LOGICAL_TABLE_NAME_REQUIRED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
 
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED,
-                PREF_VALIDATION_LOGICAL_COLUMN_NAME_REQUIRED.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED,
-                PREF_VALIDATION_LOGICAL_COLUMN_NAME_DUPLICATED.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_LOGICAL_COLUMN_NAME_REQUIRED,
-                PREF_VALIDATION_LOGICAL_COLUMN_NAME_REQUIRED.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_LOGICAL_COLUMN_NAME_DUPLICATED,
-                PREF_VALIDATION_LOGICAL_COLUMN_NAME_DUPLICATED.getValue(), VALIDATION_LEVELS, parent));
+        addField(new ComboFieldEditor(VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED,
+                PREFERENCE_VALIDATION_TABLE_NAME_DUPLICATED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
 
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_NO_COLUMNS,
-                PREF_VALIDATION_NO_COLUMNS.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_PRIMARY_KEY,
-                PREF_VALIDATION_PRIMARY_KEY.getValue(), VALIDATION_LEVELS, parent));
+        addField(new ComboFieldEditor(VALIDATE_LOGICAL_TABLE_NAME_REQUIRED,
+                PREFERENCE_VALIDATION_LOGICAL_TABLE_NAME_REQUIRED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
 
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_FOREIGN_KEY_COLUMN_TYPE,
-                PREF_VALIDATION_FOREIGN_KEY_COLUMN_TYPE.getValue(), VALIDATION_LEVELS, parent));
-        addField(new ComboFieldEditor(ERDPreferenceKey.VALIDATE_FOREIGN_KEY_COLUMN_SIZE,
-                PREF_VALIDATION_FOREIGN_KEY_COLUMN_SIZE.getValue(), VALIDATION_LEVELS, parent));
+        addField(new ComboFieldEditor(VALIDATE_LOGICAL_TABLE_NAME_DUPLICATED,
+                PREFERENCE_VALIDATION_LOGICAL_TABLE_NAME_DUPLICATED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED,
+                PREFERENCE_VALIDATION_LOGICAL_COLUMN_NAME_REQUIRED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED,
+                PREFERENCE_VALIDATION_LOGICAL_COLUMN_NAME_DUPLICATED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_LOGICAL_COLUMN_NAME_REQUIRED,
+                PREFERENCE_VALIDATION_LOGICAL_COLUMN_NAME_REQUIRED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_LOGICAL_COLUMN_NAME_DUPLICATED,
+                PREFERENCE_VALIDATION_LOGICAL_COLUMN_NAME_DUPLICATED.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_NO_COLUMNS,
+                PREFERENCE_VALIDATION_NO_COLUMNS.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_PRIMARY_KEY,
+                PREFERENCE_VALIDATION_PRIMARY_KEY.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_FOREIGN_KEY_COLUMN_TYPE,
+                PREFERENCE_VALIDATION_FOREIGN_KEY_COLUMN_TYPE.getValue(),
+                VALIDATION_LEVELS,
+                parent));
+
+        addField(new ComboFieldEditor(VALIDATE_FOREIGN_KEY_COLUMN_SIZE,
+                PREFERENCE_VALIDATION_FOREIGN_KEY_COLUMN_SIZE.getValue(),
+                VALIDATION_LEVELS,
+                parent));
     }
 }

@@ -21,7 +21,7 @@ public class ERDMessageDialog {
         IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, e.toString(), e);
         // Activator.error(e);
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        String title = DIALOG_ERR_SYSTEM_TITLE.getValue();
+        String title = DIALOG_ERROR_SYSTEM_TITLE.getValue();
         ErrorDialog.openError(shell, title, message, status);
     }
 

@@ -28,7 +28,7 @@ public class DeleteMarkerAction extends Action implements IERDEAction {
     public DeleteMarkerAction() {
         super();
         setId(DELETE_MARKER);
-        setText(ACTION_VALI_DATION_DELETE_MARKERS.getValue());
+        setText(ACTION_VALIDATION_DELETE_MARKERS.getValue());
     }
 
     @Override

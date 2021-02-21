@@ -44,7 +44,7 @@ public class DDLWizardPage extends FolderSelectWizardPage {
         Composite composite = (Composite) getControl();
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText(Resource.WIZARD_GENERATE_DDL_FILE_NAME.getValue());
+        label.setText(Resource.WIZARD_GENERATE_DDL_FILENAME.getValue());
 
         filename = new Text(composite, SWT.BORDER);
         filename.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -79,14 +79,14 @@ public class DDLWizardPage extends FolderSelectWizardPage {
     protected void doValidate() {
         super.doValidate();
         if (!new File(getOutputFolderResource()).exists()) {
-            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERR_PATH.getValue());
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_PATH.getValue());
             setPageComplete(false);
         } else if (filename.getText().isEmpty()) {
-            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERR_FILE_NAME.getValue());
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_FILENAME.getValue());
             setPageComplete(false);
             return;
         } else if (!isSupportedEncoding(encoding.getText())) {
-            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERR_ENCODING.getValue());
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_ENCODING.getValue());
             setPageComplete(false);
             return;
         }

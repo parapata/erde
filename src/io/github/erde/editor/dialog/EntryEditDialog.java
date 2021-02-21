@@ -72,11 +72,11 @@ public class EntryEditDialog extends Dialog {
     @Override
     protected void okPressed() {
         if (txtPhysicalName.getText().isEmpty()) {
-            UIUtils.openAlertDialog(ERR_REQUIRED, LABEL_PHYSICAL_NAME.getValue());
+            UIUtils.openAlertDialog(ERROR_REQUIRED, LABEL_PHYSICAL_NAME.getValue());
             return;
         }
         if (txtLogicalName.getText().isEmpty()) {
-            UIUtils.openAlertDialog(ERR_REQUIRED, LABEL_LOGICAL_NAME.getValue());
+            UIUtils.openAlertDialog(ERROR_REQUIRED, LABEL_LOGICAL_NAME.getValue());
             return;
         }
         element = new DictionaryEntry(txtPhysicalName.getText(), txtLogicalName.getText(), btnPartMatch.getSelection());

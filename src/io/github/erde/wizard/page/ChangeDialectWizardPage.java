@@ -23,8 +23,8 @@ public class ChangeDialectWizardPage extends WizardPage {
 
     public ChangeDialectWizardPage(String dialectName) {
         super("ChangeDialectWizardPage");
-        setTitle(Resource.WIZARD_CHANGE_DB_TITLE.getValue());
-        setDescription(Resource.WIZARD_CHANGE_DB_DESCRIPTION.getValue());
+        setTitle(Resource.WIZARD_CHANGEDB_TITLE.getValue());
+        setDescription(Resource.WIZARD_CHANGEDB_DESCRIPTION.getValue());
         this.dialectName = dialectName;
     }
 
@@ -34,7 +34,7 @@ public class ChangeDialectWizardPage extends WizardPage {
         composite.setLayout(new GridLayout(2, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createLabel(composite,  Resource.WIZARD_CHANGE_DB_DATABASE_TYPE);
+        UIUtils.createLabel(composite, Resource.WIZARD_CHANGEDB_DATABASE_TYPE);
 
         cmbDialectName = new Combo(composite, SWT.READ_ONLY);
         for (String dialectName : DialectProvider.getDialectNames()) {

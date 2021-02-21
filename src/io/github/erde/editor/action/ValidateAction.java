@@ -28,7 +28,7 @@ public class ValidateAction extends Action implements IERDEAction {
     public ValidateAction() {
         super();
         setId(VALIDATE);
-        setText(ACTION_VALI_DATION_EXECUTE_VALIDATION.getValue());
+        setText(ACTION_VALIDATION_EXECUTE_VALIDATION.getValue());
     }
 
     @Override

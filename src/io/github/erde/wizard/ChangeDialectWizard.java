@@ -26,8 +26,7 @@ public class ChangeDialectWizard extends Wizard {
     private ChangeDialectWizardPage page;
 
     public ChangeDialectWizard(CommandStack commandStack, RootModel rootModel) {
-
-        setWindowTitle(Resource.WIZARD_CHANGE_DB_TITLE.getValue());
+        setWindowTitle(Resource.WIZARD_CHANGEDB_TITLE.getValue());
         this.commandStack = commandStack;
         this.root = rootModel;
     }

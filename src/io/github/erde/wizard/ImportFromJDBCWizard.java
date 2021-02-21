@@ -57,7 +57,7 @@ public class ImportFromJDBCWizard extends Wizard {
             stack.execute(new ImportFromJDBCCommand(root, jdbcConn, tableNames));
             page1.setJDBCSetting();
         } catch (Exception e) {
-            UIUtils.openAlertDialog(ERR_DB_IMPORT);
+            UIUtils.openAlertDialog(ERROR_DB_IMPORT);
             return false;
         }
         return true;
