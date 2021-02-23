@@ -28,7 +28,6 @@ import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
-import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -124,7 +123,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         group.add(new SelectionToolEntry());
 
         group.add(createEntityEntry(PALETTE_NODE_TABLE.getValue(), TableModel.class, ICON.TABLE.getPath()));
-        group.add(createConnectionEntry(PALETTE_NODE_RELATIONSHIP.getValue(), RelationshipModel.class, ICON.RELATION_1_N.getPath()));
+        group.add(createConnectionEntry(PALETTE_NODE_RELATIONSHIP.getValue(), RelationshipModel.class,
+                ICON.RELATION_1_N.getPath()));
 
         group.add(new PaletteSeparator());
 
@@ -218,24 +218,19 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         viewer.setRootEditPart(rootEditPart);
 
         ZoomManager manager = rootEditPart.getZoomManager();
-        manager.addZoomListener(new ZoomListener() {
+        manager.addZoomListener(zoom -> getCommandStack().execute(new Command("change in zoom") {
             @Override
-            public void zoomChanged(double zoom) {
-                getCommandStack().execute(new Command("change in zoom") {
-                    @Override
-                    public void execute() {
-                        if (viewer.getContents() != null) {
-                            RootModel model = (RootModel) viewer.getContents().getModel();
-                            model.setZoom(zoom);
-                        }
-                    }
-
-                    @Override
-                    public void undo() {
-                    }
-                });
+            public void execute() {
+                if (viewer.getContents() != null) {
+                    RootModel model = (RootModel) viewer.getContents().getModel();
+                    model.setZoom(zoom);
+                }
             }
-        });
+
+            @Override
+            public void undo() {
+            }
+        }));
 
         ActionRegistry registry = getActionRegistry();
         registry.registerAction(new ZoomInAction(manager));

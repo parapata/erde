@@ -1,4 +1,5 @@
 package io.github.erde.editor.dialog;
+
 import static io.github.erde.Resource.*;
 
 import org.eclipse.core.runtime.IStatus;
@@ -27,7 +28,7 @@ public class ERDMessageDialog {
 
     public static void openAlert(String message) {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        String title =  DIALOG_ALERT_TITLE.getValue();
+        String title = DIALOG_ALERT_TITLE.getValue();
         MessageDialog.openError(shell, title, message);
     }
 

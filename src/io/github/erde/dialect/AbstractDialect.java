@@ -19,10 +19,12 @@ public abstract class AbstractDialect implements IDialect {
     private boolean autoIncrement;
     private boolean schema;
     private boolean drop;
+    private boolean alterTable;
     private boolean comment;
 
     protected List<IIndexType> indexTypes = Arrays.asList(IndexType.values());
-    protected String separator = ";";
+    private String separator = ";";
+    private String lineSeparator = System.getProperty("line.separator");
 
     public AbstractDialect(List<IColumnType> types) {
         this.types = types;
@@ -59,6 +61,16 @@ public abstract class AbstractDialect implements IDialect {
     }
 
     @Override
+    public String getLineSeparator() {
+        return lineSeparator;
+    }
+
+    @Override
+    public void setLineSeparator(String lineSeparator) {
+        this.lineSeparator = lineSeparator;
+    }
+
+    @Override
     public boolean isSchema() {
         return schema;
     }
@@ -76,6 +88,16 @@ public abstract class AbstractDialect implements IDialect {
     @Override
     public void setDrop(boolean drop) {
         this.drop = drop;
+    }
+
+    @Override
+    public boolean isAlterTable() {
+        return alterTable;
+    }
+
+    @Override
+    public void setAlterTable(boolean alterTable) {
+        this.alterTable = alterTable;
     }
 
     @Override

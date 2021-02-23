@@ -13,6 +13,8 @@ import java.util.TreeMap;
  */
 public class PropertiesEx extends Properties {
 
+    /** . */
+    private static final long serialVersionUID = 1L;
     private boolean recurse;
 
     @Override

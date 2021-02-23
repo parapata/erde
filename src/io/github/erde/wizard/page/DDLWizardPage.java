@@ -26,6 +26,7 @@ public class DDLWizardPage extends FolderSelectWizardPage {
     private static final String PATTERN_EDITER_FILE_NAME = String.format("\\%s$", Activator.EXTENSION_ERDE);
 
     private Text filename;
+    private Button alterTable;
     private Button comment;
     private Button drop;
     private Button schema;
@@ -65,9 +66,14 @@ public class DDLWizardPage extends FolderSelectWizardPage {
         schema.setSelection(setting.getBoolean("schema"));
 
         drop = new Button(composite, SWT.CHECK);
-        drop.setText(Resource.WIZARD_GENERATE_DDL_DROP_TABLE.getValue());
+        drop.setText(Resource.WIZARD_GENERATE_DDL_DROP.getValue());
         drop.setLayoutData(UIUtils.createGridData(2));
         drop.setSelection(setting.getBoolean("drop"));
+
+        alterTable = new Button(composite, SWT.CHECK);
+        alterTable.setText(Resource.WIZARD_GENERATE_DDL_ALTER_TABLE.getValue());
+        alterTable.setLayoutData(UIUtils.createGridData(2));
+        alterTable.setSelection(setting.getBoolean("alterTable"));
 
         comment = new Button(composite, SWT.CHECK);
         comment.setText(Resource.WIZARD_GENERATE_DDL_COMMENT.getValue());
@@ -101,23 +107,27 @@ public class DDLWizardPage extends FolderSelectWizardPage {
         return true;
     }
 
-    public Text getFilename() {
-        return filename;
+    public String getFilename() {
+        return filename.getText();
     }
 
-    public Button getComment() {
-        return comment;
+    public boolean getAlterTable() {
+        return alterTable.getSelection();
     }
 
-    public Button getDrop() {
-        return drop;
+    public boolean getComment() {
+        return comment.getSelection();
     }
 
-    public Button getSchema() {
-        return schema;
+    public boolean getDrop() {
+        return drop.getSelection();
     }
 
-    public Text getEncoding() {
-        return encoding;
+    public boolean getSchema() {
+        return schema.getSelection();
+    }
+
+    public String getEncoding() {
+        return encoding.getText();
     }
 }

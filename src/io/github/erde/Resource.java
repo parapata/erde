@@ -432,8 +432,8 @@ public enum Resource {
     WIZARD_GENERATE_DDL_CONFIRM_MESSAGE("wizard.generate.ddl.confirm.message"),
     /** key:wizard.generate.ddl.description. */
     WIZARD_GENERATE_DDL_DESCRIPTION("wizard.generate.ddl.description"),
-    /** key:wizard.generate.ddl.dropTable. */
-    WIZARD_GENERATE_DDL_DROP_TABLE("wizard.generate.ddl.dropTable"),
+    /** key:wizard.generate.ddl.drop. */
+    WIZARD_GENERATE_DDL_DROP("wizard.generate.ddl.drop"),
     /** key:wizard.generate.ddl.encoding. */
     WIZARD_GENERATE_DDL_ENCODING("wizard.generate.ddl.encoding"),
     /** key:wizard.generate.ddl.error.encoding. */

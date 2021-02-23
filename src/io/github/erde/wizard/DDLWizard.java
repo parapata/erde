@@ -1,11 +1,11 @@
 package io.github.erde.wizard;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import org.eclipse.core.resources.IFile;
@@ -58,36 +58,34 @@ public class DDLWizard extends FileSystemExportWizard {
     @Override
     public boolean performFinish() {
         IDialect dialect = root.getDialectProvider().getDialect();
-        dialect.setSchema(page.getSchema().getSelection());
-        dialect.setDrop(page.getDrop().getSelection());
-        dialect.setComment(page.getComment().getSelection());
-
-        StringBuilder ddl = new StringBuilder();
-        dialect.createDDL(root, ddl);
+        dialect.setSchema(page.getSchema());
+        dialect.setDrop(page.getDrop());
+        dialect.setAlterTable(page.getAlterTable());
+        dialect.setComment(page.getComment());
 
         IDialogSettings setting = getDialogSettings();
-        setting.put("schema", page.getSchema().getSelection());
-        setting.put("drop", page.getDrop().getSelection());
-        setting.put("comment", page.getComment().getSelection());
-        setting.put("encoding", page.getEncoding().getText());
+        setting.put("schema", page.getSchema());
+        setting.put("drop", page.getDrop());
+        setting.put("alterTable", page.getAlterTable());
+        setting.put("comment", page.getComment());
+        setting.put("encoding", page.getEncoding());
 
-        File file = Paths.get(page.getOutputFolderResource(), page.getFilename().getText()).toFile();
+        File file = Paths.get(page.getOutputFolderResource(), page.getFilename()).toFile();
+
         if (file.exists()) {
-            String[] messageArgs = new String[] { page.getFilename().getText() };
+            String[] messageArgs = new String[] { page.getFilename() };
             if (!UIUtils.openConfirmDialog(Resource.WIZARD_GENERATE_DDL_CONFIRM_MESSAGE, messageArgs)) {
                 return false;
             }
         }
-        return output(ddl.toString(), file, page.getEncoding().getText());
-    }
 
-    private boolean output(String ddl, File file, String encode) {
-        try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), encode)) {
-            writer.write(ddl);
-            UIUtils.projectRefresh();
-        } catch (UnsupportedEncodingException e) {
-            Activator.logException(e);
-            return false;
+        try (FileOutputStream fos = new FileOutputStream(file);
+                OutputStreamWriter osw = new OutputStreamWriter(fos, page.getEncoding());
+                BufferedWriter bw = new BufferedWriter(osw);
+                PrintWriter pw = new PrintWriter(bw)) {
+            dialect.createDDL(root, pw);
+            pw.flush();
+            return true;
         } catch (IOException e) {
             Activator.logException(e);
             UIUtils.openAlertDialog(Resource.WIZARD_GENERATE_DDL_ERROR_OUTPUT);
@@ -95,6 +93,5 @@ public class DDLWizard extends FileSystemExportWizard {
         } finally {
             UIUtils.projectRefresh();
         }
-        return true;
     }
 }

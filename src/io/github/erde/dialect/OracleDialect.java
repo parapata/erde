@@ -4,8 +4,10 @@ import static io.github.erde.Resource.*;
 import static io.github.erde.dialect.DialectProvider.*;
 import static java.sql.Types.*;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.erde.Activator;
 import io.github.erde.core.util.JDBCConnection;
@@ -57,71 +59,68 @@ public class OracleDialect extends AbstractDialect {
     }
 
     @Override
-    public void createTableDDL(RootModel root, TableModel model, StringBuilder ddl, StringBuilder additions) {
-
-        super.createTableDDL(root, model, ddl, additions);
-
-        StringBuilder sbComment = new StringBuilder();
-
-        // Oracle Table Comments
-        if (isComment()) {
-            sbComment.append("COMMENT ON TABLE ").append(model.getPhysicalName()).append(" IS ");
-            sbComment.append("'");
-            sbComment.append(model.getLogicalName());
-            sbComment.append("'");
-            sbComment.append(getSeparator());
-            sbComment.append(LS);
-        }
-        for (ColumnModel column : model.getColumns()) {
-            if (column.isAutoIncrement()) {
-                String seqName = String.format("%s_%s_SEQ", model.getPhysicalName(), column.getPhysicalName());
-                String triggerName = String.format("%s_%s_TRG", model.getPhysicalName(), column.getPhysicalName());
-
-                if (isDrop()) {
-                    ddl.append("DROP SEQUENCE ").append(seqName).append(getSeparator()).append(LS);
-                    // sb.append("DROP TRIGGER ").append(triggerName).append(getSeparator()).append(LS);
-                    ddl.append(LS);
-                }
-
-                ddl.append("CREATE SEQUENCE ");
-                ddl.append(seqName);
-                ddl.append(" NOMAXVALUE NOCACHE NOORDER NOCYCLE;");
-                ddl.append(getSeparator());
-                ddl.append(LS);
-
-                ddl.append(LS);
-
-                ddl.append("CREATE TRIGGER ");
-                ddl.append(triggerName).append(LS);
-                ddl.append("BEFORE INSERT ON ").append(model.getPhysicalName()).append(LS);
-                ddl.append("FOR EACH ROW").append(LS);
-                ddl.append("BEGIN").append(LS);
-                ddl.append("IF :NEW.").append(column.getPhysicalName()).append(" IS NOT NULL THEN").append(LS);
-                ddl.append("  SELECT ").append(seqName).append(".NEXTVAL ");
-                ddl.append("INTO :NEW.").append(column.getPhysicalName()).append(" FROM DUAL;").append(LS);
-                ddl.append("END IF;").append(LS);
-                ddl.append("END;").append(LS);
-            }
-
-            if (isComment()) {
-                if (column.getLogicalName() != null && column.getLogicalName().length() > 0) {
-                    sbComment.append("COMMENT ON COLUMN ").append(model.getPhysicalName()).append(".");
-                    sbComment.append(column.getPhysicalName()).append(" IS ");
-                    sbComment.append("'").append(column.getLogicalName()).append("'");
-                    sbComment.append(getSeparator());
-                    sbComment.append(LS);
-                }
-            }
-        }
-
-        if (sbComment.length() > 0) {
-            ddl.append(sbComment).append(LS);
-        }
+    public String dropTableDDL(String tableName) {
+        return String.format("DROP TABLE %s CASCADE CONSTRAINTS", tableName);
     }
 
     @Override
-    public String dropTableDDL(String tableName) {
-        return String.format("DROP TABLE %s CASCADE CONSTRAINTS;", tableName);
+    public void additions(RootModel root, PrintWriter writer) {
+
+        AtomicInteger count = new AtomicInteger();
+
+        // Oracle Table Comments
+        if (isComment()) {
+            TableDependencyCalculator.getSortedTable(root).forEach(table -> {
+                if (count.get() > 0) {
+                    writer.println();
+                }
+                writer.print(String.format("COMMENT ON TABLE %s IS '%s'",
+                        table.getPhysicalName(),
+                        table.getLogicalName()));
+                writer.println(getSeparator());
+
+                table.getColumns().forEach(column -> {
+                    writer.print(String.format("COMMENT ON COLUMN %s.%s IS '%s'",
+                            table.getPhysicalName(),
+                            column.getPhysicalName(),
+                            column.getLogicalName()));
+                    writer.println(getSeparator());
+                });
+            });
+        }
+
+        // TODO シーケンス機能を検討する
+        TableDependencyCalculator.getSortedTable(root).forEach(table -> {
+            table.getColumns().forEach(column -> {
+                if (column.isAutoIncrement()) {
+                    String seqName = String.format("%s_%s_SEQ", table.getPhysicalName(), column.getPhysicalName());
+                    String triggerName = String.format("%s_%s_TRG", table.getPhysicalName(), column.getPhysicalName());
+
+                    if (isDrop()) {
+                        writer.print(String.format("DROP SEQUENCE %s", seqName));
+                        writer.println(getSeparator());
+                    }
+
+                    writer.print(String.format("CREATE SEQUENCE %s NOMAXVALUE NOCACHE NOORDER NOCYCLE", seqName));
+                    writer.println(getSeparator());
+
+                    writer.println(String.format("CREATE TRIGGER %s", triggerName));
+                    writer.println(String.format("BEFORE INSERT ON %s", table.getPhysicalName()));
+                    writer.println(String.format("FOR EACH ROW"));
+                    writer.println(String.format("BEGIN"));
+                    writer.println(String.format("IF :NEW.%s IS NOT NULL THEN", column.getPhysicalName()));
+                    writer.print(String.format("    SELECT %s.NEXTVAL INTO :NEW.%s FROM DUAL",
+                            seqName, column.getPhysicalName()));
+                    writer.println(getSeparator());
+                    writer.println(String.format("INTO :NEW.%s FROM DUAL", column.getPhysicalName()));
+                    writer.println(getSeparator());
+                    writer.print(String.format("END IF"));
+                    writer.println(getSeparator());
+                    writer.print(String.format("END"));
+                    writer.println(getSeparator());
+                }
+            });
+        });
     }
 
     @Override
@@ -131,8 +130,8 @@ public class OracleDialect extends AbstractDialect {
 
     // TODO Should Oracle validation levels be customizable?
     @Override
-    public void validate(DiagramErrorManager deManager, RootModel model) {
-        for (BaseEntityModel entity : model.getChildren()) {
+    public void validate(DiagramErrorManager deManager, RootModel root) {
+        for (BaseEntityModel entity : root.getChildren()) {
             if (entity instanceof TableModel) {
                 TableModel table = (TableModel) entity;
                 String tableName = table.getPhysicalName();

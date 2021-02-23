@@ -9,8 +9,6 @@ import java.util.List;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.RootModel;
-import io.github.erde.editor.diagram.model.TableModel;
 
 /**
  * H2Dialect.
@@ -61,27 +59,28 @@ public class H2Dialect extends AbstractDialect {
     }
 
     @Override
-    public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel, StringBuilder sb,
-            StringBuilder additions) {
-        sb.append(columnModel.getPhysicalName());
-        if (columnModel.isAutoIncrement()) {
+    public String createColumnPart(ColumnModel column) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(column.getPhysicalName());
+        if (column.isAutoIncrement()) {
             sb.append(" IDENTITY");
         } else {
-            sb.append(" ").append(columnModel.getColumnType().getPhysicalName());
-            if (columnModel.getColumnType().isSizeSupported() && columnModel.getColumnSize() != null) {
-                sb.append("(").append(columnModel.getColumnSize()).append(")");
+            sb.append(SPACE).append(column.getColumnType().getPhysicalName());
+            if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
+                sb.append(String.format("(%s)", column.getColumnSize()));
             }
         }
-        if (columnModel.getDefaultValue().length() != 0) {
-            sb.append(" DEFAULT ").append(columnModel.getDefaultValue());
+        if (column.getDefaultValue().length() != 0) {
+            sb.append(String.format(" DEFAULT %s", column.getDefaultValue()));
         }
-        if (columnModel.isNotNull()) {
+        if (column.isNotNull()) {
             sb.append(" NOT NULL");
         }
+        return sb.toString();
     }
 
     @Override
     public String getColumnMetadataSQL(String tableName) {
-        return super.getColumnMetadataSQL(tableName) + "  LIMIT 1";
+        return String.format("%s LIMIT 1", super.getColumnMetadataSQL(tableName));
     }
 }

@@ -6,8 +6,6 @@ import static io.github.erde.preference.ERDPreferenceKey.*;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -49,12 +47,7 @@ public class ERDPreferencePage extends PreferencePage implements IWorkbenchPrefe
         layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         showGrid = new BooleanFieldEditor(SHOW_GRID, PREFERENCE_LAYOUT_SHOW_GRID.getValue(), layoutGroup);
-        showGrid.setPropertyChangeListener(new IPropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent event) {
-                enabledGrid.setEnabled(showGrid.getBooleanValue(), layoutGroup);
-            }
-        });
+        showGrid.setPropertyChangeListener(event -> enabledGrid.setEnabled(showGrid.getBooleanValue(), layoutGroup));
 
         gridSize = new SpinnerFieldEditor(GRID_SIZE, PREFERENCE_LAYOUT_GRID_SIZE.getValue(), 1, 100, layoutGroup);
 

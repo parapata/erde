@@ -142,7 +142,7 @@ public class AttributeTabCreator {
         table.setLayout(new GridLayout(2, false));
         table.setLayoutData(UIUtils.createGridData(2));
 
-        UIUtils.createLabel(table,  DIALOG_TABLE_TABLE_PYHGICAL_NAME);
+        UIUtils.createLabel(table, DIALOG_TABLE_TABLE_PYHGICAL_NAME);
         txtTablePyhgicalName = new Text(table, SWT.BORDER);
         txtTablePyhgicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTablePyhgicalName.setText(tableEdit.getPhysicalName());
@@ -321,7 +321,7 @@ public class AttributeTabCreator {
         txtColumnSize.addVerifyListener(new NumericVerifyListener());
 
         // -----
-        UIUtils.createLabel(group,  DIALOG_TABLE_EDIT_COLUMN_DECIMAL);
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_DECIMAL);
         txtDecimal = new Text(group, SWT.BORDER);
         txtDecimal.setLayoutData(UIUtils.createGridDataWithWidth(60));
         txtDecimal.addFocusListener(updateColumnInfoChanged);

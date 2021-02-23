@@ -1,9 +1,14 @@
 package io.github.erde.dialect;
 
+import java.io.PrintWriter;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,10 +17,7 @@ import io.github.erde.dialect.loader.DefaultSchemaLoader;
 import io.github.erde.dialect.loader.ISchemaLoader;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IIndexType;
-import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.IndexModel;
-import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
@@ -28,7 +30,6 @@ import io.github.erde.editor.validator.DiagramErrorManager;
  */
 public interface IDialect {
 
-    String LS = System.getProperty("line.separator");
     String SPACE = new String(Character.toChars(0x20));
     String TAB_SPACE = SPACE + SPACE + SPACE + SPACE;
 
@@ -43,71 +44,78 @@ public interface IDialect {
      * Creates DDL from a given model.
      *
      * @param root a root model of diagram
-     * @param ddl DDLs
+     * @param writer DDLs
      * @return DDL that creates all tables
      */
-    default void createDDL(RootModel root, StringBuilder ddl) {
-
+    default void createDDL(RootModel root, PrintWriter writer) {
         List<TableModel> tables = TableDependencyCalculator.getSortedTable(root);
-        StringBuilder dorpIndexDDL = new StringBuilder();
-        StringBuilder dorpTableDDL = new StringBuilder();
         if (isDrop()) {
-            for (int i = tables.size() - 1; i >= 0; i--) {
-                TableModel table = tables.get(i);
-                String tableName = getTableName(root, table);
-                table.getIndices().forEach(index -> {
-                    if (dorpIndexDDL.length() > 0) {
-                        dorpIndexDDL.append(LS);
-                    }
-                    dorpIndexDDL.append(dropIndexDDL(tableName, index.getIndexName()));
-                });
-                if (dorpTableDDL.length() > 0) {
-                    dorpTableDDL.append(LS);
-                }
-                dorpTableDDL.append(dropTableDDL(tableName));
+            // reverse
+            List<TableModel> reverses = new ArrayList<>();
+            for (ListIterator<TableModel> i = tables.listIterator(tables.size()); i.hasPrevious();) {
+                reverses.add(i.previous());
             }
+            dropDDL(root, reverses, writer);
         }
+        createDDL(root, tables, writer);
+    }
 
-        if (dorpIndexDDL.length() > 0) {
-            ddl.append(dorpIndexDDL);
-            ddl.append(LS);
-        }
+    private void dropDDL(RootModel root, List<TableModel> tables, PrintWriter writer) {
+        AtomicInteger count = new AtomicInteger();
+        tables.forEach(table -> {
+            String tableName = getTableName(root, table);
+            table.getIndices().forEach(index -> {
+                writer.print(dropIndexDDL(tableName, index.getIndexName()));
+                writer.println(getSeparator());
+                count.incrementAndGet();
+            });
+        });
+        reset(count, writer);
 
-        if (dorpTableDDL.length() > 0) {
-            if (dorpIndexDDL.length() > 0) {
-                ddl.append(LS);
+        tables.forEach(table -> {
+            String tableName = getTableName(root, table);
+            writer.print(dropTableDDL(tableName));
+            writer.println(getSeparator());
+            count.incrementAndGet();
+        });
+        reset(count, writer);
+    }
+
+    private void createDDL(RootModel root, List<TableModel> tables, PrintWriter writer) {
+        AtomicInteger count = new AtomicInteger();
+        tables.forEach(table -> {
+            if (count.get() > 0) {
+                writer.println();
             }
-            ddl.append(dorpTableDDL);
+            createTableDDL(root, table, writer);
+            count.incrementAndGet();
+        });
+        reset(count, writer);
+
+        if (isAlterTable()) {
+            tables.forEach(table -> {
+                count.set(createForeignKey(root, table, writer));
+                reset(count, writer);
+            });
         }
 
-        if (ddl.length() > 0) {
-            ddl.append(LS);
-        }
+        tables.forEach(table -> {
+            int res = createIndex(root, table, writer);
+            count.set(count.get() + res);
+        });
+        reset(count, writer);
 
-        StringBuilder additions = new StringBuilder();
-        for (TableModel table : tables) {
-            createTableDDL(root, table, ddl, additions);
-        }
+        tables.forEach(table -> {
+            int res = createUniqueIndex(root, table, writer);
+            count.set(count.get() + res);
+        });
+        reset(count, writer);
 
-        for (TableModel table : tables) {
-            createForeignKey(root, table, additions);
-        }
-
-        for (TableModel table : tables) {
-            createIndex(root, table, additions);
-        }
-
-        for (TableModel table : tables) {
-            createUniqueIndex(root, table, additions);
-        }
-
-        if (additions.length() > 0) {
-            ddl.append(additions);
-        }
+        additions(root, writer);
     }
 
     default String dropTableDDL(String tableName) {
-        return String.format("DROP TABLE IF EXISTS %s;", tableName);
+        return String.format("DROP TABLE IF EXISTS %s", tableName);
     }
 
     default String dropIndexDDL(String tableName, String indexName) {
@@ -120,155 +128,160 @@ public interface IDialect {
      * @param root a root model of diagram
      * @param model a table model
      * @param ddl DDLs
-     * @param additions additional DDLs
      */
-    default void createTableDDL(RootModel root, TableModel model, StringBuilder ddl, StringBuilder additions) {
+    default void createTableDDL(RootModel root, TableModel table, PrintWriter writer) {
 
-        List<String> columnBufs = new ArrayList<>();
-        StringBuilder buf = null;
-        for (ColumnModel column : model.getColumns()) {
-            buf = new StringBuilder();
-            buf.append(LS);
-            buf.append(TAB_SPACE);
-            createColumnDDL(root, model, column, buf, additions);
-            columnBufs.add(buf.toString());
-        }
+        writer.println(String.format("CREATE TABLE %s (", getTableName(root, table)));
 
-        List<String> primaryKeyNames = new ArrayList<>();
-        for (ColumnModel column : model.getPrimaryKeyColumns()) {
-            primaryKeyNames.add(column.getPhysicalName());
-        }
-        if (!primaryKeyNames.isEmpty()) {
-            buf = new StringBuilder();
-            buf.append(LS);
-            buf.append(TAB_SPACE);
-            buf.append(String.format("PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
-            columnBufs.add(buf.toString());
-        }
-
-        if (ddl.length() > 0) {
-            ddl.append(LS);
-        }
-        ddl.append(String.format("CREATE TABLE %s (", getTableName(root, model)));
-        ddl.append(String.join(", ", columnBufs)).append(LS);
-        ddl.append(")");
-        setupTableOption(root, model, ddl, additions);
-    }
-
-    default void createForeignKey(RootModel root, TableModel model, StringBuilder additions) {
-        for (BaseConnectionModel conn : model.getModelTargetConnections()) {
-
-            if (conn instanceof RelationshipModel) {
-
-                RelationshipModel fk = (RelationshipModel) conn;
-
-                if (fk.getMappings().stream().anyMatch(
-                        predicate -> predicate.getReferenceKey() == null || predicate.getForeignKey() == null)) {
-                    continue;
-                }
-
-                TableModel source = (TableModel) conn.getSource();
-                String sourceTableName = source.getPhysicalName();
-                String targetTableName = getTableName(root, model);
-
-                List<String> refkeys = new ArrayList<>();
-                for (RelationshipMappingModel mapping : fk.getMappings()) {
-                    refkeys.add(mapping.getReferenceKey().getPhysicalName());
-                }
-
-                List<String> fkeys = new ArrayList<>();
-                for (RelationshipMappingModel mapping : fk.getMappings()) {
-                    fkeys.add(mapping.getForeignKey().getPhysicalName());
-                }
-
-                additions.append(LS);
-                additions.append(String.format("ALTER TABLE %s", targetTableName));
-                additions.append(LS);
-                additions.append(TAB_SPACE);
-                additions.append(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
-                additions.append(LS);
-                additions.append(TAB_SPACE);
-                additions.append(String.format("FOREIGN KEY (%s)", String.join(", ", fkeys)));
-                additions.append(LS);
-                additions.append(TAB_SPACE);
-                additions.append(String.format("REFERENCES %s (%s)", sourceTableName, String.join(", ", refkeys)));
-                if (StringUtils.isNotEmpty(fk.getOnUpdateOption())) {
-                    additions.append(LS);
-                    additions.append(TAB_SPACE);
-                    additions.append(String.format("ON UPDATE %s", fk.getOnUpdateOption()));
-                }
-                if (StringUtils.isNotEmpty(fk.getOnDeleteOption())) {
-                    additions.append(LS);
-                    additions.append(TAB_SPACE);
-                    additions.append(String.format("ON DELETE %s", fk.getOnDeleteOption()));
-                }
-                additions.append(getSeparator()).append(LS);
+        // column part
+        AtomicInteger count = new AtomicInteger();
+        table.getColumns().forEach(column -> {
+            writer.print(TAB_SPACE);
+            String str = createColumnPart(column);
+            if (count.getAndIncrement() == 0) {
+                writer.println(str);
+            } else {
+                writer.println(String.format(", %s", str));
             }
+        });
+
+        // primaryKey part
+        List<String> primaryKeyNames = Arrays.asList(table.getPrimaryKeyColumns())
+                .stream()
+                .map(column -> column.getPhysicalName())
+                .collect(Collectors.toList());
+        if (isAlterTable() && !primaryKeyNames.isEmpty()) {
+            writer.print(TAB_SPACE);
+            writer.println(String.format("PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
         }
+
+        writer.print(")");
+        setupTableOption(root, table, writer);
     }
 
-    default void createIndex(RootModel root, TableModel model, StringBuilder additions) {
-        for (IndexModel indexModel : model.getIndices()) {
-            if ("INDEX".equals(indexModel.getIndexType().getName())) {
-                String str = String.format("CREATE INDEX %s ON %s (%s)",
-                        indexModel.getIndexName(),
-                        getTableName(root, model),
-                        String.join(", ", indexModel.getColumns()));
+    default int createForeignKey(RootModel root, TableModel table, PrintWriter writer) {
+        AtomicInteger count = new AtomicInteger();
+        table.getModelTargetConnections()
+                .stream()
+                .filter(predicate -> predicate instanceof RelationshipModel)
+                .forEach(conn -> {
+                    RelationshipModel fk = (RelationshipModel) conn;
+                    if (fk.getMappings().stream().anyMatch(
+                            predicate -> predicate.getReferenceKey() != null && predicate.getForeignKey() != null)) {
+                        TableModel source = (TableModel) conn.getSource();
+                        String sourceTableName = source.getPhysicalName();
+                        String targetTableName = getTableName(root, table);
 
-                additions.append(LS).append(str);
-                additions.append(getSeparator());
-            }
-        }
+                        List<String> refkeys = fk.getMappings()
+                                .stream()
+                                .map(mapping -> mapping.getReferenceKey().getPhysicalName())
+                                .collect(Collectors.toList());
+
+                        List<String> fkeys = fk.getMappings()
+                                .stream()
+                                .map(mapping -> mapping.getForeignKey().getPhysicalName())
+                                .collect(Collectors.toList());
+
+                        if (count.get() > 0) {
+                            writer.println();
+                        }
+                        writer.println(String.format("ALTER TABLE %s", targetTableName));
+                        writer.print(TAB_SPACE);
+                        writer.println(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
+                        writer.print(TAB_SPACE);
+                        writer.println(String.format("FOREIGN KEY (%s)", String.join(", ", fkeys)));
+                        writer.print(TAB_SPACE);
+                        writer.print(String.format("REFERENCES %s (%s)", sourceTableName, String.join(", ", refkeys)));
+                        if (StringUtils.isNotEmpty(fk.getOnUpdateOption())) {
+                            writer.println();
+                            writer.print(TAB_SPACE);
+                            writer.print(String.format("ON UPDATE %s", fk.getOnUpdateOption()));
+                        }
+                        if (StringUtils.isNotEmpty(fk.getOnDeleteOption())) {
+                            writer.println();
+                            writer.print(TAB_SPACE);
+                            writer.print(String.format("ON DELETE %s", fk.getOnDeleteOption()));
+                        }
+                        writer.println(getSeparator());
+                        count.incrementAndGet();
+                    }
+                });
+        return count.get();
     }
 
-    default void createUniqueIndex(RootModel root, TableModel model, StringBuilder additions) {
-        for (IndexModel indexModel : model.getIndices()) {
-            if ("UNIQUE".equals(indexModel.getIndexType().getName())) {
-                String str = String.format("CONSTRAINT %s UNIQUE (%s)",
-                        indexModel.getIndexName(),
-                        String.join(", ", indexModel.getColumns()));
-
-                additions.append(LS);
-                additions.append(String.format("ALTER TABLE %s ADD %s", getTableName(root, model), str));
-                additions.append(getSeparator());
-            }
-        }
+    default int createIndex(RootModel root, TableModel table, PrintWriter writer) {
+        AtomicInteger count = new AtomicInteger();
+        table.getIndices()
+                .stream()
+                .filter(predicate -> "INDEX".equals(predicate.getIndexType().getName()))
+                .forEach(index -> {
+                    String str = String.format("CREATE INDEX %s ON %s (%s)",
+                            index.getIndexName(),
+                            getTableName(root, table),
+                            String.join(", ", index.getColumns()));
+                    writer.print(str);
+                    writer.println(getSeparator());
+                    count.incrementAndGet();
+                });
+        return count.get();
     }
 
-    default void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel,
-            StringBuilder ddl, StringBuilder additions) {
+    default int createUniqueIndex(RootModel root, TableModel table, PrintWriter writer) {
+        AtomicInteger count = new AtomicInteger();
+        table.getIndices()
+                .stream()
+                .filter(predicate -> "UNIQUE".equals(predicate.getIndexType().getName()))
+                .forEach(index -> {
+                    String str = String.format("CONSTRAINT %s UNIQUE (%s)",
+                            index.getIndexName(),
+                            String.join(", ", index.getColumns()));
 
-        ddl.append(columnModel.getPhysicalName())
+                    writer.print(String.format("ALTER TABLE %s ADD %s", getTableName(root, table), str));
+                    writer.println(getSeparator());
+                    count.incrementAndGet();
+                });
+        return count.get();
+    }
+
+    default void additions(RootModel root, PrintWriter writer) {
+        return;
+    }
+
+    default String createColumnPart(ColumnModel column) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(column.getPhysicalName())
                 .append(SPACE)
-                .append(columnModel.getColumnType().getPhysicalName());
+                .append(column.getColumnType().getPhysicalName());
 
-        if (columnModel.getColumnType().isEnum()) {
-            if (!columnModel.getEnumNames().isEmpty()) {
-                List<String> enumNemaes = new LinkedList<String>();
-                columnModel.getEnumNames().forEach(enumName -> {
+        if (column.getColumnType().isEnum()) {
+            if (!column.getEnumNames().isEmpty()) {
+                List<String> enumNemaes = new LinkedList<>();
+                column.getEnumNames().forEach(enumName -> {
                     enumNemaes.add(String.format("'%s'", enumName));
                 });
-                ddl.append(String.format("(%s)", String.join(",", enumNemaes)));
+                sb.append(String.format("(%s)", String.join(",", enumNemaes)));
             }
-        } else if (columnModel.getColumnType().isSizeSupported() && columnModel.getColumnSize() != null) {
-            if (columnModel.getDecimal() == null) {
-                ddl.append(String.format("(%d)", columnModel.getColumnSize()));
+        } else if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
+            if (column.getDecimal() == null) {
+                sb.append(String.format("(%d)", column.getColumnSize()));
             } else {
-                ddl.append(String.format("(%d, %d)", columnModel.getColumnSize(), columnModel.getDecimal()));
+                sb.append(String.format("(%d, %d)", column.getColumnSize(), column.getDecimal()));
             }
         }
-        if (columnModel.getColumnType().isUnsignedSupported() && columnModel.isUnsigned()) {
-            ddl.append(" UNSIGNED");
+        if (column.getColumnType().isUnsignedSupported() && column.isUnsigned()) {
+            sb.append(" UNSIGNED");
         }
-        if (columnModel.isNotNull()) {
-            ddl.append(" NOT NULL");
+        if (column.isNotNull()) {
+            sb.append(" NOT NULL");
         }
-        if (columnModel.isUniqueKey()) {
-            ddl.append(" UNIQUE");
+        if (column.isUniqueKey()) {
+            sb.append(" UNIQUE");
         }
-        if (StringUtils.isNotEmpty(columnModel.getDefaultValue())) {
-            ddl.append(" DEFAULT ").append(columnModel.getDefaultValue());
+        if (StringUtils.isNotEmpty(column.getDefaultValue())) {
+            sb.append(" DEFAULT ").append(column.getDefaultValue());
         }
+        return sb.toString();
     }
 
     /**
@@ -294,12 +307,11 @@ public interface IDialect {
      * @return
      */
     default String getTableName(RootModel root, TableModel table) {
-        if (isSchema()) {
-            if (StringUtils.isNotEmpty(root.getJdbcSchema())) {
-                return String.format("%s.%s", root.getJdbcSchema(), table.getPhysicalName());
-            }
+        if (isSchema() && StringUtils.isNotEmpty(root.getJdbcSchema())) {
+            return String.format("%s.%s", root.getJdbcSchema(), table.getPhysicalName());
+        } else {
+            return table.getPhysicalName();
         }
-        return table.getPhysicalName();
     }
 
     /**
@@ -310,9 +322,8 @@ public interface IDialect {
      * @param ddl
      * @param additions
      */
-    default void setupTableOption(RootModel root, TableModel model, StringBuilder ddl, StringBuilder additions) {
-        ddl.append(getSeparator())
-                .append(LS);
+    default void setupTableOption(RootModel root, TableModel table, PrintWriter writer) {
+        writer.println(getSeparator());
     }
 
     /**
@@ -321,7 +332,7 @@ public interface IDialect {
      * @param validation errors
      * @param model the root model of the diagram
      */
-    default void validate(DiagramErrorManager errors, RootModel model) {
+    default void validate(DiagramErrorManager errors, RootModel root) {
     }
 
     /**
@@ -406,6 +417,13 @@ public interface IDialect {
         return getIndexTypes().get(0);
     }
 
+    default void reset(AtomicInteger count, PrintWriter writer) {
+        if (count.intValue() > 0) {
+            writer.println();
+            count.set(0);
+        }
+    }
+
     /**
      * Returns supported column types.
      *
@@ -428,6 +446,10 @@ public interface IDialect {
 
     void setSeparator(String separator);
 
+    String getLineSeparator();
+
+    void setLineSeparator(String lineSeparator);
+
     boolean isSchema();
 
     void setSchema(boolean schema);
@@ -435,6 +457,10 @@ public interface IDialect {
     boolean isDrop();
 
     void setDrop(boolean drop);
+
+    boolean isAlterTable();
+
+    void setAlterTable(boolean alterTable);
 
     boolean isComment();
 

@@ -30,7 +30,7 @@ abstract class JdbcMetaDataTest {
             URLClassLoader urlClassLoader = URLClassLoader.newInstance(new URL[] { jarURL });
             @SuppressWarnings("unchecked")
             Class<Driver> driverClass = (Class<Driver>) urlClassLoader.loadClass(prop.getProperty("driver"));
-            driver = (Driver) driverClass.getDeclaredConstructor().newInstance();
+            driver = driverClass.getDeclaredConstructor().newInstance();
 
             logger.info("jarfile :{}", prop.getProperty("jarfile"));
             logger.info("driver  :{}", prop.getProperty("driver"));

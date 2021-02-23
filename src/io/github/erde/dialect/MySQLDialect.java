@@ -3,6 +3,7 @@ package io.github.erde.dialect;
 import static io.github.erde.dialect.DialectProvider.*;
 import static java.sql.Types.*;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,23 +69,24 @@ public class MySQLDialect extends AbstractDialect {
     }
 
     @Override
-    public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel, StringBuilder ddl,
-            StringBuilder additions) {
-        super.createColumnDDL(root, tableModel, columnModel, ddl, additions);
-        if (columnModel.isAutoIncrement()) {
-            ddl.append(" AUTO_INCREMENT");
+    public String createColumnPart(ColumnModel column) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.createColumnPart(column));
+        if (column.isAutoIncrement()) {
+            sb.append(" AUTO_INCREMENT");
         }
-        if (isComment() && StringUtils.isNotEmpty(columnModel.getLogicalName())) {
-            ddl.append(String.format(" COMMENT '%s'", columnModel.getLogicalName()));
+        if (isComment() && StringUtils.isNotEmpty(column.getLogicalName())) {
+            sb.append(String.format(" COMMENT '%s'", column.getLogicalName()));
         }
+        return sb.toString();
     }
 
     @Override
-    public void setupTableOption(RootModel root, TableModel model, StringBuilder ddl, StringBuilder additions) {
-        if (isComment() && StringUtils.isNotEmpty(model.getLogicalName())) {
-            ddl.append(String.format(" COMMENT = '%s'", model.getLogicalName()));
+    public void setupTableOption(RootModel root, TableModel table, PrintWriter writer) {
+        if (isComment() && StringUtils.isNotEmpty(table.getLogicalName())) {
+            writer.print(String.format(" COMMENT = '%s'", table.getLogicalName()));
         }
-        super.setupTableOption(root, model, ddl, additions);
+        super.setupTableOption(root, table, writer);
     }
 
     @Override

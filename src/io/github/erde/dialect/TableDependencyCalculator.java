@@ -12,7 +12,7 @@ import io.github.erde.editor.diagram.model.TableModel;
 
 /**
  * TableDependencyCalculator.
- * 
+ *
  * @author modified by parapata
  */
 public class TableDependencyCalculator {

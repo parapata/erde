@@ -9,8 +9,6 @@ import java.util.List;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.RootModel;
-import io.github.erde.editor.diagram.model.TableModel;
 
 /**
  * PostgreSQLDialect.
@@ -56,32 +54,32 @@ public class PostgreSQLDialect extends AbstractDialect {
     }
 
     @Override
-    public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel,
-            StringBuilder ddl, StringBuilder additions) {
-
-        ddl.append(columnModel.getPhysicalName());
-        if (columnModel.isAutoIncrement()) {
-            if (columnModel.getColumnType().getPhysicalName().equals("BIGINT")) {
-                ddl.append(" BIGSERIAL");
+    public String createColumnPart(ColumnModel column) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(column.getPhysicalName());
+        if (column.isAutoIncrement()) {
+            if (column.getColumnType().getPhysicalName().equals("BIGINT")) {
+                sb.append(" BIGSERIAL");
             } else {
-                ddl.append(" SERIAL");
+                sb.append(" SERIAL");
             }
         } else {
-            ddl.append(" ").append(columnModel.getColumnType().getPhysicalName());
-            if (columnModel.getColumnType().isSizeSupported() && columnModel.getColumnSize() != null) {
-                ddl.append("(").append(columnModel.getColumnSize()).append(")");
+            sb.append(SPACE).append(column.getColumnType().getPhysicalName());
+            if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
+                sb.append(String.format("(%s)", column.getColumnSize()));
             }
-            if (columnModel.isNotNull()) {
-                ddl.append(" NOT NULL");
+            if (column.isNotNull()) {
+                sb.append(" NOT NULL");
             }
         }
-        if (columnModel.getDefaultValue().length() != 0) {
-            ddl.append(" DEFAULT ").append(columnModel.getDefaultValue());
+        if (column.getDefaultValue().length() != 0) {
+            sb.append(String.format(" DEFAULT %s", column.getDefaultValue()));
         }
+        return sb.toString();
     }
 
     @Override
     public String getColumnMetadataSQL(String tableName) {
-        return super.getColumnMetadataSQL(tableName) + "  LIMIT 1";
+        return String.format("%s LIMIT 1", super.getColumnMetadataSQL(tableName));
     }
 }
