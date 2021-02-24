@@ -1,5 +1,7 @@
 package io.github.erde.editor.dialog.relationship;
 
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,7 +27,6 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
@@ -37,7 +38,7 @@ import io.github.erde.editor.persistent.diagram.ReferenceOption;
  *
  * @author modified by parapata
  */
-public class RelationshipDialog extends Dialog implements IMessages, IRelationshipDialog {
+public class RelationshipDialog extends Dialog implements IRelationshipDialog {
 
     private Logger logger = LoggerFactory.getLogger(RelationshipDialog.class);
 
@@ -90,7 +91,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText(getResource("dialog.mapping.title"));
+        getShell().setText(DIALOG_MAPPING_TITLE.getValue());
 
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(2, false));
@@ -101,13 +102,13 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
             GridData gd1 = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
             gd1.horizontalSpan = 3;
             Label label1 = new Label(composite, SWT.NONE);
-            label1.setText(getResource("dialog.mapping.noColumns"));
+            label1.setText(DIALOG_MAPPING_NO_COLUMNS.getValue());
             label1.setLayoutData(gd1);
         }
 
         // 制約名
         Label constraintNameLabel = new Label(composite, SWT.NONE);
-        constraintNameLabel.setText(getResource("dialog.mapping.name"));
+        constraintNameLabel.setText(DIALOG_MAPPING_NAME.getValue());
         txtForeignKeyName = new Text(composite, SWT.BORDER);
         txtForeignKeyName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtForeignKeyName.setText(relationshipModel.getForeignKeyName());
@@ -127,7 +128,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
     private void createReferredAndRelationMappingArea(Composite composite) {
 
         Label referredLabel = new Label(composite, SWT.NONE);
-        referredLabel.setText(getResource("dialog.mapping.referred"));
+        referredLabel.setText(DIALOG_MAPPING_REFERRED.getValue());
 
         cmbReferenceKey = new Combo(composite, SWT.READ_ONLY);
         cmbReferenceKey.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -137,7 +138,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
 
         Group mappingGroup = new Group(composite, SWT.NONE);
         mappingGroup.setLayoutData(gd);
-        mappingGroup.setText(getResource("dialog.mapping.mapping"));
+        mappingGroup.setText(DIALOG_MAPPING_MAPPING.getValue());
         mappingGroup.setLayout(new GridLayout(3, false));
 
         TableModel referenceTable = relationshipModel.getSource();
@@ -249,7 +250,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
 
         Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gd);
-        group.setText(getResource("多重度"));
+        group.setText(DIALOG_MAPPING_MULTIPLE.getValue());
         group.setLayout(new GridLayout(3, false));
 
         cmbSourceCardinality = new Combo(group, SWT.READ_ONLY);
@@ -273,12 +274,12 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
 
         Group group = new Group(composite, SWT.NONE);
         group.setLayoutData(gd);
-        group.setText(getResource("オプション"));
+        group.setText(DIALOG_MAPPING_OPTION.getValue());
         group.setLayout(new GridLayout(2, false));
 
         // ON UPDATE
         Label onUpdateLabel = new Label(group, SWT.NONE);
-        onUpdateLabel.setText(getResource("dialog.mapping.onUpdate"));
+        onUpdateLabel.setText(DIALOG_MAPPING_ON_UPDATE.getValue());
         cmbOnUpdate = new Combo(group, SWT.READ_ONLY);
         cmbOnUpdate.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         cmbOnUpdate.setItems(REFERENCE_OPTION_ITEMS);
@@ -290,7 +291,7 @@ public class RelationshipDialog extends Dialog implements IMessages, IRelationsh
 
         // ON DELETE
         Label onDeleteLabel = new Label(group, SWT.NONE);
-        onDeleteLabel.setText(getResource("dialog.mapping.onDelete"));
+        onDeleteLabel.setText(DIALOG_MAPPING_ON_DELETE.getValue());
         cmbOnDelete = new Combo(group, SWT.READ_ONLY);
         cmbOnDelete.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         cmbOnDelete.setItems(REFERENCE_OPTION_ITEMS);

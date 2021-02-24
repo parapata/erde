@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
 import io.github.erde.core.util.FontPropertyDescriptor;
 import io.github.erde.editor.diagram.editpart.command.CreateConnectionCommand;
 import io.github.erde.editor.diagram.editpart.command.CreateTableConnectionCommand;
@@ -40,13 +39,14 @@ import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.editor.dialog.table.TableEditDialog;
+import io.github.erde.preference.ERDPreferenceKey;
 
 /**
  * TableEditPart.
  *
  * @author modified by parapata
  */
-public class TableEditPart extends AbstractERDEntityEditPart implements IMessages {
+public class TableEditPart extends AbstractERDEntityEditPart {
 
     private Logger logger = LoggerFactory.getLogger(TableEditPart.class);
 
@@ -198,7 +198,7 @@ public class TableEditPart extends AbstractERDEntityEditPart implements IMessage
         }
 
         if (model.isNotNull()
-                && Activator.getDefault().getPreferenceStore().getBoolean(Activator.PREF_SHOW_NOT_NULL)) {
+                && Activator.getDefault().getPreferenceStore().getBoolean(ERDPreferenceKey.SHOW_NOT_NULL)) {
             lblNotNull.setText("(NN)");
         }
         return new ColumnFigure[] { lblColumnName, lblColumnType, lblNotNull };

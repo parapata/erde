@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Insets;
@@ -28,7 +30,7 @@ public class AutoLayoutAction extends Action implements IERDEAction {
     public AutoLayoutAction() {
         super();
         setId(AUTO_LAYOUT);
-        setText(getResource("action.autoLayout"));
+        setText(ACTION_AUTO_LAYOUT.getValue());
     }
 
     @Override

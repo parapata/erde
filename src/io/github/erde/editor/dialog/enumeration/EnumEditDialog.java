@@ -1,5 +1,7 @@
 package io.github.erde.editor.dialog.enumeration;
 
+import static io.github.erde.Resource.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -28,10 +30,9 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
 
-public class EnumEditDialog extends Dialog implements IMessages {
+public class EnumEditDialog extends Dialog {
 
     private Logger logger = LoggerFactory.getLogger(EnumEditDialog.class);
 
@@ -148,7 +149,7 @@ public class EnumEditDialog extends Dialog implements IMessages {
                     .filter(predicate -> StringUtils.isNoneEmpty(predicate) && !StringUtils.trim(predicate).isEmpty())
                     .collect(Collectors.toList());
             if (items.size() != new HashSet<>(items).size()) {
-                UIUtils.openAlertDialog("重複エラー");
+                UIUtils.openAlertDialog(ERROR_KEY_DUPLICATE);
                 return;
             }
         }

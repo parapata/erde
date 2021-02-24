@@ -2,38 +2,53 @@ package io.github.erde.wizard.page;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.UIUtils;
+import io.github.erde.wizard.DDLWizard;
 
 /**
  * DDLWizardPage.
  *
  * @author modified by parapata
  */
-public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
+public class DDLWizardPage extends FolderSelectWizardPage {
 
     private static final String PATTERN_EDITER_FILE_NAME = String.format("\\%s$", Activator.EXTENSION_ERDE);
 
-    private Text filename;
-    private Button comment;
-    private Button drop;
-    private Button schema;
-    private Text encoding;
+    private Text txtFilename;
+    private Button btnAlterTable;
+    private Button btnComment;
+    private Button btnDrop;
+    private Button btnSchema;
+    private Combo cmbEncoding;
+    private Combo cmbLineSeparator;
+
+    private static Map<String, String> lineSeparatorMap = new HashMap<>();
+    static {
+        lineSeparatorMap.put("CR+LF", "\r\n");
+        lineSeparatorMap.put("LF", "\n");
+        lineSeparatorMap.put("CR", "\r");
+    }
 
     public DDLWizardPage(IFile erdFile) {
-        super(erdFile, resource.getString("wizard.generate.ddl.title"));
-        setDescription(getResource("wizard.generate.ddl.description"));
+        super(erdFile, Resource.WIZARD_GENERATE_DDL_TITLE.getValue());
+        setDescription(Resource.WIZARD_GENERATE_DDL_DESCRIPTION.getValue());
     }
 
     @Override
@@ -44,49 +59,67 @@ public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
         Composite composite = (Composite) getControl();
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText(getResource("wizard.generate.ddl.filename"));
+        label.setText(Resource.WIZARD_GENERATE_DDL_FILENAME.getValue());
 
-        filename = new Text(composite, SWT.BORDER);
-        filename.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        filename.setText(erdFile.getName().replaceFirst(PATTERN_EDITER_FILE_NAME, Activator.EXTENSION_DDL));
-        filename.addModifyListener(e -> doValidate());
+        txtFilename = new Text(composite, SWT.BORDER);
+        txtFilename.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        txtFilename.setText(erdFile.getName().replaceFirst(PATTERN_EDITER_FILE_NAME, Activator.EXTENSION_DDL));
+        txtFilename.addModifyListener(event -> doValidate());
 
         new Label(composite, SWT.NULL);
+        new Label(composite, SWT.NULL).setText(Resource.WIZARD_GENERATE_DDL_ENCODING.getValue());
+        cmbEncoding = new Combo(composite, SWT.READ_ONLY);
+        SortedMap<String, Charset> charsets = Charset.availableCharsets();
+        charsets.values().forEach(charset -> {
+            cmbEncoding.add(charset.displayName());
+        });
+        cmbEncoding.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        cmbEncoding.setText(setting.get(DDLWizard.ENCODING));
+        cmbEncoding.addModifyListener(event -> doValidate());
 
-        new Label(composite, SWT.NULL).setText(getResource("wizard.generate.ddl.encoding"));
-        encoding = new Text(composite, SWT.BORDER);
-        encoding.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        encoding.setText(setting.get("encoding"));
-        encoding.addModifyListener(e -> doValidate());
+        new Label(composite, SWT.NULL);
+        new Label(composite, SWT.NULL).setText(Resource.WIZARD_GENERATE_DDL_LINE_SEPARATOR.getValue());
+        cmbLineSeparator = new Combo(composite, SWT.READ_ONLY);
+        lineSeparatorMap.forEach((key, value) -> {
+            cmbLineSeparator.add(key);
+            cmbLineSeparator.setData(key, value);
+        });
+        cmbLineSeparator.setText(setting.get(DDLWizard.LINE_SEPARATOR));
+        cmbLineSeparator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        schema = new Button(composite, SWT.CHECK);
-        schema.setText(getResource("wizard.generate.ddl.schema"));
-        schema.setLayoutData(UIUtils.createGridData(2));
-        schema.setSelection(setting.getBoolean("schema"));
+        btnSchema = new Button(composite, SWT.CHECK);
+        btnSchema.setText(Resource.WIZARD_GENERATE_DDL_SCHEMA.getValue());
+        btnSchema.setLayoutData(UIUtils.createGridData(2));
+        btnSchema.setSelection(setting.getBoolean(DDLWizard.SCHEMA));
 
-        drop = new Button(composite, SWT.CHECK);
-        drop.setText(getResource("wizard.generate.ddl.dropTable"));
-        drop.setLayoutData(UIUtils.createGridData(2));
-        drop.setSelection(setting.getBoolean("drop"));
+        btnDrop = new Button(composite, SWT.CHECK);
+        btnDrop.setText(Resource.WIZARD_GENERATE_DDL_DROP.getValue());
+        btnDrop.setLayoutData(UIUtils.createGridData(2));
+        btnDrop.setSelection(setting.getBoolean(DDLWizard.DROP));
 
-        comment = new Button(composite, SWT.CHECK);
-        comment.setText(getResource("wizard.generate.ddl.comment"));
-        comment.setLayoutData(UIUtils.createGridData(2));
-        comment.setSelection(setting.getBoolean("comment"));
+        btnAlterTable = new Button(composite, SWT.CHECK);
+        btnAlterTable.setText(Resource.WIZARD_GENERATE_DDL_ALTER_TABLE.getValue());
+        btnAlterTable.setLayoutData(UIUtils.createGridData(2));
+        btnAlterTable.setSelection(setting.getBoolean(DDLWizard.ALTER_TABLE));
+
+        btnComment = new Button(composite, SWT.CHECK);
+        btnComment.setText(Resource.WIZARD_GENERATE_DDL_COMMENT.getValue());
+        btnComment.setLayoutData(UIUtils.createGridData(2));
+        btnComment.setSelection(setting.getBoolean(DDLWizard.COMMENT));
     }
 
     @Override
     protected void doValidate() {
         super.doValidate();
         if (!new File(getOutputFolderResource()).exists()) {
-            setErrorMessage(getResource("wizard.generate.ddl.error.path"));
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_PATH.getValue());
             setPageComplete(false);
-        } else if (filename.getText().length() == 0) {
-            setErrorMessage(getResource("wizard.generate.ddl.error.filename"));
+        } else if (txtFilename.getText().isEmpty()) {
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_FILENAME.getValue());
             setPageComplete(false);
             return;
-        } else if (!isSupportedEncoding(encoding.getText())) {
-            setErrorMessage(getResource("wizard.generate.ddl.error.encoding"));
+        } else if (!isSupportedEncoding(cmbEncoding.getText())) {
+            setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_ENCODING.getValue());
             setPageComplete(false);
             return;
         }
@@ -101,23 +134,31 @@ public class DDLWizardPage extends FolderSelectWizardPage implements IMessages {
         return true;
     }
 
-    public Text getFilename() {
-        return filename;
+    public String getFilename() {
+        return txtFilename.getText();
     }
 
-    public Button getComment() {
-        return comment;
+    public boolean getAlterTable() {
+        return btnAlterTable.getSelection();
     }
 
-    public Button getDrop() {
-        return drop;
+    public boolean getComment() {
+        return btnComment.getSelection();
     }
 
-    public Button getSchema() {
-        return schema;
+    public boolean getDrop() {
+        return btnDrop.getSelection();
     }
 
-    public Text getEncoding() {
-        return encoding;
+    public boolean getSchema() {
+        return btnSchema.getSelection();
+    }
+
+    public String getEncoding() {
+        return cmbEncoding.getText();
+    }
+
+    public String getLineSeparator() {
+        return (String) cmbLineSeparator.getData(cmbLineSeparator.getText());
     }
 }

@@ -1,6 +1,7 @@
 package io.github.erde.editor.dialog.table.tabs;
 
-import java.sql.Types;
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -43,7 +43,7 @@ import io.github.erde.editor.dialog.table.ITableEdit;
  *
  * @author modified by parapata
  */
-public class AttributeTabCreator implements IMessages {
+public class AttributeTabCreator {
 
     private Logger logger = LoggerFactory.getLogger(AttributeTabCreator.class);
 
@@ -135,20 +135,20 @@ public class AttributeTabCreator implements IMessages {
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         TabItem tab = new TabItem(tabFolder, SWT.NULL);
-        tab.setText(getResource("label.attribute"));
+        tab.setText(LABEL_ATTRIBUTE.getValue());
         tab.setControl(composite);
 
         Composite table = new Composite(composite, SWT.NULL);
         table.setLayout(new GridLayout(2, false));
         table.setLayoutData(UIUtils.createGridData(2));
 
-        UIUtils.createLabel(table, "dialog.table.tablePyhgicalName");
+        UIUtils.createLabel(table, DIALOG_TABLE_TABLE_PYHGICAL_NAME);
         txtTablePyhgicalName = new Text(table, SWT.BORDER);
         txtTablePyhgicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTablePyhgicalName.setText(tableEdit.getPhysicalName());
         txtTablePyhgicalName.addModifyListener(event -> tableEdit.setPhysicalName(txtTablePyhgicalName.getText()));
 
-        UIUtils.createLabel(table, "dialog.table.tableLogicalName");
+        UIUtils.createLabel(table, DIALOG_TABLE_TABLE_LOGICAL_NAME);
         txtTableLogicalName = new Text(table, SWT.BORDER);
         txtTableLogicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTableLogicalName.setText(tableEdit.getLogicalName());
@@ -170,13 +170,13 @@ public class AttributeTabCreator implements IMessages {
         tblColumns.setHeaderVisible(true);
         tblColumns.addSelectionListener(columnListSelectionChanged);
 
-        UIUtils.createColumn(tblColumns, "dialog.table.columnPK", 55);
-        UIUtils.createColumn(tblColumns, "dialog.table.columnFK", 55);
-        UIUtils.createColumn(tblColumns, "dialog.table.columnPyhgicalName", 160);
-        UIUtils.createColumn(tblColumns, "dialog.table.columnLogicalName", 160);
-        UIUtils.createColumn(tblColumns, "dialog.table.columnType", 160);
-        UIUtils.createColumn(tblColumns, "dialog.table.columnNotNull", 55);
-        UIUtils.createColumn(tblColumns, "dialog.table.columnUnique", 55);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_PK, 55);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_FK, 55);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_PYHGICAL_NAME, 160);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_LOGICAL_NAME, 160);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_TYPE, 160);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_NOT_NULL, 55);
+        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_UNIQUE, 55);
 
         for (ColumnModel model : tableEdit.getColumns()) {
             TableItem item = new TableItem(tblColumns, SWT.NULL | SWT.FILL);
@@ -194,7 +194,7 @@ public class AttributeTabCreator implements IMessages {
 
         // -----
         btnAddColumn = new Button(buttons, SWT.PUSH);
-        btnAddColumn.setText(getResource("dialog.table.addColumn"));
+        btnAddColumn.setText(DIALOG_TABLE_ADD_COLUMN.getValue());
         btnAddColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnAddColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -202,7 +202,7 @@ public class AttributeTabCreator implements IMessages {
                 int num = tableEdit.getColumns().size() + 1;
                 ColumnModel column = new ColumnModel();
                 column.setPhysicalName(String.format("COLUMN_%d", num));
-                column.setLogicalName(String.format("%s_%d", getResource("label.column"), num));
+                column.setLogicalName(String.format("%s_%d", LABEL_COLUMN.getValue(), num));
                 column.setColumnType(tableEdit.getDialect().getDefaultColumnType());
 
                 int index = tblColumns.getSelectionIndex();
@@ -222,7 +222,7 @@ public class AttributeTabCreator implements IMessages {
 
         // -----
         btnRemoveColumn = new Button(buttons, SWT.PUSH);
-        btnRemoveColumn.setText(getResource("dialog.table.removeColumn"));
+        btnRemoveColumn.setText(DIALOG_TABLE_REMOVE_COLUMN.getValue());
         btnRemoveColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnRemoveColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -246,7 +246,7 @@ public class AttributeTabCreator implements IMessages {
 
         // -----
         btnUpColumn = new Button(buttons, SWT.PUSH);
-        btnUpColumn.setText(getResource("dialog.table.upColumn"));
+        btnUpColumn.setText(DIALOG_TABLE_UP_COLUMN.getValue());
         btnUpColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnUpColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -263,7 +263,7 @@ public class AttributeTabCreator implements IMessages {
 
         // -----
         btnDownColumn = new Button(buttons, SWT.PUSH);
-        btnDownColumn.setText(getResource("dialog.table.downColumn"));
+        btnDownColumn.setText(DIALOG_TABLE_DOWN_COLUMN.getValue());
         btnDownColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnDownColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -282,12 +282,38 @@ public class AttributeTabCreator implements IMessages {
         // column infomation area
         // ------------------------------------------------------------
         Group group = new Group(composite, SWT.NULL);
-        group.setText(getResource("dialog.table.editColumn"));
+        group.setText(DIALOG_TABLE_EDIT_COLUMN.getValue());
         group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         group.setLayout(new GridLayout(7, false));
 
+        // ------------------------------------------------------------
+        // check box area(pkey, autoIncrement etc...)
+        // ------------------------------------------------------------
+        Composite checks = new Composite(group, SWT.NULL);
+        checks.setLayout(new GridLayout(6, false));
+        checks.setLayoutData(UIUtils.createGridData(7));
+
+        btnChkIsPK = new Button(checks, SWT.CHECK);
+        btnChkIsPK.setText(DIALOG_TABLE_EDIT_COLUMN_PK.getValue());
+        btnChkIsPK.addSelectionListener(columnInfoSelectionChanged);
+
         // -----
-        UIUtils.createLabel(group, "dialog.table.editColumn.name");
+        btnChkNotNull = new Button(checks, SWT.CHECK);
+        btnChkNotNull.setText(DIALOG_TABLE_EDIT_COLUMN_NOT_NULL.getValue());
+        btnChkNotNull.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        btnChkIsUnique = new Button(checks, SWT.CHECK);
+        btnChkIsUnique.setText(DIALOG_TABLE_EDIT_COLUMN_UNIQUE_KEY.getValue());
+        btnChkIsUnique.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        btnAutoIncrement = new Button(checks, SWT.CHECK);
+        btnAutoIncrement.setText(DIALOG_TABLE_EDIT_COLUMN_AUTO_INCREMENT.getValue());
+        btnAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_NAME);
         txtColumnName = new Text(group, SWT.BORDER);
         GridData pyhgicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
         pyhgicalNameGridData.horizontalSpan = 6;
@@ -295,7 +321,7 @@ public class AttributeTabCreator implements IMessages {
         txtColumnName.addFocusListener(updateColumnInfoChanged);
 
         // -----
-        UIUtils.createLabel(group, "dialog.table.editColumn.logicalName");
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_LOGICAL_NAME);
         txtColumnLogicalName = new Text(group, SWT.BORDER);
         GridData logicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
         logicalNameGridData.horizontalSpan = 6;
@@ -303,7 +329,7 @@ public class AttributeTabCreator implements IMessages {
         txtColumnLogicalName.addFocusListener(updateColumnInfoChanged);
 
         // -----
-        UIUtils.createLabel(group, "dialog.table.editColumn.type");
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_TYPE);
         cmbColumnType = new Combo(group, SWT.READ_ONLY);
         cmbColumnType.addSelectionListener(columnTypeSelectionChanged);
         for (DomainModel doman : domains) {
@@ -314,14 +340,14 @@ public class AttributeTabCreator implements IMessages {
         }
 
         // -----
-        UIUtils.createLabel(group, "dialog.table.editColumn.size");
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_SIZE);
         txtColumnSize = new Text(group, SWT.BORDER);
         txtColumnSize.setLayoutData(UIUtils.createGridDataWithWidth(60));
         txtColumnSize.addFocusListener(updateColumnInfoChanged);
         txtColumnSize.addVerifyListener(new NumericVerifyListener());
 
         // -----
-        UIUtils.createLabel(group, "dialog.table.editColumn.decimal");
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_DECIMAL);
         txtDecimal = new Text(group, SWT.BORDER);
         txtDecimal.setLayoutData(UIUtils.createGridDataWithWidth(60));
         txtDecimal.addFocusListener(updateColumnInfoChanged);
@@ -329,15 +355,15 @@ public class AttributeTabCreator implements IMessages {
 
         // -----
         btnChkUnsigned = new Button(group, SWT.CHECK);
-        btnChkUnsigned.setText(getResource("dialog.table.editColumn.unsigned"));
+        btnChkUnsigned.setText(DIALOG_TABLE_EDIT_COLUMN_UNSIGNED.getValue());
         btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
-        UIUtils.createLabel(group, "");
+        UIUtils.createLabel(group, NONE);
         Composite enumArea = new Composite(group, SWT.NULL);
         enumArea.setLayout(new GridLayout(5, false));
         enumArea.setLayoutData(UIUtils.createGridData(6));
-        UIUtils.createLabel(enumArea, getResource("Enum/Set:"));
+        UIUtils.createLabel(enumArea, DIALOG_TABLE_EDIT_COLUMN_ENUM);
 
         GridData cmbEnumGridData = new GridData();
         cmbEnumGridData.widthHint = 160;
@@ -345,7 +371,7 @@ public class AttributeTabCreator implements IMessages {
         cmbEnum.setLayoutData(cmbEnumGridData);
 
         btnEnumEdit = new Button(enumArea, SWT.PUSH);
-        btnEnumEdit.setText(getResource("編集"));
+        btnEnumEdit.setText(BUTTON_EDIT.getValue());
         btnEnumEdit.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -361,7 +387,7 @@ public class AttributeTabCreator implements IMessages {
         });
 
         // -----
-        UIUtils.createLabel(group, "dialog.table.editColumn.defaultValue");
+        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_DEFAULT_VALUE);
         txtDefaultValue = new Text(group, SWT.BORDER);
         GridData defaultValueGridData = new GridData(GridData.FILL_HORIZONTAL);
         defaultValueGridData.horizontalSpan = 6;
@@ -369,35 +395,10 @@ public class AttributeTabCreator implements IMessages {
         txtDefaultValue.addFocusListener(updateColumnInfoChanged);
 
         // -----
-        UIUtils.createLabel(group, "dialog.table.description");
+        UIUtils.createLabel(group, DIALOG_TABLE_DESCRIPTION);
         txtColumnDescription = new Text(group, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtColumnDescription.setLayoutData(UIUtils.createGridDataWithColspan(6, 90));
         txtColumnDescription.addFocusListener(updateColumnInfoChanged);
-
-        // -----
-        Composite checks = new Composite(group, SWT.NULL);
-        checks.setLayout(new GridLayout(6, false));
-        checks.setLayoutData(UIUtils.createGridData(7));
-
-        // -----
-        btnChkIsPK = new Button(checks, SWT.CHECK);
-        btnChkIsPK.setText(getResource("dialog.table.editColumn.PK"));
-        btnChkIsPK.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        btnChkNotNull = new Button(checks, SWT.CHECK);
-        btnChkNotNull.setText(getResource("dialog.table.editColumn.notNull"));
-        btnChkNotNull.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        btnChkIsUnique = new Button(checks, SWT.CHECK);
-        btnChkIsUnique.setText(getResource("dialog.table.editColumn.UniqueKey"));
-        btnChkIsUnique.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        btnAutoIncrement = new Button(checks, SWT.CHECK);
-        btnAutoIncrement.setText(getResource("dialog.table.editColumn.autoIncrement"));
-        btnAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
 
         if (editColumnIndex > -1) {
             tabFolder.setSelection(tab);

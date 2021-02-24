@@ -1,5 +1,10 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +14,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
+import io.github.erde.core.exception.SystemException;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -25,7 +31,7 @@ public class SelectedTablesDDLAction extends Action implements IERDEAction {
     public SelectedTablesDDLAction() {
         super();
         setId(SELECTED_TABLES_DDL);
-        setText(getResource("action.selectedTablesDDL"));
+        setText(ACTION_SELECTED_TABLES_DDL.getValue());
     }
 
     @Override
@@ -49,25 +55,24 @@ public class SelectedTablesDDLAction extends Action implements IERDEAction {
             dialect.setSchema(false);
             dialect.setDrop(true);
             dialect.setComment(true);
+            dialect.setAlterTable(false);
+            dialect.setLineSeparator(System.lineSeparator());
 
-            StringBuilder ddl = new StringBuilder();
-
-            if (tableModels.isEmpty()) {
-                dialect.createDDL(root, ddl);
-
-            } else {
-                StringBuilder additions = new StringBuilder();
-                for (TableModel tableModel : tableModels) {
-                    dialect.createTableDDL(root, tableModel, ddl, additions);
+            try (StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw)) {
+                if (tableModels.isEmpty()) {
+                    dialect.createDDL(root, pw);
+                } else {
+                    for (TableModel tableModel : tableModels) {
+                        dialect.createTableDDL(root, tableModel, pw);
+                    }
                 }
-                if (additions.length() > 0) {
-                    ddl.append(System.getProperty("line.separator"));
-                    ddl.append(additions.toString());
-                }
+                pw.flush();
+                DDLDisplayDialog dialog = new DDLDisplayDialog(Display.getDefault().getActiveShell(), sw.toString());
+                dialog.open();
+            } catch (IOException e) {
+                throw new SystemException(e);
             }
-
-            DDLDisplayDialog dialog = new DDLDisplayDialog(Display.getDefault().getActiveShell(), ddl.toString());
-            dialog.open();
         }
     }
 }

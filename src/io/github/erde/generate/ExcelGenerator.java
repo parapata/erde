@@ -1,5 +1,7 @@
 package io.github.erde.generate;
 
+import static io.github.erde.Resource.*;
+
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import org.jxls.transform.poi.PoiTransformer;
 import org.jxls.util.JxlsHelper;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -33,7 +34,7 @@ import io.github.erde.generate.excel.TableData;
  *
  * @author modified by parapata
  */
-public class ExcelGenerator implements IGenerator, IMessages {
+public class ExcelGenerator implements IGenerator {
 
     @Override
     public String getGeneratorName() {
@@ -81,16 +82,16 @@ public class ExcelGenerator implements IGenerator, IMessages {
                     columnData.setColumnSize(String.valueOf(column.getColumnSize()));
                 }
                 if (column.isPrimaryKey()) {
-                    columnData.setPrimaryKey(getResource("label.o"));
+                    columnData.setPrimaryKey(LABEL_O.getValue());
                 }
                 if (column.isNotNull()) {
-                    columnData.setNullable(getResource("label.o"));
+                    columnData.setNullable(LABEL_O.getValue());
                 }
                 if (column.isUniqueKey()) {
-                    columnData.setUnique(getResource("label.o"));
+                    columnData.setUnique(LABEL_O.getValue());
                 }
                 if (column.isAutoIncrement()) {
-                    columnData.setAutoIncrement(getResource("label.o"));
+                    columnData.setAutoIncrement(LABEL_O.getValue());
                 }
 
                 LOOP: for (BaseConnectionModel conn : table.getModelSourceConnections()) {
@@ -98,7 +99,7 @@ public class ExcelGenerator implements IGenerator, IMessages {
                         RelationshipModel foreignKey = (RelationshipModel) conn;
                         for (RelationshipMappingModel mapping : foreignKey.getMappings()) {
                             if (mapping.getReferenceKey() == column) {
-                                columnData.setForeignKey(getResource("label.o"));
+                                columnData.setForeignKey(LABEL_O.getValue());
                                 columnData.setReference(foreignKey.getTarget().getPhysicalName() + "."
                                         + mapping.getForeignKey().getPhysicalName());
                                 break LOOP;

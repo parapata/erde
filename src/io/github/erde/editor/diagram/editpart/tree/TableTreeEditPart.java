@@ -1,18 +1,21 @@
 package io.github.erde.editor.diagram.editpart.tree;
 
+import static io.github.erde.Resource.*;
+
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.ICON;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart.FolderModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -24,7 +27,7 @@ import io.github.erde.editor.diagram.model.TableModel;
  *
  * @author modified by parapata
  */
-public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
+public class TableTreeEditPart extends DBTreeEditPart {
 
     private Logger logger = LoggerFactory.getLogger(TableTreeEditPart.class);
 
@@ -66,11 +69,11 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
 
     // Register overlay icons to ImageRegistery of DBPlugin.
     static {
-        Activator.getDefault().getImageRegistry().put(IMAGE_TABLE_ERROR,
-                new OverlayImageDescriptor(Activator.ICON_TABLE, Activator.ICON_OVERLAY_ERROR));
-
-        Activator.getDefault().getImageRegistry().put(IMAGE_TABLE_WARNING,
-                new OverlayImageDescriptor(Activator.ICON_TABLE, Activator.ICON_OVERLAY_WARNING));
+        ImageRegistry imageRegistry = Activator.getDefault().getImageRegistry();
+        imageRegistry.put(IMAGE_TABLE_ERROR,
+                new OverlayImageDescriptor(ICON.TABLE.getPath(), ICON.OVERLAY_ERROR.getPath()));
+        imageRegistry.put(IMAGE_TABLE_WARNING,
+                new OverlayImageDescriptor(ICON.TABLE.getPath(), ICON.OVERLAY_WARNING.getPath()));
     }
 
     @Override
@@ -80,7 +83,7 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
         for (ColumnModel column : columns) {
             list.add(column);
         }
-        list.add(new FolderModel(getResource("label.index"), null) {
+        list.add(new FolderModel(LABEL_INDEX.getValue(), null) {
             @Override
             public void doEdit() {
                 TableModel table = (TableModel) getModel();
@@ -106,7 +109,7 @@ public class TableTreeEditPart extends DBTreeEditPart implements IMessages {
         setWidgetText(String.format("%s(%s)", model.getPhysicalName(), model.getLogicalName()));
 
         if (model.getError().isEmpty()) {
-            setWidgetImage(Activator.getImage(Activator.ICON_TABLE));
+            setWidgetImage(Activator.getImage(ICON.TABLE.getPath()));
         } else {
             setWidgetImage(Activator.getImage(IMAGE_TABLE_WARNING));
         }

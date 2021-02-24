@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.wizard.ImportFromJDBCWizard;
 
 /**
@@ -20,14 +20,14 @@ import io.github.erde.wizard.ImportFromJDBCWizard;
  *
  * @author modified by parapata
  */
-public class ImportFromJDBCWizardPage2 extends WizardPage implements IMessages {
+public class ImportFromJDBCWizardPage2 extends WizardPage {
 
     private Tree tree;
 
     public ImportFromJDBCWizardPage2() {
-        super(resource.getString("wizard.new.import.title"));
-        setTitle(resource.getString("wizard.new.import.title"));
-        setMessage(resource.getString("wizard.new.import.message"));
+        super(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
+        setTitle(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
+        setMessage(Resource.WIZARD_NEW_IMPORT_MESSAGE.getValue());
     }
 
     @Override

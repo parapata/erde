@@ -33,57 +33,17 @@ import io.github.erde.sqleditor.EditorColorProvider;
  *
  * @author modified by parapata
  */
-public class Activator extends AbstractUIPlugin implements IMessages {
+public class Activator extends AbstractUIPlugin {
+
+    public static final String PLUGIN_ID = Activator.class.getPackageName();
 
     public static final String EXTENSION_ERDE = ".ere";
     public static final String EXTENSION_DDL = ".ddl";
-
-    // preference keys
-    public static final String PREF_VALIDATE_ON_SAVE = "pref_validate_on_save";
-    public static final String PREF_VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED = "pref_validate_physical_table_name_required";
-    public static final String PREF_VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED = "pref_validate_physical_table_name_duplicated";
-    public static final String PREF_VALIDATE_LOGICAL_TABLE_NAME_REQUIRED = "pref_validate_on_logical_table_name_required";
-    public static final String PREF_VALIDATE_LOGICAL_TABLE_NAME_DUPLICATED = "pref_validate_on_logical_table_name_duplicated";
-    public static final String PREF_VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED = "pref_validate_physical_column_name_required";
-    public static final String PREF_VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED = "pref_validate_physical_column_name_duplicatedl";
-    public static final String PREF_VALIDATE_LOGICAL_COLUMN_NAME_REQUIRED = "pref_validate_physical_column_name_required";
-    public static final String PREF_VALIDATE_LOGICAL_COLUMN_NAME_DUPLICATED = "pref_validate_physical_column_name_duplicated";
-    public static final String PREF_VALIDATE_PRIMARY_KEY = "pref_validate_primary_key";
-    public static final String PREF_VALIDATE_NO_COLUMNS = "pref_validate_on_columns";
-    public static final String PREF_VALIDATE_FOREIGN_KEY_COLUMN_TYPE = "pref_validate_foreign_key_column_type";
-    public static final String PREF_VALIDATE_FOREIGN_KEY_COLUMN_SIZE = "pref_validate_foreign_key_column_size";
-    public static final String PREF_SHOW_GRID = "pref_show_grid";
-    public static final String PREF_ENABLED_GRID = "pref_enabled_grid";
-    public static final String PREF_GRID_SIZE = "pref_grid_size";
-    public static final String PREF_SNAP_GEOMETRY = "pref_snap_geometry";
-    public static final String PREF_SHOW_NOT_NULL = "pref_show_notnull";
-    public static final String PREF_FONT = "pref_font";
-    public static final String PREF_DICTIONALY = "pref_dictionary";
-
-    // for SQL editor
-    public static final String PREF_COLOR_DEFAULT = "colorDefault";
-    public static final String PREF_COLOR_COMMENT = "colorComment";
-    public static final String PREF_COLOR_STRING = "colorString";
-    public static final String PREF_COLOR_KEYWORD = "colorKeyword";
 
     // validation levels
     public static final String LEVEL_ERROR = "ERROR";
     public static final String LEVEL_WARNING = "WARNING";
     public static final String LEVEL_IGNORE = "IGNORE";
-
-    public static final String ICON_TABLE = "icons/table.gif";
-    public static final String ICON_COLUMN = "icons/column.gif";
-    public static final String ICON_PK_COLUMN = "icons/pk_column.gif";
-    public static final String ICON_INDEX = "icons/index.gif";
-    public static final String ICON_FOLDER = "icons/folder.gif";
-    public static final String ICON_DOMAIN = "icons/domain.gif";
-    public static final String ICON_ERROR = "icons/error.gif";
-    public static final String ICON_WARNING = "icons/warning.gif";
-    public static final String ICON_OVERLAY_ERROR = "icons/ovr_error.gif";
-    public static final String ICON_OVERLAY_WARNING = "icons/ovr_warning.gif";
-    public static final String ICON_REFRESH = "icons/refresh.gif";
-
-    public static final String PLUGIN_ID = Activator.class.getPackageName();
 
     // The shared instance.
     private static Activator plugin;
@@ -136,7 +96,7 @@ public class Activator extends AbstractUIPlugin implements IMessages {
      * @return the image descriptor
      */
     public static ImageDescriptor getImageDescriptor(String path) {
-        return AbstractUIPlugin.imageDescriptorFromPlugin("io.github.erde", path);
+        return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
     }
 
     public static void logException(Exception e) {

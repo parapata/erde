@@ -9,10 +9,11 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import io.github.erde.Activator;
 import io.github.erde.core.util.TableViewerSupport.ColumnInfo;
+import io.github.erde.preference.ERDPreferenceKey;
 
 /**
  * NameConverter.
- * 
+ *
  * @author modified by parapata
  */
 public class NameConverter {
@@ -51,12 +52,12 @@ public class NameConverter {
         for (DictionaryEntry entry : entries) {
             sb.append(entry.toString()).append("\n");
         }
-        store.setValue(Activator.PREF_DICTIONALY, sb.toString());
+        store.setValue(ERDPreferenceKey.DICTIONALY, sb.toString());
     }
 
     public static List<DictionaryEntry> loadFromPreferenceStore(IPreferenceStore store) {
         List<DictionaryEntry> entries = new ArrayList<>();
-        String value = store.getString(Activator.PREF_DICTIONALY);
+        String value = store.getString(ERDPreferenceKey.DICTIONALY);
         for (String line : value.split("\n")) {
             String[] dim = line.split(",");
             DictionaryEntry entry = new DictionaryEntry(dim[0], dim[1], Boolean.parseBoolean(dim[2]));
@@ -126,7 +127,7 @@ public class NameConverter {
 
         @Override
         public String toString() {
-            return physicalName + "," + logicalName + "," + partialMatch;
+            return String.format("%s,%s,%s", physicalName, logicalName, partialMatch);
         }
     }
 

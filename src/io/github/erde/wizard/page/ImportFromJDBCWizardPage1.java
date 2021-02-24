@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.JarClassLoader;
 import io.github.erde.core.util.UIUtils;
@@ -34,7 +34,7 @@ import io.github.erde.editor.diagram.model.RootModel;
  *
  * @author modified by parapata
  */
-public class ImportFromJDBCWizardPage1 extends WizardPage implements IMessages {
+public class ImportFromJDBCWizardPage1 extends WizardPage {
 
     private JarClassLoader classLoader;
     private ResourceBundle url = ResourceBundle.getBundle("io.github.erde.wizard.databaseURI");
@@ -54,9 +54,9 @@ public class ImportFromJDBCWizardPage1 extends WizardPage implements IMessages {
     }
 
     public ImportFromJDBCWizardPage1(RootModel model) {
-        super(resource.getString("wizard.new.import.title"));
-        setTitle(resource.getString("wizard.new.import.title"));
-        setMessage(resource.getString("wizard.new.import.message"));
+        super(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
+        setTitle(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
+        setMessage(Resource.WIZARD_NEW_IMPORT_MESSAGE.getValue());
         this.model = model;
     }
 
@@ -66,29 +66,29 @@ public class ImportFromJDBCWizardPage1 extends WizardPage implements IMessages {
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createLabel(container, "wizard.new.import.jarFile");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_JAR_FILE);
         txtJarFile = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJarFile.setEditable(false);
         txtJarFile.setLayoutData(UIUtils.createGridData(2));
 
         Button button = new Button(container, SWT.PUSH);
-        button.setText(getResource("button.browse"));
+        button.setText(Resource.BUTTON_BROWSE.getValue());
         button.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
+            public void widgetSelected(SelectionEvent event) {
                 handleFileSystemBrowse();
             }
         });
 
         // -------------
-        UIUtils.createLabel(container, "wizard.new.import.driver");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_DRIVER);
         cmbJdbcDriver = new Combo(container, SWT.READ_ONLY);
         cmbJdbcDriver.setLayoutData(UIUtils.createGridData(3));
         cmbJdbcDriver.add("sun.jdbc.odbc.JdbcOdbcDriver");
         cmbJdbcDriver.select(0);
 
         // -------------
-        UIUtils.createLabel(container, "wizard.new.import.uri");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_URI);
         txtJdbcURI = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcURI.setLayoutData(UIUtils.createGridData(3));
 
@@ -100,28 +100,28 @@ public class ImportFromJDBCWizardPage1 extends WizardPage implements IMessages {
         });
 
         // -------------
-        UIUtils.createLabel(container, "wizard.new.import.user");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_USER);
         txtJdbcUser = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcUser.setLayoutData(UIUtils.createGridData(3));
 
         // -------------
-        UIUtils.createLabel(container, "wizard.new.import.pass");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_PASS);
         txtJdbcPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
         txtJdbcPassword.setLayoutData(UIUtils.createGridData(3));
 
         // -------------
-        UIUtils.createLabel(container, "wizard.new.import.schema");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_SCHEMA);
         txtJdbcSchema = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcSchema.setLayoutData(UIUtils.createGridData(3));
 
         // -------------
-        UIUtils.createLabel(container, "wizard.new.import.catalog");
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_CATALOG);
         txtJdbcCatalog = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcCatalog.setLayoutData(UIUtils.createGridData(3));
 
         // ----------------
         btnAutoConvert = new Button(container, SWT.CHECK);
-        btnAutoConvert.setText(getResource("wizard.new.import.autoConvert"));
+        btnAutoConvert.setText(Resource.WIZARD_NEW_IMPORT_AUTO_CONVERT.getValue());
         btnAutoConvert.setLayoutData(UIUtils.createGridData(4));
 
         if (model != null) {

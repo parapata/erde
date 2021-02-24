@@ -4,7 +4,7 @@ import java.sql.Types;
 
 import org.apache.commons.lang3.SerializationUtils;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.model.IModel;
 
@@ -13,7 +13,7 @@ import io.github.erde.editor.diagram.model.IModel;
  *
  * @author modified by parapata
  */
-public class ColumnType implements IColumnType, IModel, IMessages {
+public class ColumnType implements IColumnType, IModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class ColumnType implements IColumnType, IModel, IMessages {
             boolean sizeSupported, int type) {
         ColumnType columnType = new ColumnType(dialectProvider);
         columnType.physicalName = physicaNameKey;
-        columnType.logicalName = resource.getString(logicalName);
+        columnType.logicalName = Resource.toResource(logicalName).getValue();
         columnType.sizeSupported = sizeSupported;
         columnType.type = type;
         return columnType;

@@ -7,7 +7,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 
@@ -16,15 +16,15 @@ import io.github.erde.dialect.DialectProvider;
  *
  * @author modified by parapata
  */
-public class ChangeDialectWizardPage extends WizardPage implements IMessages {
+public class ChangeDialectWizardPage extends WizardPage {
 
     private Combo cmbDialectName;
     private String dialectName;
 
     public ChangeDialectWizardPage(String dialectName) {
         super("ChangeDialectWizardPage");
-        setTitle(getResource("wizard.changedb.title"));
-        setDescription(getResource("wizard.changedb.description"));
+        setTitle(Resource.WIZARD_CHANGEDB_TITLE.getValue());
+        setDescription(Resource.WIZARD_CHANGEDB_DESCRIPTION.getValue());
         this.dialectName = dialectName;
     }
 
@@ -34,7 +34,7 @@ public class ChangeDialectWizardPage extends WizardPage implements IMessages {
         composite.setLayout(new GridLayout(2, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createLabel(composite, "wizard.changedb.databaseType");
+        UIUtils.createLabel(composite, Resource.WIZARD_CHANGEDB_DATABASE_TYPE);
 
         cmbDialectName = new Combo(composite, SWT.READ_ONLY);
         for (String dialectName : DialectProvider.getDialectNames()) {

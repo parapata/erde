@@ -1,5 +1,7 @@
 package io.github.erde.editor.diagram.model;
 
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,6 @@ import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import io.github.erde.IMessages;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.editor.dialog.table.ITableEdit;
@@ -20,7 +21,7 @@ import io.github.erde.editor.dialog.table.ITableEdit;
  *
  * @author modified by parapata
  */
-public class TableModel extends BaseEntityModel implements IMessages, ITableEdit {
+public class TableModel extends BaseEntityModel implements ITableEdit {
 
     private static final long serialVersionUID = 1L;
 
@@ -183,9 +184,9 @@ public class TableModel extends BaseEntityModel implements IMessages, ITableEdit
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
         return new IPropertyDescriptor[] {
-                new TextPropertyDescriptor(P_TABLE_NAME, getResource("property.physicalTableName")),
-                new TextPropertyDescriptor(P_LOGICAL_NAME, getResource("property.logicalTableName")),
-                new ColorPropertyDescriptor(P_BACKGROUND_COLOR, getResource("property.backgroundColor")) };
+                new TextPropertyDescriptor(P_TABLE_NAME, PROPERTY_PHYSICAL_TABLE_NAME.getValue()),
+                new TextPropertyDescriptor(P_LOGICAL_NAME, PROPERTY_LOGICAL_TABLE_NAME.getValue()),
+                new ColorPropertyDescriptor(P_BACKGROUND_COLOR, PROPERTY_BACKGROUND_COLOR.getValue()) };
     }
 
     @Override

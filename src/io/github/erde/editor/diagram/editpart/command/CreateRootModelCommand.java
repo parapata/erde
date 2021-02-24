@@ -1,8 +1,9 @@
 package io.github.erde.editor.diagram.editpart.command;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.commands.Command;
 
-import io.github.erde.IMessages;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
@@ -12,7 +13,7 @@ import io.github.erde.editor.diagram.model.TableModel;
  *
  * @author modified by parapata
  */
-public class CreateRootModelCommand extends Command implements IMessages {
+public class CreateRootModelCommand extends Command {
 
     private RootModel root;
     private BaseEntityModel model;
@@ -30,7 +31,7 @@ public class CreateRootModelCommand extends Command implements IMessages {
         this.model = (BaseEntityModel) model;
         if (this.model instanceof TableModel) {
             ((TableModel) this.model).setPhysicalName("TABLE_" + (root.getChildren().size() + 1));
-            ((TableModel) this.model).setLogicalName(getResource("label.table") + (root.getChildren().size() + 1));
+            ((TableModel) this.model).setLogicalName(LABEL_TABLE.getValue() + (root.getChildren().size() + 1));
         }
     }
 

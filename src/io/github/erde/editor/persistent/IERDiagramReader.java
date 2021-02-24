@@ -182,7 +182,7 @@ public interface IERDiagramReader {
                         unsigned);
                 model.setColumnType(domainModel);
             }
-            model.setEnumNames(new LinkedHashSet<String>(column.getEnumNames()));
+            model.setEnumNames(new LinkedHashSet<>(column.getEnumNames()));
             model.setDescription(column.getDescription());
             if (column.isNotNull() != null) {
                 model.setNotNull(column.isNotNull());

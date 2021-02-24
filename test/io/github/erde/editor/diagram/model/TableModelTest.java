@@ -31,13 +31,13 @@ class TableModelTest {
         expColumn.setPrimaryKey(true);
         expColumn.setUniqueKey(true);
         expColumn.setUnsigned(true);
-        expected.setColumns(Arrays.asList(new ColumnModel[] { expColumn }));
+        expected.setColumns(Arrays.asList(expColumn));
 
         IndexModel expIndex = new IndexModel();
         expIndex.setIndexName("index_name");
         expIndex.setIndexType(IndexType.INDEX);
-        expIndex.setColumns(Arrays.asList(new String[] { "column_name" }));
-        expected.setIndices(Arrays.asList(new IndexModel[] { expIndex }));
+        expIndex.setColumns(Arrays.asList("column_name"));
+        expected.setIndices(Arrays.asList(expIndex));
 
         TableModel actual = expected.clone();
 

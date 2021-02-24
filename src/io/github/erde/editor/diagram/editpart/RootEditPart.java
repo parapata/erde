@@ -73,12 +73,6 @@ public class RootEditPart extends AbstractERDEditPart {
                     conn.refresh();
                 }
             }
-        } else if (RootModel.P_ZOOM.equals(event.getPropertyName())) {
-            refresh();
-            refreshVisuals();
-            refreshChildren();
-        } else {
-            ;
         }
     }
 
@@ -100,10 +94,9 @@ public class RootEditPart extends AbstractERDEditPart {
                 snapStrategies.add(new SnapToGrid(this));
             }
 
-            if (snapStrategies.size() == 0) {
+            if (snapStrategies.isEmpty()) {
                 return null;
-            }
-            if (snapStrategies.size() == 1) {
+            } else if (snapStrategies.size() == 1) {
                 return snapStrategies.get(0);
             }
 

@@ -18,11 +18,6 @@ import io.github.erde.Activator;
  */
 public class GeneratorProvider {
 
-// private static IGenerater[] GENERATERS = {
-// new DDLGenerater(),
-// new HTMLGenerator()
-// };
-
     private static List<IGenerator> contributedGenerators = null;
 
     public static List<IGenerator> getGeneraters() {

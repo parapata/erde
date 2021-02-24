@@ -9,14 +9,13 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
 
 /**
  * DiagramError.
  *
  * @author modified by parapata
  */
-public class DiagramError implements IMessages {
+public class DiagramError {
 
     private Object target;
     private String message;

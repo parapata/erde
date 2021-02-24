@@ -3,7 +3,7 @@ package io.github.erde.wizard;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.wizard.Wizard;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
@@ -19,14 +19,14 @@ import io.github.erde.wizard.page.ChangeDialectWizardPage;
  *
  * @author modified by parapata
  */
-public class ChangeDialectWizard extends Wizard implements IMessages {
+public class ChangeDialectWizard extends Wizard {
 
     private CommandStack commandStack;
     private RootModel root;
     private ChangeDialectWizardPage page;
 
     public ChangeDialectWizard(CommandStack commandStack, RootModel rootModel) {
-        setWindowTitle(getResource("wizard.changedb.title"));
+        setWindowTitle(Resource.WIZARD_CHANGEDB_TITLE.getValue());
         this.commandStack = commandStack;
         this.root = rootModel;
     }

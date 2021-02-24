@@ -1,5 +1,7 @@
 package io.github.erde.editor.action;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -17,7 +19,7 @@ public class ToggleModelAction extends Action implements IERDEAction {
     public ToggleModelAction() {
         super();
         setId(TOGGLE_MODEL);
-        setText(getResource("action.toggleMode"));
+        setText(ACTION_TOGGLE_MODE.getValue());
     }
 
     @Override

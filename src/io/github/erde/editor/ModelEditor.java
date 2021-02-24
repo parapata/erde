@@ -3,7 +3,6 @@ package io.github.erde.editor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 
-import io.github.erde.IMessages;
 import io.github.erde.editor.action.DomainEditAction;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart.FolderModel;
@@ -20,7 +19,7 @@ import io.github.erde.editor.diagram.model.TableModel;
  *
  * @author modified by parapata
  */
-public class ModelEditor implements IMessages {
+public class ModelEditor {
 
     private GraphicalViewer viewer;
     private boolean editTable;

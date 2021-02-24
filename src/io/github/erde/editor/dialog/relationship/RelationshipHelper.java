@@ -1,5 +1,7 @@
 package io.github.erde.editor.dialog.relationship;
 
+import static io.github.erde.Resource.*;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
@@ -25,7 +26,7 @@ import io.github.erde.editor.diagram.model.TableModel;
  *
  * @author modified by parapata
  */
-public class RelationshipHelper implements IMessages {
+public class RelationshipHelper {
 
     private Logger logger = LoggerFactory.getLogger(RelationshipHelper.class);
 
@@ -106,7 +107,7 @@ public class RelationshipHelper implements IMessages {
         List<String> columnNames = getPrimaryKeys(table).stream()
                 .map(column -> getColumnName(column))
                 .collect(Collectors.toList());
-        map.put(getResource("dialog.mapping.primariyKey"), columnNames);
+        map.put(DIALOG_MAPPING_PRIMARIY_KEY.getValue(), columnNames);
 
         getUniqueKeys(table).forEach(column -> {
             String columnName = getColumnName(column);

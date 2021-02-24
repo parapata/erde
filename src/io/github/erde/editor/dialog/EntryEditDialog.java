@@ -1,5 +1,7 @@
 package io.github.erde.editor.dialog;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -10,7 +12,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 import io.github.erde.core.util.NameConverter.DictionaryEntry;
 import io.github.erde.core.util.UIUtils;
 
@@ -19,7 +21,7 @@ import io.github.erde.core.util.UIUtils;
  *
  * @author modified by parapata
  */
-public class EntryEditDialog extends Dialog implements IMessages {
+public class EntryEditDialog extends Dialog {
 
     private Text txtLogicalName;
     private Text txtPhysicalName;
@@ -38,27 +40,27 @@ public class EntryEditDialog extends Dialog implements IMessages {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText(getResource("dialog.dictionary.title"));
+        getShell().setText(DIALOG_DICTIONARY_TITLE.getValue());
 
         Composite composite = new Composite(parent, SWT.NULL);
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
         composite.setLayout(new GridLayout(2, false));
 
-        UIUtils.createLabel(composite, "label.physicalName");
+        UIUtils.createLabel(composite, Resource.LABEL_PHYSICAL_NAME);
         txtPhysicalName = new Text(composite, SWT.BORDER);
         txtPhysicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         if (element != null) {
             txtPhysicalName.setText(element.physicalName);
         }
 
-        UIUtils.createLabel(composite, "label.logicalName");
+        UIUtils.createLabel(composite, LABEL_LOGICAL_NAME);
         txtLogicalName = new Text(composite, SWT.BORDER);
         if (element != null) {
             txtLogicalName.setText(element.logicalName);
         }
         txtLogicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        UIUtils.createLabel(composite, "label.partialMatch");
+        UIUtils.createLabel(composite, LABEL_PARTIAL_MATCH);
         btnPartMatch = new Button(composite, SWT.CHECK);
         if (element != null) {
             btnPartMatch.setSelection(element.partialMatch);
@@ -69,14 +71,12 @@ public class EntryEditDialog extends Dialog implements IMessages {
 
     @Override
     protected void okPressed() {
-        if (txtPhysicalName.getText().length() == 0) {
-            UIUtils.openAlertDialog(createMessage(getResource("error.required"),
-                    getResource("label.physicalName")));
+        if (txtPhysicalName.getText().isEmpty()) {
+            UIUtils.openAlertDialog(ERROR_REQUIRED, LABEL_PHYSICAL_NAME.getValue());
             return;
         }
-        if (txtLogicalName.getText().length() == 0) {
-            UIUtils.openAlertDialog(createMessage(getResource("error.required"),
-                    getResource("label.logicalName")));
+        if (txtLogicalName.getText().isEmpty()) {
+            UIUtils.openAlertDialog(ERROR_REQUIRED, LABEL_LOGICAL_NAME.getValue());
             return;
         }
         element = new DictionaryEntry(txtPhysicalName.getText(), txtLogicalName.getText(), btnPartMatch.getSelection());

@@ -1,5 +1,7 @@
 package io.github.erde.editor.diagram.model;
 
+import static io.github.erde.Resource.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import io.github.erde.IMessages;
 import io.github.erde.core.util.FontPropertyDescriptor;
 import io.github.erde.core.util.FontPropertyDescriptor.FontDataWrapper;
 import io.github.erde.dialect.DialectProvider;
@@ -20,7 +21,7 @@ import io.github.erde.dialect.DialectProvider;
  *
  * @author modified by parapata
  */
-public class RootModel extends BaseModel implements IPropertySource, IMessages {
+public class RootModel extends BaseModel implements IPropertySource {
 
     private static final long serialVersionUID = 1L;
 
@@ -280,8 +281,10 @@ public class RootModel extends BaseModel implements IPropertySource, IMessages {
 
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
-        return new IPropertyDescriptor[] { new TextPropertyDescriptor(P_JDBC_INFO, getResource("property.schema")),
-                new FontPropertyDescriptor(P_FONT, getResource("property.font")) };
+        return new IPropertyDescriptor[] {
+                new TextPropertyDescriptor(P_JDBC_INFO, PROPERTY_SCHEMA.getValue()),
+                new FontPropertyDescriptor(P_FONT, PROPERTY_FONT.getValue())
+        };
     }
 
     @Override

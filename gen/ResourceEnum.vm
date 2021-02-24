@@ -1,0 +1,66 @@
+package io.github.erde;
+
+import java.util.Arrays;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * Resource Enum.
+ *
+ * @author parapata
+ * @since 1.0.8
+ */
+public enum Resource {
+
+    #foreach( $obj in $list)
+    /** key:${obj.propKey}. */
+    ${obj.code}("${obj.propKey}"),
+    #end
+    ;
+
+    private static final ResourceBundle resource = ResourceBundle.getBundle("io.github.erde.messages");
+
+    private String propKey;
+
+    private Resource(String propKey) {
+        this.propKey = propKey;
+    }
+
+    public String getValue() {
+        try {
+            return resource.getString(propKey);
+        } catch (MissingResourceException e) {
+            return propKey;
+        }
+    }
+
+    public String getValue(String defaultValue) {
+        try {
+            String result = resource.getString(propKey);
+            return StringUtils.isEmpty(result) ? defaultValue : result;
+        } catch (MissingResourceException e) {
+            return propKey;
+        }
+    }
+
+    public String createMessage(String... args) {
+        String message = resource.getString(propKey);
+        for (int i = 0; i < args.length; i++) {
+            message = message.replaceAll(String.format("\\{%d\\}", i), args[i]);
+        }
+        return message;
+    }
+
+    public String getPropKey() {
+        return propKey;
+    }
+
+    public static Resource toResource(String propKey) {
+        return Arrays.stream(Resource.values())
+                .filter(key -> key.getPropKey().equals(propKey))
+                .findFirst()
+                .orElseThrow();
+    }
+}

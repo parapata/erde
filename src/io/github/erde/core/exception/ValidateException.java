@@ -1,5 +1,7 @@
 package io.github.erde.core.exception;
 
+import io.github.erde.Resource;
+
 /**
  * ValidateException.
  *
@@ -9,22 +11,11 @@ public class ValidateException extends AppException {
 
     private static final long serialVersionUID = 1L;
 
-    public ValidateException() {
+    public ValidateException(Resource message) {
+        super(message.getValue());
     }
 
-    public ValidateException(String message) {
-        super(message);
-    }
-
-    public ValidateException(Throwable cause) {
-        super(cause);
-    }
-
-    public ValidateException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ValidateException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public ValidateException(Throwable cause, Resource message, String... args) {
+        super(message.createMessage(args));
     }
 }

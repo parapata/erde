@@ -9,10 +9,11 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
 import io.github.erde.Activator;
+import io.github.erde.preference.ERDPreferenceKey;
 
 /**
  * SQLConfiguration.
- * 
+ *
  * @author modified by parapata
  */
 public class SQLConfiguration extends SourceViewerConfiguration {
@@ -48,7 +49,7 @@ public class SQLConfiguration extends SourceViewerConfiguration {
         RuleBasedScanner scanner = new RuleBasedScanner();
         EditorColorProvider colorProvider = Activator.getDefault().getEditorColorProvider();
         scanner.setDefaultReturnToken(
-                colorProvider.getToken(Activator.PREF_COLOR_COMMENT));
+                colorProvider.getToken(ERDPreferenceKey.COLOR_COMMENT));
         return scanner;
     }
 
@@ -56,7 +57,7 @@ public class SQLConfiguration extends SourceViewerConfiguration {
         RuleBasedScanner scanner = new RuleBasedScanner();
         EditorColorProvider colorProvider = Activator.getDefault().getEditorColorProvider();
         scanner.setDefaultReturnToken(
-                colorProvider.getToken(Activator.PREF_COLOR_STRING));
+                colorProvider.getToken(ERDPreferenceKey.COLOR_STRING));
         return scanner;
     }
 

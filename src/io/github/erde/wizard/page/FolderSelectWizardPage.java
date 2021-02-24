@@ -17,14 +17,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Activator;
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 
 /**
  * FolderSelectWizardPage.
  *
  * @author modified by parapata
  */
-public class FolderSelectWizardPage extends WizardPage implements IMessages {
+public class FolderSelectWizardPage extends WizardPage {
 
     private Text txtOutputFolder;
     protected IFile erdFile;
@@ -46,14 +46,14 @@ public class FolderSelectWizardPage extends WizardPage implements IMessages {
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText(getResource("wizard.generate.folder"));
+        label.setText(Resource.WIZARD_GENERATE_FOLDER.getValue());
         txtOutputFolder = new Text(composite, SWT.BORDER);
         txtOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtOutputFolder.setText(getCurrentPath());
         txtOutputFolder.addModifyListener(e -> doValidate());
 
         Button button = new Button(composite, SWT.PUSH);
-        button.setText(getResource("button.browse"));
+        button.setText(Resource.BUTTON_BROWSE.getValue());
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {

@@ -1,5 +1,7 @@
 package io.github.erde.core.util;
 
+import static io.github.erde.Resource.*;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,14 +32,14 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import io.github.erde.IMessages;
+import io.github.erde.Resource;
 
 /**
  * TableViewerSupport.
  *
  * @author modified by parapata
  */
-public abstract class TableViewerSupport<T> implements IMessages {
+public abstract class TableViewerSupport<T> {
 
     private Composite control;
     private TableViewer viewer;
@@ -94,7 +96,7 @@ public abstract class TableViewerSupport<T> implements IMessages {
         layout.marginWidth = 0;
         buttons.setLayout(layout);
         buttonAdd = new Button(buttons, SWT.PUSH);
-        buttonAdd.setText(getResource("button.add"));
+        buttonAdd.setText(BUTTON_ADD.getValue());
         buttonAdd.setLayoutData(createButtonGridData());
         buttonAdd.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -107,7 +109,7 @@ public abstract class TableViewerSupport<T> implements IMessages {
             }
         });
         buttonEdit = new Button(buttons, SWT.PUSH);
-        buttonEdit.setText(getResource("button.edit"));
+        buttonEdit.setText(BUTTON_EDIT.getValue());
         buttonEdit.setLayoutData(createButtonGridData());
         buttonEdit.setEnabled(false);
         buttonEdit.addSelectionListener(new SelectionAdapter() {
@@ -121,7 +123,7 @@ public abstract class TableViewerSupport<T> implements IMessages {
             }
         });
         buttonRemove = new Button(buttons, SWT.PUSH);
-        buttonRemove.setText(getResource("button.delete"));
+        buttonRemove.setText(BUTTON_DELETE.getValue());
         buttonRemove.setLayoutData(createButtonGridData());
         buttonRemove.setEnabled(false);
         buttonRemove.addSelectionListener(new SelectionAdapter() {
@@ -157,7 +159,7 @@ public abstract class TableViewerSupport<T> implements IMessages {
 
         for (ColumnInfo column : getColumns((Class<?>) types[0])) {
             TableColumn col = new TableColumn(table, SWT.NULL);
-            col.setText(getResource(column.label()));
+            col.setText(Resource.toResource(column.label()).getValue());
             col.setWidth(column.width());
         }
     }

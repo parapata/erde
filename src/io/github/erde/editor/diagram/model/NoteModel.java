@@ -1,19 +1,19 @@
 package io.github.erde.editor.diagram.model;
 
+import static io.github.erde.Resource.*;
+
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import io.github.erde.IMessages;
-
 /**
  * This class has been ported from AmaterasUML.
  *
  * @author modified by parapata
  */
-public class NoteModel extends BaseEntityModel implements IMessages {
+public class NoteModel extends BaseEntityModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,7 +70,9 @@ public class NoteModel extends BaseEntityModel implements IMessages {
 
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
-        return new IPropertyDescriptor[] { new TextPropertyDescriptor(P_CONTENT, getResource("property.text")), };
+        return new IPropertyDescriptor[] {
+                new TextPropertyDescriptor(P_CONTENT, PROPERTY_TEXT.getValue())
+        };
     }
 
     @Override

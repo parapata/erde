@@ -9,8 +9,6 @@ import java.util.List;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.RootModel;
-import io.github.erde.editor.diagram.model.TableModel;
 
 /**
  * MSSQLDialect.
@@ -49,7 +47,7 @@ public class MSSQLDialect extends AbstractDialect {
 
     public MSSQLDialect() {
         super(COLUMN_TYPES);
-        setSeparator(LS + "go");
+        setSeparator(getSeparator() + "go");
     }
 
     @Override
@@ -58,12 +56,13 @@ public class MSSQLDialect extends AbstractDialect {
     }
 
     @Override
-    public void createColumnDDL(RootModel root, TableModel tableModel, ColumnModel columnModel, StringBuilder ddl,
-            StringBuilder additions) {
-        super.createColumnDDL(root, tableModel, columnModel, ddl, additions);
-        if (columnModel.isAutoIncrement()) {
-            ddl.append(" IDENTITY");
+    public String createColumnPart(ColumnModel column) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.createColumnPart(column));
+        if (column.isAutoIncrement()) {
+            sb.append(" IDENTITY");
         }
+        return sb.toString();
     }
 
     @Override

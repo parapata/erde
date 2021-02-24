@@ -1,5 +1,7 @@
 package io.github.erde.editor;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartViewer;
@@ -10,7 +12,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
-import io.github.erde.IMessages;
 import io.github.erde.editor.action.AutoLayoutAction;
 import io.github.erde.editor.action.ChangeDBTypeAction;
 import io.github.erde.editor.action.CopyAsImageAction;
@@ -29,7 +30,7 @@ import io.github.erde.generate.GeneratorProvider;
  *
  * @author modified by parapata
  */
-public class ERDContextMenuProvider extends ContextMenuProvider implements IMessages {
+public class ERDContextMenuProvider extends ContextMenuProvider {
 
     private ActionRegistry registry;
 
@@ -63,13 +64,13 @@ public class ERDContextMenuProvider extends ContextMenuProvider implements IMess
         menu.add(new Separator());
 
         // Validation Actions
-        MenuManager validationMenuManager = new MenuManager(getResource("action.validation"));
+        MenuManager validationMenuManager = new MenuManager(ACTION_VALIDATION.getValue());
         validationMenuManager.add(new ValidateAction());
         validationMenuManager.add(new DeleteMarkerAction());
         menu.add(validationMenuManager);
 
         // Import Actions
-        MenuManager importMenuManager = new MenuManager(getResource("action.import"));
+        MenuManager importMenuManager = new MenuManager(ACTION_IMPORT.getValue());
         importMenuManager.add(new ImportFromJDBCAction());
         importMenuManager.add(new ImportFromDiagramAction());
         menu.add(importMenuManager);
@@ -78,13 +79,11 @@ public class ERDContextMenuProvider extends ContextMenuProvider implements IMess
         DefaultEditDomain domain = (DefaultEditDomain) getViewer().getEditDomain();
         ERDiagramEditor editor = (ERDiagramEditor) domain.getEditorPart();
 
-        MenuManager exportMenuManager = new MenuManager(getResource("action.export"));
+        MenuManager exportMenuManager = new MenuManager(ACTION_EXPORT.getValue());
         GeneratorProvider.getGeneraters().forEach(generater -> {
             exportMenuManager.add(new GenerateAction(generater, editor));
         });
         menu.add(exportMenuManager);
         menu.add(new SelectedTablesDDLAction());
-
     }
-
 }
