@@ -76,7 +76,7 @@ public class HsqldbDialect extends AbstractDialect {
 
     @Override
     public String dropTableDDL(String tableName) {
-        return String.format("DROP TABLE %s IF EXISTS;", tableName);
+        return String.format("DROP TABLE %s IF EXISTS", tableName);
     }
 
     @Override

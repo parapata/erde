@@ -3,8 +3,7 @@ package io.github.erde.wizard.page;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.SortedMap;
 
 import org.eclipse.core.resources.IFile;
@@ -19,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Activator;
 import io.github.erde.Resource;
+import io.github.erde.core.LineSeparatorCode;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.wizard.DDLWizard;
 
@@ -38,13 +38,6 @@ public class DDLWizardPage extends FolderSelectWizardPage {
     private Button btnSchema;
     private Combo cmbEncoding;
     private Combo cmbLineSeparator;
-
-    private static Map<String, String> lineSeparatorMap = new HashMap<>();
-    static {
-        lineSeparatorMap.put("CR+LF", "\r\n");
-        lineSeparatorMap.put("LF", "\n");
-        lineSeparatorMap.put("CR", "\r");
-    }
 
     public DDLWizardPage(IFile erdFile) {
         super(erdFile, Resource.WIZARD_GENERATE_DDL_TITLE.getValue());
@@ -80,9 +73,10 @@ public class DDLWizardPage extends FolderSelectWizardPage {
         new Label(composite, SWT.NULL);
         new Label(composite, SWT.NULL).setText(Resource.WIZARD_GENERATE_DDL_LINE_SEPARATOR.getValue());
         cmbLineSeparator = new Combo(composite, SWT.READ_ONLY);
-        lineSeparatorMap.forEach((key, value) -> {
-            cmbLineSeparator.add(key);
-            cmbLineSeparator.setData(key, value);
+
+        Arrays.asList(LineSeparatorCode.values()).forEach(code -> {
+            cmbLineSeparator.add(code.name());
+            cmbLineSeparator.setData(code.name(), code.getValue());
         });
         cmbLineSeparator.setText(setting.get(DDLWizard.LINE_SEPARATOR));
         cmbLineSeparator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -159,6 +153,6 @@ public class DDLWizardPage extends FolderSelectWizardPage {
     }
 
     public String getLineSeparator() {
-        return (String) cmbLineSeparator.getData(cmbLineSeparator.getText());
+        return cmbLineSeparator.getText();
     }
 }

@@ -14,6 +14,7 @@ import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 
 import io.github.erde.Activator;
 import io.github.erde.Resource;
+import io.github.erde.core.LineSeparatorCode;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -53,7 +54,7 @@ public class DDLWizard extends FileSystemExportWizard {
             section.put(ALTER_TABLE, true);
             section.put(COMMENT, true);
             section.put(ENCODING, System.getProperty("file.encoding"));
-            section.put(LINE_SEPARATOR, System.lineSeparator());
+            section.put(LINE_SEPARATOR, LineSeparatorCode.findByValue(System.lineSeparator()).name());
         }
         this.setDialogSettings(section);
     }
@@ -67,20 +68,25 @@ public class DDLWizard extends FileSystemExportWizard {
     @Override
     public boolean performFinish() {
 
+        LineSeparatorCode ls = LineSeparatorCode.findByName(page.getLineSeparator());
+        if (ls == null) {
+            ls = LineSeparatorCode.getDefault();
+        }
+
         IDialogSettings setting = getDialogSettings();
         setting.put(SCHEMA, page.getSchema());
         setting.put(DROP, page.getDrop());
         setting.put(ALTER_TABLE, page.getAlterTable());
         setting.put(COMMENT, page.getComment());
         setting.put(ENCODING, page.getEncoding());
-        setting.put(LINE_SEPARATOR, page.getLineSeparator());
+        setting.put(LINE_SEPARATOR, ls.name());
 
         IDialect dialect = root.getDialectProvider().getDialect();
         dialect.setSchema(page.getSchema());
         dialect.setDrop(page.getDrop());
         dialect.setAlterTable(page.getAlterTable());
         dialect.setComment(page.getComment());
-        dialect.setLineSeparator(page.getLineSeparator());
+        dialect.setLineSeparator(ls.getValue());
 
         File file = Paths.get(page.getOutputFolderResource(), page.getFilename()).toFile();
         if (file.exists()) {

@@ -62,11 +62,6 @@ public class MySQLDialect extends AbstractDialect {
     }
 
     @Override
-    public String dropTableDDL(String tableName) {
-        return String.format("DROP TABLE IF EXISTS %s;", tableName);
-    }
-
-    @Override
     public String createColumnPart(ColumnModel column) {
         StringBuilder sb = new StringBuilder();
         sb.append(super.createColumnPart(column));
