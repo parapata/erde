@@ -36,7 +36,7 @@ public class ERDPreferenceInitializer extends AbstractPreferenceInitializer {
         store.setDefault(VALIDATE_FOREIGN_KEY_COLUMN_SIZE, Activator.LEVEL_ERROR);
         store.setDefault(SHOW_GRID, true);
         store.setDefault(ENABLED_GRID, true);
-        store.setDefault(GRID_SIZE, 12);
+        store.setDefault(GRID_SIZE, 15);
         store.setDefault(SNAP_GEOMETRY, false);
         store.setDefault(SHOW_NOT_NULL, false);
 

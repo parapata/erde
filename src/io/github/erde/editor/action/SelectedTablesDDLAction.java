@@ -55,6 +55,8 @@ public class SelectedTablesDDLAction extends Action implements IERDEAction {
             dialect.setSchema(false);
             dialect.setDrop(true);
             dialect.setComment(true);
+            dialect.setAlterTable(false);
+            dialect.setLineSeparator(System.lineSeparator());
 
             try (StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw)) {

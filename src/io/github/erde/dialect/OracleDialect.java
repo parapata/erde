@@ -4,7 +4,6 @@ import static io.github.erde.Resource.*;
 import static io.github.erde.dialect.DialectProvider.*;
 import static java.sql.Types.*;
 
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -45,7 +44,6 @@ public class OracleDialect extends AbstractDialect {
 
     public OracleDialect() {
         super(COLUMN_TYPES);
-        setAutoIncrement(false);
     }
 
     @Override
@@ -64,7 +62,7 @@ public class OracleDialect extends AbstractDialect {
     }
 
     @Override
-    public void additions(RootModel root, PrintWriter writer) {
+    public void additions(RootModel root) {
 
         AtomicInteger count = new AtomicInteger();
 
@@ -72,19 +70,19 @@ public class OracleDialect extends AbstractDialect {
         if (isComment()) {
             TableDependencyCalculator.getSortedTable(root).forEach(table -> {
                 if (count.get() > 0) {
-                    writer.println();
+                    println();
                 }
-                writer.print(String.format("COMMENT ON TABLE %s IS '%s'",
+                print(String.format("COMMENT ON TABLE %s IS '%s'",
                         table.getPhysicalName(),
                         table.getLogicalName()));
-                writer.println(getSeparator());
+                println(getSeparator());
 
                 table.getColumns().forEach(column -> {
-                    writer.print(String.format("COMMENT ON COLUMN %s.%s IS '%s'",
+                    print(String.format("COMMENT ON COLUMN %s.%s IS '%s'",
                             table.getPhysicalName(),
                             column.getPhysicalName(),
                             column.getLogicalName()));
-                    writer.println(getSeparator());
+                    println(getSeparator());
                 });
             });
         }
@@ -97,27 +95,27 @@ public class OracleDialect extends AbstractDialect {
                     String triggerName = String.format("%s_%s_TRG", table.getPhysicalName(), column.getPhysicalName());
 
                     if (isDrop()) {
-                        writer.print(String.format("DROP SEQUENCE %s", seqName));
-                        writer.println(getSeparator());
+                        print(String.format("DROP SEQUENCE %s", seqName));
+                        println(getSeparator());
                     }
 
-                    writer.print(String.format("CREATE SEQUENCE %s NOMAXVALUE NOCACHE NOORDER NOCYCLE", seqName));
-                    writer.println(getSeparator());
+                    print(String.format("CREATE SEQUENCE %s NOMAXVALUE NOCACHE NOORDER NOCYCLE", seqName));
+                    println(getSeparator());
 
-                    writer.println(String.format("CREATE TRIGGER %s", triggerName));
-                    writer.println(String.format("BEFORE INSERT ON %s", table.getPhysicalName()));
-                    writer.println(String.format("FOR EACH ROW"));
-                    writer.println(String.format("BEGIN"));
-                    writer.println(String.format("IF :NEW.%s IS NOT NULL THEN", column.getPhysicalName()));
-                    writer.print(String.format("    SELECT %s.NEXTVAL INTO :NEW.%s FROM DUAL",
+                    println(String.format("CREATE TRIGGER %s", triggerName));
+                    println(String.format("BEFORE INSERT ON %s", table.getPhysicalName()));
+                    println(String.format("FOR EACH ROW"));
+                    println(String.format("BEGIN"));
+                    println(String.format("IF :NEW.%s IS NOT NULL THEN", column.getPhysicalName()));
+                    print(String.format("    SELECT %s.NEXTVAL INTO :NEW.%s FROM DUAL",
                             seqName, column.getPhysicalName()));
-                    writer.println(getSeparator());
-                    writer.println(String.format("INTO :NEW.%s FROM DUAL", column.getPhysicalName()));
-                    writer.println(getSeparator());
-                    writer.print(String.format("END IF"));
-                    writer.println(getSeparator());
-                    writer.print(String.format("END"));
-                    writer.println(getSeparator());
+                    println(getSeparator());
+                    println(String.format("INTO :NEW.%s FROM DUAL", column.getPhysicalName()));
+                    println(getSeparator());
+                    print(String.format("END IF"));
+                    println(getSeparator());
+                    print(String.format("END"));
+                    println(getSeparator());
                 }
             });
         });

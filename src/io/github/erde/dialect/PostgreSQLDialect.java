@@ -45,7 +45,6 @@ public class PostgreSQLDialect extends AbstractDialect {
 
     public PostgreSQLDialect() {
         super(COLUMN_TYPES);
-        setAutoIncrement(false);
     }
 
     @Override

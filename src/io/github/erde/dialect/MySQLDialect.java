@@ -3,7 +3,6 @@ package io.github.erde.dialect;
 import static io.github.erde.dialect.DialectProvider.*;
 import static java.sql.Types.*;
 
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +54,6 @@ public class MySQLDialect extends AbstractDialect {
 
     public MySQLDialect() {
         super(COLUMN_TYPES);
-        setAutoIncrement(true);
     }
 
     @Override
@@ -82,11 +80,11 @@ public class MySQLDialect extends AbstractDialect {
     }
 
     @Override
-    public void setupTableOption(RootModel root, TableModel table, PrintWriter writer) {
+    public void setupTableOption(RootModel root, TableModel table) {
         if (isComment() && StringUtils.isNotEmpty(table.getLogicalName())) {
-            writer.print(String.format(" COMMENT = '%s'", table.getLogicalName()));
+            print(String.format(" COMMENT = '%s'", table.getLogicalName()));
         }
-        super.setupTableOption(root, table, writer);
+        super.setupTableOption(root, table);
     }
 
     @Override
@@ -97,5 +95,10 @@ public class MySQLDialect extends AbstractDialect {
     @Override
     public String getEnumMetadataSQL() {
         return "SELECT substring(column_type, 6, length(substring(column_type, 6)) - 1) AS enum_content FROM information_schema.columns WHERE table_name = ? AND column_name = ?";
+    }
+
+    @Override
+    public boolean isAutoIncrement() {
+        return true;
     }
 }

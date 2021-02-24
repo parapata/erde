@@ -2,13 +2,7 @@ package io.github.erde.dialect;
 
 import java.io.PrintWriter;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,8 +11,6 @@ import io.github.erde.dialect.loader.DefaultSchemaLoader;
 import io.github.erde.dialect.loader.ISchemaLoader;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IIndexType;
-import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.editor.validator.DiagramErrorManager;
@@ -39,250 +31,6 @@ public interface IDialect {
      * @return Diarect provider
      */
     DialectProvider getDialectProvider();
-
-    /**
-     * Creates DDL from a given model.
-     *
-     * @param root a root model of diagram
-     * @param writer DDLs
-     * @return DDL that creates all tables
-     */
-    default void createDDL(RootModel root, PrintWriter writer) {
-        List<TableModel> tables = TableDependencyCalculator.getSortedTable(root);
-        if (isDrop()) {
-            // reverse
-            List<TableModel> reverses = new ArrayList<>();
-            for (ListIterator<TableModel> i = tables.listIterator(tables.size()); i.hasPrevious();) {
-                reverses.add(i.previous());
-            }
-            dropDDL(root, reverses, writer);
-        }
-        createDDL(root, tables, writer);
-    }
-
-    private void dropDDL(RootModel root, List<TableModel> tables, PrintWriter writer) {
-        AtomicInteger count = new AtomicInteger();
-        tables.forEach(table -> {
-            String tableName = getTableName(root, table);
-            table.getIndices().forEach(index -> {
-                writer.print(dropIndexDDL(tableName, index.getIndexName()));
-                writer.println(getSeparator());
-                count.incrementAndGet();
-            });
-        });
-        reset(count, writer);
-
-        tables.forEach(table -> {
-            String tableName = getTableName(root, table);
-            writer.print(dropTableDDL(tableName));
-            writer.println(getSeparator());
-            count.incrementAndGet();
-        });
-        reset(count, writer);
-    }
-
-    private void createDDL(RootModel root, List<TableModel> tables, PrintWriter writer) {
-        AtomicInteger count = new AtomicInteger();
-        tables.forEach(table -> {
-            if (count.get() > 0) {
-                writer.println();
-            }
-            createTableDDL(root, table, writer);
-            count.incrementAndGet();
-        });
-        reset(count, writer);
-
-        if (isAlterTable()) {
-            tables.forEach(table -> {
-                count.set(createForeignKey(root, table, writer));
-                reset(count, writer);
-            });
-        }
-
-        tables.forEach(table -> {
-            int res = createIndex(root, table, writer);
-            count.set(count.get() + res);
-        });
-        reset(count, writer);
-
-        tables.forEach(table -> {
-            int res = createUniqueIndex(root, table, writer);
-            count.set(count.get() + res);
-        });
-        reset(count, writer);
-
-        additions(root, writer);
-    }
-
-    default String dropTableDDL(String tableName) {
-        return String.format("DROP TABLE IF EXISTS %s", tableName);
-    }
-
-    default String dropIndexDDL(String tableName, String indexName) {
-        return String.format("DROP INDEX %s ON %s", indexName, tableName);
-    }
-
-    /**
-     * Creates DDL that creates a given table.
-     *
-     * @param root a root model of diagram
-     * @param model a table model
-     * @param ddl DDLs
-     */
-    default void createTableDDL(RootModel root, TableModel table, PrintWriter writer) {
-
-        writer.println(String.format("CREATE TABLE %s (", getTableName(root, table)));
-
-        // column part
-        AtomicInteger count = new AtomicInteger();
-        table.getColumns().forEach(column -> {
-            writer.print(TAB_SPACE);
-            String str = createColumnPart(column);
-            if (count.getAndIncrement() == 0) {
-                writer.println(str);
-            } else {
-                writer.println(String.format(", %s", str));
-            }
-        });
-
-        // primaryKey part
-        List<String> primaryKeyNames = Arrays.asList(table.getPrimaryKeyColumns())
-                .stream()
-                .map(column -> column.getPhysicalName())
-                .collect(Collectors.toList());
-        if (isAlterTable() && !primaryKeyNames.isEmpty()) {
-            writer.print(TAB_SPACE);
-            writer.println(String.format("PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
-        }
-
-        writer.print(")");
-        setupTableOption(root, table, writer);
-    }
-
-    default int createForeignKey(RootModel root, TableModel table, PrintWriter writer) {
-        AtomicInteger count = new AtomicInteger();
-        table.getModelTargetConnections()
-                .stream()
-                .filter(predicate -> predicate instanceof RelationshipModel)
-                .forEach(conn -> {
-                    RelationshipModel fk = (RelationshipModel) conn;
-                    if (fk.getMappings().stream().anyMatch(
-                            predicate -> predicate.getReferenceKey() != null && predicate.getForeignKey() != null)) {
-                        TableModel source = (TableModel) conn.getSource();
-                        String sourceTableName = source.getPhysicalName();
-                        String targetTableName = getTableName(root, table);
-
-                        List<String> refkeys = fk.getMappings()
-                                .stream()
-                                .map(mapping -> mapping.getReferenceKey().getPhysicalName())
-                                .collect(Collectors.toList());
-
-                        List<String> fkeys = fk.getMappings()
-                                .stream()
-                                .map(mapping -> mapping.getForeignKey().getPhysicalName())
-                                .collect(Collectors.toList());
-
-                        if (count.get() > 0) {
-                            writer.println();
-                        }
-                        writer.println(String.format("ALTER TABLE %s", targetTableName));
-                        writer.print(TAB_SPACE);
-                        writer.println(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
-                        writer.print(TAB_SPACE);
-                        writer.println(String.format("FOREIGN KEY (%s)", String.join(", ", fkeys)));
-                        writer.print(TAB_SPACE);
-                        writer.print(String.format("REFERENCES %s (%s)", sourceTableName, String.join(", ", refkeys)));
-                        if (StringUtils.isNotEmpty(fk.getOnUpdateOption())) {
-                            writer.println();
-                            writer.print(TAB_SPACE);
-                            writer.print(String.format("ON UPDATE %s", fk.getOnUpdateOption()));
-                        }
-                        if (StringUtils.isNotEmpty(fk.getOnDeleteOption())) {
-                            writer.println();
-                            writer.print(TAB_SPACE);
-                            writer.print(String.format("ON DELETE %s", fk.getOnDeleteOption()));
-                        }
-                        writer.println(getSeparator());
-                        count.incrementAndGet();
-                    }
-                });
-        return count.get();
-    }
-
-    default int createIndex(RootModel root, TableModel table, PrintWriter writer) {
-        AtomicInteger count = new AtomicInteger();
-        table.getIndices()
-                .stream()
-                .filter(predicate -> "INDEX".equals(predicate.getIndexType().getName()))
-                .forEach(index -> {
-                    String str = String.format("CREATE INDEX %s ON %s (%s)",
-                            index.getIndexName(),
-                            getTableName(root, table),
-                            String.join(", ", index.getColumns()));
-                    writer.print(str);
-                    writer.println(getSeparator());
-                    count.incrementAndGet();
-                });
-        return count.get();
-    }
-
-    default int createUniqueIndex(RootModel root, TableModel table, PrintWriter writer) {
-        AtomicInteger count = new AtomicInteger();
-        table.getIndices()
-                .stream()
-                .filter(predicate -> "UNIQUE".equals(predicate.getIndexType().getName()))
-                .forEach(index -> {
-                    String str = String.format("CONSTRAINT %s UNIQUE (%s)",
-                            index.getIndexName(),
-                            String.join(", ", index.getColumns()));
-
-                    writer.print(String.format("ALTER TABLE %s ADD %s", getTableName(root, table), str));
-                    writer.println(getSeparator());
-                    count.incrementAndGet();
-                });
-        return count.get();
-    }
-
-    default void additions(RootModel root, PrintWriter writer) {
-        return;
-    }
-
-    default String createColumnPart(ColumnModel column) {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(column.getPhysicalName())
-                .append(SPACE)
-                .append(column.getColumnType().getPhysicalName());
-
-        if (column.getColumnType().isEnum()) {
-            if (!column.getEnumNames().isEmpty()) {
-                List<String> enumNemaes = new LinkedList<>();
-                column.getEnumNames().forEach(enumName -> {
-                    enumNemaes.add(String.format("'%s'", enumName));
-                });
-                sb.append(String.format("(%s)", String.join(",", enumNemaes)));
-            }
-        } else if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
-            if (column.getDecimal() == null) {
-                sb.append(String.format("(%d)", column.getColumnSize()));
-            } else {
-                sb.append(String.format("(%d, %d)", column.getColumnSize(), column.getDecimal()));
-            }
-        }
-        if (column.getColumnType().isUnsignedSupported() && column.isUnsigned()) {
-            sb.append(" UNSIGNED");
-        }
-        if (column.isNotNull()) {
-            sb.append(" NOT NULL");
-        }
-        if (column.isUniqueKey()) {
-            sb.append(" UNIQUE");
-        }
-        if (StringUtils.isNotEmpty(column.getDefaultValue())) {
-            sb.append(" DEFAULT ").append(column.getDefaultValue());
-        }
-        return sb.toString();
-    }
 
     /**
      * Returns SQL which selects all columns of a given table to get table metadata for reverse
@@ -315,16 +63,21 @@ public interface IDialect {
     }
 
     /**
-     * .
+     * Creates DDL from a given model.
      *
-     * @param root
-     * @param model
-     * @param ddl
-     * @param additions
+     * @param root a root model of diagram
+     * @param writer DDLs
      */
-    default void setupTableOption(RootModel root, TableModel table, PrintWriter writer) {
-        writer.println(getSeparator());
-    }
+    void createDDL(RootModel root, PrintWriter writer);
+
+    /**
+     * Creates DDL from a given table model.
+     *
+     * @param root a root model of diagram
+     * @param table a tablemodel of diagram
+     * @param writer DDL writer
+     */
+    void createTableDDL(RootModel root, TableModel table, PrintWriter writer);
 
     /**
      * Validates diagram models.
@@ -417,13 +170,6 @@ public interface IDialect {
         return getIndexTypes().get(0);
     }
 
-    default void reset(AtomicInteger count, PrintWriter writer) {
-        if (count.intValue() > 0) {
-            writer.println();
-            count.set(0);
-        }
-    }
-
     /**
      * Returns supported column types.
      *
@@ -439,8 +185,6 @@ public interface IDialect {
     List<IIndexType> getIndexTypes();
 
     boolean isAutoIncrement();
-
-    void setAutoIncrement(boolean autoIncrement);
 
     String getSeparator();
 

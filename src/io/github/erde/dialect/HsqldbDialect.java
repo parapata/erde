@@ -47,7 +47,6 @@ public class HsqldbDialect extends AbstractDialect {
 
     public HsqldbDialect() {
         super(COLUMN_TYPES);
-        setAutoIncrement(false);
     }
 
     @Override

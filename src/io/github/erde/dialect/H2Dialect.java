@@ -50,7 +50,6 @@ public class H2Dialect extends AbstractDialect {
 
     public H2Dialect() {
         super(COLUMN_TYPES);
-        setAutoIncrement(false);
     }
 
     @Override

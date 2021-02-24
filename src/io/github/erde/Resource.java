@@ -446,6 +446,8 @@ public enum Resource {
     WIZARD_GENERATE_DDL_ERROR_PATH("wizard.generate.ddl.error.path"),
     /** key:wizard.generate.ddl.filename. */
     WIZARD_GENERATE_DDL_FILENAME("wizard.generate.ddl.filename"),
+    /** key:wizard.generate.ddl.lineSeparator. */
+    WIZARD_GENERATE_DDL_LINE_SEPARATOR("wizard.generate.ddl.lineSeparator"),
     /** key:wizard.generate.ddl.schema. */
     WIZARD_GENERATE_DDL_SCHEMA("wizard.generate.ddl.schema"),
     /** key:wizard.generate.ddl.title. */

@@ -286,6 +286,32 @@ public class AttributeTabCreator {
         group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         group.setLayout(new GridLayout(7, false));
 
+        // ------------------------------------------------------------
+        // check box area(pkey, autoIncrement etc...)
+        // ------------------------------------------------------------
+        Composite checks = new Composite(group, SWT.NULL);
+        checks.setLayout(new GridLayout(6, false));
+        checks.setLayoutData(UIUtils.createGridData(7));
+
+        btnChkIsPK = new Button(checks, SWT.CHECK);
+        btnChkIsPK.setText(DIALOG_TABLE_EDIT_COLUMN_PK.getValue());
+        btnChkIsPK.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        btnChkNotNull = new Button(checks, SWT.CHECK);
+        btnChkNotNull.setText(DIALOG_TABLE_EDIT_COLUMN_NOT_NULL.getValue());
+        btnChkNotNull.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        btnChkIsUnique = new Button(checks, SWT.CHECK);
+        btnChkIsUnique.setText(DIALOG_TABLE_EDIT_COLUMN_UNIQUE_KEY.getValue());
+        btnChkIsUnique.addSelectionListener(columnInfoSelectionChanged);
+
+        // -----
+        btnAutoIncrement = new Button(checks, SWT.CHECK);
+        btnAutoIncrement.setText(DIALOG_TABLE_EDIT_COLUMN_AUTO_INCREMENT.getValue());
+        btnAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
+
         // -----
         UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_NAME);
         txtColumnName = new Text(group, SWT.BORDER);
@@ -373,31 +399,6 @@ public class AttributeTabCreator {
         txtColumnDescription = new Text(group, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtColumnDescription.setLayoutData(UIUtils.createGridDataWithColspan(6, 90));
         txtColumnDescription.addFocusListener(updateColumnInfoChanged);
-
-        // -----
-        Composite checks = new Composite(group, SWT.NULL);
-        checks.setLayout(new GridLayout(6, false));
-        checks.setLayoutData(UIUtils.createGridData(7));
-
-        // -----
-        btnChkIsPK = new Button(checks, SWT.CHECK);
-        btnChkIsPK.setText(DIALOG_TABLE_EDIT_COLUMN_PK.getValue());
-        btnChkIsPK.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        btnChkNotNull = new Button(checks, SWT.CHECK);
-        btnChkNotNull.setText(DIALOG_TABLE_EDIT_COLUMN_NOT_NULL.getValue());
-        btnChkNotNull.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        btnChkIsUnique = new Button(checks, SWT.CHECK);
-        btnChkIsUnique.setText(DIALOG_TABLE_EDIT_COLUMN_UNIQUE_KEY.getValue());
-        btnChkIsUnique.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        btnAutoIncrement = new Button(checks, SWT.CHECK);
-        btnAutoIncrement.setText(DIALOG_TABLE_EDIT_COLUMN_AUTO_INCREMENT.getValue());
-        btnAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
 
         if (editColumnIndex > -1) {
             tabFolder.setSelection(tab);

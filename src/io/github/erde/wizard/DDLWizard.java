@@ -26,6 +26,14 @@ import io.github.erde.wizard.page.DDLWizardPage;
  */
 public class DDLWizard extends FileSystemExportWizard {
 
+    public static final String DIALOG_NAME = "DDLWizard";
+    public static final String SCHEMA = "schema";
+    public static final String DROP = "drop";
+    public static final String ALTER_TABLE = "alterTable";
+    public static final String COMMENT = "comment";
+    public static final String ENCODING = "encoding";
+    public static final String LINE_SEPARATOR = "lineSeparator";
+
     private IFile ddlFile;
     private RootModel root;
     private DDLWizardPage page;
@@ -37,14 +45,15 @@ public class DDLWizard extends FileSystemExportWizard {
         setWindowTitle(generatorName);
 
         IDialogSettings settings = Activator.getDefault().getDialogSettings();
-        IDialogSettings section = settings.getSection("DDLWizard");
+        IDialogSettings section = settings.getSection(DIALOG_NAME);
         if (section == null) {
-            section = settings.addNewSection("DDLWizard");
-            section.put("schema", false);
-            section.put("drop", false);
-            section.put("alterTable", true);
-            section.put("comment", true);
-            section.put("encoding", System.getProperty("file.encoding"));
+            section = settings.addNewSection(DIALOG_NAME);
+            section.put(SCHEMA, false);
+            section.put(DROP, false);
+            section.put(ALTER_TABLE, true);
+            section.put(COMMENT, true);
+            section.put(ENCODING, System.getProperty("file.encoding"));
+            section.put(LINE_SEPARATOR, System.lineSeparator());
         }
         this.setDialogSettings(section);
     }
@@ -57,24 +66,26 @@ public class DDLWizard extends FileSystemExportWizard {
 
     @Override
     public boolean performFinish() {
+
+        IDialogSettings setting = getDialogSettings();
+        setting.put(SCHEMA, page.getSchema());
+        setting.put(DROP, page.getDrop());
+        setting.put(ALTER_TABLE, page.getAlterTable());
+        setting.put(COMMENT, page.getComment());
+        setting.put(ENCODING, page.getEncoding());
+        setting.put(LINE_SEPARATOR, page.getLineSeparator());
+
         IDialect dialect = root.getDialectProvider().getDialect();
         dialect.setSchema(page.getSchema());
         dialect.setDrop(page.getDrop());
         dialect.setAlterTable(page.getAlterTable());
         dialect.setComment(page.getComment());
-
-        IDialogSettings setting = getDialogSettings();
-        setting.put("schema", page.getSchema());
-        setting.put("drop", page.getDrop());
-        setting.put("alterTable", page.getAlterTable());
-        setting.put("comment", page.getComment());
-        setting.put("encoding", page.getEncoding());
+        dialect.setLineSeparator(page.getLineSeparator());
 
         File file = Paths.get(page.getOutputFolderResource(), page.getFilename()).toFile();
-
         if (file.exists()) {
-            String[] messageArgs = new String[] { page.getFilename() };
-            if (!UIUtils.openConfirmDialog(Resource.WIZARD_GENERATE_DDL_CONFIRM_MESSAGE, messageArgs)) {
+            String[] args = new String[] { page.getFilename() };
+            if (!UIUtils.openConfirmDialog(Resource.WIZARD_GENERATE_DDL_CONFIRM_MESSAGE, args)) {
                 return false;
             }
         }

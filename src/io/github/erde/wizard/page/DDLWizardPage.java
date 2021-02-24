@@ -2,12 +2,17 @@ package io.github.erde.wizard.page;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -15,6 +20,7 @@ import org.eclipse.swt.widgets.Text;
 import io.github.erde.Activator;
 import io.github.erde.Resource;
 import io.github.erde.core.util.UIUtils;
+import io.github.erde.wizard.DDLWizard;
 
 /**
  * DDLWizardPage.
@@ -25,12 +31,20 @@ public class DDLWizardPage extends FolderSelectWizardPage {
 
     private static final String PATTERN_EDITER_FILE_NAME = String.format("\\%s$", Activator.EXTENSION_ERDE);
 
-    private Text filename;
-    private Button alterTable;
-    private Button comment;
-    private Button drop;
-    private Button schema;
-    private Text encoding;
+    private Text txtFilename;
+    private Button btnAlterTable;
+    private Button btnComment;
+    private Button btnDrop;
+    private Button btnSchema;
+    private Combo cmbEncoding;
+    private Combo cmbLineSeparator;
+
+    private static Map<String, String> lineSeparatorMap = new HashMap<>();
+    static {
+        lineSeparatorMap.put("CR+LF", "\r\n");
+        lineSeparatorMap.put("LF", "\n");
+        lineSeparatorMap.put("CR", "\r");
+    }
 
     public DDLWizardPage(IFile erdFile) {
         super(erdFile, Resource.WIZARD_GENERATE_DDL_TITLE.getValue());
@@ -47,38 +61,51 @@ public class DDLWizardPage extends FolderSelectWizardPage {
         Label label = new Label(composite, SWT.NULL);
         label.setText(Resource.WIZARD_GENERATE_DDL_FILENAME.getValue());
 
-        filename = new Text(composite, SWT.BORDER);
-        filename.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        filename.setText(erdFile.getName().replaceFirst(PATTERN_EDITER_FILE_NAME, Activator.EXTENSION_DDL));
-        filename.addModifyListener(e -> doValidate());
+        txtFilename = new Text(composite, SWT.BORDER);
+        txtFilename.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        txtFilename.setText(erdFile.getName().replaceFirst(PATTERN_EDITER_FILE_NAME, Activator.EXTENSION_DDL));
+        txtFilename.addModifyListener(event -> doValidate());
 
         new Label(composite, SWT.NULL);
-
         new Label(composite, SWT.NULL).setText(Resource.WIZARD_GENERATE_DDL_ENCODING.getValue());
-        encoding = new Text(composite, SWT.BORDER);
-        encoding.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        encoding.setText(setting.get("encoding"));
-        encoding.addModifyListener(e -> doValidate());
+        cmbEncoding = new Combo(composite, SWT.READ_ONLY);
+        SortedMap<String, Charset> charsets = Charset.availableCharsets();
+        charsets.values().forEach(charset -> {
+            cmbEncoding.add(charset.displayName());
+        });
+        cmbEncoding.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        cmbEncoding.setText(setting.get(DDLWizard.ENCODING));
+        cmbEncoding.addModifyListener(event -> doValidate());
 
-        schema = new Button(composite, SWT.CHECK);
-        schema.setText(Resource.WIZARD_GENERATE_DDL_SCHEMA.getValue());
-        schema.setLayoutData(UIUtils.createGridData(2));
-        schema.setSelection(setting.getBoolean("schema"));
+        new Label(composite, SWT.NULL);
+        new Label(composite, SWT.NULL).setText(Resource.WIZARD_GENERATE_DDL_LINE_SEPARATOR.getValue());
+        cmbLineSeparator = new Combo(composite, SWT.READ_ONLY);
+        lineSeparatorMap.forEach((key, value) -> {
+            cmbLineSeparator.add(key);
+            cmbLineSeparator.setData(key, value);
+        });
+        cmbLineSeparator.setText(setting.get(DDLWizard.LINE_SEPARATOR));
+        cmbLineSeparator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        drop = new Button(composite, SWT.CHECK);
-        drop.setText(Resource.WIZARD_GENERATE_DDL_DROP.getValue());
-        drop.setLayoutData(UIUtils.createGridData(2));
-        drop.setSelection(setting.getBoolean("drop"));
+        btnSchema = new Button(composite, SWT.CHECK);
+        btnSchema.setText(Resource.WIZARD_GENERATE_DDL_SCHEMA.getValue());
+        btnSchema.setLayoutData(UIUtils.createGridData(2));
+        btnSchema.setSelection(setting.getBoolean(DDLWizard.SCHEMA));
 
-        alterTable = new Button(composite, SWT.CHECK);
-        alterTable.setText(Resource.WIZARD_GENERATE_DDL_ALTER_TABLE.getValue());
-        alterTable.setLayoutData(UIUtils.createGridData(2));
-        alterTable.setSelection(setting.getBoolean("alterTable"));
+        btnDrop = new Button(composite, SWT.CHECK);
+        btnDrop.setText(Resource.WIZARD_GENERATE_DDL_DROP.getValue());
+        btnDrop.setLayoutData(UIUtils.createGridData(2));
+        btnDrop.setSelection(setting.getBoolean(DDLWizard.DROP));
 
-        comment = new Button(composite, SWT.CHECK);
-        comment.setText(Resource.WIZARD_GENERATE_DDL_COMMENT.getValue());
-        comment.setLayoutData(UIUtils.createGridData(2));
-        comment.setSelection(setting.getBoolean("comment"));
+        btnAlterTable = new Button(composite, SWT.CHECK);
+        btnAlterTable.setText(Resource.WIZARD_GENERATE_DDL_ALTER_TABLE.getValue());
+        btnAlterTable.setLayoutData(UIUtils.createGridData(2));
+        btnAlterTable.setSelection(setting.getBoolean(DDLWizard.ALTER_TABLE));
+
+        btnComment = new Button(composite, SWT.CHECK);
+        btnComment.setText(Resource.WIZARD_GENERATE_DDL_COMMENT.getValue());
+        btnComment.setLayoutData(UIUtils.createGridData(2));
+        btnComment.setSelection(setting.getBoolean(DDLWizard.COMMENT));
     }
 
     @Override
@@ -87,11 +114,11 @@ public class DDLWizardPage extends FolderSelectWizardPage {
         if (!new File(getOutputFolderResource()).exists()) {
             setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_PATH.getValue());
             setPageComplete(false);
-        } else if (filename.getText().isEmpty()) {
+        } else if (txtFilename.getText().isEmpty()) {
             setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_FILENAME.getValue());
             setPageComplete(false);
             return;
-        } else if (!isSupportedEncoding(encoding.getText())) {
+        } else if (!isSupportedEncoding(cmbEncoding.getText())) {
             setErrorMessage(Resource.WIZARD_GENERATE_DDL_ERROR_ENCODING.getValue());
             setPageComplete(false);
             return;
@@ -108,26 +135,30 @@ public class DDLWizardPage extends FolderSelectWizardPage {
     }
 
     public String getFilename() {
-        return filename.getText();
+        return txtFilename.getText();
     }
 
     public boolean getAlterTable() {
-        return alterTable.getSelection();
+        return btnAlterTable.getSelection();
     }
 
     public boolean getComment() {
-        return comment.getSelection();
+        return btnComment.getSelection();
     }
 
     public boolean getDrop() {
-        return drop.getSelection();
+        return btnDrop.getSelection();
     }
 
     public boolean getSchema() {
-        return schema.getSelection();
+        return btnSchema.getSelection();
     }
 
     public String getEncoding() {
-        return encoding.getText();
+        return cmbEncoding.getText();
+    }
+
+    public String getLineSeparator() {
+        return (String) cmbLineSeparator.getData(cmbLineSeparator.getText());
     }
 }
