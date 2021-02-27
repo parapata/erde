@@ -25,7 +25,7 @@ import io.github.erde.core.util.IOUtils;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
-import io.github.erde.generate.html.HTMLGen;
+import io.github.erde.generate.html.HtmlGen;
 
 /**
  * HTMLGenerator.
@@ -34,7 +34,7 @@ import io.github.erde.generate.html.HTMLGen;
  */
 public class HTMLGenerator implements IGenerator {
 
-    private static ResourceBundle bundle = ResourceBundle.getBundle(HTMLGen.class.getName());
+    private static ResourceBundle bundle = ResourceBundle.getBundle(HtmlGen.class.getName());
     private static Map<String, String> messages = new HashMap<>();
     static {
         for (Enumeration<String> elements = bundle.getKeys(); elements.hasMoreElements();) {
@@ -109,7 +109,7 @@ public class HTMLGenerator implements IGenerator {
     private void processTemplate(String templateName, File output, VelocityContext context) throws Exception {
         String charset = Activator.getCharset();
         try (StringWriter writer = new StringWriter();
-                InputStream is = HTMLGen.class.getResourceAsStream(templateName);
+                InputStream is = HtmlGen.class.getResourceAsStream(templateName);
                 InputStreamReader reader = new InputStreamReader(is, charset);
                 FileOutputStream out = new FileOutputStream(output);) {
             Velocity.evaluate(context, writer, "", reader);

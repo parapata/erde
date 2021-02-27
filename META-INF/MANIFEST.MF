@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: io.github.erde;singleton:=true
-Bundle-Version: 1.0.8
+Bundle-Version: 1.0.9
 Bundle-Activator: io.github.erde.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
@@ -52,9 +52,12 @@ Bundle-ClassPath: .,
  target/dependency-jars/poi-ooxml-4.1.2.jar,
  target/dependency-jars/poi-ooxml-schemas-4.1.2.jar,
  target/dependency-jars/SparseBitSet-1.2.jar,
- target/dependency-jars/xmlbeans-3.1.0.jar
+ target/dependency-jars/xmlbeans-3.1.0.jar,
+ target/dependency-jars/serializer-2.7.2.jar,
+ target/dependency-jars/xalan-2.7.2.jar
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: io.github.erde,
+ io.github.erde.core,
  io.github.erde.core.exception,
  io.github.erde.core.util,
  io.github.erde.dialect,
