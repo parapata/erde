@@ -222,6 +222,50 @@ public enum Resource {
     ERROR_REQUIRED("error.required"),
     /** key:error.validation. */
     ERROR_VALIDATION("error.validation"),
+    /** key:html.column.defaultValue. */
+    HTML_COLUMN_DEFAULT_VALUE("html.column.defaultValue"),
+    /** key:html.column.description. */
+    HTML_COLUMN_DESCRIPTION("html.column.description"),
+    /** key:html.column.description.domain. */
+    HTML_COLUMN_DESCRIPTION_DOMAIN("html.column.description.domain"),
+    /** key:html.column.logicalName. */
+    HTML_COLUMN_LOGICAL_NAME("html.column.logicalName"),
+    /** key:html.column.notNull. */
+    HTML_COLUMN_NOT_NULL("html.column.notNull"),
+    /** key:html.column.physicalName. */
+    HTML_COLUMN_PHYSICAL_NAME("html.column.physicalName"),
+    /** key:html.column.primaryKey. */
+    HTML_COLUMN_PRIMARY_KEY("html.column.primaryKey"),
+    /** key:html.column.rownum. */
+    HTML_COLUMN_ROWNUM("html.column.rownum"),
+    /** key:html.column.type. */
+    HTML_COLUMN_TYPE("html.column.type"),
+    /** key:html.column.unique. */
+    HTML_COLUMN_UNIQUE("html.column.unique"),
+    /** key:html.domain.name. */
+    HTML_DOMAIN_NAME("html.domain.name"),
+    /** key:html.domain.size. */
+    HTML_DOMAIN_SIZE("html.domain.size"),
+    /** key:html.domain.title. */
+    HTML_DOMAIN_TITLE("html.domain.title"),
+    /** key:html.domain.type. */
+    HTML_DOMAIN_TYPE("html.domain.type"),
+    /** key:html.foreignKeys. */
+    HTML_FOREIGN_KEYS("html.foreignKeys"),
+    /** key:html.indices. */
+    HTML_INDICES("html.indices"),
+    /** key:html.referencedTables. */
+    HTML_REFERENCED_TABLES("html.referencedTables"),
+    /** key:html.table.description. */
+    HTML_TABLE_DESCRIPTION("html.table.description"),
+    /** key:html.table.logicalName. */
+    HTML_TABLE_LOGICAL_NAME("html.table.logicalName"),
+    /** key:html.table.physicalName. */
+    HTML_TABLE_PHYSICAL_NAME("html.table.physicalName"),
+    /** key:html.title. */
+    HTML_TITLE("html.title"),
+    /** key:htmlcolumn.unsigned. */
+    HTMLCOLUMN_UNSIGNED("htmlcolumn.unsigned"),
     /** key:info.cancel. */
     INFO_CANCEL("info.cancel"),
     /** key:label.attribute. */
@@ -258,6 +302,8 @@ public enum Resource {
     MESSAGE_SAVE_BEFORE_EXECUTE("message.saveBeforeExecute"),
     /** key:none. */
     NONE("none"),
+    /** key:note.importedTable. */
+    NOTE_IMPORTED_TABLE("note.importedTable"),
     /** key:palette.node.note. */
     PALETTE_NODE_NOTE("palette.node.note"),
     /** key:palette.node.note.connector. */

@@ -7,6 +7,7 @@ import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -25,7 +26,7 @@ public class JarClassLoader extends URLClassLoader {
         super(urls);
     }
 
-    public void getJDBCDriverClass(java.util.List<Class<?>> list, Class<?> cls, Class<?> org) {
+    public void getJDBCDriverClass(List<Class<?>> list, Class<?> cls, Class<?> org) {
         Class<?>[] interfaces = cls.getInterfaces();
         for (Class<?> interface1 : interfaces) {
             interface1.getInterfaces();
@@ -39,7 +40,7 @@ public class JarClassLoader extends URLClassLoader {
         }
     }
 
-    public java.util.List<Class<?>> getJDBCDriverClass(String jarName) throws IOException, ClassNotFoundException {
+    public List<Class<?>> getJDBCDriverClass(String jarName) throws IOException, ClassNotFoundException {
         if (jarName.equals("")) {
             return Collections.emptyList();
         }
