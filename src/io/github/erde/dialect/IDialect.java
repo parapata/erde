@@ -82,8 +82,8 @@ public interface IDialect {
     /**
      * Validates diagram models.
      *
-     * @param validation errors
-     * @param model the root model of the diagram
+     * @param errors
+     * @param root
      */
     default void validate(DiagramErrorManager errors, RootModel root) {
     }

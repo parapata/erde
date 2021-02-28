@@ -83,8 +83,8 @@ public class UIUtils {
      * @param key the resource key of the column label
      * @param width the column width
      */
-    public static void createColumn(Table table, Resource message, int width) {
-        createColumn(table, message, width, SWT.NULL);
+    public static void createColumn(Table table, Resource key, int width) {
+        createColumn(table, key, width, SWT.NULL);
     }
 
     /**
@@ -95,9 +95,9 @@ public class UIUtils {
      * @param width the column width
      * @param style the column style
      */
-    public static void createColumn(Table table, Resource message, int width, int style) {
+    public static void createColumn(Table table, Resource key, int width, int style) {
         TableColumn column = new TableColumn(table, style);
-        column.setText(message.getValue());
+        column.setText(key.getValue());
         column.setWidth(width);
     }
 
@@ -108,9 +108,9 @@ public class UIUtils {
      * @param key the resource key of the label text
      * @return the created label
      */
-    public static Label createLabel(Composite parent, Resource message) {
+    public static Label createLabel(Composite parent, Resource key) {
         Label label = new Label(parent, SWT.NULL);
-        label.setText(message.getValue());
+        label.setText(key.getValue());
         return label;
     }
 

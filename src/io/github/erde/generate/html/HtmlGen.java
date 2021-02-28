@@ -19,16 +19,16 @@ import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 
 /**
- * HTMLGen.
+ * HtmlGen.
  *
  * @author modified by parapata
  */
 public class HtmlGen {
 
-    private static final File INPUT_XML_FILE = new File("D:\\repos\\erde\\logs\\newfile.ere");
-    private static final File INPUT_XSL_FILE = new File(
-            "D:\\repos\\erde\\resources\\io\\github\\erde\\generate\\html\\HtmlGen.xsl");
-    private static final File OUTPUT_HTML_FILE = new File("D:\\repos\\erde\\logs\\HtmlGen.html");
+    private static final File INPUT_XML_FILE = new File("./logs/newfile.ere");
+    //private static final File INPUT_XSL_FILE = new File("./logs/HtmlGen.xsl");
+    private static final File INPUT_XSL_FILE = new File("./resources/io/github/erde/generate/html/html-frames.xsl");
+    private static final File OUTPUT_HTML_FILE = new File("./logs/index.html");
 
     public static void main(String[] args) {
         new HtmlGen().execute();
@@ -52,13 +52,14 @@ public class HtmlGen {
         try (FileOutputStream fos = new FileOutputStream(file, false);
                 OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
 
-            StreamResult sr = new StreamResult(osw);
+            StreamSource source = new StreamSource(INPUT_XSL_FILE);
+            StreamResult result = new StreamResult(osw);
 
             TransformerFactory factory = TransformerFactory.newInstance();
-            StreamSource source = new StreamSource(INPUT_XSL_FILE);
             Transformer transformer = factory.newTransformer(source);
             transformer.setOutputProperty("indent", "yes");
-            transformer.transform(new DOMSource(doc), sr);
+            transformer.setParameter("output.dir", OUTPUT_HTML_FILE.getAbsoluteFile().getParent());
+            transformer.transform(new DOMSource(doc), result);
 
         } catch (TransformerException e) {
             throw e;

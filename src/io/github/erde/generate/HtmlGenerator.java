@@ -28,11 +28,11 @@ import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.generate.html.HtmlGen;
 
 /**
- * HTMLGenerator.
+ * HtmlGenerator.
  *
  * @author modified by parapata
  */
-public class HTMLGenerator implements IGenerator {
+public class HtmlGenerator implements IGenerator {
 
     private static ResourceBundle bundle = ResourceBundle.getBundle(HtmlGen.class.getName());
     private static Map<String, String> messages = new HashMap<>();
@@ -73,7 +73,7 @@ public class HTMLGenerator implements IGenerator {
 
     public void generate(String outPath, RootModel root) throws Exception {
 
-        try (InputStream in = HTMLGenerator.class.getResourceAsStream("html/stylesheet.css");
+        try (InputStream in = HtmlGenerator.class.getResourceAsStream("html/stylesheet.css");
                 OutputStream out = new FileOutputStream(new File(outPath, "stylesheet.css"))) {
             IOUtils.copyStream(in, out);
         }
@@ -91,7 +91,7 @@ public class HTMLGenerator implements IGenerator {
         File imageDir = new File(outPath, "images");
         imageDir.mkdir();
 
-        try (InputStream in = HTMLGenerator.class.getResourceAsStream("html/primarykey.gif");
+        try (InputStream in = HtmlGenerator.class.getResourceAsStream("html/primarykey.gif");
                 OutputStream out = new FileOutputStream(new File(imageDir, "primarykey.gif"))) {
             IOUtils.copyStream(in, out);
         }

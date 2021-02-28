@@ -48,7 +48,7 @@
 
     <extension point="io.github.erde.generators">
         <generator class="io.github.erde.generate.DDLGenerater"/>
-        <generator class="io.github.erde.generate.HTMLGenerator"/>
+        <generator class="io.github.erde.generate.HtmlGenerator"/>
         <generator class="io.github.erde.generate.ExcelGenerator"/>
         <generator class="io.github.erde.generate.ImageGenerator"/>
     </extension>

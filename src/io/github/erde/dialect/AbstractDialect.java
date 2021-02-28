@@ -60,8 +60,8 @@ public abstract class AbstractDialect implements IDialect {
      * Creates DDL that creates a given table.
      *
      * @param root a root model of diagram
-     * @param model a table model
-     * @param ddl DDLs
+     * @param table a table model
+     * @param writer a ddl wreiter
      */
     @Override
     public void createTableDDL(RootModel root, TableModel table, PrintWriter writer) {
@@ -161,14 +161,6 @@ public abstract class AbstractDialect implements IDialect {
         setupTableOption(root, table);
     }
 
-    /**
-     * .
-     *
-     * @param root
-     * @param model
-     * @param ddl
-     * @param additions
-     */
     protected void setupTableOption(RootModel root, TableModel table) {
         println(getSeparator());
     }
