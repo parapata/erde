@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -26,6 +27,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.w3c.dom.Document;
 
+import io.github.erde.core.util.IOUtils;
 import io.github.erde.core.util.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 
@@ -68,6 +70,12 @@ public class HtmlGenerator implements IGenerator {
 
             Path html = Paths.get(outPath, "index.html");
             convertXMLToHTMLWithXSL(doc, html);
+
+            try (InputStream icon = HtmlGenerator.class.getResourceAsStream("html/check.svg")) {
+                OutputStream fos = new FileOutputStream(Paths.get(outPath, "check.svg").toFile());
+                IOUtils.copyStream(icon, fos);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

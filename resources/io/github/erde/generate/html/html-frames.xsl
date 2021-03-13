@@ -313,12 +313,12 @@
                                 <xsl:for-each select="column">
                                     <tr>
                                         <td class="number"><xsl:value-of select="position()"/></td>
-                                        <td class="image"><xsl:value-of select="primaryKey" /></td>
+                                        <td class="image"><xsl:if test="primaryKey"><img src="../check.svg" /></xsl:if></td>
                                         <td></td>
                                         <td><a href="#{physicalName}"><xsl:value-of select="physicalName" /></a></td>
                                         <td><xsl:value-of select="logicalName" /></td>
                                         <td><xsl:value-of select="type" /></td>
-                                        <td class="image"><xsl:value-of select="notNull" /></td>
+                                        <td class="image"><xsl:if test="notNull"><img src="../check.svg" /></xsl:if></td>
                                     </tr>
                                 </xsl:for-each>
                             </tbody>
