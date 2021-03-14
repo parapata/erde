@@ -222,6 +222,8 @@ public enum Resource {
     ERROR_REQUIRED("error.required"),
     /** key:error.validation. */
     ERROR_VALIDATION("error.validation"),
+    /** key:html.column.autoIncrement. */
+    HTML_COLUMN_AUTO_INCREMENT("html.column.autoIncrement"),
     /** key:html.column.defaultValue. */
     HTML_COLUMN_DEFAULT_VALUE("html.column.defaultValue"),
     /** key:html.column.description. */
@@ -242,6 +244,8 @@ public enum Resource {
     HTML_COLUMN_TYPE("html.column.type"),
     /** key:html.column.unique. */
     HTML_COLUMN_UNIQUE("html.column.unique"),
+    /** key:html.column.unsigned. */
+    HTML_COLUMN_UNSIGNED("html.column.unsigned"),
     /** key:html.domain.name. */
     HTML_DOMAIN_NAME("html.domain.name"),
     /** key:html.domain.size. */
@@ -254,6 +258,16 @@ public enum Resource {
     HTML_FOREIGN_KEYS("html.foreignKeys"),
     /** key:html.indices. */
     HTML_INDICES("html.indices"),
+    /** key:html.page.section.title.attribute. */
+    HTML_PAGE_SECTION_TITLE_ATTRIBUTE("html.page.section.title.attribute"),
+    /** key:html.page.section.title.compositeUniqueKeys. */
+    HTML_PAGE_SECTION_TITLE_COMPOSITE_UNIQUE_KEYS("html.page.section.title.compositeUniqueKeys"),
+    /** key:html.page.section.title.foreignKeys. */
+    HTML_PAGE_SECTION_TITLE_FOREIGN_KEYS("html.page.section.title.foreignKeys"),
+    /** key:html.page.section.title.index. */
+    HTML_PAGE_SECTION_TITLE_INDEX("html.page.section.title.index"),
+    /** key:html.page.title.table. */
+    HTML_PAGE_TITLE_TABLE("html.page.title.table"),
     /** key:html.referencedTables. */
     HTML_REFERENCED_TABLES("html.referencedTables"),
     /** key:html.table.description. */
@@ -264,8 +278,6 @@ public enum Resource {
     HTML_TABLE_PHYSICAL_NAME("html.table.physicalName"),
     /** key:html.title. */
     HTML_TITLE("html.title"),
-    /** key:htmlcolumn.unsigned. */
-    HTMLCOLUMN_UNSIGNED("htmlcolumn.unsigned"),
     /** key:info.cancel. */
     INFO_CANCEL("info.cancel"),
     /** key:label.attribute. */
