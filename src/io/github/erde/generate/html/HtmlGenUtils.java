@@ -1,7 +1,13 @@
 package io.github.erde.generate.html;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.xml.dtm.ref.DTMNodeIterator;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import io.github.erde.Resource;
 
@@ -34,7 +40,68 @@ public class HtmlGenUtils {
         return BooleanUtils.toBoolean(value);
     }
 
-    public static String srcIdToTableName() {
-        return null;
+    public static String toSourceColumeName(Object table, String sourceId, String columeName) {
+        StringBuilder sb = new StringBuilder();
+        NodeList nodes = ((DTMNodeIterator) table).nextNode().getParentNode().getChildNodes();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node node = nodes.item(i);
+            if (StringUtils.equals("table", node.getNodeName())) {
+                String id = node.getAttributes().getNamedItem("id").getNodeValue();
+                if (StringUtils.equals(id, sourceId)) {
+                    NodeList childNodes = node.getChildNodes();
+                    for (int j = 0; j < childNodes.getLength(); j++) {
+                        if (StringUtils.equals("physicalName", childNodes.item(j).getNodeName())) {
+                            sb.append(childNodes.item(j).getTextContent());
+                            sb.append(".");
+                        }
+                    }
+                }
+            }
+        }
+        sb.append(columeName);
+        return sb.toString();
+    }
+
+    public static boolean isForeignKey(Object table, String columeName) {
+        Node node = ((DTMNodeIterator) table).nextNode();
+        NodeList childNodes = node.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node childNode = childNodes.item(i);
+            if (StringUtils.equals("foreignKey", childNode.getNodeName())) {
+                // targetName
+                for (int j = 0; j < childNode.getChildNodes().getLength(); j++) {
+                    Node fkMappingNode = childNode.getChildNodes().item(j);
+                    for (int k = 0; k < fkMappingNode.getChildNodes().getLength(); k++) {
+                        Node columnNode = fkMappingNode.getChildNodes().item(k);
+                        if (StringUtils.equals("targetName", columnNode.getNodeName())
+                                && StringUtils.equals(columeName, columnNode.getTextContent())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean isIndexEmpty(Object indexes) {
+        return !getIndexNodes(indexes, "INDEX").isEmpty();
+    }
+
+    public static boolean isUniqeIndexEmpty(Object indexes) {
+        return !getIndexNodes(indexes, "UNIQUE").isEmpty();
+    }
+
+    private static List<Node> getIndexNodes(Object indexes, String targetType) {
+        List<Node> result = new ArrayList<>();
+        DTMNodeIterator iterator = (DTMNodeIterator) indexes;
+        Node node = null;
+        while ((node = iterator.nextNode()) != null) {
+            Node indexType = node.getAttributes().getNamedItem("indexType");
+            if (StringUtils.equals(indexType.getNodeValue(), targetType)) {
+                result.add(node);
+            }
+        }
+        return result;
     }
 }

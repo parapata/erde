@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.parapata.erde</groupId>
     <artifactId>io.github.erde</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <packaging>eclipse-plugin</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -85,14 +85,21 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.relaxng</groupId>
-            <artifactId>trang</artifactId>
-            <version>20181222</version>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+            <version>2.7.2</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>xalan</groupId>
             <artifactId>serializer</artifactId>
             <version>2.7.2</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.relaxng</groupId>
+            <artifactId>trang</artifactId>
+            <version>20181222</version>
         </dependency>
 
         <!-- JDBC Driver -->

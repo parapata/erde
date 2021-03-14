@@ -2,7 +2,9 @@
 
 Lightweight ER-Diagram editor for Eclipse.
 
-IMPORTANT: Version 1.0.x is under development.
+
+NOTE: Version 1.0.x is under development.
+
 
 == Installation
 

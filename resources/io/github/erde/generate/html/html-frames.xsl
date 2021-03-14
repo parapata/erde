@@ -279,6 +279,7 @@
     <!-- テーブル定義・ページ                                       -->
     <!-- ********************************************************** -->
     <xsl:template match="table" mode="table.definition">
+        <xsl:variable name="table" select="."/>
         <html>
             <head>
                 <link rel="stylesheet" href="../stylesheet.css" />
@@ -320,7 +321,7 @@
                                 <tr>
                                     <td class="number"><xsl:value-of select="position()"/></td>
                                     <td class="image"><xsl:if test="primaryKey"><img src="../check.svg" /></xsl:if></td>
-                                    <td></td>
+                                    <td class="image"><xsl:if test="utils:isForeignKey($table, physicalName)"><img src="../check.svg" /></xsl:if></td>
                                     <td><a href="#{physicalName}"><xsl:value-of select="physicalName" /></a></td>
                                     <td><xsl:value-of select="logicalName" /></td>
                                     <td><xsl:value-of select="utils:getType(type, columnSize, decimal, unsigned)" /></td>
@@ -336,12 +337,17 @@
                     <div class="box">
                         <h3><xsl:value-of select="utils:getResource('html.page.section.title.foreignKeys')" /></h3>
                         <xsl:for-each select="foreignKey">
+                            <xsl:variable name="sourceId" select="@sourceId"/>
                             <dl>
                                 <dt><xsl:value-of select="@foreignKeyName" /></dt>
                                 <dd>
                                     <ul>
                                         <xsl:for-each select="foreignKeyMapping">
-                                        <li><xsl:value-of select="referenceName" /><span class="separator">:</span><xsl:value-of select="targetName" /></li>
+                                        <li>
+                                            <xsl:value-of select="utils:toSourceColumeName($table, $sourceId, referenceName)" />
+                                            <span class="separator">:</span>
+                                            <xsl:value-of select="targetName" />
+                                        </li>
                                         </xsl:for-each>
                                     </ul>
                                 </dd>
@@ -351,7 +357,7 @@
                     </xsl:if>
 
                     <!-- 複合一意キーの概要 -->
-                    <xsl:if test="index">
+                    <xsl:if test="utils:isUniqeIndexEmpty(index)">
                     <div class="box">
                         <h3><xsl:value-of select="utils:getResource('html.page.section.title.compositeUniqueKeys')" /></h3>
                         <xsl:for-each select="index">
@@ -370,7 +376,7 @@
                     </xsl:if>
 
                     <!-- インデックスの概要 -->
-                    <xsl:if test="index">
+                    <xsl:if test="utils:isIndexEmpty(index)">
                     <div class="box">
                         <h3><xsl:value-of select="utils:getResource('html.page.section.title.index')" /></h3>
                         <xsl:for-each select="index">
