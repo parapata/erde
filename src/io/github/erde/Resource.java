@@ -220,6 +220,8 @@ public enum Resource {
     ERROR_KEY_DUPLICATE("error.key.duplicate"),
     /** key:error.required. */
     ERROR_REQUIRED("error.required"),
+    /** key:error.select.referenceKey. */
+    ERROR_SELECT_REFERENCE_KEY("error.select.referenceKey"),
     /** key:error.validation. */
     ERROR_VALIDATION("error.validation"),
     /** key:html.column.autoIncrement. */

@@ -43,9 +43,8 @@ import io.github.erde.editor.dialog.table.ITableEdit;
  *
  * @author modified by parapata
  */
-public class AttributeTabCreator {
-
-    private Logger logger = LoggerFactory.getLogger(AttributeTabCreator.class);
+public class AttributeTab extends Composite {
+    private Logger logger = LoggerFactory.getLogger(AttributeTab.class);
 
     private static final int PK_CULUMN = 0;
     private static final int FK_CULUMN = 1;
@@ -118,27 +117,32 @@ public class AttributeTabCreator {
         }
     };
 
-    public AttributeTabCreator(ITableEdit tableEdit, int editColumnIndex, List<DomainModel> domains) {
+    private AttributeTab(Composite parent) {
+        super(parent, SWT.NULL);
+    }
+
+    public AttributeTab(ITableEdit tableEdit, TabFolder tabFolder, int editColumnIndex,
+            List<DomainModel> domains) {
+        this(tabFolder);
         this.tableEdit = tableEdit;
         this.editColumnIndex = editColumnIndex;
         this.domains = domains;
+
+        setLayout(new GridLayout());
+        setLayoutData(new GridData(GridData.FILL_BOTH));
+        TabItem tab = new TabItem(tabFolder, SWT.NULL);
+        tab.setText(LABEL_ATTRIBUTE.getValue());
+        tab.setControl(this);
+        create(tab);
     }
 
     /**
      * Create tab area.
-     *
-     * @param tabFolder parent component
      */
-    public void create(TabFolder tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NULL);
-        composite.setLayout(new GridLayout());
-        composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+    private void create(TabItem tab) {
+        TabFolder tabFolder =(TabFolder) super.getParent();
 
-        TabItem tab = new TabItem(tabFolder, SWT.NULL);
-        tab.setText(LABEL_ATTRIBUTE.getValue());
-        tab.setControl(composite);
-
-        Composite table = new Composite(composite, SWT.NULL);
+        Composite table = new Composite(this, SWT.NULL);
         table.setLayout(new GridLayout(2, false));
         table.setLayoutData(UIUtils.createGridData(2));
 
@@ -157,7 +161,7 @@ public class AttributeTabCreator {
         // ------------------------------------------------------------
         // tabale area
         // ------------------------------------------------------------
-        Composite tableArea = new Composite(composite, SWT.NULL);
+        Composite tableArea = new Composite(this, SWT.NULL);
         GridLayout layout = new GridLayout(2, false);
         layout.horizontalSpacing = 0;
         layout.verticalSpacing = 0;
@@ -281,7 +285,7 @@ public class AttributeTabCreator {
         // ------------------------------------------------------------
         // column infomation area
         // ------------------------------------------------------------
-        Group group = new Group(composite, SWT.NULL);
+        Group group = new Group(this, SWT.NULL);
         group.setText(DIALOG_TABLE_EDIT_COLUMN.getValue());
         group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         group.setLayout(new GridLayout(7, false));
