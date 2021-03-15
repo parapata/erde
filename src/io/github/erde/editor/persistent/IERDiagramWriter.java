@@ -2,9 +2,9 @@ package io.github.erde.editor.persistent;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.DomainModel;
 import io.github.erde.editor.diagram.model.NoteConnectionModel;

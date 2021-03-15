@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
 /**
@@ -18,26 +18,28 @@ import io.github.erde.editor.dialog.table.ITableEdit;
  *
  * @author modified by parapata
  */
-public class DescriptionTabCreator {
+public class DescriptionTab extends Composite {
 
-    private ITableEdit tableEdit;
     private Text txtTableDescription;
 
-    public DescriptionTabCreator(ITableEdit tableEdit) {
-        this.tableEdit = tableEdit;
+    private DescriptionTab(Composite parent) {
+        super(parent, SWT.NULL);
     }
 
-    public void create(TabFolder tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NULL);
-        composite.setLayout(new GridLayout(1, false));
-        composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+    public DescriptionTab(ITableEdit tableEdit, TabFolder tabFolder) {
+        this(tabFolder);
+        setLayout(new GridLayout(1, false));
+        setLayoutData(new GridData(GridData.FILL_BOTH));
 
         TabItem tab = new TabItem(tabFolder, SWT.NULL);
         tab.setText(LABEL_DESCRIPTION.getValue());
-        tab.setControl(composite);
+        tab.setControl(this);
+        create(tableEdit);
+    }
 
-        UIUtils.createLabel(composite, DIALOG_TABLE_DESCRIPTION);
-        txtTableDescription = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+    private void create(ITableEdit tableEdit) {
+        UIUtils.createLabel(this, DIALOG_TABLE_DESCRIPTION);
+        txtTableDescription = new Text(this, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtTableDescription.setLayoutData(new GridData(GridData.FILL_BOTH));
         txtTableDescription.setText(tableEdit.getDescription());
 

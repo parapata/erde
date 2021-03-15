@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: io.github.erde;singleton:=true
-Bundle-Version: 1.0.11
+Bundle-Version: 1.0.12
 Bundle-Activator: io.github.erde.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
@@ -29,7 +29,6 @@ Bundle-ClassPath: .,
  target/dependency-jars/logback-core-1.2.3.jar,
  target/dependency-jars/slf4j-api-1.7.30.jar,
  target/dependency-jars/jcl-over-slf4j-1.7.30.jar,
- target/dependency-jars/commons-lang3-3.9.jar,
  target/dependency-jars/commons-jexl3-3.1.jar,
  target/dependency-jars/commons-beanutils-1.9.4.jar,
  target/dependency-jars/commons-codec-1.13.jar,
@@ -43,7 +42,6 @@ Bundle-ClassPath: .,
  target/dependency-jars/jaxb-runtime-2.4.0-b180830.0438.jar,
  target/dependency-jars/stax-ex-1.8.jar,
  target/dependency-jars/txw2-2.4.0-b180830.0438.jar,
- target/dependency-jars/velocity-engine-core-2.2.jar,
  target/dependency-jars/jxls-2.9.0.jar,
  target/dependency-jars/jxls-poi-2.9.0.jar,
  target/dependency-jars/curvesapi-1.06.jar,

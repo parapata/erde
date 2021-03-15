@@ -57,7 +57,7 @@ public class ModelUtils {
         rootModel.addChild(newTable);
     }
 
-    public static void stripConnections(java.util.List<BaseConnectionModel> conns) {
+    public static void stripConnections(List<BaseConnectionModel> conns) {
         for (BaseConnectionModel conn : conns.toArray(new BaseConnectionModel[conns.size()])) {
             conn.getSource().removeSourceConnection(conn);
             conn.getTarget().removeTargetConnection(conn);

@@ -4,7 +4,6 @@ import static io.github.erde.Resource.*;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,7 +13,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 
 import io.github.erde.core.exception.ValidateException;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.StringUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
@@ -24,9 +24,9 @@ import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.TableModel;
-import io.github.erde.editor.dialog.table.tabs.AttributeTabCreator;
-import io.github.erde.editor.dialog.table.tabs.DescriptionTabCreator;
-import io.github.erde.editor.dialog.table.tabs.IndexTabCreator;
+import io.github.erde.editor.dialog.table.tabs.AttributeTab;
+import io.github.erde.editor.dialog.table.tabs.DescriptionTab;
+import io.github.erde.editor.dialog.table.tabs.IndexTab;
 
 /**
  * The table dialog.
@@ -70,7 +70,6 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         this.editIndexIndex = tableModel.getIndices().indexOf(editIndexModel);
         this.indexEditing = indexEditing;
 
-        //
         this.referenceKeys = tableModel.getModelSourceConnections();
         this.foreignKeys = tableModel.getModelTargetConnections();
 
@@ -93,16 +92,14 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         // Attribute tab
-        AttributeTabCreator attributeTabCreator = new AttributeTabCreator(this, editColumnIndex, domains);
-        attributeTabCreator.create(tabFolder);
+        new AttributeTab(this, tabFolder, editColumnIndex, domains);
 
         // Table description tab
-        DescriptionTabCreator description = new DescriptionTabCreator(this);
-        description.create(tabFolder);
+        new DescriptionTab(this, tabFolder);
 
         // Index tab
-        IndexTabCreator indexTabCreator = new IndexTabCreator(this, editIndexIndex, indexEditing);
-        indexTabCreator.create(getShell(), tabFolder, editTable.getPhysicalName());
+        //new IndexTabCreator(this, tabFolder, editIndexIndex, indexEditing, editTable.getPhysicalName());
+        new IndexTab(this, tabFolder, editIndexIndex, indexEditing);
 
         return tabFolder;
     }

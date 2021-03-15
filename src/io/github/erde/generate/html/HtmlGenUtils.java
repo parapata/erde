@@ -3,13 +3,12 @@ package io.github.erde.generate.html;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.dtm.ref.DTMNodeIterator;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import io.github.erde.Resource;
+import io.github.erde.core.util.StringUtils;
 
 public class HtmlGenUtils {
 
@@ -29,7 +28,7 @@ public class HtmlGenUtils {
                     sb.append(String.format("(%s,%s)", columnSize, decimal));
                 }
             }
-            if (BooleanUtils.toBoolean(unsigned)) {
+            if (StringUtils.toBoolean(unsigned)) {
                 sb.append(" UNSIGNED");
             }
         }
@@ -37,7 +36,7 @@ public class HtmlGenUtils {
     }
 
     public static boolean toBoolean(String value) {
-        return BooleanUtils.toBoolean(value);
+        return StringUtils.toBoolean(value);
     }
 
     public static String toSourceColumeName(Object table, String sourceId, String columeName) {

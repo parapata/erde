@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -37,7 +37,7 @@ import io.github.erde.editor.dialog.table.ITableEdit;
  *
  * @author modified by parapata
  */
-public class IndexTabCreator {
+public class IndexTab extends Composite {
 
     private ITableEdit tableEdit;
 
@@ -57,23 +57,31 @@ public class IndexTabCreator {
     private Button btnUpColumn;
     private Button btnDownColumn;
 
-    public IndexTabCreator(ITableEdit tableEdit, int editIndexIndex, boolean indexEditing) {
+    private IndexTab(Composite parent) {
+        super(parent, SWT.NULL);
+    }
+
+    public IndexTab(ITableEdit tableEdit, TabFolder tabFolder, int editIndexIndex, boolean indexEditing) {
+        this(tabFolder);
         this.tableEdit = tableEdit;
         this.editIndexIndex = editIndexIndex;
         this.indexEditing = indexEditing;
-    }
 
-    public void create(Shell shell, TabFolder tabFolder, String tablePyhgicalName) {
-        Composite composite = new Composite(tabFolder, SWT.NULL);
-        composite.setLayout(new GridLayout(2, false));
-        composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+        setLayout(new GridLayout(2, false));
+        setLayoutData(new GridData(GridData.FILL_BOTH));
 
         TabItem tab = new TabItem(tabFolder, SWT.NULL);
         tab.setText(LABEL_INDEX.getValue());
-        tab.setControl(composite);
+        tab.setControl(this);
 
-        createIndexListArea(composite, tablePyhgicalName);
-        createIndexColumnListArea(shell, composite);
+        create(tab);
+    }
+
+    private void create(TabItem tab) {
+        TabFolder tabFolder = (TabFolder) super.getParent();
+
+        createIndexListArea(this);
+        createIndexColumnListArea(getShell(), this);
 
         if (indexEditing) {
             tabFolder.setSelection(tab);
@@ -88,7 +96,7 @@ public class IndexTabCreator {
         }
     }
 
-    private void createIndexListArea(Composite composite, String tablePyhgicalName) {
+    private void createIndexListArea(Composite composite) {
         Composite indexArea = new Composite(composite, SWT.NULL);
         GridLayout layout = new GridLayout(2, false);
         indexArea.setLayout(layout);
@@ -119,7 +127,7 @@ public class IndexTabCreator {
             public void widgetSelected(SelectionEvent event) {
                 IndexModel indexModel = new IndexModel();
                 indexModel.setIndexType(IndexType.UNIQUE);
-                String indexName = String.format("IDX_%s_%d", tablePyhgicalName,
+                String indexName = String.format("IDX_%s_%d", tableEdit.getPhysicalName(),
                         (tableEdit.getIndices().size() + 1));
                 indexModel.setIndexName(indexName.toUpperCase());
                 tableEdit.getIndices().add(indexModel);

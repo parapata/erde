@@ -2,7 +2,6 @@ package io.github.erde.editor;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
@@ -28,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.editpart.tree.DBTreeEditPart;
 import io.github.erde.editor.diagram.editpart.tree.DBTreeEditPartFactory;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart;

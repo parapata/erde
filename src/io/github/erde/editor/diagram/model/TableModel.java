@@ -5,13 +5,13 @@ import static io.github.erde.Resource.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.SerializationUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import io.github.erde.core.util.SerializationUtils;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.editor.dialog.table.ITableEdit;

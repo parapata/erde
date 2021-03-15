@@ -1,6 +1,5 @@
 package io.github.erde.editor.diagram.figure;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
@@ -11,6 +10,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.editpart.editpolicy.ERDiagramFrameBorder;
 
 /**

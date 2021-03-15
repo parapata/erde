@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.parapata.erde</groupId>
     <artifactId>io.github.erde</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <packaging>eclipse-plugin</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,6 +28,11 @@
         </repository>
     </repositories>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -55,17 +60,6 @@
             <version>2.4.0-b180830.0438</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-engine-core</artifactId>
-            <version>2.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.jxls</groupId>
             <artifactId>jxls-poi</artifactId>
             <version>2.9.0</version>
@@ -89,13 +83,6 @@
             <artifactId>xalan</artifactId>
             <version>2.7.2</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>xalan</groupId>
-            <artifactId>serializer</artifactId>
-            <version>2.7.2</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.relaxng</groupId>
             <artifactId>trang</artifactId>
@@ -216,6 +203,8 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <excludes>
                         <exclude>**/*Test.java</exclude>
+                        <exclude>**/jdbc/*.properties</exclude>
+                        <exclude>**/formatter.xml</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -228,7 +217,7 @@
                     <archive>
                         <addMavenDescriptor>true</addMavenDescriptor>
                     </archive>
-                    <finalName>erde-${version}</finalName>
+                    <finalName>erde-${project.version}</finalName>
                 </configuration>
             </plugin>
 
@@ -255,6 +244,14 @@
                             </requirement>
                         </extraRequirements>
                     </dependency-resolution>
+                    <pomDependencies>consider</pomDependencies>
+                    <environments>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86</arch>
+                        </environment>
+                    </environments>
                 </configuration>
             </plugin>
 

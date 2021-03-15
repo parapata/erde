@@ -22,13 +22,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import io.github.erde.Activator;
 import io.github.erde.Resource;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
@@ -97,15 +96,12 @@ public class ImportFromDiagramWizardPage extends WizardPage {
     private void selectFile() {
         try {
             IResource init = null;
-            if (!file.getText().equals("")) {
+            if (!file.getText().isEmpty()) {
                 init = getSelectedFile();
             }
             Class<?>[] acceptedClasses = new Class<?>[] { IFile.class };
-            ISelectionStatusValidator validator = new TypedElementSelectionValidator(acceptedClasses, false);
 
             IWorkspaceRoot wsroot = ResourcesPlugin.getWorkspace().getRoot();
-            FolderSelectionDialog dialog = new FolderSelectionDialog(getShell(), new WorkbenchLabelProvider(),
-                    new WorkbenchContentProvider());
 
             ViewerFilter filter = new ViewerFilter() {
                 @Override
@@ -118,11 +114,13 @@ public class ImportFromDiagramWizardPage extends WizardPage {
                 }
             };
 
+            FolderSelectionDialog dialog = new FolderSelectionDialog(getShell(), new WorkbenchLabelProvider(),
+                    new WorkbenchContentProvider());
             dialog.setTitle(Resource.WIZARD_GENERATE_BROWSE_TITLE.getValue());
             dialog.setMessage(Resource.WIZARD_GENERATE_BROWSE_MESSAGE.getValue());
             dialog.addFilter(filter);
             dialog.setInput(wsroot);
-            dialog.setValidator(validator);
+            dialog.setValidator(new TypedElementSelectionValidator(acceptedClasses, false));
             dialog.setInitialSelection(init);
             if (dialog.open() == Window.OK) {
                 IFile selectedFile = (IFile) dialog.getFirstResult();

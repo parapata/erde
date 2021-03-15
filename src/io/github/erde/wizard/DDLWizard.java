@@ -15,7 +15,7 @@ import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 import io.github.erde.Activator;
 import io.github.erde.Resource;
 import io.github.erde.core.LineSeparatorCode;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.wizard.page.DDLWizardPage;
@@ -49,11 +49,23 @@ public class DDLWizard extends FileSystemExportWizard {
         IDialogSettings section = settings.getSection(DIALOG_NAME);
         if (section == null) {
             section = settings.addNewSection(DIALOG_NAME);
+        }
+        if (section.get(SCHEMA) == null) {
             section.put(SCHEMA, false);
+        }
+        if (section.get(DROP) == null) {
             section.put(DROP, false);
+        }
+        if (section.get(ALTER_TABLE) == null) {
             section.put(ALTER_TABLE, true);
+        }
+        if (section.get(COMMENT) == null) {
             section.put(COMMENT, true);
+        }
+        if (section.get(ENCODING) == null) {
             section.put(ENCODING, System.getProperty("file.encoding"));
+        }
+        if (section.get(LINE_SEPARATOR) == null) {
             section.put(LINE_SEPARATOR, LineSeparatorCode.findByValue(System.lineSeparator()).name());
         }
         this.setDialogSettings(section);

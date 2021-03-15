@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import io.github.erde.Activator;
 import io.github.erde.core.exception.SystemException;
 import io.github.erde.core.util.JDBCConnection;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.loader.ISchemaLoader;
 import io.github.erde.editor.diagram.model.RootModel;

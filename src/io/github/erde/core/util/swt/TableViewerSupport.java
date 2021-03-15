@@ -1,4 +1,4 @@
-package io.github.erde.core.util;
+package io.github.erde.core.util.swt;
 
 import static io.github.erde.Resource.*;
 
@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import io.github.erde.Resource;
+import io.github.erde.core.util.GenericsUtils;
 
 /**
  * TableViewerSupport.

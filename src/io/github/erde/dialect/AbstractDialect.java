@@ -9,8 +9,7 @@ import java.util.ListIterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.dialect.type.IndexType;

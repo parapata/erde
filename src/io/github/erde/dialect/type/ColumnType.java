@@ -2,9 +2,8 @@ package io.github.erde.dialect.type;
 
 import java.sql.Types;
 
-import org.apache.commons.lang3.SerializationUtils;
-
 import io.github.erde.Resource;
+import io.github.erde.core.util.SerializationUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.model.IModel;
 

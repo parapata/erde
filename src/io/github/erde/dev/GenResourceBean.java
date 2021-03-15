@@ -1,4 +1,4 @@
-package io.github.erde.gen;
+package io.github.erde.dev;
 
 public class GenResourceBean {
     private String code;

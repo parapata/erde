@@ -19,7 +19,6 @@ import io.github.erde.editor.action.DeleteMarkerAction;
 import io.github.erde.editor.action.DomainEditAction;
 import io.github.erde.editor.action.GenerateAction;
 import io.github.erde.editor.action.IERDEAction;
-import io.github.erde.editor.action.ImportFromDiagramAction;
 import io.github.erde.editor.action.ImportFromJDBCAction;
 import io.github.erde.editor.action.SelectedTablesDDLAction;
 import io.github.erde.editor.action.ValidateAction;
@@ -72,7 +71,7 @@ public class ERDContextMenuProvider extends ContextMenuProvider {
         // Import Actions
         MenuManager importMenuManager = new MenuManager(ACTION_IMPORT.getValue());
         importMenuManager.add(new ImportFromJDBCAction());
-        importMenuManager.add(new ImportFromDiagramAction());
+        //importMenuManager.add(new ImportFromDiagramAction());
         menu.add(importMenuManager);
 
         // Export Actions
