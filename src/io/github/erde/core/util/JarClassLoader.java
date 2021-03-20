@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * JarClassLoader.
  *
@@ -41,7 +43,7 @@ public class JarClassLoader extends URLClassLoader {
     }
 
     public List<Class<?>> getJDBCDriverClass(String jarName) throws IOException, ClassNotFoundException {
-        if (jarName.equals("")) {
+        if (StringUtils.isEmpty(jarName)) {
             return Collections.emptyList();
         }
         try (JarFile jarFile = new JarFile(jarName)) {
@@ -56,7 +58,9 @@ public class JarClassLoader extends URLClassLoader {
                         Class<?> cls = loadClass(ccls, true);
                         getJDBCDriverClass(list, cls, cls);
                     } catch (NoClassDefFoundError e) {
+                        throw e;
                     } catch (ClassNotFoundException e) {
+                        throw e;
                     }
                 }
             }

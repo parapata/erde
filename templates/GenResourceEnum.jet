@@ -1,3 +1,4 @@
+<%@ jet package="io.github.erde.dev" class="GenResourceEnum" imports="java.util.Collection java.util.Iterator io.github.erde.dev.GenResourceBean"%>
 package io.github.erde;
 
 import java.util.Arrays;
@@ -14,10 +15,14 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum Resource {
 
-    #foreach( $obj in $list)
-    /** key:${obj.propKey}. */
-    ${obj.code}("${obj.propKey}"),
-    #end
+    <% Collection<GenResourceBean> data = (Collection<GenResourceBean>) argument; %>
+    <% if (data.size() != 0) { %>
+    <%     for (Iterator<GenResourceBean> ite = data.iterator(); ite.hasNext(); ) { %>
+    <%         GenResourceBean obj = ite.next();%>
+    /** key:<%=obj.getPropKey()%>. */
+    <%=obj.getCode()%>("<%=obj.getPropKey()%>"),
+    <%     } %>
+    <% } %>
     ;
 
     private static final ResourceBundle resource = ResourceBundle.getBundle("io.github.erde.messages");

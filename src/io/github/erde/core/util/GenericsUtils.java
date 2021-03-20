@@ -14,8 +14,8 @@ public class GenericsUtils {
     public static Type[] getGenericType(Object obj, Class type) {
         Class clazz = obj.getClass();
         while (clazz != null) {
-            Type t = clazz.getGenericSuperclass();
-            Type[] res = _getGenericType(type, t);
+            Type t1 = clazz.getGenericSuperclass();
+            Type[] res = _getGenericType(type, t1);
             if (res != null) {
                 return res;
             }

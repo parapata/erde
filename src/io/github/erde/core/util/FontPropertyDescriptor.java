@@ -22,7 +22,7 @@ public class FontPropertyDescriptor extends AbstractDialogPropertyDescriptor {
         if (chosenFont == null || chosenFont.length == 0) {
             return "";
         }
-        return chosenFont[0].getName() + " " + chosenFont[0].getHeight();
+        return String.format("%s %s", chosenFont[0].getName(), chosenFont[0].getHeight());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FontPropertyDescriptor extends AbstractDialogPropertyDescriptor {
             if (fontData == null || fontData.length == 0) {
                 return "";
             }
-            return fontData[0].getName() + " " + fontData[0].getHeight();
+            return String.format("%s %s", fontData[0].getName(), fontData[0].getHeight());
         }
     }
 
