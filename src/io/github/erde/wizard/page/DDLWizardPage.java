@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import io.github.erde.Activator;
 import io.github.erde.Resource;
 import io.github.erde.core.LineSeparatorCode;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.wizard.DDLWizard;
 
 /**

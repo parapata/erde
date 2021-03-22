@@ -3,9 +3,8 @@ package io.github.erde.editor.diagram.model;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.apache.commons.lang3.SerializationUtils;
-import org.apache.commons.lang3.StringUtils;
-
+import io.github.erde.core.util.SerializationUtils;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 

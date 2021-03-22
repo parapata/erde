@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.core.util.FontPropertyDescriptor;
+import io.github.erde.core.util.swt.FontDataWrapper;
 import io.github.erde.editor.diagram.figure.NoteFigure;
 import io.github.erde.editor.diagram.model.NoteModel;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -54,7 +54,7 @@ public class NoteEditPart extends AbstractERDEntityEditPart {
         }
 
         RootModel root = (RootModel) getParent().getModel();
-        FontData[] fontData = FontPropertyDescriptor.toFontData(root.getFontData());
+        FontData[] fontData = FontDataWrapper.toFontData(root.getFontData());
         font = new Font(Display.getDefault(), fontData);
         figure.setFont(font);
 

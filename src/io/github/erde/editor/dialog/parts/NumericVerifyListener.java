@@ -1,9 +1,10 @@
 package io.github.erde.editor.dialog.parts;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
+
+import io.github.erde.core.util.StringUtils;
 
 /**
  * NumericVerifyListener.

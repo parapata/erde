@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.slf4j.Logger;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.NameConverter;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IndexType;
@@ -175,7 +175,7 @@ public class DefaultSchemaLoader implements ISchemaLoader {
                                 pstmt.setString(2, columnName);
                                 try (ResultSet enumRs = pstmt.executeQuery()) {
                                     if (enumRs != null && enumRs.next()) {
-                                        for (String str : StringUtils.split(enumRs.getString(1), ',')) {
+                                        for (String str : StringUtils.split(enumRs.getString(1), ",")) {
                                             column.getEnumNames().add(str.substring(1, str.length() - 1));
                                         }
                                     }

@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Resource;
 import io.github.erde.core.util.NameConverter.DictionaryEntry;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 
 /**
  * EntryEditDialog.

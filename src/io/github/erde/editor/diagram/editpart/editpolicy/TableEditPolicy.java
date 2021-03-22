@@ -4,14 +4,14 @@ import static io.github.erde.Resource.*;
 
 import java.util.function.Predicate;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.StringUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.editpart.command.CreateConnectionCommand;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;

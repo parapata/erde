@@ -18,7 +18,7 @@ import org.jxls.transform.poi.PoiTransformer;
 import org.jxls.util.JxlsHelper;
 
 import io.github.erde.Activator;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;

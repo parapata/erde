@@ -3,10 +3,11 @@ package io.github.erde.editor.diagram.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
+
+import io.github.erde.core.util.SerializationUtils;
 
 /**
  * BaseEntityModel.

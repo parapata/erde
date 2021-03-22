@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -26,7 +25,8 @@ import io.github.erde.Activator;
 import io.github.erde.Resource;
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.JarClassLoader;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.StringUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 
 /**

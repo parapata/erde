@@ -4,9 +4,8 @@ import java.io.PrintWriter;
 import java.sql.Types;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import io.github.erde.core.util.JDBCConnection;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.loader.DefaultSchemaLoader;
 import io.github.erde.dialect.loader.ISchemaLoader;
 import io.github.erde.dialect.type.IColumnType;

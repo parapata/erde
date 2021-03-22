@@ -2,12 +2,12 @@ package io.github.erde.editor.action;
 
 import static io.github.erde.Resource.*;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.figure.connection.decoration.DecorationFactory;
 import io.github.erde.editor.diagram.model.RootModel;
 

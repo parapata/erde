@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang3.StringUtils;
+import io.github.erde.core.util.StringUtils;
 
 /**
  * Resource Enum.

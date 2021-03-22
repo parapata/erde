@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,6 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import io.github.erde.core.util.PropertiesEx;
+import io.github.erde.core.util.StringUtils;
 
 /**
  * Resource generator.
@@ -77,7 +77,7 @@ public class GenResource {
                 bean.setPropKey(propKey);
 
                 List<String> works = new ArrayList<>();
-                Arrays.stream(StringUtils.splitByWholeSeparator(propKey, ".")).forEach(str -> {
+                Arrays.stream(StringUtils.split(propKey, ".")).forEach(str -> {
                     works.add(StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(str), "_"));
                 });
 

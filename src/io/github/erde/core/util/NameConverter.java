@@ -8,7 +8,7 @@ import java.util.List;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import io.github.erde.Activator;
-import io.github.erde.core.util.TableViewerSupport.ColumnInfo;
+import io.github.erde.core.util.swt.TableViewerSupport.ColumnInfo;
 import io.github.erde.preference.ERDPreferenceKey;
 
 /**

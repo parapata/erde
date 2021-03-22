@@ -5,7 +5,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.ui.ide.IGotoMarker;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.editpart.RootEditPart;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.model.TableModel;

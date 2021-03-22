@@ -5,15 +5,15 @@ import static io.github.erde.Resource.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import io.github.erde.core.util.FontPropertyDescriptor;
-import io.github.erde.core.util.FontPropertyDescriptor.FontDataWrapper;
+import io.github.erde.core.util.StringUtils;
+import io.github.erde.core.util.swt.FontDataWrapper;
+import io.github.erde.core.util.swt.FontPropertyDescriptor;
 import io.github.erde.dialect.DialectProvider;
 
 /**

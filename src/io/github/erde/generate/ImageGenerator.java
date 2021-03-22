@@ -15,7 +15,7 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 
 /**

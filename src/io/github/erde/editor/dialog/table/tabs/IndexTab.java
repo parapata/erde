@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.model.ColumnModel;

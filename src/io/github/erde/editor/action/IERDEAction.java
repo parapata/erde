@@ -3,7 +3,7 @@ package io.github.erde.editor.action;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
 
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.swt.UIUtils;
 
 /**
  * IERDEAction.

@@ -1,5 +1,7 @@
 package io.github.erde.core;
 
+import org.apache.commons.codec.binary.StringUtils;
+
 import io.github.erde.core.exception.SystemException;
 
 /**
@@ -40,11 +42,11 @@ public enum LineSeparatorCode {
 
     public static LineSeparatorCode findByValue(String value) {
         for (LineSeparatorCode code : values()) {
-            if (code.getValue().equals(value)) {
+            if (StringUtils.equals(value, code.getValue())) {
                 return code;
             }
         }
-        throw null;
+        return null;
     }
 
     public static LineSeparatorCode findByName(String name) {
@@ -53,6 +55,6 @@ public enum LineSeparatorCode {
                 return code;
             }
         }
-        throw null;
+        return null;
     }
 }

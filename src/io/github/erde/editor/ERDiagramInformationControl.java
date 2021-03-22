@@ -2,7 +2,6 @@ package io.github.erde.editor;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
@@ -24,6 +23,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.editpart.tree.DBTreeEditPartFactory;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.IModel;

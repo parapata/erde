@@ -13,11 +13,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.erde.core.util.JDBCConnection;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IndexType;

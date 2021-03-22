@@ -2,11 +2,12 @@ package io.github.erde.editor.diagram.model;
 
 import static io.github.erde.Resource.*;
 
-import org.apache.commons.lang3.SerializationUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import io.github.erde.core.util.SerializationUtils;
+import io.github.erde.core.util.StringUtils;
 
 /**
  * This class has been ported from AmaterasUML.

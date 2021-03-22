@@ -3,8 +3,7 @@ package io.github.erde.editor.diagram.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.SerializationUtils;
-
+import io.github.erde.core.util.SerializationUtils;
 import io.github.erde.dialect.type.IIndexType;
 
 /**

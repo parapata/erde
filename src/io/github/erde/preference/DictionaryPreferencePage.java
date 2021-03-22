@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import io.github.erde.Activator;
 import io.github.erde.core.util.NameConverter;
 import io.github.erde.core.util.NameConverter.DictionaryEntry;
-import io.github.erde.core.util.TableViewerSupport;
+import io.github.erde.core.util.swt.TableViewerSupport;
 import io.github.erde.editor.dialog.EntryEditDialog;
 
 /**

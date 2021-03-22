@@ -4,7 +4,6 @@ import static io.github.erde.Resource.*;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,7 +13,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 
 import io.github.erde.core.exception.ValidateException;
-import io.github.erde.core.util.UIUtils;
+import io.github.erde.core.util.StringUtils;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;

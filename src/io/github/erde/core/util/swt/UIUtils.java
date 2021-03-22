@@ -1,4 +1,4 @@
-package io.github.erde.core.util;
+package io.github.erde.core.util.swt;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;

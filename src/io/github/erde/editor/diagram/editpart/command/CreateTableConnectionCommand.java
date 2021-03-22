@@ -3,8 +3,7 @@ package io.github.erde.editor.diagram.editpart.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.TableModel;

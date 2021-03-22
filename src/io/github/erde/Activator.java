@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import io.github.erde.core.util.ColorRegistry;
+import io.github.erde.core.util.swt.ColorRegistry;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.sqleditor.EditorColorProvider;
 

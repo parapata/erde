@@ -6,12 +6,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.widgets.TreeItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.ERDiagramOutlinePage;
 import io.github.erde.editor.action.DomainEditAction;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart.FolderModel;
