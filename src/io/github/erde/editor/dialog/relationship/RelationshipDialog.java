@@ -125,6 +125,7 @@ public class RelationshipDialog extends Dialog implements IRelationshipDialog {
         return composite;
     }
 
+    @SuppressWarnings("unchecked")
     private void createReferredAndRelationMappingArea(Composite composite) {
 
         Label referredLabel = new Label(composite, SWT.NONE);

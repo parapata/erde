@@ -5,9 +5,7 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -127,7 +125,7 @@ public class StringUtils {
     }
 
     public static String[] split(String value, String separatorChars) {
-        return splitWorker(value, separatorChars, false);
+        return splitWorker(value, separatorChars, -1, false);
     }
 
     public static String[] splitByWholeSeparator(String str, String separator) {
@@ -166,13 +164,12 @@ public class StringUtils {
 
         if (separator == null || EMPTY.equals(separator)) {
             // Split on whitespace.
-            return splitWorker(value, null, preserveAllTokens);
+            return splitWorker(value, null, -1, preserveAllTokens);
         }
 
         int separatorLength = separator.length();
 
         List<String> substrings = new ArrayList<>();
-        int numberOfSubstrings = 0;
         int beg = 0;
         int end = 0;
         int len = value.length();
@@ -181,8 +178,6 @@ public class StringUtils {
 
             if (end > -1) {
                 if (end > beg) {
-                    numberOfSubstrings += 1;
-
                     // The following is OK, because String.substring( beg, end ) excludes
                     // the character at the position 'end'.
                     substrings.add(value.substring(beg, end));
@@ -194,7 +189,6 @@ public class StringUtils {
                 } else {
                     // We found a consecutive occurrence of the separator, so skip it.
                     if (preserveAllTokens) {
-                        numberOfSubstrings += 1;
                         substrings.add(EMPTY);
                     }
                     beg = end + separatorLength;
@@ -240,25 +234,29 @@ public class StringUtils {
         return list.toArray(new String[0]);
     }
 
-    private static String[] splitWorker(String value, String separatorChars, boolean preserveAllTokens) {
-
-        if (isEmpty(value)) {
+    private static String[] splitWorker(String value, String separatorChars, int max, boolean preserveAllTokens) {
+        if (value == null) {
+            return null;
+        }
+        int len = value.length();
+        if (len == 0) {
             return new String[0];
         }
-
-        List<String> list = new ArrayList<>();
-
+        List<String> list = new ArrayList<String>();
+        int sizePlus1 = 1;
+        int i = 0, start = 0;
         boolean match = false;
         boolean lastMatch = false;
-
-        int start = 0;
-        int i = 0;
         if (separatorChars == null) {
             // Null separator means use whitespace
-            for (i = 0; i < value.length(); i++) {
+            while (i < len) {
                 if (Character.isWhitespace(value.charAt(i))) {
                     if (match || preserveAllTokens) {
                         lastMatch = true;
+                        if (sizePlus1++ == max) {
+                            i = len;
+                            lastMatch = false;
+                        }
                         list.add(value.substring(start, i));
                         match = false;
                     }
@@ -267,14 +265,19 @@ public class StringUtils {
                 }
                 lastMatch = false;
                 match = true;
+                i++;
             }
         } else if (separatorChars.length() == 1) {
             // Optimise 1 character case
             char sep = separatorChars.charAt(0);
-            for (i = 0; i < value.length(); i++) {
+            while (i < len) {
                 if (value.charAt(i) == sep) {
                     if (match || preserveAllTokens) {
                         lastMatch = true;
+                        if (sizePlus1++ == max) {
+                            i = len;
+                            lastMatch = false;
+                        }
                         list.add(value.substring(start, i));
                         match = false;
                     }
@@ -283,13 +286,18 @@ public class StringUtils {
                 }
                 lastMatch = false;
                 match = true;
+                i++;
             }
         } else {
             // standard case
-            for (i = 0; i < value.length(); i++) {
+            while (i < len) {
                 if (separatorChars.indexOf(value.charAt(i)) >= 0) {
                     if (match || preserveAllTokens) {
                         lastMatch = true;
+                        if (sizePlus1++ == max) {
+                            i = len;
+                            lastMatch = false;
+                        }
                         list.add(value.substring(start, i));
                         match = false;
                     }
@@ -298,12 +306,13 @@ public class StringUtils {
                 }
                 lastMatch = false;
                 match = true;
+                i++;
             }
         }
         if (match || preserveAllTokens && lastMatch) {
             list.add(value.substring(start, i));
         }
-        return list.toArray(new String[0]);
+        return list.toArray(new String[list.size()]);
     }
 
     private static boolean regionMatches(CharSequence cs, boolean ignoreCase, int thisStart, CharSequence substring,
