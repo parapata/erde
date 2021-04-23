@@ -218,7 +218,7 @@ public class SerializationUtils {
      * @throws NullPointerException if {@code inputStream} is {@code null}
      * @throws SerializationException (runtime) if the serialization fails
      */
-    @SuppressWarnings("resource") // inputStream is managed by the caller
+    //@SuppressWarnings("resource") // inputStream is managed by the caller
     public static <T> T deserialize(final InputStream inputStream) {
         //Validate.notNull(inputStream, "inputStream");
         try (ObjectInputStream in = new ObjectInputStream(inputStream)) {
@@ -241,7 +241,7 @@ public class SerializationUtils {
      * @return the serialized and deserialized object
      * @since 3.3
      */
-    @SuppressWarnings("unchecked") // OK, because we serialized a type `T`
+    //@SuppressWarnings("unchecked") // OK, because we serialized a type `T`
     public static <T extends Serializable> T roundtrip(final T obj) {
         return (T) deserialize(serialize(obj));
     }
@@ -281,7 +281,7 @@ public class SerializationUtils {
      * @throws NullPointerException if {@code outputStream} is {@code null}
      * @throws SerializationException (runtime) if the serialization fails
      */
-    @SuppressWarnings("resource") // outputStream is managed by the caller
+    //@SuppressWarnings("resource") // outputStream is managed by the caller
     public static void serialize(final Serializable obj, final OutputStream outputStream) {
         //Validate.notNull(outputStream, "outputStream");
         try (ObjectOutputStream out = new ObjectOutputStream(outputStream)) {
