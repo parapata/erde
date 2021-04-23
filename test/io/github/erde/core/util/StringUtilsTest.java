@@ -10,9 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
- * .
+ * StringUtils Test.
  *
  * @author parapata
  */
@@ -45,8 +47,7 @@ class StringUtilsTest {
 
     @Test
     void splitByWholeSeparatorTest() {
-        //String[] strs = StringUtils.splitByWholeSeparator("xxaxxandyynyyandzzdzz", "and");
-        String[] strs = StringUtils.split("xxaxxandyynyyandzzdzz", "and");
+        String[] strs = StringUtils.splitByWholeSeparator("xxaxxandyynyyandzzdzz", "and");
         assertEquals(strs[0], "xxaxx");
         assertEquals(strs[1], "yynyy");
         assertEquals(strs[2], "zzdzz");
@@ -60,17 +61,23 @@ class StringUtilsTest {
         assertEquals(strs[2], "Ghi");
     }
 
-    @Test
-    void startsWithTest() {
-        assertTrue(StringUtils.startsWith("Abcde", "A"));
-        assertFalse(StringUtils.startsWith("Abcde", "a"));
+    @ParameterizedTest
+    @CsvSource({
+            "Abcde,A,true",
+            "Abcde,a,false",
+            "Abcde,b,false"
+    })
+    void startsWithTest(String str, String prefix, Boolean actual) {
+        assertEquals(StringUtils.startsWith(str, prefix), actual);
     }
 
-    @Test
-    void startsWithIgnoreCaseTest() {
-        assertTrue(StringUtils.startsWith("Abcde", "A"));
-        assertFalse(StringUtils.startsWith("Abcde", "a"));
-        assertFalse(StringUtils.startsWith("Abcde", "b"));
+    @ParameterizedTest
+    @CsvSource({
+            "Abcde,A,true",
+            "Abcde,a,true",
+            "Abcde,b,false"
+    })
+    void startsWithIgnoreCase(String str, String prefix, Boolean actual) {
+        assertEquals(StringUtils.startsWithIgnoreCase(str, prefix), actual);
     }
-
 }
