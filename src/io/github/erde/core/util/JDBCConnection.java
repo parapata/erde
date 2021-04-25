@@ -160,6 +160,10 @@ public class JDBCConnection {
         return productName;
     }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public boolean isPostgreSQL() {
         return POSTGRESQL.equals(productName);
     }

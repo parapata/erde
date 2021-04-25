@@ -23,15 +23,17 @@ public class DomainModel extends ColumnType implements IModel {
         } else {
             domain.setId(id);
         }
-
-        domain.setPhysicalName(columnType.getPhysicalName());
-        domain.setLogicalName(columnType.getLogicalName());
-        domain.setType(columnType.getType());
-        domain.setSizeSupported(columnType.isSizeSupported());
         domain.domainName = domainName;
-        domain.columnSize = columnSize;
-        domain.decimal = decimal;
-        domain.unsigned = unsigned;
+
+        if (columnType != null) {
+            domain.setPhysicalName(columnType.getPhysicalName());
+            domain.setLogicalName(columnType.getLogicalName());
+            domain.setType(columnType.getType());
+            domain.setSizeSupported(columnType.isSizeSupported());
+            domain.columnSize = columnSize;
+            domain.decimal = decimal;
+            domain.unsigned = unsigned;
+        }
         return domain;
     }
 
@@ -113,7 +115,7 @@ public class DomainModel extends ColumnType implements IModel {
         StringBuilder sb = new StringBuilder();
         sb.append(getDomainName());
         sb.append(" - ");
-        sb.append(getPhysicalName());
+        sb.append(StringUtils.defaultString(getPhysicalName()));
         if (isSizeSupported() && getColumnSize() != null) {
             if (isDecimalSupported() && getDecimal() != null) {
                 sb.append(String.format("(%d,%d)", getColumnSize(), getDecimal()));

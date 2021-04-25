@@ -123,7 +123,7 @@ public interface IDialect {
      */
     default IColumnType getColumnType(String typeName) {
         for (IColumnType type : getColumnTypes()) {
-            if (type.getPhysicalName().toUpperCase().equals(typeName.toUpperCase())) {
+            if (type.getPhysicalName().equalsIgnoreCase(typeName)) {
                 return type;
             }
         }

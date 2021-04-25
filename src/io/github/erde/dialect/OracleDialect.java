@@ -52,11 +52,6 @@ public class OracleDialect extends AbstractDialect {
     }
 
     @Override
-    public ISchemaLoader getSchemaLoader(JDBCConnection jdbcConn) {
-        return new OracleSchemaLoader(this, jdbcConn);
-    }
-
-    @Override
     public String dropTableDDL(String tableName) {
         return String.format("DROP TABLE %s CASCADE CONSTRAINTS", tableName);
     }
@@ -124,6 +119,11 @@ public class OracleDialect extends AbstractDialect {
     @Override
     public String getColumnMetadataSQL(String tableName) {
         return String.format("SELECT * FROM %s WHERE ROWNUM = 1", tableName);
+    }
+
+    @Override
+    public ISchemaLoader getSchemaLoader(JDBCConnection jdbcConn) {
+        return new OracleSchemaLoader(this, jdbcConn);
     }
 
     // TODO Should Oracle validation levels be customizable?

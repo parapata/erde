@@ -152,32 +152,32 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
      */
     private List<IndexModel> getIndexInfo(Connection conn, String tableName) throws SQLException {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT NULL                                     AS table_cat				");
-        query.append("	    ,i.owner                                  AS table_schem            ");
-        query.append("	    ,i.table_name                             AS table_name             ");
-        query.append("	    ,decode(i.uniqueness ,'UNIQUE' ,0 ,1)     AS non_unique             ");
-        query.append("	    ,NULL                                     AS index_qualifier        ");
-        query.append("	    ,i.index_name                             AS index_name             ");
-        query.append("	    ,1                                        AS type                   ");
-        query.append("	    ,c.column_position                        AS ordinal_position       ");
-        query.append("	    ,c.column_name                            AS column_name            ");
-        query.append("	    ,NULL                                     AS asc_or_desc            ");
-        query.append("	    ,i.distinct_keys                          AS cardinality            ");
-        query.append("	    ,i.leaf_blocks                            AS pages                  ");
-        query.append("	    ,NULL                                     AS filter_condition       ");
-        query.append("  FROM all_indexes     i                                                  ");
-        query.append("	    ,all_ind_columns c                                                  ");
-        query.append(" WHERE i.table_name    = ?                                                ");
+        query.append("SELECT NULL                                     AS table_cat           ");
+        query.append("    ,i.owner                                    AS table_schem         ");
+        query.append("    ,i.table_name                               AS table_name          ");
+        query.append("    ,decode(i.uniqueness ,'UNIQUE' ,0 ,1)       AS non_unique          ");
+        query.append("    ,NULL                                       AS index_qualifier     ");
+        query.append("    ,i.index_name                               AS index_name          ");
+        query.append("    ,1                                          AS type                ");
+        query.append("    ,c.column_position                          AS ordinal_position    ");
+        query.append("    ,c.column_name                              AS column_name         ");
+        query.append("    ,NULL                                       AS asc_or_desc         ");
+        query.append("    ,i.distinct_keys                            AS cardinality         ");
+        query.append("    ,i.leaf_blocks                              AS pages               ");
+        query.append("    ,NULL                                       AS filter_condition    ");
+        query.append("FROM all_indexes     i                                                 ");
+        query.append("    ,all_ind_columns c                                                 ");
+        query.append("WHERE i.table_name    = ?                                              ");
         if (StringUtils.isNotEmpty(getSchema())) {
-            query.append("   AND i.owner         = ?                                                ");
+            query.append("    AND i.owner         = ?                                            ");
         } else {
-            query.append("   AND i.owner         = USER                                             ");
+            query.append("    AND i.owner         = USER                                         ");
         }
-        query.append("   AND i.index_name    = c.index_name                                     ");
-        query.append("   AND i.table_owner   = c.table_owner                                    ");
-        query.append("   AND i.table_name    = c.table_name                                     ");
-        query.append("   AND i.owner         = c.index_owner                                    ");
-        query.append(" ORDER BY non_unique ,type ,index_name ,ordinal_position                  ");
+        query.append("    AND i.index_name    = c.index_name                                 ");
+        query.append("    AND i.table_owner   = c.table_owner                                ");
+        query.append("    AND i.table_name    = c.table_name                                 ");
+        query.append("    AND i.owner         = c.index_owner                                ");
+        query.append("ORDER BY non_unique ,type ,index_name ,ordinal_position                ");
 
         List<IndexModel> result = new ArrayList<>();
 

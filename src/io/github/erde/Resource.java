@@ -534,6 +534,8 @@ public enum Resource {
     WIZARD_NEW_IMPORT_AUTO_CONVERT("wizard.new.import.autoConvert"),
     /** key:wizard.new.import.catalog. */
     WIZARD_NEW_IMPORT_CATALOG("wizard.new.import.catalog"),
+    /** key:wizard.new.import.database. */
+    WIZARD_NEW_IMPORT_DATABASE("wizard.new.import.database"),
     /** key:wizard.new.import.driver. */
     WIZARD_NEW_IMPORT_DRIVER("wizard.new.import.driver"),
     /** key:wizard.new.import.filter. */

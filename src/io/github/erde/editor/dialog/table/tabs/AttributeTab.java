@@ -140,7 +140,7 @@ public class AttributeTab extends Composite {
      * Create tab area.
      */
     private void create(TabItem tab) {
-        TabFolder tabFolder =(TabFolder) super.getParent();
+        TabFolder tabFolder = (TabFolder) super.getParent();
 
         Composite table = new Composite(this, SWT.NULL);
         table.setLayout(new GridLayout(2, false));
@@ -623,9 +623,15 @@ public class AttributeTab extends Composite {
             txtDecimal.setText("");
         }
 
-        txtColumnSize.setEnabled(columnType.isSizeSupported());
-        txtDecimal.setEnabled(columnType.isDecimalSupported());
-        btnChkUnsigned.setEnabled(columnType.isUnsignedSupported());
+        if (columnType.isDomain()) {
+            txtColumnSize.setEnabled(false);
+            txtDecimal.setEnabled(false);
+            btnChkUnsigned.setEnabled(false);
+        } else {
+            txtColumnSize.setEnabled(columnType.isSizeSupported());
+            txtDecimal.setEnabled(columnType.isDecimalSupported());
+            btnChkUnsigned.setEnabled(columnType.isUnsignedSupported());
+        }
 
         if (btnChkIsPK.getSelection()) {
             btnChkNotNull.setSelection(true);
@@ -771,7 +777,9 @@ public class AttributeTab extends Composite {
         item.setText(FK_CULUMN, tableEdit.isForeignkey(model.getPhysicalName()) ? "FK" : "");
         item.setText(PHYSICAL_NAME_CULUMN, model.getPhysicalName());
         item.setText(LOGICAL_NAME_CULUMN, model.getLogicalName());
-        item.setText(SQL_TYPE_CULUMN, column);
+        if (column != null) {
+            item.setText(SQL_TYPE_CULUMN, column);
+        }
         item.setText(NOT_NULL_CULUMN, Boolean.toString(model.isNotNull()));
         item.setText(UNIQUE_CULUMN, Boolean.toString(model.isUniqueKey()));
     }

@@ -12,6 +12,22 @@ import io.github.erde.core.util.StringUtils;
 
 public class HtmlGenUtils {
 
+    public static String escapeHTML(String str) {
+        if (StringUtils.isEmpty(str)) {
+            return StringUtils.EMPTY;
+        }
+
+        String result = str;
+        result = result.replaceAll("&", "&amp;");
+        result = result.replaceAll("<", "&lt;");
+        result = result.replaceAll(">", "&gt;");
+        result = result.replaceAll("\"", "&quote;");
+        result = result.replaceAll("\r\n", "\n");
+        result = result.replaceAll("\r", "\n");
+        result = result.replaceAll("\n", "<br>");
+        return result;
+    }
+
     public static String getResource(String key) {
         return Resource.toResource(key).getValue();
     }

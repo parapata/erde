@@ -13,9 +13,8 @@
         <xs:element ref="includeView"/>
         <xs:element ref="notation"/>
         <xs:element ref="zoom"/>
-        <xs:element ref="dbSettings"/>
         <xs:element ref="diagram"/>
-        <xs:group ref="domains"/>
+        <xs:element ref="domains"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -33,26 +32,6 @@
     </xs:simpleType>
   </xs:element>
   <xs:element name="zoom" type="xs:double"/>
-  <xs:element name="dbSettings">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="jarFile"/>
-        <xs:element ref="jdbcDriver"/>
-        <xs:element ref="jdbcUrl"/>
-        <xs:element ref="jdbcCatalog"/>
-        <xs:element ref="jdbcSchema"/>
-        <xs:element ref="jdbcUser"/>
-        <xs:element ref="jdbcPassword"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="jarFile" type="xs:string"/>
-  <xs:element name="jdbcDriver" type="xs:string"/>
-  <xs:element name="jdbcUrl" type="xs:string"/>
-  <xs:element name="jdbcCatalog" type="xs:string"/>
-  <xs:element name="jdbcSchema" type="xs:string"/>
-  <xs:element name="jdbcUser" type="xs:string"/>
-  <xs:element name="jdbcPassword" type="xs:string"/>
   <xs:element name="diagram">
     <xs:complexType>
       <xs:sequence>
@@ -232,11 +211,13 @@
   </xs:element>
   <xs:element name="referenceName" type="xs:string"/>
   <xs:element name="targetName" type="xs:string"/>
-  <xs:group name="domains">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="domain"/>
-    </xs:sequence>
-  </xs:group>
+  <xs:element name="domains">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="domain"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="domain">
     <xs:complexType>
       <xs:sequence>

@@ -40,30 +40,6 @@
                 <data type="double" />
             </element>
 
-            <element name="dbSettings">
-                <element name="jarFile">
-                    <text />
-                </element>
-                <element name="jdbcDriver">
-                    <text />
-                </element>
-                <element name="jdbcUrl">
-                    <text />
-                </element>
-                <element name="jdbcCatalog">
-                    <text />
-                </element>
-                <element name="jdbcSchema">
-                    <text />
-                </element>
-                <element name="jdbcUser">
-                    <text />
-                </element>
-                <element name="jdbcPassword">
-                    <text />
-                </element>
-            </element>
-
             <element name="diagram">
                 <ref name="tables" />
                 <ref name="notes" />
@@ -314,6 +290,7 @@
     <a:comment>END : table</a:comment>
 
     <define name="domains">
+        <element name="domains">
         <zeroOrMore>
             <element name="domain">
                 <attribute name="id">
@@ -336,6 +313,7 @@
                 </element>
             </element>
         </zeroOrMore>
+        </element>
     </define>
     <a:comment>END : domain</a:comment>
 
