@@ -18,6 +18,7 @@ import java.util.Properties;
  */
 public class JDBCConnection {
 
+    private String dialectProvider;
     private String uri;
     private String user;
     private String password;
@@ -25,12 +26,7 @@ public class JDBCConnection {
     private String schema;
     private Driver driver = null;
     private boolean enableView = false;
-    private String productName;
     private boolean autoConvert = false;
-
-    final public String POSTGRESQL = "PostgreSQL";
-    final public String MYSQL = "MySQL";
-    final public String HSQLDB = "HSQL Database Engine";
 
     public JDBCConnection(Class<?> driverClass) throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -126,21 +122,21 @@ public class JDBCConnection {
         List<String> list = new ArrayList<>();
         try (Connection conn = connect();) {
             DatabaseMetaData meta = conn.getMetaData();
-            productName = meta.getDatabaseProductName();
+            String productName = meta.getDatabaseProductName();
 
-            if (isMSSQL()) {
+            if (isMSSQL(productName)) {
                 if (StringUtils.isEmpty(catalog)) {
                     catalog = "%";
                 }
             }
 
-            try (ResultSet tables = meta.getTables(catalog, schema, "%",
-                    isOracle() ? new String[] { "TABLE", "VIEW", "SYNONYM" } : null);) {
+            String[] types = isOracle(productName) ? new String[] { "TABLE", "VIEW", "SYNONYM" } : null;
+            try (ResultSet tables = meta.getTables(catalog, schema, "%", types)) {
                 while (tables.next()) {
                     String tableType = tables.getString("TABLE_TYPE");
                     if ("TABLE".equals(tableType)
                             || ("VIEW".equals(tableType) && enableView)
-                            || (isOracle() && "SYNONYM".equals(tableType))) {
+                            || (isOracle(productName) && "SYNONYM".equals(tableType))) {
                         list.add(tables.getString("table_name"));
                     }
                 }
@@ -156,27 +152,27 @@ public class JDBCConnection {
         return list;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getDialectProvider() {
+        return dialectProvider;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setDialectProvider(String dialectProvider) {
+        this.dialectProvider = dialectProvider;
     }
 
-    public boolean isPostgreSQL() {
-        return POSTGRESQL.equals(productName);
-    }
+    // public boolean isPostgreSQL() {
+    // return POSTGRESQL.equals(productName);
+    // }
+    //
+    // public boolean isMySQL() {
+    // return MYSQL.equals(productName);
+    // }
+    //
+    // public boolean isHSQLDB() {
+    // return HSQLDB.equals(productName);
+    // }
 
-    public boolean isMySQL() {
-        return MYSQL.equals(productName);
-    }
-
-    public boolean isHSQLDB() {
-        return HSQLDB.equals(productName);
-    }
-
-    public boolean isMSSQL() {
+    private boolean isMSSQL(String productName) {
         if (productName.toLowerCase().indexOf("microsoft") != -1) {
             return true;
         } else {
@@ -184,7 +180,7 @@ public class JDBCConnection {
         }
     }
 
-    public boolean isOracle() {
+    private boolean isOracle(String productName) {
         if (productName.toLowerCase().indexOf("oracl") != -1) {
             return true;
         } else {

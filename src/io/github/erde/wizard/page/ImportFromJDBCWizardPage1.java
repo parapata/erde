@@ -151,7 +151,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
     public JDBCConnection getJDBCConnection() throws Exception {
         Class<?> driverClass = classLoader.loadClass(cmbJdbcDriver.getText());
         JDBCConnection jdbcConn = new JDBCConnection(driverClass);
-        jdbcConn.setProductName(cmbDialectProvider.getText());
+        jdbcConn.setDialectProvider(cmbDialectProvider.getText());
         jdbcConn.setURI(txtJdbcURI.getText());
         jdbcConn.setUser(txtJdbcUser.getText());
         jdbcConn.setPassword(txtJdbcPassword.getText());

@@ -45,7 +45,7 @@ public class ImportFromJDBCCommand extends Command {
         ProgressMonitorDialog dialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
 
         try {
-            DialectProvider provider = DialectProvider.valueOf(jdbcConn.getProductName());
+            DialectProvider provider = DialectProvider.valueOf(jdbcConn.getDialectProvider());
             IDialect dialect = provider.getDialect();
             root.setDialectProvider(provider);
 
