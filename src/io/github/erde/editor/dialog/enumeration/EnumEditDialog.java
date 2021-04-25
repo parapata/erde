@@ -57,7 +57,7 @@ public class EnumEditDialog extends Dialog {
     @Override
     protected Control createDialogArea(Composite parent) {
 
-        Shell shell = super.getShell();
+        Shell shell = getShell();
         shell.setText("Enum設定");
         shell.setLayout(new FillLayout());
 
@@ -145,11 +145,11 @@ public class EnumEditDialog extends Dialog {
         if (0 == buttonId) {
             items = Arrays.asList(viewer.getTable().getItems())
                     .stream()
-                    .map(tableItem -> tableItem.getText(0))
-                    .filter(predicate -> StringUtils.isNoneEmpty(predicate) && !StringUtils.trim(predicate).isEmpty())
+                    .map(tableItem -> tableItem.getText())
+                    .filter(predicate -> StringUtils.isNotEmpty(predicate) && !StringUtils.trim(predicate).isEmpty())
                     .collect(Collectors.toList());
             if (items.size() != new HashSet<>(items).size()) {
-                UIUtils.openAlertDialog(ERROR_KEY_DUPLICATE);
+                UIUtils.openAlertDialog(ERROR_KEY_DUPLICATE, StringUtils.EMPTY);
                 return;
             }
         }

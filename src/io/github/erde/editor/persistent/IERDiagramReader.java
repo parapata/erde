@@ -26,8 +26,8 @@ import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.editor.persistent.diagram.ColumnXmlModel;
-import io.github.erde.editor.persistent.diagram.DbSettingsXmlModel;
 import io.github.erde.editor.persistent.diagram.DomainXmlModel;
+import io.github.erde.editor.persistent.diagram.DomainsXmlModel;
 import io.github.erde.editor.persistent.diagram.ErdeXmlModel;
 import io.github.erde.editor.persistent.diagram.IndexXmlModel;
 import io.github.erde.editor.persistent.diagram.LocationXmlModel;
@@ -51,16 +51,6 @@ public interface IERDiagramReader {
         rootModel.setIncludeView(erde.isIncludeView());
         rootModel.setNotation(erde.getNotation());
         rootModel.setZoom(erde.getZoom() == 0D ? 1.0D : erde.getZoom());
-
-        DbSettingsXmlModel dbSettings = erde.getDbSettings();
-
-        rootModel.setJarFile(dbSettings.getJarFile());
-        rootModel.setJdbcDriver(dbSettings.getJdbcDriver());
-        rootModel.setJdbcUrl(dbSettings.getJdbcUrl());
-        rootModel.setJdbcCatalog(dbSettings.getJdbcCatalog());
-        rootModel.setJdbcSchema(dbSettings.getJdbcSchema());
-        rootModel.setJdbcUser(dbSettings.getJdbcUser());
-        rootModel.setJdbcPassword(dbSettings.getJdbcUser());
 
         addTables(erde, rootModel.getChildren());
         addNotes(erde, rootModel.getChildren());
@@ -140,7 +130,6 @@ public interface IERDiagramReader {
 
             LocationXmlModel location = table.getLocation();
             model.setConstraint(toRectangle(location));
-
             addColumns(DialectProvider.valueOf(erde.getDialectName()), model, erde.getDialectName(), table.getColumns(),
                     erde.getDomains());
             addIndices(model, table.getIndices());
@@ -150,7 +139,7 @@ public interface IERDiagramReader {
     }
 
     private void addColumns(DialectProvider dialectProvider, TableModel tableModel, String dialectName,
-            List<ColumnXmlModel> columns, List<DomainXmlModel> domains) {
+            List<ColumnXmlModel> columns, DomainsXmlModel domainsXmlModel) {
 
         IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
         columns.forEach(column -> {
@@ -165,8 +154,8 @@ public interface IERDiagramReader {
                 if (column.isUnsigned() != null) {
                     model.setUnsigned(column.isUnsigned());
                 }
-            } else {
-                DomainXmlModel domain = domains.stream()
+            } else if (domainsXmlModel != null) {
+                DomainXmlModel domain = domainsXmlModel.getDomains().stream()
                         .filter(predicate -> column.getDomainId().equals(predicate.getId()))
                         .findFirst()
                         .get();
@@ -258,21 +247,24 @@ public interface IERDiagramReader {
     }
 
     private void addDomains(DialectProvider dialectProvider, ErdeXmlModel erde, List<DomainModel> domains) {
-
-        String dialectName = erde.getDialectName();
-        IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
-
-        erde.getDomains().forEach(domain -> {
-            DomainModel model = new DomainModel(dialectProvider);
-            model.setId(domain.getId());
-            model.setDomainName(domain.getDomainName());
-            model.setColumnType(dialect.getColumnType(domain.getType()));
-            model.setColumnSize(domain.getColumnSize());
-            model.setDecimal(domain.getDecimal());
-            if (domain.isUnsigned() != null && domain.isUnsigned()) {
-                model.setUnsigned(true);
-            }
-            domains.add(model);
-        });
+        if (erde.getDomains() != null) {
+            String dialectName = erde.getDialectName();
+            IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
+            erde.getDomains().getDomains().forEach(domain -> {
+                DomainModel model = new DomainModel(dialectProvider);
+                model.setId(domain.getId());
+                model.setDomainName(domain.getDomainName());
+                IColumnType columnType = dialect.getColumnType(domain.getType());
+                if (columnType != null) {
+                    model.setColumnType(dialect.getColumnType(domain.getType()));
+                    model.setColumnSize(domain.getColumnSize());
+                    model.setDecimal(domain.getDecimal());
+                    if (domain.isUnsigned() != null && domain.isUnsigned()) {
+                        model.setUnsigned(true);
+                    }
+                }
+                domains.add(model);
+            });
+        }
     }
 }

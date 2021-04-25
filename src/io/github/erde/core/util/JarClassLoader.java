@@ -28,15 +28,15 @@ public class JarClassLoader extends URLClassLoader {
 
     public void getJDBCDriverClass(List<Class<?>> list, Class<?> cls, Class<?> org) {
         Class<?>[] interfaces = cls.getInterfaces();
-        for (Class<?> interface1 : interfaces) {
-            interface1.getInterfaces();
-            if (interface1.equals(Driver.class)) {
+        for (Class<?> item : interfaces) {
+            item.getInterfaces();
+            if (item.equals(Driver.class)) {
                 list.add(org);
             }
         }
-        Class<?> s = cls.getSuperclass();
-        if (s != null) {
-            getJDBCDriverClass(list, s, org);
+        Class<?> clazz = cls.getSuperclass();
+        if (clazz != null) {
+            getJDBCDriverClass(list, clazz, org);
         }
     }
 
@@ -51,10 +51,10 @@ public class JarClassLoader extends URLClassLoader {
                 JarEntry entry = jarEntry.nextElement();
                 String name = entry.getName();
                 if (name.lastIndexOf(".class") != -1) {
-                    String ccls = name.replaceFirst(".class", "").replaceAll("/", ".");
+                    String className = name.replaceFirst(".class", "").replaceAll("/", ".");
                     try {
-                        Class<?> cls = loadClass(ccls, true);
-                        getJDBCDriverClass(list, cls, cls);
+                        Class<?> clazz = loadClass(className, true);
+                        getJDBCDriverClass(list, clazz, clazz);
                     } catch (NoClassDefFoundError e) {
                         throw e;
                     } catch (ClassNotFoundException e) {

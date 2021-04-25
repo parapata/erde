@@ -40,8 +40,8 @@ public class ImportFromDiagramWizard extends Wizard {
 
     @Override
     public boolean performFinish() {
-        final TableModel[] selectedTables = page.getSelectedTableModel();
-        final IFile file = page.getSelectedFile();
+        TableModel[] selectedTables = page.getSelectedTableModel();
+        //IFile file = page.getSelectedFile();
 
         stack.execute(new Command() {
             @Override

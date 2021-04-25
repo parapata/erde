@@ -2,8 +2,6 @@
 package io.github.erde.editor.persistent.diagram;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -34,9 +32,8 @@ import io.github.erde.editor.persistent.adapter.BooleanAdapter;
  *         &lt;element ref="{}includeView"/&gt;
  *         &lt;element ref="{}notation"/&gt;
  *         &lt;element ref="{}zoom"/&gt;
- *         &lt;element ref="{}dbSettings"/&gt;
  *         &lt;element ref="{}diagram"/&gt;
- *         &lt;group ref="{}domains"/&gt;
+ *         &lt;element ref="{}domains"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -56,7 +53,6 @@ import io.github.erde.editor.persistent.adapter.BooleanAdapter;
     "includeView",
     "notation",
     "zoom",
-    "dbSettings",
     "diagram",
     "domains"
 })
@@ -91,11 +87,9 @@ public class ErdeXmlModel
     protected String notation;
     protected double zoom;
     @XmlElement(required = true)
-    protected DbSettingsXmlModel dbSettings;
-    @XmlElement(required = true)
     protected DiagramXmlModel diagram;
-    @XmlElement(name = "domain")
-    protected List<DomainXmlModel> domains;
+    @XmlElement(required = true)
+    protected DomainsXmlModel domains;
 
     /**
      * colorプロパティの値を取得します。
@@ -306,30 +300,6 @@ public class ErdeXmlModel
     }
 
     /**
-     * dbSettingsプロパティの値を取得します。
-     * 
-     * @return
-     *     possible object is
-     *     {@link DbSettingsXmlModel }
-     *     
-     */
-    public DbSettingsXmlModel getDbSettings() {
-        return dbSettings;
-    }
-
-    /**
-     * dbSettingsプロパティの値を設定します。
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DbSettingsXmlModel }
-     *     
-     */
-    public void setDbSettings(DbSettingsXmlModel value) {
-        this.dbSettings = value;
-    }
-
-    /**
      * diagramプロパティの値を取得します。
      * 
      * @return
@@ -354,32 +324,27 @@ public class ErdeXmlModel
     }
 
     /**
-     * Gets the value of the domains property.
+     * domainsプロパティの値を取得します。
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the domains property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDomains().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DomainXmlModel }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link DomainsXmlModel }
+     *     
      */
-    public List<DomainXmlModel> getDomains() {
-        if (domains == null) {
-            domains = new ArrayList<DomainXmlModel>();
-        }
-        return this.domains;
+    public DomainsXmlModel getDomains() {
+        return domains;
+    }
+
+    /**
+     * domainsプロパティの値を設定します。
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DomainsXmlModel }
+     *     
+     */
+    public void setDomains(DomainsXmlModel value) {
+        this.domains = value;
     }
 
 }

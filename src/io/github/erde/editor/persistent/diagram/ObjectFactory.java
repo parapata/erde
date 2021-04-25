@@ -35,13 +35,6 @@ public class ObjectFactory {
     private final static QName _IncludeView_QNAME = new QName("", "includeView");
     private final static QName _Notation_QNAME = new QName("", "notation");
     private final static QName _Zoom_QNAME = new QName("", "zoom");
-    private final static QName _JarFile_QNAME = new QName("", "jarFile");
-    private final static QName _JdbcDriver_QNAME = new QName("", "jdbcDriver");
-    private final static QName _JdbcUrl_QNAME = new QName("", "jdbcUrl");
-    private final static QName _JdbcCatalog_QNAME = new QName("", "jdbcCatalog");
-    private final static QName _JdbcSchema_QNAME = new QName("", "jdbcSchema");
-    private final static QName _JdbcUser_QNAME = new QName("", "jdbcUser");
-    private final static QName _JdbcPassword_QNAME = new QName("", "jdbcPassword");
     private final static QName _PhysicalName_QNAME = new QName("", "physicalName");
     private final static QName _LogicalName_QNAME = new QName("", "logicalName");
     private final static QName _Description_QNAME = new QName("", "description");
@@ -101,14 +94,6 @@ public class ObjectFactory {
      */
     public FontXmlModel createFontXmlModel() {
         return new FontXmlModel();
-    }
-
-    /**
-     * Create an instance of {@link DbSettingsXmlModel }
-     * 
-     */
-    public DbSettingsXmlModel createDbSettingsXmlModel() {
-        return new DbSettingsXmlModel();
     }
 
     /**
@@ -189,6 +174,14 @@ public class ObjectFactory {
      */
     public NoteConnectionXmlModel createNoteConnectionXmlModel() {
         return new NoteConnectionXmlModel();
+    }
+
+    /**
+     * Create an instance of {@link DomainsXmlModel }
+     * 
+     */
+    public DomainsXmlModel createDomainsXmlModel() {
+        return new DomainsXmlModel();
     }
 
     /**
@@ -300,97 +293,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "zoom")
     public JAXBElement<Double> createZoom(Double value) {
         return new JAXBElement<Double>(_Zoom_QNAME, Double.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jarFile")
-    public JAXBElement<String> createJarFile(String value) {
-        return new JAXBElement<String>(_JarFile_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jdbcDriver")
-    public JAXBElement<String> createJdbcDriver(String value) {
-        return new JAXBElement<String>(_JdbcDriver_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jdbcUrl")
-    public JAXBElement<String> createJdbcUrl(String value) {
-        return new JAXBElement<String>(_JdbcUrl_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jdbcCatalog")
-    public JAXBElement<String> createJdbcCatalog(String value) {
-        return new JAXBElement<String>(_JdbcCatalog_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jdbcSchema")
-    public JAXBElement<String> createJdbcSchema(String value) {
-        return new JAXBElement<String>(_JdbcSchema_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jdbcUser")
-    public JAXBElement<String> createJdbcUser(String value) {
-        return new JAXBElement<String>(_JdbcUser_QNAME, String.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
-     */
-    @XmlElementDecl(namespace = "", name = "jdbcPassword")
-    public JAXBElement<String> createJdbcPassword(String value) {
-        return new JAXBElement<String>(_JdbcPassword_QNAME, String.class, null, value);
     }
 
     /**

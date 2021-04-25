@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import io.github.erde.Activator;
 import io.github.erde.ICON;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.DomainModel;
 
 /**
@@ -32,7 +33,9 @@ public class DomainTreeEditPart extends DBTreeEditPart {
             }
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s - %s", model.getDomainName(), model.getPhysicalName()));
+        sb.append(String.format("%s - %s",
+                model.getDomainName(),
+                StringUtils.defaultString(model.getPhysicalName())));
         if (!args.isEmpty()) {
             sb.append(String.format("(%s)", String.join(",", args)));
         }

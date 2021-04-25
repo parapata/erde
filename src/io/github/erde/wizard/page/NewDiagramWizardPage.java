@@ -107,7 +107,6 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
         erde.setLogicalMode(false);
         erde.setIncludeView(false);
         erde.setNotation(DecorationFactory.NOTATION_IE);
-        erde.setDbSettings(factory.createDbSettingsXmlModel());
         erde.setDiagram(factory.createDiagramXmlModel());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JAXB.marshal(erde, out);

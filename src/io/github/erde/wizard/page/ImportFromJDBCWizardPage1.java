@@ -27,6 +27,7 @@ import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.JarClassLoader;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.model.RootModel;
 
 /**
@@ -40,6 +41,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
     private ResourceBundle url = ResourceBundle.getBundle("io.github.erde.wizard.databaseURI");
     private RootModel model;
 
+    private Combo cmbDialectProvider;
     private Text txtJarFile;
     private Combo cmbJdbcDriver;
     private Text txtJdbcURI;
@@ -66,6 +68,15 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
+        // -------------
+        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_DATABASE);
+        cmbDialectProvider = new Combo(container, SWT.READ_ONLY);
+        DialectProvider.getDialectNames().forEach(item -> {
+            cmbDialectProvider.add(item);
+        });
+        cmbDialectProvider.setLayoutData(UIUtils.createGridData(3));
+
+        // -------------
         UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_JAR_FILE);
         txtJarFile = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJarFile.setEditable(false);
@@ -140,6 +151,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
     public JDBCConnection getJDBCConnection() throws Exception {
         Class<?> driverClass = classLoader.loadClass(cmbJdbcDriver.getText());
         JDBCConnection jdbcConn = new JDBCConnection(driverClass);
+        jdbcConn.setProductName(cmbDialectProvider.getText());
         jdbcConn.setURI(txtJdbcURI.getText());
         jdbcConn.setUser(txtJdbcUser.getText());
         jdbcConn.setPassword(txtJdbcPassword.getText());

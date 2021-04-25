@@ -13,9 +13,9 @@ import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.editor.persistent.diagram.ColumnXmlModel;
-import io.github.erde.editor.persistent.diagram.DbSettingsXmlModel;
 import io.github.erde.editor.persistent.diagram.DiagramXmlModel;
 import io.github.erde.editor.persistent.diagram.DomainXmlModel;
+import io.github.erde.editor.persistent.diagram.DomainsXmlModel;
 import io.github.erde.editor.persistent.diagram.ErdeXmlModel;
 import io.github.erde.editor.persistent.diagram.ForeignKeyMappingXmlModel;
 import io.github.erde.editor.persistent.diagram.ForeignKeyXmlModel;
@@ -51,20 +51,11 @@ public interface IERDiagramWriter {
 
         ObjectFactory factory = new ObjectFactory();
 
-        DbSettingsXmlModel dbSettings = factory.createDbSettingsXmlModel();
-        dbSettings.setJarFile(rootModel.getJarFile());
-        dbSettings.setJdbcDriver(rootModel.getJdbcDriver());
-        dbSettings.setJdbcUrl(rootModel.getJdbcUrl());
-        dbSettings.setJdbcCatalog(rootModel.getJdbcCatalog());
-        dbSettings.setJdbcSchema(rootModel.getJdbcSchema());
-        dbSettings.setJdbcUser(rootModel.getJdbcUser());
-        dbSettings.setJdbcPassword(rootModel.getJdbcPassword());
-        result.setDbSettings(dbSettings);
-
         DiagramXmlModel diagram = toDiagram(factory, rootModel.getChildren());
         result.setDiagram(diagram);
-
-        toDomainXmlMode(factory, rootModel.getDomains(), result.getDomains());
+        if (!rootModel.getDomains().isEmpty()) {
+            result.setDomains(toDomainsXmlMode(factory, rootModel.getDomains()));
+        }
         return result;
     }
 
@@ -253,7 +244,8 @@ public interface IERDiagramWriter {
         return note;
     }
 
-    private void toDomainXmlMode(ObjectFactory factory, List<DomainModel> fromDomains, List<DomainXmlModel> toDomains) {
+    private DomainsXmlModel toDomainsXmlMode(ObjectFactory factory, List<DomainModel> fromDomains) {
+        DomainsXmlModel result = factory.createDomainsXmlModel();
         fromDomains.forEach(domain -> {
             DomainXmlModel xmlModel = factory.createDomainXmlModel();
             xmlModel.setId(domain.getId());
@@ -264,7 +256,8 @@ public interface IERDiagramWriter {
             if (domain.isUnsigned()) {
                 xmlModel.setUnsigned(true);
             }
-            toDomains.add(xmlModel);
+            result.getDomains().add(xmlModel);
         });
+        return result;
     }
 }
