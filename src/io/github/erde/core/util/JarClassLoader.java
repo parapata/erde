@@ -56,9 +56,7 @@ public class JarClassLoader extends URLClassLoader {
                         Class<?> clazz = loadClass(className, true);
                         getJDBCDriverClass(list, clazz, clazz);
                     } catch (NoClassDefFoundError e) {
-                        throw e;
                     } catch (ClassNotFoundException e) {
-                        throw e;
                     }
                 }
             }
