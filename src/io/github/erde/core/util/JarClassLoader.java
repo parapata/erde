@@ -27,8 +27,7 @@ public class JarClassLoader extends URLClassLoader {
     }
 
     public void getJDBCDriverClass(List<Class<?>> list, Class<?> cls, Class<?> org) {
-        Class<?>[] interfaces = cls.getInterfaces();
-        for (Class<?> item : interfaces) {
+        for (Class<?> item : cls.getInterfaces()) {
             item.getInterfaces();
             if (item.equals(Driver.class)) {
                 list.add(org);

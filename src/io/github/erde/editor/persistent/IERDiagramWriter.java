@@ -192,14 +192,14 @@ public interface IERDiagramWriter {
 
                 foreignKeyModel.getMappings().forEach(mapping -> {
                     ForeignKeyMappingXmlModel foreignKeyMappin = new ForeignKeyMappingXmlModel();
-                    if (StringUtils.isNoneEmpty(mapping.getReferenceKey().getPhysicalName())) {
+                    if (StringUtils.isNotEmpty(mapping.getReferenceKey().getPhysicalName())) {
                         foreignKeyMappin.setReferenceName(mapping.getReferenceKey().getPhysicalName());
                     }
-                    if (StringUtils.isNoneEmpty(mapping.getForeignKey().getPhysicalName())) {
+                    if (StringUtils.isNotEmpty(mapping.getForeignKey().getPhysicalName())) {
                         foreignKeyMappin.setTargetName(mapping.getForeignKey().getPhysicalName());
                     }
-                    if (StringUtils.isNoneEmpty(mapping.getReferenceKey().getPhysicalName())
-                            || StringUtils.isNoneEmpty(mapping.getForeignKey().getPhysicalName())) {
+                    if (StringUtils.isNotEmpty(mapping.getReferenceKey().getPhysicalName())
+                            || StringUtils.isNotEmpty(mapping.getForeignKey().getPhysicalName())) {
                         foreignKey.getForeignKeyMappings().add(foreignKeyMappin);
                     }
                 });
