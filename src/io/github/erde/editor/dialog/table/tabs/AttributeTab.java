@@ -117,13 +117,9 @@ public class AttributeTab extends Composite {
         }
     };
 
-    private AttributeTab(Composite parent) {
-        super(parent, SWT.NULL);
-    }
-
     public AttributeTab(ITableEdit tableEdit, TabFolder tabFolder, int editColumnIndex,
             List<DomainModel> domains) {
-        this(tabFolder);
+        super(tabFolder, SWT.NULL);
         this.tableEdit = tableEdit;
         this.editColumnIndex = editColumnIndex;
         this.domains = domains;
@@ -140,7 +136,6 @@ public class AttributeTab extends Composite {
      * Create tab area.
      */
     private void create(TabItem tab) {
-        TabFolder tabFolder = (TabFolder) super.getParent();
 
         Composite table = new Composite(this, SWT.NULL);
         table.setLayout(new GridLayout(2, false));
@@ -405,6 +400,7 @@ public class AttributeTab extends Composite {
         txtColumnDescription.addFocusListener(updateColumnInfoChanged);
 
         if (editColumnIndex > -1) {
+            TabFolder tabFolder = (TabFolder) this.getParent();
             tabFolder.setSelection(tab);
             tblColumns.select(editColumnIndex);
             columnSelectionChanged();

@@ -57,12 +57,8 @@ public class IndexTab extends Composite {
     private Button btnUpColumn;
     private Button btnDownColumn;
 
-    private IndexTab(Composite parent) {
-        super(parent, SWT.NULL);
-    }
-
     public IndexTab(ITableEdit tableEdit, TabFolder tabFolder, int editIndexIndex, boolean indexEditing) {
-        this(tabFolder);
+        super(tabFolder, SWT.NULL);
         this.tableEdit = tableEdit;
         this.editIndexIndex = editIndexIndex;
         this.indexEditing = indexEditing;
@@ -78,12 +74,11 @@ public class IndexTab extends Composite {
     }
 
     private void create(TabItem tab) {
-        TabFolder tabFolder = (TabFolder) super.getParent();
-
         createIndexListArea(this);
         createIndexColumnListArea(getShell(), this);
 
         if (indexEditing) {
+            TabFolder tabFolder = (TabFolder) this.getParent();
             tabFolder.setSelection(tab);
             if (editIndexIndex >= 0) {
                 lstIndexs.select(editIndexIndex);

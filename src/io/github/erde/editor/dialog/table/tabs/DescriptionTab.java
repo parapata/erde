@@ -22,12 +22,8 @@ public class DescriptionTab extends Composite {
 
     private Text txtTableDescription;
 
-    private DescriptionTab(Composite parent) {
-        super(parent, SWT.NULL);
-    }
-
     public DescriptionTab(ITableEdit tableEdit, TabFolder tabFolder) {
-        this(tabFolder);
+        super(tabFolder, SWT.NULL);
         setLayout(new GridLayout(1, false));
         setLayoutData(new GridData(GridData.FILL_BOTH));
 
