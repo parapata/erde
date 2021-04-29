@@ -1,6 +1,5 @@
 package io.github.erde.core.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
@@ -10,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import io.github.erde.core.exception.SystemException;
 
 /**
  * JDBCConnection.
@@ -28,9 +29,12 @@ public class JDBCConnection {
     private boolean enableView = false;
     private boolean autoConvert = false;
 
-    public JDBCConnection(Class<?> driverClass) throws InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        driver = (Driver) driverClass.getDeclaredConstructor().newInstance();
+    public JDBCConnection(Class<?> driverClass) throws SystemException {
+        try {
+            driver = (Driver) driverClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new SystemException(e);
+        }
     }
 
     public void setURI(String uri) {
@@ -159,18 +163,6 @@ public class JDBCConnection {
     public void setDialectProvider(String dialectProvider) {
         this.dialectProvider = dialectProvider;
     }
-
-    // public boolean isPostgreSQL() {
-    // return POSTGRESQL.equals(productName);
-    // }
-    //
-    // public boolean isMySQL() {
-    // return MYSQL.equals(productName);
-    // }
-    //
-    // public boolean isHSQLDB() {
-    // return HSQLDB.equals(productName);
-    // }
 
     private boolean isMSSQL(String productName) {
         if (productName.toLowerCase().indexOf("microsoft") != -1) {
