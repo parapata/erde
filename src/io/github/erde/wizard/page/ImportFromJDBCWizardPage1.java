@@ -74,13 +74,22 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         DialectProvider.getDialectNames().forEach(item -> {
             cmbDialectProvider.add(item);
         });
+        if (StringUtils.isNotEmpty(model.getDialectProvider().name())) {
+            cmbDialectProvider.setText(model.getDialectProvider().name());
+        }
         cmbDialectProvider.setLayoutData(UIUtils.createGridData(3));
+        cmbDialectProvider.addModifyListener(event -> {
+            doValidate();
+        });
 
         // -------------
         UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_JAR_FILE);
         txtJarFile = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJarFile.setEditable(false);
         txtJarFile.setLayoutData(UIUtils.createGridData(2));
+        txtJarFile.addModifyListener(event -> {
+            doValidate();
+        });
 
         Button button = new Button(container, SWT.PUSH);
         button.setText(Resource.BUTTON_BROWSE.getValue());
@@ -95,25 +104,30 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_DRIVER);
         cmbJdbcDriver = new Combo(container, SWT.READ_ONLY);
         cmbJdbcDriver.setLayoutData(UIUtils.createGridData(3));
-        cmbJdbcDriver.add("sun.jdbc.odbc.JdbcOdbcDriver");
-        cmbJdbcDriver.select(0);
 
         // -------------
         UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_URI);
         txtJdbcURI = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcURI.setLayoutData(UIUtils.createGridData(3));
+        txtJdbcURI.addModifyListener(event -> {
+            doValidate();
+        });
 
-        cmbJdbcDriver.addModifyListener(e -> {
+        cmbJdbcDriver.addModifyListener(event -> {
             if (Collections.list(url.getKeys()).contains(cmbJdbcDriver.getText())) {
                 String template = url.getString(cmbJdbcDriver.getText());
                 txtJdbcURI.setText(template);
             }
+            doValidate();
         });
 
         // -------------
         UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_USER);
         txtJdbcUser = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcUser.setLayoutData(UIUtils.createGridData(3));
+        txtJdbcUser.addModifyListener(event -> {
+            doValidate();
+        });
 
         // -------------
         UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_PASS);
@@ -145,6 +159,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
             txtJdbcCatalog.setText(StringUtils.defaultString(model.getJdbcCatalog()));
             txtJdbcSchema.setText(StringUtils.defaultString(model.getJdbcSchema()));
         }
+        doValidate();
         setControl(container);
     }
 
@@ -191,8 +206,8 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
                 jarURL = new URL("file:///" + jarFilePath);
             }
 
-            URL[] clspath = getClassPathUrls(jarURL);
-            classLoader = new JarClassLoader(clspath);
+            URL[] classpathes = getClassPathUrls(jarURL);
+            classLoader = new JarClassLoader(classpathes);
             java.util.List<Class<?>> list = classLoader.getJDBCDriverClass(jarFilePath);
             cmbJdbcDriver.removeAll();
             for (Class<?> item : list) {
@@ -200,7 +215,6 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
                     cmbJdbcDriver.add(item.getName());
                 }
             }
-            cmbJdbcDriver.add("sun.jdbc.odbc.JdbcOdbcDriver");
             cmbJdbcDriver.select(0);
         } catch (Exception e) {
             Activator.logException(e);
@@ -228,5 +242,29 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         }
         txtJarFile.setText(dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName());
         loadJdbcDriver();
+    }
+
+    private void doValidate() {
+        if (cmbDialectProvider.getSelectionIndex() < 0) {
+            setPageComplete(false);
+            return;
+        }
+        if (StringUtils.isNoneEmpty(txtJarFile.getText())) {
+            setPageComplete(false);
+            return;
+        }
+        if (cmbJdbcDriver.getSelectionIndex() < 0) {
+            setPageComplete(false);
+            return;
+        }
+        if (StringUtils.isNoneEmpty(txtJdbcURI.getText())) {
+            setPageComplete(false);
+            return;
+        }
+        if (StringUtils.isNoneEmpty(txtJdbcUser.getText())) {
+            setPageComplete(false);
+            return;
+        }
+        setPageComplete(true);
     }
 }

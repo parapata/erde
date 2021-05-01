@@ -57,8 +57,17 @@ public class TableFigure extends Figure {
         border = new ERDiagramFrameBorder();
         setBorder(border);
         setOpaque(true);
-
-        Font font = Display.getCurrent().getSystemFont();
+        Font font;
+        try {
+            if (Display.getCurrent() == null) {
+                font = new Font(new Display(), "ＭＳ 明朝", 20, SWT.NORMAL);
+            } else {
+                font = Display.getCurrent().getSystemFont();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
         FontData[] fd = font.getFontData();
         fd[0].height = fd[0].height + 2;
         fd[0].setStyle(SWT.BOLD);

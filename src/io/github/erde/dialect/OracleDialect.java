@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.erde.Activator;
-import io.github.erde.core.util.JDBCConnection;
-import io.github.erde.dialect.loader.ISchemaLoader;
-import io.github.erde.dialect.loader.OracleSchemaLoader;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
@@ -119,11 +116,6 @@ public class OracleDialect extends AbstractDialect {
     @Override
     public String getColumnMetadataSQL(String tableName) {
         return String.format("SELECT * FROM %s WHERE ROWNUM = 1", tableName);
-    }
-
-    @Override
-    public ISchemaLoader getSchemaLoader(JDBCConnection jdbcConn) {
-        return new OracleSchemaLoader(this, jdbcConn);
     }
 
     // TODO Should Oracle validation levels be customizable?

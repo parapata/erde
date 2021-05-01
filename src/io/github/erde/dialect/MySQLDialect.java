@@ -76,7 +76,7 @@ public class MySQLDialect extends AbstractDialect {
     @Override
     public void setupTableOption(RootModel root, TableModel table) {
         if (isComment() && StringUtils.isNotEmpty(table.getLogicalName())) {
-            print(String.format(" COMMENT = '%s'", table.getLogicalName()));
+            print(String.format(" COMMENT '%s'", table.getLogicalName()));
         }
         super.setupTableOption(root, table);
     }

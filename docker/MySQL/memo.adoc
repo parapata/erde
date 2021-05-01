@@ -1,5 +1,19 @@
 = MySQLメモ
 
+== コンテナ起動
+[source]
+----
+docker-compose up -d
+----
+
+
+== コンテナ停止
+[source]
+----
+docker-compose down
+----
+
+
 == bash起動
 [source]
 ----

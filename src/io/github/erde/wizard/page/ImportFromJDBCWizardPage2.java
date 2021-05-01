@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -14,6 +15,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import io.github.erde.Resource;
 import io.github.erde.wizard.ImportFromJDBCWizard;
+import io.github.erde.wizard.task.TableLoaderTask;
 
 /**
  * ImportFromJDBCWizardPage2.
@@ -36,8 +38,9 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        // ----------------
         createTree(container);
+
+        doValidate();
         setControl(container);
     }
 
@@ -50,15 +53,22 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
         TreeItem table = tree.getItem(0);
         table.removeAll();
 
-        try {
-            page1.getJDBCConnection().getTableNames().forEach(tableName -> {
-                // ルートの子要素を追加
-                TreeItem item = new TreeItem(table, SWT.NULL);
-                item.setText(tableName);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (visible) {
+            try {
+                TableLoaderTask task = new TableLoaderTask(page1.getJDBCConnection());
+                IWizardContainer container = getContainer();
+                container.run(true, true, task);
+
+                task.getTableNames().forEach(tableName -> {
+                    TreeItem item = new TreeItem(table, SWT.NULL);
+                    item.setText(tableName);
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         table.setExpanded(true);
         setPageComplete(tree.getItem(0).getChecked());
         super.setVisible(visible);
@@ -104,5 +114,13 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
         // ルートとなる要素を追加
         TreeItem table = new TreeItem(tree, SWT.NULL);
         table.setText("Table");
+    }
+
+    private void doValidate() {
+        if (tree.getSelection() == null || tree.getSelection().length == 0) {
+            setPageComplete(false);
+            return;
+        }
+        setPageComplete(true);
     }
 }

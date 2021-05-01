@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.editpart.command.ImportFromJDBCCommand;
+import io.github.erde.editor.diagram.editpart.command.ImportFromOracleCommand;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.wizard.page.ImportFromJDBCWizardPage1;
 import io.github.erde.wizard.page.ImportFromJDBCWizardPage2;
@@ -47,6 +49,11 @@ public class ImportFromJDBCWizard extends Wizard {
     }
 
     @Override
+    public boolean canFinish() {
+        return page2.isPageComplete();
+    }
+
+    @Override
     public boolean performFinish() {
         try {
             JDBCConnection jdbcConn = page1.getJDBCConnection();
@@ -54,7 +61,13 @@ public class ImportFromJDBCWizard extends Wizard {
 
             CommandStack stack = viewer.getEditDomain().getCommandStack();
             RootModel root = (RootModel) viewer.getContents().getModel();
-            stack.execute(new ImportFromJDBCCommand(root, jdbcConn, tableNames));
+
+            DialectProvider provider = DialectProvider.valueOf(jdbcConn.getDialectProvider());
+            if (DialectProvider.Oracle.equals(provider)) {
+                stack.execute(new ImportFromOracleCommand(root, jdbcConn, tableNames));
+            } else {
+                stack.execute(new ImportFromJDBCCommand(root, jdbcConn, tableNames));
+            }
             page1.setJDBCSetting();
         } catch (Exception e) {
             UIUtils.openAlertDialog(ERROR_DB_IMPORT);

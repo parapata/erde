@@ -4,10 +4,7 @@ import java.io.PrintWriter;
 import java.sql.Types;
 import java.util.List;
 
-import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.StringUtils;
-import io.github.erde.dialect.loader.DefaultSchemaLoader;
-import io.github.erde.dialect.loader.ISchemaLoader;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -85,15 +82,6 @@ public interface IDialect {
      * @param root
      */
     default void validate(DiagramErrorManager errors, RootModel root) {
-    }
-
-    /**
-     * Returns an implementation of <code>ISchemaLoader</code> that used for reverse engineering.
-     *
-     * @return an implementation of <code>ISchemaLoader</code>
-     */
-    default ISchemaLoader getSchemaLoader(JDBCConnection jdbcConn) {
-        return new DefaultSchemaLoader(this, jdbcConn);
     }
 
     /**

@@ -153,7 +153,7 @@ public abstract class AbstractDialect implements IDialect {
                 .collect(Collectors.toList());
         if (isAlterTable() && !primaryKeyNames.isEmpty()) {
             print(TAB_SPACE);
-            println(String.format("PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
+            println(String.format(", PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
         }
 
         print(")");
