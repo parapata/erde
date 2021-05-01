@@ -7,9 +7,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.RGB;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
+import io.github.erde.core.util.DictionaryEntry;
 import io.github.erde.core.util.NameConverter;
-import io.github.erde.core.util.NameConverter.DictionaryEntry;
 
 /**
  * ERDPreferenceInitializer.
@@ -20,20 +20,20 @@ public class ERDPreferenceInitializer extends AbstractPreferenceInitializer {
 
     @Override
     public void initializeDefaultPreferences() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        IPreferenceStore store = ERDPlugin.getDefault().getPreferenceStore();
         store.setDefault(VALIDATE_ON_SAVE, false);
-        store.setDefault(VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED, Activator.LEVEL_ERROR);
-        store.setDefault(VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED, Activator.LEVEL_ERROR);
-        store.setDefault(VALIDATE_LOGICAL_TABLE_NAME_REQUIRED, Activator.LEVEL_WARNING);
-        store.setDefault(VALIDATE_LOGICAL_TABLE_NAME_DUPLICATED, Activator.LEVEL_WARNING);
-        store.setDefault(VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED, Activator.LEVEL_ERROR);
-        store.setDefault(VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED, Activator.LEVEL_ERROR);
-        store.setDefault(VALIDATE_LOGICAL_COLUMN_NAME_REQUIRED, Activator.LEVEL_WARNING);
-        store.setDefault(VALIDATE_LOGICAL_COLUMN_NAME_DUPLICATED, Activator.LEVEL_WARNING);
-        store.setDefault(VALIDATE_NO_COLUMNS, Activator.LEVEL_ERROR);
-        store.setDefault(VALIDATE_PRIMARY_KEY, Activator.LEVEL_WARNING);
-        store.setDefault(VALIDATE_FOREIGN_KEY_COLUMN_TYPE, Activator.LEVEL_ERROR);
-        store.setDefault(VALIDATE_FOREIGN_KEY_COLUMN_SIZE, Activator.LEVEL_ERROR);
+        store.setDefault(VALIDATE_PHYSICAL_TABLE_NAME_REQUIRED, ERDPlugin.LEVEL_ERROR);
+        store.setDefault(VALIDATE_PHYSICAL_TABLE_NAME_DUPLICATED, ERDPlugin.LEVEL_ERROR);
+        store.setDefault(VALIDATE_LOGICAL_TABLE_NAME_REQUIRED, ERDPlugin.LEVEL_WARNING);
+        store.setDefault(VALIDATE_LOGICAL_TABLE_NAME_DUPLICATED, ERDPlugin.LEVEL_WARNING);
+        store.setDefault(VALIDATE_PHYSICAL_COLUMN_NAME_REQUIRED, ERDPlugin.LEVEL_ERROR);
+        store.setDefault(VALIDATE_PHYSICAL_COLUMN_NAME_DUPLICATED, ERDPlugin.LEVEL_ERROR);
+        store.setDefault(VALIDATE_LOGICAL_COLUMN_NAME_REQUIRED, ERDPlugin.LEVEL_WARNING);
+        store.setDefault(VALIDATE_LOGICAL_COLUMN_NAME_DUPLICATED, ERDPlugin.LEVEL_WARNING);
+        store.setDefault(VALIDATE_NO_COLUMNS, ERDPlugin.LEVEL_ERROR);
+        store.setDefault(VALIDATE_PRIMARY_KEY, ERDPlugin.LEVEL_WARNING);
+        store.setDefault(VALIDATE_FOREIGN_KEY_COLUMN_TYPE, ERDPlugin.LEVEL_ERROR);
+        store.setDefault(VALIDATE_FOREIGN_KEY_COLUMN_SIZE, ERDPlugin.LEVEL_ERROR);
         store.setDefault(SHOW_GRID, true);
         store.setDefault(ENABLED_GRID, true);
         store.setDefault(GRID_SIZE, 15);

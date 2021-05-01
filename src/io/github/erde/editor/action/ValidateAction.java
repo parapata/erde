@@ -11,7 +11,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IFileEditorInput;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.validator.DiagramError;
@@ -23,7 +23,7 @@ import io.github.erde.editor.validator.DiagramValidator;
  *
  * @author modified by parapata
  */
-public class ValidateAction extends Action implements IERDEAction {
+public class ValidateAction extends Action implements IERDAction {
 
     public ValidateAction() {
         super();
@@ -56,7 +56,7 @@ public class ValidateAction extends Action implements IERDEAction {
                         error.addMarker(file);
                     }
                 } catch (CoreException e) {
-                    Activator.logException(e);
+                    ERDPlugin.logException(e);
                 }
             }
         });

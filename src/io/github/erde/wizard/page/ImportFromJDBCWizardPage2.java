@@ -1,9 +1,13 @@
 package io.github.erde.wizard.page;
 
+import static io.github.erde.Resource.*;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -12,8 +16,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import io.github.erde.Resource;
+import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.wizard.ImportFromJDBCWizard;
+import io.github.erde.wizard.task.TableLoaderTask;
 
 /**
  * ImportFromJDBCWizardPage2.
@@ -25,9 +30,9 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
     private Tree tree;
 
     public ImportFromJDBCWizardPage2() {
-        super(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
-        setTitle(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
-        setMessage(Resource.WIZARD_NEW_IMPORT_MESSAGE.getValue());
+        super(ImportFromJDBCWizardPage2.class.getSimpleName());
+        setTitle(WIZARD_IMPORT_FROM_JDBC_PAGE_2_TITLE.getValue());
+        setDescription(WIZARD_IMPORT_FROM_JDBC_PAGE_2_DESCRIPTION.getValue());
     }
 
     @Override
@@ -36,8 +41,9 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        // ----------------
         createTree(container);
+
+        doValidate();
         setControl(container);
     }
 
@@ -50,18 +56,33 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
         TreeItem table = tree.getItem(0);
         table.removeAll();
 
-        try {
-            page1.getJDBCConnection().getTableNames().forEach(tableName -> {
-                // ルートの子要素を追加
+        if (visible) {
+            TableLoaderTask task;
+            try {
+                task = new TableLoaderTask(page1.getJDBCConnection());
+                IWizardContainer container = getContainer();
+                container.run(true, true, task);
+                super.setVisible(visible);
+            } catch (ClassNotFoundException e) {
+                doDatabaseError(e);
+                return;
+            } catch (InvocationTargetException e) {
+                doDatabaseError(e.getTargetException());
+                return;
+            } catch (InterruptedException e) {
+                doDatabaseError(e);
+                return;
+            }
+            task.getTableNames().forEach(tableName -> {
                 TreeItem item = new TreeItem(table, SWT.NULL);
                 item.setText(tableName);
             });
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            super.setVisible(visible);
         }
+
         table.setExpanded(true);
         setPageComplete(tree.getItem(0).getChecked());
-        super.setVisible(visible);
     }
 
     public List<String> getSelectionTables() {
@@ -104,5 +125,20 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
         // ルートとなる要素を追加
         TreeItem table = new TreeItem(tree, SWT.NULL);
         table.setText("Table");
+    }
+
+    private void doValidate() {
+        if (tree.getSelection() == null || tree.getSelection().length == 0) {
+            setPageComplete(false);
+            return;
+        }
+        setPageComplete(true);
+    }
+
+    private void doDatabaseError(Throwable th) {
+        UIUtils.openAlertDialog(th.getMessage());
+        super.setVisible(false);
+        setErrorMessage(ERROR_GET_DATABASE_METADATA.getValue());
+        setPageComplete(false);
     }
 }

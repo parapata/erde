@@ -3,7 +3,7 @@ package io.github.erde.editor.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.TableModel;
@@ -31,11 +31,11 @@ public class DiagramErrorManager {
 
         String msg = createTableMessage(table, message);
         DiagramError error = new DiagramError(table, msg, level, table.getId(), table.getPhysicalName());
-        if (level.equals(Activator.LEVEL_ERROR)) {
+        if (level.equals(ERDPlugin.LEVEL_ERROR)) {
             this.errors.add(error);
             addErrorMessageToModel(table, ERROR_PREFIX + msg);
 
-        } else if (level.equals(Activator.LEVEL_WARNING)) {
+        } else if (level.equals(ERDPlugin.LEVEL_WARNING)) {
             this.errors.add(error);
             addErrorMessageToModel(table, WARNING_PREFIX + msg);
         }
@@ -52,11 +52,11 @@ public class DiagramErrorManager {
     public void addError(String level, TableModel table, ColumnModel column, String message) {
         String msg = createColumnMessage(table, column, message);
         DiagramError error = new DiagramError(table, msg, level, table.getId(), table.getPhysicalName());
-        if (level.equals(Activator.LEVEL_ERROR)) {
+        if (level.equals(ERDPlugin.LEVEL_ERROR)) {
             this.errors.add(error);
             addErrorMessageToModel(table, ERROR_PREFIX + createColumnMessage(column, message));
 
-        } else if (level.equals(Activator.LEVEL_WARNING)) {
+        } else if (level.equals(ERDPlugin.LEVEL_WARNING)) {
             this.errors.add(error);
             addErrorMessageToModel(table, WARNING_PREFIX + createColumnMessage(column, message));
         }
@@ -73,11 +73,11 @@ public class DiagramErrorManager {
     public void addError(String level, TableModel table, IndexModel index, String message) {
         String msg = createIndexMessage(table, index, message);
         DiagramError error = new DiagramError(table, msg, level, table.getId(), table.getPhysicalName());
-        if (level.equals(Activator.LEVEL_ERROR)) {
+        if (level.equals(ERDPlugin.LEVEL_ERROR)) {
             this.errors.add(error);
             addErrorMessageToModel(table, ERROR_PREFIX + createIndexMessage(index, message));
 
-        } else if (level.equals(Activator.LEVEL_WARNING)) {
+        } else if (level.equals(ERDPlugin.LEVEL_WARNING)) {
             this.errors.add(error);
             addErrorMessageToModel(table, WARNING_PREFIX + createIndexMessage(index, message));
         }

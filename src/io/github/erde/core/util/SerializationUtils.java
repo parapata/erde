@@ -241,7 +241,7 @@ public class SerializationUtils {
      * @return the serialized and deserialized object
      * @since 3.3
      */
-    //@SuppressWarnings("unchecked") // OK, because we serialized a type `T`
+    @SuppressWarnings("unchecked") // OK, because we serialized a type `T`
     public static <T extends Serializable> T roundtrip(final T obj) {
         return (T) deserialize(serialize(obj));
     }

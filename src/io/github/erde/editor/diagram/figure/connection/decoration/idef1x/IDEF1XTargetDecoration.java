@@ -2,14 +2,14 @@ package io.github.erde.editor.diagram.figure.connection.decoration.idef1x;
 
 import org.eclipse.draw2d.geometry.PointList;
 
-import io.github.erde.editor.diagram.figure.connection.decoration.ERDecoration;
+import io.github.erde.editor.diagram.figure.connection.decoration.ERDDecoration;
 
 /**
  * IDEF1XTargetDecoration.
  *
  * @author modified by parapata
  */
-public class IDEF1XTargetDecoration extends ERDecoration {
+public class IDEF1XTargetDecoration extends ERDDecoration {
 
     public IDEF1XTargetDecoration() {
         super();

@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Display;
  *
  * @author modified by parapata
  */
-public class CopyAsImageAction extends Action implements IERDEAction {
+public class CopyAsImageAction extends Action implements IERDAction {
 
     public CopyAsImageAction() {
         super();

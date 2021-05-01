@@ -2,14 +2,14 @@ package io.github.erde.editor.diagram.figure.connection.decoration.ie;
 
 import org.eclipse.draw2d.geometry.PointList;
 
-import io.github.erde.editor.diagram.figure.connection.decoration.ERDecoration;
+import io.github.erde.editor.diagram.figure.connection.decoration.ERDDecoration;
 
 /**
  * IEOptionalTargetDecoration.
  *
  * @author modified by parapata
  */
-public class IEOptionalTargetDecoration extends ERDecoration {
+public class IEOptionalTargetDecoration extends ERDDecoration {
 
     public IEOptionalTargetDecoration() {
         super();

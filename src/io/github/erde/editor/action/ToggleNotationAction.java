@@ -16,7 +16,7 @@ import io.github.erde.editor.diagram.model.RootModel;
  *
  * @author modified by parapata
  */
-public class ToggleNotationAction extends Action implements IERDEAction {
+public class ToggleNotationAction extends Action implements IERDAction {
 
     public ToggleNotationAction() {
         super();
@@ -26,7 +26,7 @@ public class ToggleNotationAction extends Action implements IERDEAction {
 
     @Override
     public void run() {
-        CommandStack stack = getCommandStack2();
+        CommandStack stack = getERDCommandStack();
 
         stack.execute(new Command("Toggle display notation") {
             @Override

@@ -13,7 +13,7 @@ import io.github.erde.wizard.ImportFromJDBCWizard;
  *
  * @author modified by parapata
  */
-public class ImportFromJDBCAction extends Action implements IERDEAction {
+public class ImportFromJDBCAction extends Action implements IERDAction {
 
     public ImportFromJDBCAction() {
         super();

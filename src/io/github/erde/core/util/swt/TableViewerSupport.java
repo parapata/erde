@@ -2,11 +2,6 @@ package io.github.erde.core.util.swt;
 
 import static io.github.erde.Resource.*;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -97,7 +92,7 @@ public abstract class TableViewerSupport<T> {
         layout.marginWidth = 0;
         buttons.setLayout(layout);
         buttonAdd = new Button(buttons, SWT.PUSH);
-        buttonAdd.setText(BUTTON_ADD.getValue());
+        buttonAdd.setText(LABEL_ADD.getValue());
         buttonAdd.setLayoutData(createButtonGridData());
         buttonAdd.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -110,7 +105,7 @@ public abstract class TableViewerSupport<T> {
             }
         });
         buttonEdit = new Button(buttons, SWT.PUSH);
-        buttonEdit.setText(BUTTON_EDIT.getValue());
+        buttonEdit.setText(LABEL_EDIT.getValue());
         buttonEdit.setLayoutData(createButtonGridData());
         buttonEdit.setEnabled(false);
         buttonEdit.addSelectionListener(new SelectionAdapter() {
@@ -124,7 +119,7 @@ public abstract class TableViewerSupport<T> {
             }
         });
         buttonRemove = new Button(buttons, SWT.PUSH);
-        buttonRemove.setText(BUTTON_DELETE.getValue());
+        buttonRemove.setText(LABEL_DELETE.getValue());
         buttonRemove.setLayoutData(createButtonGridData());
         buttonRemove.setEnabled(false);
         buttonRemove.addSelectionListener(new SelectionAdapter() {
@@ -234,7 +229,7 @@ public abstract class TableViewerSupport<T> {
     /**
      * The base class of LabelProvider for TableViewers.
      */
-    public static abstract class TableLabelProviderAdapter implements ITableLabelProvider {
+    public abstract class TableLabelProviderAdapter implements ITableLabelProvider {
 
         @Override
         public Image getColumnImage(Object element, int columnIndex) {
@@ -271,22 +266,11 @@ public abstract class TableViewerSupport<T> {
      *
      * @see ColumnInfo
      */
-    public static class DefaultTableLabelProvider extends TableLabelProviderAdapter {
+    public class DefaultTableLabelProvider extends TableLabelProviderAdapter {
         @Override
         public String getColumnText(Object element, int columnIndex) {
             return getColumnValue(element, columnIndex);
         }
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    @Documented
-    public @interface ColumnInfo {
-        int index();
-
-        String label();
-
-        int width();
     }
 
     /**

@@ -20,7 +20,7 @@ import io.github.erde.editor.diagram.model.BaseEntityModel;
  *
  * @author modified by parapata
  */
-public class PasteAction extends SelectionAction implements IERDEAction {
+public class PasteAction extends SelectionAction implements IERDAction {
 
     public PasteAction(ERDiagramEditor editor) {
         super(editor);

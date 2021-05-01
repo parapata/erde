@@ -14,9 +14,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
+import io.github.erde.core.util.DictionaryEntry;
 import io.github.erde.core.util.NameConverter;
-import io.github.erde.core.util.NameConverter.DictionaryEntry;
 import io.github.erde.core.util.swt.TableViewerSupport;
 import io.github.erde.editor.dialog.EntryEditDialog;
 
@@ -49,7 +49,7 @@ public class DictionaryPreferencePage extends PreferencePage implements IWorkben
         Composite composite = new Composite(parent, SWT.NULL);
         composite.setLayout(new GridLayout(1, false));
 
-        models = NameConverter.loadFromPreferenceStore(Activator.getDefault().getPreferenceStore());
+        models = NameConverter.loadFromPreferenceStore(ERDPlugin.getDefault().getPreferenceStore());
 
         TableViewerSupport<DictionaryEntry> support = new TableViewerSupport<>(models, composite) {
             @Override
@@ -89,7 +89,7 @@ public class DictionaryPreferencePage extends PreferencePage implements IWorkben
 
     @Override
     public boolean performOk() {
-        NameConverter.saveToPreferenceStore(Activator.getDefault().getPreferenceStore(), models);
+        NameConverter.saveToPreferenceStore(ERDPlugin.getDefault().getPreferenceStore(), models);
         return true;
     }
 

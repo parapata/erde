@@ -21,7 +21,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.Resource;
 import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -119,9 +119,18 @@ public class UIUtils {
      *
      * @param message message
      */
-    public static void openAlertDialog(Resource message) {
+    public static void openAlertDialog(String message) {
         String title = Resource.DIALOG_ALERT_TITLE.getValue();
-        MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message.getValue());
+        MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message);
+    }
+
+    /**
+     * Open the alert dialog.
+     *
+     * @param message message
+     */
+    public static void openAlertDialog(Resource message) {
+        openAlertDialog(message.getValue());
     }
 
     /**
@@ -130,10 +139,7 @@ public class UIUtils {
      * @param message message
      */
     public static void openAlertDialog(Resource message, String... messageArgs) {
-        String title = Resource.DIALOG_ALERT_TITLE.getValue();
-        MessageDialog.openError(Display.getCurrent().getActiveShell(),
-                title,
-                message.createMessage(messageArgs));
+        openAlertDialog(message.createMessage(messageArgs));
     }
 
     /**
@@ -167,7 +173,7 @@ public class UIUtils {
             IWorkspaceRoot wsroot = ResourcesPlugin.getWorkspace().getRoot();
             wsroot.refreshLocal(IResource.DEPTH_ONE, new NullProgressMonitor());
         } catch (CoreException e) {
-            Activator.logException(e);
+            ERDPlugin.logException(e);
         }
     }
 

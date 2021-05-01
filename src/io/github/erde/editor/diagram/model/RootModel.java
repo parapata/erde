@@ -282,7 +282,7 @@ public class RootModel extends BaseModel implements IPropertySource {
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
         return new IPropertyDescriptor[] {
-                new TextPropertyDescriptor(P_JDBC_INFO, PROPERTY_SCHEMA.getValue()),
+                new TextPropertyDescriptor(P_JDBC_INFO, LABEL_SCHEMA.getValue()),
                 new FontPropertyDescriptor(P_FONT, PROPERTY_FONT.getValue())
         };
     }

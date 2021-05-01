@@ -7,7 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -45,9 +45,9 @@ public class ColumnTreeEditPart extends DBTreeEditPart {
         setWidgetText(sb.toString());
 
         if (model.isPrimaryKey()) {
-            setWidgetImage(Activator.getImage(ICON.PK_COLUMN.getPath()));
+            setWidgetImage(ERDPlugin.getImage(ICON.PK_COLUMN.getPath()));
         } else {
-            setWidgetImage(Activator.getImage(ICON.COLUMN.getPath()));
+            setWidgetImage(ERDPlugin.getImage(ICON.COLUMN.getPath()));
         }
         // TODO changes an image for foreign key columns
     }

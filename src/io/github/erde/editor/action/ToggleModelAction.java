@@ -14,7 +14,7 @@ import io.github.erde.editor.diagram.model.RootModel;
  *
  * @author modified by parapata
  */
-public class ToggleModelAction extends Action implements IERDEAction {
+public class ToggleModelAction extends Action implements IERDAction {
 
     public ToggleModelAction() {
         super();
@@ -25,7 +25,7 @@ public class ToggleModelAction extends Action implements IERDEAction {
     @Override
     public void run() {
         // CommandStack stack = editor.getCommandStack();
-        CommandStack stack = getCommandStack2();
+        CommandStack stack = getERDCommandStack();
         stack.execute(new Command("Toggle display mode") {
             @Override
             public void execute() {

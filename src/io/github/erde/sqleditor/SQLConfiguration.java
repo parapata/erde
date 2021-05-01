@@ -8,7 +8,7 @@ import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.preference.ERDPreferenceKey;
 
 /**
@@ -47,7 +47,7 @@ public class SQLConfiguration extends SourceViewerConfiguration {
 
     private RuleBasedScanner getCommentScanner() {
         RuleBasedScanner scanner = new RuleBasedScanner();
-        EditorColorProvider colorProvider = Activator.getDefault().getEditorColorProvider();
+        EditorColorProvider colorProvider = ERDPlugin.getDefault().getEditorColorProvider();
         scanner.setDefaultReturnToken(
                 colorProvider.getToken(ERDPreferenceKey.COLOR_COMMENT));
         return scanner;
@@ -55,7 +55,7 @@ public class SQLConfiguration extends SourceViewerConfiguration {
 
     private RuleBasedScanner getStringScanner() {
         RuleBasedScanner scanner = new RuleBasedScanner();
-        EditorColorProvider colorProvider = Activator.getDefault().getEditorColorProvider();
+        EditorColorProvider colorProvider = ERDPlugin.getDefault().getEditorColorProvider();
         scanner.setDefaultReturnToken(
                 colorProvider.getToken(ERDPreferenceKey.COLOR_STRING));
         return scanner;

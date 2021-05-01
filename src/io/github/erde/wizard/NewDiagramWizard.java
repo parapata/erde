@@ -1,5 +1,5 @@
 /*
- * thanks
+ * . * thanks
  */
 
 package io.github.erde.wizard;

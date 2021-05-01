@@ -1,5 +1,7 @@
 package io.github.erde.wizard.page;
 
+import static io.github.erde.Resource.*;
+
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,8 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 
-import io.github.erde.Activator;
-import io.github.erde.Resource;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.JarClassLoader;
 import io.github.erde.core.util.StringUtils;
@@ -56,9 +57,10 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
     }
 
     public ImportFromJDBCWizardPage1(RootModel model) {
-        super(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
-        setTitle(Resource.WIZARD_NEW_IMPORT_TITLE.getValue());
-        setMessage(Resource.WIZARD_NEW_IMPORT_MESSAGE.getValue());
+        super(ImportFromJDBCWizardPage1.class.getSimpleName());
+        setTitle(WIZARD_IMPORT_FROM_JDBC_PAGE_1_TITLE.getValue());
+        setDescription(WIZARD_IMPORT_FROM_JDBC_PAGE_1_DESCRIPTION.getValue());
+
         this.model = model;
     }
 
@@ -69,21 +71,28 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_DATABASE);
+        UIUtils.createLabel(container, LABEL_DATABASE);
         cmbDialectProvider = new Combo(container, SWT.READ_ONLY);
         DialectProvider.getDialectNames().forEach(item -> {
             cmbDialectProvider.add(item);
         });
+        if (StringUtils.isNotEmpty(model.getDialectProvider().name())) {
+            cmbDialectProvider.setText(model.getDialectProvider().name());
+        }
         cmbDialectProvider.setLayoutData(UIUtils.createGridData(3));
+        cmbDialectProvider.addModifyListener(event -> {
+            doValidate();
+        });
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_JAR_FILE);
+        UIUtils.createLabel(container, LABEL_JAR_FILE);
         txtJarFile = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJarFile.setEditable(false);
         txtJarFile.setLayoutData(UIUtils.createGridData(2));
+        txtJarFile.addModifyListener(event -> doValidate());
 
         Button button = new Button(container, SWT.PUSH);
-        button.setText(Resource.BUTTON_BROWSE.getValue());
+        button.setText(LABEL_BROWSE.getValue());
         button.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -92,47 +101,52 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         });
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_DRIVER);
+        UIUtils.createLabel(container, LABEL_JDBC_DRIVER);
         cmbJdbcDriver = new Combo(container, SWT.READ_ONLY);
         cmbJdbcDriver.setLayoutData(UIUtils.createGridData(3));
-        cmbJdbcDriver.add("sun.jdbc.odbc.JdbcOdbcDriver");
-        cmbJdbcDriver.select(0);
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_URI);
+        UIUtils.createLabel(container, LABEL_JDBC_URI);
         txtJdbcURI = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcURI.setLayoutData(UIUtils.createGridData(3));
+        txtJdbcURI.addModifyListener(event -> {
+            doValidate();
+        });
 
-        cmbJdbcDriver.addModifyListener(e -> {
+        cmbJdbcDriver.addModifyListener(event -> {
             if (Collections.list(url.getKeys()).contains(cmbJdbcDriver.getText())) {
                 String template = url.getString(cmbJdbcDriver.getText());
                 txtJdbcURI.setText(template);
             }
+            doValidate();
         });
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_USER);
+        UIUtils.createLabel(container, LABEL_USER);
         txtJdbcUser = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcUser.setLayoutData(UIUtils.createGridData(3));
+        txtJdbcUser.addModifyListener(event -> {
+            doValidate();
+        });
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_PASS);
+        UIUtils.createLabel(container, LABEL_PASSWORD);
         txtJdbcPassword = new Text(container, SWT.BORDER | SWT.PASSWORD);
         txtJdbcPassword.setLayoutData(UIUtils.createGridData(3));
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_SCHEMA);
+        UIUtils.createLabel(container, LABEL_SCHEMA);
         txtJdbcSchema = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcSchema.setLayoutData(UIUtils.createGridData(3));
 
         // -------------
-        UIUtils.createLabel(container, Resource.WIZARD_NEW_IMPORT_CATALOG);
+        UIUtils.createLabel(container, LABEL_CATALOG);
         txtJdbcCatalog = new Text(container, SWT.BORDER | SWT.SINGLE);
         txtJdbcCatalog.setLayoutData(UIUtils.createGridData(3));
 
         // ----------------
         btnAutoConvert = new Button(container, SWT.CHECK);
-        btnAutoConvert.setText(Resource.WIZARD_NEW_IMPORT_AUTO_CONVERT.getValue());
+        btnAutoConvert.setText(WIZARD_IMPORT_FROM_JDBC_CHK_AUTO_CONVERT.getValue());
         btnAutoConvert.setLayoutData(UIUtils.createGridData(4));
 
         if (model != null) {
@@ -145,10 +159,11 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
             txtJdbcCatalog.setText(StringUtils.defaultString(model.getJdbcCatalog()));
             txtJdbcSchema.setText(StringUtils.defaultString(model.getJdbcSchema()));
         }
+        doValidate();
         setControl(container);
     }
 
-    public JDBCConnection getJDBCConnection() throws Exception {
+    public JDBCConnection getJDBCConnection() throws ClassNotFoundException  {
         Class<?> driverClass = classLoader.loadClass(cmbJdbcDriver.getText());
         JDBCConnection jdbcConn = new JDBCConnection(driverClass);
         jdbcConn.setDialectProvider(cmbDialectProvider.getText());
@@ -191,8 +206,8 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
                 jarURL = new URL("file:///" + jarFilePath);
             }
 
-            URL[] clspath = getClassPathUrls(jarURL);
-            classLoader = new JarClassLoader(clspath);
+            URL[] classpathes = getClassPathUrls(jarURL);
+            classLoader = new JarClassLoader(classpathes);
             java.util.List<Class<?>> list = classLoader.getJDBCDriverClass(jarFilePath);
             cmbJdbcDriver.removeAll();
             for (Class<?> item : list) {
@@ -200,10 +215,9 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
                     cmbJdbcDriver.add(item.getName());
                 }
             }
-            cmbJdbcDriver.add("sun.jdbc.odbc.JdbcOdbcDriver");
             cmbJdbcDriver.select(0);
         } catch (Exception e) {
-            Activator.logException(e);
+            ERDPlugin.logException(e);
         }
     }
 
@@ -222,11 +236,36 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
      * Choose a jar file which contains the JDBC driver from local file system.
      */
     private void handleFileSystemBrowse() {
-        FileDialog dialog = new FileDialog(getShell());
-        if (dialog.open() == null) {
+        FileDialog dialog = new FileDialog(getShell(), SWT.OPEN | SWT.SINGLE);
+        dialog.setFilterExtensions(new String[] { "*.jar" });
+        if (StringUtils.isEmpty(dialog.open())) {
             return;
         }
         txtJarFile.setText(dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName());
         loadJdbcDriver();
+    }
+
+    private void doValidate() {
+        if (cmbDialectProvider.getSelectionIndex() < 0) {
+            setPageComplete(false);
+            return;
+        }
+        if (StringUtils.isNoneEmpty(txtJarFile.getText())) {
+            setPageComplete(false);
+            return;
+        }
+        if (cmbJdbcDriver.getSelectionIndex() < 0) {
+            setPageComplete(false);
+            return;
+        }
+        if (StringUtils.isNoneEmpty(txtJdbcURI.getText())) {
+            setPageComplete(false);
+            return;
+        }
+        if (StringUtils.isNoneEmpty(txtJdbcUser.getText())) {
+            setPageComplete(false);
+            return;
+        }
+        setPageComplete(true);
     }
 }

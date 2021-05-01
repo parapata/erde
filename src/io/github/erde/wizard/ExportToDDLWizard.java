@@ -1,31 +1,30 @@
 package io.github.erde.wizard;
 
-import java.io.BufferedWriter;
+import static io.github.erde.Resource.*;
+
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.PlatformUI;
 
-import io.github.erde.Activator;
-import io.github.erde.Resource;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.LineSeparatorCode;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.model.RootModel;
-import io.github.erde.wizard.page.DDLWizardPage;
+import io.github.erde.wizard.page.ExportToDDLWizardPage;
+import io.github.erde.wizard.task.DDLWriterTask;
 
 /**
- * DDLWizard.
+ * ExportToDDLWizard.
  *
  * @author modified by parapata
  */
-public class DDLWizard extends FileSystemExportWizard {
+public class ExportToDDLWizard extends Wizard {
 
     public static final String DIALOG_NAME = "DDLWizard";
     public static final String SCHEMA = "schema";
@@ -35,17 +34,16 @@ public class DDLWizard extends FileSystemExportWizard {
     public static final String ENCODING = "encoding";
     public static final String LINE_SEPARATOR = "lineSeparator";
 
-    private IFile ddlFile;
+    private String fileName;
     private RootModel root;
-    private DDLWizardPage page;
+    private ExportToDDLWizardPage page;
 
-    public DDLWizard(IFile ddlFile, RootModel root, String generatorName) {
-
-        this.ddlFile = ddlFile;
+    public ExportToDDLWizard(String fileName, RootModel root) {
+        setWindowTitle(WIZARD_GENERATE_DDL_DIALOG_TITLE.getValue());
+        this.fileName = fileName;
         this.root = root;
-        setWindowTitle(generatorName);
 
-        IDialogSettings settings = Activator.getDefault().getDialogSettings();
+        IDialogSettings settings = ERDPlugin.getDefault().getDialogSettings();
         IDialogSettings section = settings.getSection(DIALOG_NAME);
         if (section == null) {
             section = settings.addNewSection(DIALOG_NAME);
@@ -73,7 +71,7 @@ public class DDLWizard extends FileSystemExportWizard {
 
     @Override
     public void addPages() {
-        this.page = new DDLWizardPage(ddlFile);
+        page = new ExportToDDLWizardPage(fileName);
         addPage(page);
     }
 
@@ -100,27 +98,29 @@ public class DDLWizard extends FileSystemExportWizard {
         dialect.setComment(page.getComment());
         dialect.setLineSeparator(ls.getValue());
 
-        File file = Paths.get(page.getOutputFolderResource(), page.getFilename()).toFile();
+        File file = Paths.get(page.getOutputFolderResource(), page.getFileName()).toFile();
         if (file.exists()) {
-            String[] args = new String[] { page.getFilename() };
-            if (!UIUtils.openConfirmDialog(Resource.WIZARD_GENERATE_DDL_CONFIRM_MESSAGE, args)) {
+            String[] args = new String[] { page.getFileName() };
+            if (!UIUtils.openConfirmDialog(INFO_ALREADY_EXISTS_OVER_WRITE, args)) {
                 return false;
             }
         }
 
-        try (FileOutputStream fos = new FileOutputStream(file);
-                OutputStreamWriter osw = new OutputStreamWriter(fos, page.getEncoding());
-                BufferedWriter bw = new BufferedWriter(osw);
-                PrintWriter pw = new PrintWriter(bw)) {
-            dialect.createDDL(root, pw);
-            pw.flush();
-            return true;
-        } catch (IOException e) {
-            Activator.logException(e);
-            UIUtils.openAlertDialog(Resource.WIZARD_GENERATE_DDL_ERROR_OUTPUT);
-            return false;
-        } finally {
+        ProgressMonitorDialog dialog = new ProgressMonitorDialog(
+                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+        try {
+            DDLWriterTask task = new DDLWriterTask(dialect, root, file, page.getEncoding());
+            dialog.run(true, true, task);
             UIUtils.projectRefresh();
+            return true;
+        } catch (InvocationTargetException e) {
+            ERDPlugin.logException(e);
+            UIUtils.openAlertDialog(ERROR_WIZARD_GENERATE_DDL_ERROR_OUTPUT);
+            return false;
+        } catch (InterruptedException e) {
+            ERDPlugin.logException(e);
+            UIUtils.openAlertDialog(ERROR_WIZARD_GENERATE_DDL_ERROR_OUTPUT);
+            return false;
         }
     }
 }

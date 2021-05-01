@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 
 /**
  * DialectProvider.
@@ -31,7 +31,7 @@ public enum DialectProvider {
     /** PostgreSQL. */
     PostgreSQL;
 
-    private static Map<String, IDialect> dialectMap = Activator.getDefault().getContributedDialects();
+    private static Map<String, IDialect> dialectMap = ERDPlugin.getDefault().getContributedDialects();
 
     public static List<String> getDialectNames() {
         return new ArrayList<>(dialectMap.keySet());

@@ -25,7 +25,7 @@ import io.github.erde.editor.diagram.model.BaseEntityModel;
  *
  * @author modified by parapata
  */
-public class AutoLayoutAction extends Action implements IERDEAction {
+public class AutoLayoutAction extends Action implements IERDAction {
 
     public AutoLayoutAction() {
         super();

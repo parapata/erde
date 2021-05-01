@@ -34,7 +34,7 @@ public class DescriptionTab extends Composite {
     }
 
     private void create(ITableEdit tableEdit) {
-        UIUtils.createLabel(this, DIALOG_TABLE_DESCRIPTION);
+        UIUtils.createLabel(this, LABEL_DESCRIPTION);
         txtTableDescription = new Text(this, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtTableDescription.setLayoutData(new GridData(GridData.FILL_BOTH));
         txtTableDescription.setText(tableEdit.getDescription());

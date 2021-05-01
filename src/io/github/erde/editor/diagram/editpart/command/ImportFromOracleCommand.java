@@ -1,7 +1,4 @@
-/**
- * Oracle Schema Loader
- */
-package io.github.erde.dialect.loader;
+package io.github.erde.editor.diagram.editpart.command;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -13,8 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.StringUtils;
@@ -23,31 +19,31 @@ import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
+import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 
 /**
- * OracleSchemaLoader.
+ * ImportFromOracleCommand.
  *
  * @author modified by parapata
  */
-public class OracleSchemaLoader extends DefaultSchemaLoader {
+public class ImportFromOracleCommand extends ImportFromJDBCCommand {
 
-    private Logger logger = LoggerFactory.getLogger(OracleSchemaLoader.class);
-
-    public OracleSchemaLoader(IDialect dialect, JDBCConnection jdbcConn) {
-        super(dialect, jdbcConn);
+    public ImportFromOracleCommand(RootModel root, JDBCConnection jdbcConn, List<String> importTableNames) {
+        super(root, jdbcConn, importTableNames);
     }
 
     @Override
-    public TableModel getTableInfo(Connection conn, String tableName) throws SQLException {
+    public TableModel createTableModel(Connection conn, String tableName, int i) throws SQLException {
 
-        String catalog = super.getCatalog();
-        String schema = super.getSchema();
+        JDBCConnection jdbcConn = getJDBCConnection();
+        String catalog = jdbcConn.getCatalog();
+        String schema = jdbcConn.getSchema();
 
         TableModel table = new TableModel();
         table.setPhysicalName(tableName);
 
-        if (isAutoConvert()) {
+        if (jdbcConn.isAutoConvert()) {
             table.setLogicalName(table.getPhysicalName());
         } else {
             table.setLogicalName(getTableComment(conn, tableName));
@@ -58,7 +54,7 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
         DatabaseMetaData meta = conn.getMetaData();
         IDialect dialect = getDialect();
         try (Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(dialect.getColumnMetadataSQL(getTableName(tableName, schema)));
+                ResultSet rs = stmt.executeQuery(dialect.getColumnMetadataSQL(getTableName(schema, tableName)));
                 ResultSet columns = meta.getColumns(catalog, schema, tableName, "%");) {
 
             ResultSetMetaData rm = rs.getMetaData();
@@ -74,10 +70,12 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
 
                 ColumnModel column = new ColumnModel();
                 column.setPhysicalName(columns.getString("COLUMN_NAME"));
-                if (isAutoConvert()) {
+                if (jdbcConn.isAutoConvert()) {
                     column.setLogicalName(column.getPhysicalName());
                 } else {
-                    column.setLogicalName(getColumnComment(conn, tableName, columns.getString("COLUMN_NAME")));
+                    String logicalName = getColumnComment(conn, jdbcConn.getSchema(), tableName,
+                            columns.getString("COLUMN_NAME"));
+                    column.setLogicalName(logicalName);
                 }
                 column.setColumnType(type);
                 column.setColumnSize(columns.getInt("COLUMN_SIZE"));
@@ -107,14 +105,21 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
         List<IndexModel> indices = loadIndexModels(conn, tableName, list);
         table.setIndices(indices);
 
+        logger.info("Import table : {}", table.getPhysicalName());
+
+        if (table.getConstraint() == null) {
+            table.setConstraint(new Rectangle(10 + i * 50, 10 + i * 50, -1, -1));
+        }
+
         return table;
     }
 
     @Override
-    protected List<IndexModel> loadIndexModels(Connection conn, String tableName, List<ColumnModel> columns)
+    public List<IndexModel> loadIndexModels(Connection conn, String tableName, List<ColumnModel> columns)
             throws SQLException {
 
-        List<IndexModel> result = getIndexInfo(conn, tableName);
+        JDBCConnection jdbcConn = getJDBCConnection();
+        List<IndexModel> result = getIndexInfo(conn, jdbcConn.getSchema(), tableName);
         List<IndexModel> removeIndexModels = new ArrayList<>();
         for (IndexModel indexModel : result) {
             List<String> pkColumns = new ArrayList<>();
@@ -150,7 +155,7 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
      * @return
      * @throws SQLException
      */
-    private List<IndexModel> getIndexInfo(Connection conn, String tableName) throws SQLException {
+    private List<IndexModel> getIndexInfo(Connection conn, String schemaName, String tableName) throws SQLException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT NULL                                     AS table_cat           ");
         query.append("    ,i.owner                                    AS table_schem         ");
@@ -168,7 +173,7 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
         query.append("FROM all_indexes     i                                                 ");
         query.append("    ,all_ind_columns c                                                 ");
         query.append("WHERE i.table_name    = ?                                              ");
-        if (StringUtils.isNotEmpty(getSchema())) {
+        if (StringUtils.isNotEmpty(schemaName)) {
             query.append("    AND i.owner         = ?                                            ");
         } else {
             query.append("    AND i.owner         = USER                                         ");
@@ -183,8 +188,8 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
 
         try (PreparedStatement pstmt = conn.prepareStatement(query.toString())) {
             pstmt.setString(1, tableName.toUpperCase());
-            if (StringUtils.isNotEmpty(getSchema())) {
-                pstmt.setString(2, getSchema().toUpperCase());
+            if (StringUtils.isNotEmpty(schemaName)) {
+                pstmt.setString(2, schemaName.toUpperCase());
             }
 
             ResultSet rs = pstmt.executeQuery();
@@ -216,32 +221,22 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
         }
     }
 
-    /**
-     * get Table's Name
-     *
-     * @param tabName
-     * @param schema
-     * @return
-     */
-    private String getTableName(String tabName, String schema) {
-        if (StringUtils.isNotEmpty(schema)) {
-            return schema + "." + tabName;
+    private String getTableName(String schemaName, String tableName) {
+        if (StringUtils.isNotEmpty(schemaName)) {
+            return String.format("%s.%s", schemaName, tableName);
         } else {
-            return tabName;
+            return tableName;
         }
     }
 
-    /**
-     * get Table's Comments
-     */
-    protected String getTableComment(Connection conn, String tableName)
-            throws SQLException {
+    private String getTableComment(Connection conn, String tableName) throws SQLException {
 
         String comment = tableName;
+        JDBCConnection jdbcConn = getJDBCConnection();
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT COMMENTS FROM ALL_TAB_COMMENTS WHERE TABLE_NAME = ? ");
-        if (StringUtils.isNotEmpty(getSchema())) {
+        if (StringUtils.isNotEmpty(jdbcConn.getSchema())) {
             query.append("AND OWNER = ?");
         } else {
             query.append("AND OWNER = USER");
@@ -249,8 +244,8 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
 
         try (PreparedStatement pstmt = conn.prepareStatement(query.toString())) {
             pstmt.setString(1, tableName.toUpperCase());
-            if (StringUtils.isNotEmpty(getSchema())) {
-                pstmt.setString(2, getSchema().toUpperCase());
+            if (StringUtils.isNotEmpty(jdbcConn.getSchema())) {
+                pstmt.setString(2, jdbcConn.getSchema().toUpperCase());
             }
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -261,25 +256,23 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
         }
     }
 
-    /**
-     * get Column's Comments
-     */
-    protected String getColumnComment(Connection conn, String tableName, String columnName) throws SQLException {
+    private String getColumnComment(Connection conn, String schemaName, String tableName, String columnName)
+            throws SQLException {
         String comment = columnName; // default
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT COMMENTS FROM ALL_COL_COMMENTS WHERE TABLE_NAME = ? AND COLUMN_NAME = ? ");
-        if (StringUtils.isNotEmpty(getSchema())) {
-            query.append("AND OWNER = ?");
-        } else {
+        if (StringUtils.isEmpty(schemaName)) {
             query.append("AND OWNER = USER");
+        } else {
+            query.append("AND OWNER = ?");
         }
 
         try (PreparedStatement pstmt = conn.prepareStatement(query.toString())) {
             pstmt.setString(1, tableName.toUpperCase());
             pstmt.setString(2, columnName.toUpperCase());
-            if (StringUtils.isNotEmpty(getSchema())) {
-                pstmt.setString(3, getSchema());
+            if (StringUtils.isNotEmpty(schemaName)) {
+                pstmt.setString(3, schemaName);
             }
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -289,4 +282,5 @@ public class OracleSchemaLoader extends DefaultSchemaLoader {
             }
         }
     }
+
 }

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.swt.FontDataWrapper;
 import io.github.erde.editor.diagram.editpart.command.CreateConnectionCommand;
 import io.github.erde.editor.diagram.editpart.command.CreateTableConnectionCommand;
@@ -198,7 +198,7 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         }
 
         if (model.isNotNull()
-                && Activator.getDefault().getPreferenceStore().getBoolean(ERDPreferenceKey.SHOW_NOT_NULL)) {
+                && ERDPlugin.getDefault().getPreferenceStore().getBoolean(ERDPreferenceKey.SHOW_NOT_NULL)) {
             lblNotNull.setText("(NN)");
         }
         return new ColumnFigure[] { lblColumnName, lblColumnType, lblNotNull };

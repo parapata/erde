@@ -34,7 +34,7 @@ class StringUtilsTest {
 
     @Test
     void join2Test() {
-        List<String> list = Arrays.asList(new String[] { "aaa", "bbb" });
+        List<String> list = Arrays.asList("aaa", "bbb");
         assertEquals(StringUtils.join(list, ","), "aaa,bbb");
     }
 

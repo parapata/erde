@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: io.github.erde;singleton:=true
-Bundle-Version: 1.0.14
-Bundle-Activator: io.github.erde.Activator
+Bundle-Version: 1.0.15
+Bundle-Activator: io.github.erde.ERDPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.ui.editors,

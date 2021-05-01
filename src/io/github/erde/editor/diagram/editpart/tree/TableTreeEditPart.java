@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart.FolderModel;
@@ -52,12 +52,12 @@ public class TableTreeEditPart extends DBTreeEditPart {
 
             // Image baseImage = Activator.getImage(baseImageKey);
             // drawImage(baseImage.getImageData(), 0, 0);
-            ImageDataProvider baseImageProvider = arg -> Activator.getImage(baseImageKey).getImageData();
+            ImageDataProvider baseImageProvider = arg -> ERDPlugin.getImage(baseImageKey).getImageData();
             drawImage(baseImageProvider, 0, 0);
 
             // Image overlayImage = Activator.getImage(overlayImageKey);
             // drawImage(overlayImage.getImageData(), 0, 8);
-            ImageDataProvider overlayImageProvider = arg -> Activator.getImage(overlayImageKey).getImageData();
+            ImageDataProvider overlayImageProvider = arg -> ERDPlugin.getImage(overlayImageKey).getImageData();
             drawImage(overlayImageProvider, 0, 0);
         }
 
@@ -69,7 +69,7 @@ public class TableTreeEditPart extends DBTreeEditPart {
 
     // Register overlay icons to ImageRegistery of DBPlugin.
     static {
-        ImageRegistry imageRegistry = Activator.getDefault().getImageRegistry();
+        ImageRegistry imageRegistry = ERDPlugin.getDefault().getImageRegistry();
         imageRegistry.put(IMAGE_TABLE_ERROR,
                 new OverlayImageDescriptor(ICON.TABLE.getPath(), ICON.OVERLAY_ERROR.getPath()));
         imageRegistry.put(IMAGE_TABLE_WARNING,
@@ -109,9 +109,9 @@ public class TableTreeEditPart extends DBTreeEditPart {
         setWidgetText(String.format("%s(%s)", model.getPhysicalName(), model.getLogicalName()));
 
         if (model.getError().isEmpty()) {
-            setWidgetImage(Activator.getImage(ICON.TABLE.getPath()));
+            setWidgetImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
         } else {
-            setWidgetImage(Activator.getImage(IMAGE_TABLE_WARNING));
+            setWidgetImage(ERDPlugin.getImage(IMAGE_TABLE_WARNING));
         }
 
         @SuppressWarnings("unchecked")

@@ -141,13 +141,13 @@ public class AttributeTab extends Composite {
         table.setLayout(new GridLayout(2, false));
         table.setLayoutData(UIUtils.createGridData(2));
 
-        UIUtils.createLabel(table, DIALOG_TABLE_TABLE_PYHGICAL_NAME);
+        UIUtils.createLabel(table, LABEL_PHYSICAL_TABLE_NAME);
         txtTablePyhgicalName = new Text(table, SWT.BORDER);
         txtTablePyhgicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTablePyhgicalName.setText(tableEdit.getPhysicalName());
         txtTablePyhgicalName.addModifyListener(event -> tableEdit.setPhysicalName(txtTablePyhgicalName.getText()));
 
-        UIUtils.createLabel(table, DIALOG_TABLE_TABLE_LOGICAL_NAME);
+        UIUtils.createLabel(table, LABEL_LOGICAL_TABLE_NAME);
         txtTableLogicalName = new Text(table, SWT.BORDER);
         txtTableLogicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTableLogicalName.setText(tableEdit.getLogicalName());
@@ -169,13 +169,13 @@ public class AttributeTab extends Composite {
         tblColumns.setHeaderVisible(true);
         tblColumns.addSelectionListener(columnListSelectionChanged);
 
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_PK, 55);
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_FK, 55);
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_PYHGICAL_NAME, 160);
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_LOGICAL_NAME, 160);
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_TYPE, 160);
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_NOT_NULL, 55);
-        UIUtils.createColumn(tblColumns, DIALOG_TABLE_COLUMN_UNIQUE, 55);
+        UIUtils.createColumn(tblColumns, LABEL_COLUMN_PK, 55);
+        UIUtils.createColumn(tblColumns, LABEL_COLUMN_FK, 55);
+        UIUtils.createColumn(tblColumns, LABEL_PYHGICAL_COLUMN_NAME, 160);
+        UIUtils.createColumn(tblColumns, LABEL_LOGICAL_COLUMN_NAME, 160);
+        UIUtils.createColumn(tblColumns, LABEL_TYPE, 160);
+        UIUtils.createColumn(tblColumns, LABEL_NOT_NULL, 55);
+        UIUtils.createColumn(tblColumns, LABEL_UNIQUE, 55);
 
         for (ColumnModel model : tableEdit.getColumns()) {
             TableItem item = new TableItem(tblColumns, SWT.NULL | SWT.FILL);
@@ -193,7 +193,7 @@ public class AttributeTab extends Composite {
 
         // -----
         btnAddColumn = new Button(buttons, SWT.PUSH);
-        btnAddColumn.setText(DIALOG_TABLE_ADD_COLUMN.getValue());
+        btnAddColumn.setText(LABEL_ADD.getValue());
         btnAddColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnAddColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -221,7 +221,7 @@ public class AttributeTab extends Composite {
 
         // -----
         btnRemoveColumn = new Button(buttons, SWT.PUSH);
-        btnRemoveColumn.setText(DIALOG_TABLE_REMOVE_COLUMN.getValue());
+        btnRemoveColumn.setText(LABEL_DELETE.getValue());
         btnRemoveColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnRemoveColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -245,7 +245,7 @@ public class AttributeTab extends Composite {
 
         // -----
         btnUpColumn = new Button(buttons, SWT.PUSH);
-        btnUpColumn.setText(DIALOG_TABLE_UP_COLUMN.getValue());
+        btnUpColumn.setText(LABEL_UP_COLUMN.getValue());
         btnUpColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnUpColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -262,7 +262,7 @@ public class AttributeTab extends Composite {
 
         // -----
         btnDownColumn = new Button(buttons, SWT.PUSH);
-        btnDownColumn.setText(DIALOG_TABLE_DOWN_COLUMN.getValue());
+        btnDownColumn.setText(LABEL_DOWN_COLUMN.getValue());
         btnDownColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnDownColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -281,7 +281,7 @@ public class AttributeTab extends Composite {
         // column infomation area
         // ------------------------------------------------------------
         Group group = new Group(this, SWT.NULL);
-        group.setText(DIALOG_TABLE_EDIT_COLUMN.getValue());
+        group.setText(LABEL_EDIT_COLUMN.getValue());
         group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         group.setLayout(new GridLayout(7, false));
 
@@ -293,26 +293,26 @@ public class AttributeTab extends Composite {
         checks.setLayoutData(UIUtils.createGridData(7));
 
         btnChkIsPK = new Button(checks, SWT.CHECK);
-        btnChkIsPK.setText(DIALOG_TABLE_EDIT_COLUMN_PK.getValue());
+        btnChkIsPK.setText(LABEL_COLUMN_PK.getValue());
         btnChkIsPK.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
         btnChkNotNull = new Button(checks, SWT.CHECK);
-        btnChkNotNull.setText(DIALOG_TABLE_EDIT_COLUMN_NOT_NULL.getValue());
+        btnChkNotNull.setText(LABEL_NOT_NULL.getValue());
         btnChkNotNull.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
         btnChkIsUnique = new Button(checks, SWT.CHECK);
-        btnChkIsUnique.setText(DIALOG_TABLE_EDIT_COLUMN_UNIQUE_KEY.getValue());
+        btnChkIsUnique.setText(LABEL_UNIQUE_KEY.getValue());
         btnChkIsUnique.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
         btnAutoIncrement = new Button(checks, SWT.CHECK);
-        btnAutoIncrement.setText(DIALOG_TABLE_EDIT_COLUMN_AUTO_INCREMENT.getValue());
+        btnAutoIncrement.setText(LABEL_AUTO_INCREMENT.getValue());
         btnAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_NAME);
+        UIUtils.createLabel(group, LABEL_PYHGICAL_COLUMN_NAME);
         txtColumnName = new Text(group, SWT.BORDER);
         GridData pyhgicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
         pyhgicalNameGridData.horizontalSpan = 6;
@@ -320,7 +320,7 @@ public class AttributeTab extends Composite {
         txtColumnName.addFocusListener(updateColumnInfoChanged);
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_LOGICAL_NAME);
+        UIUtils.createLabel(group, LABEL_LOGICAL_COLUMN_NAME);
         txtColumnLogicalName = new Text(group, SWT.BORDER);
         GridData logicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
         logicalNameGridData.horizontalSpan = 6;
@@ -328,7 +328,7 @@ public class AttributeTab extends Composite {
         txtColumnLogicalName.addFocusListener(updateColumnInfoChanged);
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_TYPE);
+        UIUtils.createLabel(group, LABEL_TYPE);
         cmbColumnType = new Combo(group, SWT.READ_ONLY);
         cmbColumnType.addSelectionListener(columnTypeSelectionChanged);
         for (DomainModel doman : domains) {
@@ -339,14 +339,14 @@ public class AttributeTab extends Composite {
         }
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_SIZE);
+        UIUtils.createLabel(group, LABEL_SIZE);
         txtColumnSize = new Text(group, SWT.BORDER);
         txtColumnSize.setLayoutData(UIUtils.createGridDataWithWidth(60));
         txtColumnSize.addFocusListener(updateColumnInfoChanged);
         txtColumnSize.addVerifyListener(new NumericVerifyListener());
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_DECIMAL);
+        UIUtils.createLabel(group, LABEL_DECIMAL);
         txtDecimal = new Text(group, SWT.BORDER);
         txtDecimal.setLayoutData(UIUtils.createGridDataWithWidth(60));
         txtDecimal.addFocusListener(updateColumnInfoChanged);
@@ -354,7 +354,7 @@ public class AttributeTab extends Composite {
 
         // -----
         btnChkUnsigned = new Button(group, SWT.CHECK);
-        btnChkUnsigned.setText(DIALOG_TABLE_EDIT_COLUMN_UNSIGNED.getValue());
+        btnChkUnsigned.setText(LABEL_UNSIGNED.getValue());
         btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
@@ -362,7 +362,7 @@ public class AttributeTab extends Composite {
         Composite enumArea = new Composite(group, SWT.NULL);
         enumArea.setLayout(new GridLayout(5, false));
         enumArea.setLayoutData(UIUtils.createGridData(6));
-        UIUtils.createLabel(enumArea, DIALOG_TABLE_EDIT_COLUMN_ENUM);
+        UIUtils.createLabel(enumArea, LABEL_ENUM_SET);
 
         GridData cmbEnumGridData = new GridData();
         cmbEnumGridData.widthHint = 160;
@@ -370,7 +370,7 @@ public class AttributeTab extends Composite {
         cmbEnum.setLayoutData(cmbEnumGridData);
 
         btnEnumEdit = new Button(enumArea, SWT.PUSH);
-        btnEnumEdit.setText(BUTTON_EDIT.getValue());
+        btnEnumEdit.setText(LABEL_EDIT.getValue());
         btnEnumEdit.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -386,7 +386,7 @@ public class AttributeTab extends Composite {
         });
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_EDIT_COLUMN_DEFAULT_VALUE);
+        UIUtils.createLabel(group, LABEL_DEFAULT_VALUE);
         txtDefaultValue = new Text(group, SWT.BORDER);
         GridData defaultValueGridData = new GridData(GridData.FILL_HORIZONTAL);
         defaultValueGridData.horizontalSpan = 6;
@@ -394,7 +394,7 @@ public class AttributeTab extends Composite {
         txtDefaultValue.addFocusListener(updateColumnInfoChanged);
 
         // -----
-        UIUtils.createLabel(group, DIALOG_TABLE_DESCRIPTION);
+        UIUtils.createLabel(group, LABEL_DESCRIPTION);
         txtColumnDescription = new Text(group, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtColumnDescription.setLayoutData(UIUtils.createGridDataWithColspan(6, 90));
         txtColumnDescription.addFocusListener(updateColumnInfoChanged);
@@ -600,6 +600,9 @@ public class AttributeTab extends Composite {
         } else {
             column.getEnumNames().clear();
         }
+        cmbEnum.setEnabled(columnType.isEnum());
+        btnEnumEdit.setEnabled(columnType.isEnum());
+
         if (columnType.isSizeSupported()) {
             Integer columnSize = column.getColumnSize();
             if (columnSize == null) {

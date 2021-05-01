@@ -46,7 +46,7 @@ public class ModelEditor {
             }
 
         } else if (model instanceof DomainModel) {
-            new DomainEditAction().run();
+            new DomainEditAction((DomainModel) model).run();
 
         } else if (model instanceof ColumnModel) {
             TableModel parent = null;

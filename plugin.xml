@@ -77,20 +77,4 @@
         </initializer>
     </extension>
 
-    <!--
-    <extension point="org.eclipse.ui.commands">
-        <command name="Quick Outline"
-            description="Quick Outline"
-            categoryId="org.eclipse.gef.category.view"
-            id="org.dbflute.erflute.quickOutline">
-        </command>
-    </extension>
-
-    <extension point="org.eclipse.ui.bindings">
-        <key sequence="Ctrl+O"
-            commandId="org.dbflute.erflute.quickOutline"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-    </extension>
-    -->
-
 </plugin>

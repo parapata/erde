@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 
 /**
  * GeneratorProvider.
@@ -26,7 +26,7 @@ public class GeneratorProvider {
             contributedGenerators = new ArrayList<>();
 
             IExtensionRegistry registry = Platform.getExtensionRegistry();
-            IExtensionPoint point = registry.getExtensionPoint(Activator.PLUGIN_ID + ".generators");
+            IExtensionPoint point = registry.getExtensionPoint(ERDPlugin.PLUGIN_ID + ".generators");
             IExtension[] extensions = point.getExtensions();
 
             for (IExtension extension : extensions) {
@@ -38,7 +38,7 @@ public class GeneratorProvider {
                             contributedGenerators.add(generator);
                         }
                     } catch (Exception e) {
-                        Activator.logException(e);
+                        ERDPlugin.logException(e);
                     }
                 }
             }
