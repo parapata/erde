@@ -27,13 +27,13 @@ import io.github.erde.editor.diagram.model.ColumnModel;
  *
  * @author modified by parapata
  */
-public class ColumnSelectDialog extends Dialog {
+public class IndexColumnSelectDialog extends Dialog {
 
     private List<ColumnModel> columns;
     private List<ColumnModel> selectedColumns;
     private TableViewer viewer;
 
-    public ColumnSelectDialog(Shell parentShell, List<ColumnModel> columns) {
+    public IndexColumnSelectDialog(Shell parentShell, List<ColumnModel> columns) {
         super(parentShell);
         this.columns = columns;
     }
@@ -46,14 +46,14 @@ public class ColumnSelectDialog extends Dialog {
     @Override
     protected Control createDialogArea(Composite parent) {
 
-        getShell().setText(DIALOG_COLUMN_SELECT_TITLE.getValue());
+        getShell().setText(DIALOG_INDEX_COLUMN_SELECT_TITLE.getValue());
         viewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER);
         Table table = viewer.getTable();
         table.setLinesVisible(true);
         table.setHeaderVisible(true);
 
-        UIUtils.createColumn(table, DIALOG_TABLE_COLUMN_PYHGICAL_NAME, 200);
-        UIUtils.createColumn(table, DIALOG_TABLE_COLUMN_TYPE, 200);
+        UIUtils.createColumn(table, LABEL_PYHGICAL_COLUMN_NAME, 200);
+        UIUtils.createColumn(table, LABEL_TYPE, 200);
 
         viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         viewer.setContentProvider(new ArrayContentProvider());

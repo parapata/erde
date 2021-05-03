@@ -58,7 +58,7 @@ public class EnumEditDialog extends Dialog {
     protected Control createDialogArea(Composite parent) {
 
         Shell shell = getShell();
-        shell.setText("Enum設定");
+        shell.setText(DIALOG_ENUM_TITLE.getValue());
         shell.setLayout(new FillLayout());
 
         viewer = new TableViewer(parent,
@@ -73,7 +73,7 @@ public class EnumEditDialog extends Dialog {
 
         // カラムを設定
         TableColumn column = new TableColumn(table, SWT.LEFT);
-        column.setText("名前");
+        column.setText(LABEL_VALUE.getValue());
         column.setWidth(360);
 
         // 行データを追加

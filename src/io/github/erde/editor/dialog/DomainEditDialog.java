@@ -71,7 +71,7 @@ public class DomainEditDialog extends Dialog {
         setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX | SWT.MIN);
         for (DomainModel model : rootModel.getDomains()) {
             DomainModel clonedModel = model.clone();
-            if (editDomain != null && model == editDomain) {
+            if (editDomain != null && StringUtils.equals(model.getId(), editDomain.getId())) {
                 editingModel = clonedModel;
             }
             domainModels.add(clonedModel);
@@ -95,9 +95,17 @@ public class DomainEditDialog extends Dialog {
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         createTableArea(composite);
+        if (editingModel != null) {
+            int i = 0;
+            for (DomainModel model : domainModels) {
+                if (StringUtils.equals(model.getId(), editingModel.getId())) {
+                    viewer.getTable().setSelection(i);
+                    break;
+                }
+                i++;
+            }
+        }
         createEditArea(composite);
-
-        editingModel = null;
 
         return composite;
     }
@@ -109,9 +117,10 @@ public class DomainEditDialog extends Dialog {
         table.setHeaderVisible(true);
         table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        UIUtils.createColumn(table, DIALOG_DOMAIN_NAME, 250);
-        UIUtils.createColumn(table, DIALOG_DOMAIN_TYPE, 200);
-        UIUtils.createColumn(table, DIALOG_DOMAIN_UNSIGNED, 100);
+        UIUtils.createColumn(table, LABEL_ID, 0);
+        UIUtils.createColumn(table, LABEL_DOMAIN_NAME, 250);
+        UIUtils.createColumn(table, LABEL_TYPE, 200);
+        UIUtils.createColumn(table, LABEL_UNSIGNED, 100);
 
         viewer.setContentProvider(new ArrayContentProvider());
         viewer.setLabelProvider(new ITableLabelProvider() {
@@ -126,9 +135,12 @@ public class DomainEditDialog extends Dialog {
                 String value = null;
                 switch (columnIndex) {
                     case 0:
-                        value = model.getDomainName();
+                        value = model.getId();
                         break;
                     case 1:
+                        value = model.getDomainName();
+                        break;
+                    case 2:
                         value = model.getPhysicalName();
                         List<String> args = new ArrayList<>();
                         if (model.isSizeSupported() && model.getColumnSize() != null) {
@@ -141,7 +153,7 @@ public class DomainEditDialog extends Dialog {
                             value = String.format("%s(%s)", value, String.join(",", args));
                         }
                         break;
-                    case 2:
+                    case 3:
                         value = model.isUnsigned() ? Boolean.TRUE.toString() : "";
                         break;
                     default:
@@ -183,13 +195,13 @@ public class DomainEditDialog extends Dialog {
         buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
         btnAddButton = new Button(buttons, SWT.PUSH);
-        btnAddButton.setText(DIALOG_DOMAIN_ADD_DOMAIN.getValue());
+        btnAddButton.setText(LABEL_ADD.getValue());
         btnAddButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnAddButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 IColumnType defaultType = dialect.getDefaultColumnType();
-                String domainName = String.format("%s_%d", DIALOG_DOMAIN_NAME.getValue(), domainModels.size() + 1);
+                String domainName = String.format("%s_%d", LABEL_DOMAIN_NAME.getValue(), domainModels.size() + 1);
 
                 DomainModel domain = DomainModel.newInstance(rootModel.getDialectProvider(), null, domainName,
                         defaultType, null, null, false);
@@ -200,7 +212,7 @@ public class DomainEditDialog extends Dialog {
 
         // ----------
         btnRemoveButton = new Button(buttons, SWT.PUSH);
-        btnRemoveButton.setText(DIALOG_DOMAIN_REMOVE_DOMAIN.getValue());
+        btnRemoveButton.setText(LABEL_DELETE.getValue());
         btnRemoveButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnRemoveButton.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -216,7 +228,7 @@ public class DomainEditDialog extends Dialog {
                             for (ColumnModel column : table.getColumns()) {
                                 if (column.getColumnType().isDomain()
                                         && domain.getId().equals(((DomainModel) column.getColumnType()).getId())) {
-                                    UIUtils.openAlertDialog(DIALOG_ALERT_DOMAIN_DELETE_ERROR);
+                                    UIUtils.openAlertDialog(ERROR_DIALOG_ALERT_DOMAIN_DELETE_ERROR);
                                     return;
                                 }
                             }
@@ -241,7 +253,7 @@ public class DomainEditDialog extends Dialog {
         editArea.setLayoutData(UIUtils.createGridData(2));
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(DIALOG_DOMAIN_EDIT_DOMAIN_NAME.getValue());
+        new Label(editArea, SWT.NULL).setText(LABEL_DOMAIN_NAME.getValue());
         txtDomainName = new Text(editArea, SWT.BORDER);
         txtDomainName.setLayoutData(UIUtils.createGridData(6));
         txtDomainName.addFocusListener(new FocusAdapter() {
@@ -252,7 +264,7 @@ public class DomainEditDialog extends Dialog {
         });
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(DIALOG_DOMAIN_EDIT_DOMAIN_TYPE.getValue());
+        new Label(editArea, SWT.NULL).setText(LABEL_TYPE.getValue());
         cmbColumnType = new Combo(editArea, SWT.READ_ONLY);
         for (int i = 0; i < dialect.getColumnTypes().size(); i++) {
             cmbColumnType.add(dialect.getColumnTypes().get(i).toString());
@@ -268,7 +280,7 @@ public class DomainEditDialog extends Dialog {
         cmbColumnType.setLayoutData(UIUtils.createGridData(1));
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(DIALOG_DOMAIN_EDIT_DOMAIN_SIZE.getValue());
+        new Label(editArea, SWT.NULL).setText(LABEL_SIZE.getValue());
         txtColumnSize = new Text(editArea, SWT.BORDER);
         txtColumnSize.addFocusListener(new FocusAdapter() {
             @Override
@@ -281,7 +293,7 @@ public class DomainEditDialog extends Dialog {
         txtColumnSize.setLayoutData(columnSizeGrid);
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(DIALOG_DOMAIN_EDIT_DOMAIN_DECIMAL.getValue());
+        new Label(editArea, SWT.NULL).setText(LABEL_DECIMAL.getValue());
         txtDecimalSize = new Text(editArea, SWT.BORDER);
         txtDecimalSize.addFocusListener(new FocusAdapter() {
             @Override
@@ -297,7 +309,7 @@ public class DomainEditDialog extends Dialog {
         btnChkUnsigned = new Button(editArea, SWT.CHECK);
         GridData unsignedGrid = new GridData();
         btnChkUnsigned.setLayoutData(unsignedGrid);
-        btnChkUnsigned.setText(DIALOG_DOMAIN_EDIT_DOMAIN_UNSIGNED.getValue());
+        btnChkUnsigned.setText(LABEL_UNSIGNED.getValue());
         btnChkUnsigned.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {

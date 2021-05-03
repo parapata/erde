@@ -5,7 +5,7 @@ import java.beans.PropertyChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
 import io.github.erde.editor.diagram.model.IndexModel;
 
@@ -22,7 +22,7 @@ public class IndexTreeEditPart extends DBTreeEditPart {
     protected void refreshVisuals() {
         IndexModel model = (IndexModel) getModel();
         setWidgetText(model.toString());
-        setWidgetImage(Activator.getImage(ICON.INDEX.getPath()));
+        setWidgetImage(ERDPlugin.getImage(ICON.INDEX.getPath()));
     }
 
     @Override

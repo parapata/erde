@@ -34,9 +34,9 @@ public class ImportFromJDBCWizard extends Wizard {
 
     public ImportFromJDBCWizard(GraphicalViewer viewer) {
         super();
+        setWindowTitle(WIZARD_IMPORT_FROM_JDBC_DIALOG_TITLE.getValue());
         this.viewer = viewer;
         setNeedsProgressMonitor(true);
-        setWindowTitle(WIZARD_NEW_IMPORT_TITLE.getValue());
     }
 
     @Override

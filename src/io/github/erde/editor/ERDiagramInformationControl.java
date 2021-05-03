@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.editpart.tree.DBTreeEditPartFactory;
+import io.github.erde.editor.diagram.editpart.tree.FolderTreeEditPart;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.IModel;
 
@@ -125,8 +126,8 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         viewer.getControl().addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.keyCode == SWT.CR) {
+            public void keyReleased(KeyEvent event) {
+                if (event.keyCode == SWT.CR) {
                     selectAndDispose();
                 }
             }
@@ -148,8 +149,10 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
 
         if (!selected.isEmpty()) {
             EditPart editPart = (EditPart) selected.get(0);
-            IModel model = (IModel) editPart.getModel();
-            modelEditor.editModel(model);
+            if (!(editPart instanceof FolderTreeEditPart)) {
+                IModel model = (IModel) editPart.getModel();
+                modelEditor.editModel(model);
+            }
         }
     }
 

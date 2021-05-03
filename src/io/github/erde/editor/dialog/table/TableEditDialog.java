@@ -98,7 +98,7 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         new DescriptionTab(this, tabFolder);
 
         // Index tab
-        //new IndexTabCreator(this, tabFolder, editIndexIndex, indexEditing, editTable.getPhysicalName());
+        // new IndexTabCreator(this, tabFolder, editIndexIndex, indexEditing, editTable.getPhysicalName());
         new IndexTab(this, tabFolder, editIndexIndex, indexEditing);
 
         return tabFolder;

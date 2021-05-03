@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -60,10 +59,9 @@ public class TableLoaderTask implements IRunnableWithProgress {
             }
 
             DatabaseMetaData meta = conn.getMetaData();
-            String productName = meta.getDatabaseProductName();
+            // String productName = meta.getDatabaseProductName();
 
             try (ResultSet rs = meta.getTables(catalog, schema, "%", types)) {
-                AtomicInteger i = new AtomicInteger();
                 while (rs.next()) {
                     if (monitor.isCanceled()) {
                         throw new InterruptedException();
@@ -90,13 +88,13 @@ public class TableLoaderTask implements IRunnableWithProgress {
                 }
             }
         } catch (SQLException e) {
-            throw new InterruptedException(e.getMessage());
+            throw new InvocationTargetException(e);
         } finally {
             monitor.done();
         }
     }
 
     public List<String> getTableNames() {
-        return tableNames;
+        return tableNames == null ? new ArrayList<>() : tableNames;
     }
 }

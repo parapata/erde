@@ -1,4 +1,5 @@
 package io.github.erde.editor.dialog;
+import static io.github.erde.Resource.*;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -20,15 +21,15 @@ import io.github.erde.sqleditor.SQLConfiguration;
 import io.github.erde.sqleditor.SQLPartitionScanner;
 
 /**
- * DDLDisplayDialog.
+ * SqlViewerDialog.
  *
  * @author modified by parapata
  */
-public class DDLDisplayDialog extends Dialog {
+public class SqlViewerDialog extends Dialog {
 
     private String ddl;
 
-    public DDLDisplayDialog(Shell parentShell, String ddl) {
+    public SqlViewerDialog(Shell parentShell, String ddl) {
         super(parentShell);
         this.ddl = ddl;
         setShellStyle(getShellStyle() | SWT.TITLE | SWT.RESIZE | SWT.MAX | SWT.MIN);
@@ -41,7 +42,7 @@ public class DDLDisplayDialog extends Dialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText("DDL");
+        getShell().setText(DIALOG_SQL_VIEWER_TITLE.getValue());
 
         SourceViewer sqlEditor = new SourceViewer(parent, new VerticalRuler(0), SWT.V_SCROLL | SWT.H_SCROLL);
         sqlEditor.configure(new SQLConfiguration());

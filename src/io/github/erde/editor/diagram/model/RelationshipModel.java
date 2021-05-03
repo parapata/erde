@@ -92,7 +92,7 @@ public class RelationshipModel extends BaseConnectionModel {
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
         List<IPropertyDescriptor> descriptoes = new ArrayList<>();
-        descriptoes.add(new TextPropertyDescriptor(P_FOREIGN_KEY_NAME, PROPERTY_FOREIGN_KEY_NAME.getValue()));
+        descriptoes.add(new TextPropertyDescriptor(P_FOREIGN_KEY_NAME, LABEL_FOREIGN_KEY_NAME.getValue()));
         return descriptoes.toArray(new IPropertyDescriptor[descriptoes.size()]);
     }
 

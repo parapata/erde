@@ -1,9 +1,10 @@
 package io.github.erde.wizard;
 
+import static io.github.erde.Resource.*;
+
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.wizard.Wizard;
 
-import io.github.erde.Resource;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
@@ -26,7 +27,7 @@ public class ChangeDialectWizard extends Wizard {
     private ChangeDialectWizardPage page;
 
     public ChangeDialectWizard(CommandStack commandStack, RootModel rootModel) {
-        setWindowTitle(Resource.WIZARD_CHANGEDB_TITLE.getValue());
+        setWindowTitle(WIZARD_CHANGEDB_DIALOG_TITLE.getValue());
         this.commandStack = commandStack;
         this.root = rootModel;
     }
@@ -52,7 +53,6 @@ public class ChangeDialectWizard extends Wizard {
                     table.setColumns(table.getColumns());
                 }
             }
-
             root.setDialectProvider(DialectProvider.valueOf(dialectName));
             commandStack.execute(new ChangeDBTypeCommand());
         }

@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
@@ -126,14 +126,14 @@ public class OracleDialect extends AbstractDialect {
                 TableModel table = (TableModel) entity;
                 String tableName = table.getPhysicalName();
                 if (tableName.length() > 30) {
-                    deManager.addError(Activator.LEVEL_ERROR,
+                    deManager.addError(ERDPlugin.LEVEL_ERROR,
                             table, VALIDATION_ERROR_ORACLE_TABLE_NAME_LENGTH.getValue());
                 }
 
                 for (ColumnModel column : table.getColumns()) {
                     String columnName = column.getPhysicalName();
                     if (columnName.length() > 30) {
-                        deManager.addError(Activator.LEVEL_ERROR, table, column,
+                        deManager.addError(ERDPlugin.LEVEL_ERROR, table, column,
                                 VALIDATION_ERROR_ORACLE_COLUMN_NAME_LENGTH.getValue());
                     }
                 }
@@ -141,7 +141,7 @@ public class OracleDialect extends AbstractDialect {
                 for (IndexModel index : table.getIndices()) {
                     String indexName = index.getIndexName();
                     if (indexName.length() > 30) {
-                        deManager.addError(Activator.LEVEL_ERROR, table, index,
+                        deManager.addError(ERDPlugin.LEVEL_ERROR, table, index,
                                 VALIDATION_ERROR_ORACLE_INDEX_NAME_LENGTH.getValue());
                     }
                 }

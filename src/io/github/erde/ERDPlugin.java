@@ -33,12 +33,16 @@ import io.github.erde.sqleditor.EditorColorProvider;
  *
  * @author modified by parapata
  */
-public class Activator extends AbstractUIPlugin {
+public class ERDPlugin extends AbstractUIPlugin {
 
-    public static final String PLUGIN_ID = Activator.class.getPackageName();
+    public static final String PLUGIN_ID = ERDPlugin.class.getPackageName();
+
+    public static final String DICTIONARY_TXT = "/io/github/erde/dictionary.txt";
 
     public static final String EXTENSION_ERDE = ".ere";
     public static final String EXTENSION_DDL = ".ddl";
+    public static final String EXTENSION_XLSX = ".xlsx";
+    public static final String EXTENSION_PNG = ".png";
 
     // validation levels
     public static final String LEVEL_ERROR = "ERROR";
@@ -46,12 +50,12 @@ public class Activator extends AbstractUIPlugin {
     public static final String LEVEL_IGNORE = "IGNORE";
 
     // The shared instance.
-    private static Activator plugin;
+    private static ERDPlugin plugin;
 
     /**
      * Returns the shared instance.
      */
-    public static Activator getDefault() {
+    public static ERDPlugin getDefault() {
         return plugin;
     }
 
@@ -73,7 +77,7 @@ public class Activator extends AbstractUIPlugin {
      * Created <code>Image</code> is cached by the <code>ImageRegistry</code>. If <code>ImageRegistry</code> already has
      * cached <code>Image</code>, this method returns cached <code>Image</code>.
      * <p>
-     * Cached images are disposed at {@link Activator#stop(BundleContext)}.
+     * Cached images are disposed at {@link ERDPlugin#stop(BundleContext)}.
      *
      * @param path
      * @return
@@ -113,7 +117,7 @@ public class Activator extends AbstractUIPlugin {
     /**
      * The constructor.
      */
-    public Activator() {
+    public ERDPlugin() {
         plugin = this;
     }
 

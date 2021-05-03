@@ -184,8 +184,8 @@ public class TableModel extends BaseEntityModel implements ITableEdit {
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
         return new IPropertyDescriptor[] {
-                new TextPropertyDescriptor(P_TABLE_NAME, PROPERTY_PHYSICAL_TABLE_NAME.getValue()),
-                new TextPropertyDescriptor(P_LOGICAL_NAME, PROPERTY_LOGICAL_TABLE_NAME.getValue()),
+                new TextPropertyDescriptor(P_TABLE_NAME, LABEL_PHYSICAL_TABLE_NAME.getValue()),
+                new TextPropertyDescriptor(P_LOGICAL_NAME, LABEL_LOGICAL_TABLE_NAME.getValue()),
                 new ColorPropertyDescriptor(P_BACKGROUND_COLOR, PROPERTY_BACKGROUND_COLOR.getValue()) };
     }
 

@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
@@ -68,7 +68,7 @@ public class DiagramValidator {
 
     private void validateTable(DiagramErrorManager deManager, RootModel root, TableModel table) {
 
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        IPreferenceStore store = ERDPlugin.getDefault().getPreferenceStore();
 
         // Validates TableModel
         String tableName = table.getPhysicalName();

@@ -17,7 +17,7 @@ import io.github.erde.generate.IGenerator;
  *
  * @author modified by parapata
  */
-public class GenerateAction extends Action implements IERDEAction {
+public class GenerateAction extends Action implements IERDAction {
 
     private IGenerator generater;
     private ERDiagramEditor editor;
@@ -36,7 +36,7 @@ public class GenerateAction extends Action implements IERDEAction {
         if (editor.isDirty()) {
             if (MessageDialog.openConfirm(editor.getSite().getShell(),
                     DIALOG_CONFIRM_TITLE.getValue(),
-                    MESSAGE_SAVE_BEFORE_EXECUTE.getValue())) {
+                    INFO_SAVE_BEFORE_EXECUTE.getValue())) {
                 editor.doSave(new NullProgressMonitor());
             } else {
                 return;

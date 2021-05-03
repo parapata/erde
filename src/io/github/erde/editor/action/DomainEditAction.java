@@ -18,7 +18,7 @@ import io.github.erde.editor.dialog.DomainEditDialog;
  *
  * @author modified by parapata
  */
-public class DomainEditAction extends Action implements IERDEAction {
+public class DomainEditAction extends Action implements IERDAction {
 
     private DomainModel editDomain;
 

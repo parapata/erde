@@ -70,11 +70,11 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
 import io.github.erde.core.exception.SystemException;
 import io.github.erde.editor.action.CopyAction;
-import io.github.erde.editor.action.IERDEAction;
+import io.github.erde.editor.action.IERDAction;
 import io.github.erde.editor.action.PasteAction;
 import io.github.erde.editor.action.QuickOutlineAction;
 import io.github.erde.editor.action.ToggleModelAction;
@@ -111,7 +111,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         super();
         setEditDomain(new DefaultEditDomain(this));
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-        Activator.getDefault().getPreferenceStore().addPropertyChangeListener(this);
+        ERDPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(this);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
 
         PrintAction printAction = new PrintAction(this);
         printAction.setText(ACTION_PRINT.getValue());
-        printAction.setImageDescriptor(Activator.getImageDescriptor(ICON.PRINT.getPath()));
+        printAction.setImageDescriptor(ERDPlugin.getImageDescriptor(ICON.PRINT.getPath()));
         registry.registerAction(printAction);
 
         // 整列アクションの作成
@@ -256,15 +256,15 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
 
         // Cut:Ctrl+O
         handler.put(KeyStroke.getPressed((char) 15, 'o', SWT.CTRL),
-                registry.getAction(IERDEAction.QUICK_OUTLINE));
+                registry.getAction(IERDAction.QUICK_OUTLINE));
 
         // Cut:Ctrl+D
         handler.put(KeyStroke.getPressed((char) 4, 'd', SWT.CTRL),
-                registry.getAction(IERDEAction.TOGGLE_MODEL));
+                registry.getAction(IERDAction.TOGGLE_MODEL));
 
         // Cut:Ctrl+F
         handler.put(KeyStroke.getPressed((char) 6, 'f', SWT.CTRL),
-                registry.getAction(IERDEAction.TOGGLE_NOTATION));
+                registry.getAction(IERDAction.TOGGLE_NOTATION));
 
         // Zoom:+
         handler.put(KeyStroke.getPressed('+', SWT.KEYPAD_ADD, 0),
@@ -309,7 +309,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
             zoomManager.setZoom(root.getZoom());
 
         } catch (Exception e) {
-            Activator.logException(e);
+            ERDPlugin.logException(e);
             throw new SystemException(e);
         }
         viewer.setContents(root);
@@ -324,7 +324,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 
         // Validate models
-        if (Activator.getDefault().getPreferenceStore().getBoolean(ERDPreferenceKey.VALIDATE_ON_SAVE)) {
+        if (ERDPlugin.getDefault().getPreferenceStore().getBoolean(ERDPreferenceKey.VALIDATE_ON_SAVE)) {
             try {
                 file.deleteMarkers(IMarker.PROBLEM, false, 0);
                 DiagramErrorManager deManager = new DiagramValidator(model).doValidate();
@@ -332,7 +332,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
                     error.addMarker(file);
                 }
             } catch (CoreException e) {
-                Activator.logException(e);
+                ERDPlugin.logException(e);
             }
         }
 
@@ -341,7 +341,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
             ERDiagramSerializer es = new ERDiagramSerializer();
             file.setContents(es.write(model), true, true, monitor);
         } catch (Exception e) {
-            Activator.logException(e);
+            ERDPlugin.logException(e);
             throw new RuntimeException(e);
         }
         getCommandStack().markSaveLocation();
@@ -435,7 +435,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     public void dispose() {
         logger.info("Call dispose");
         ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-        Activator.getDefault().getPreferenceStore().removePropertyChangeListener(this);
+        ERDPlugin.getDefault().getPreferenceStore().removePropertyChangeListener(this);
         super.dispose();
     }
 
@@ -450,7 +450,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     private PaletteEntry createConnectionEntry(String itemName, Class<?> clazz, String icon) {
         ImageDescriptor image = null;
         if (icon != null) {
-            image = Activator.getImageDescriptor(icon);
+            image = ERDPlugin.getImageDescriptor(icon);
         }
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(itemName, itemName,
                 new SimpleFactory(clazz), image, image);
@@ -469,7 +469,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     private PaletteEntry createEntityEntry(String itemName, Class<?> clazz, String icon) {
         ImageDescriptor image = null;
         if (icon != null) {
-            image = Activator.getImageDescriptor(icon);
+            image = ERDPlugin.getImageDescriptor(icon);
         }
         CreationToolEntry entry = new CreationToolEntry(itemName, itemName, new SimpleFactory(clazz), image, image);
 
@@ -489,7 +489,7 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
                     ERDiagramSerializer es = new ERDiagramSerializer();
                     newRoot = es.read(file.getContents());
                 } catch (Exception e) {
-                    Activator.logException(e);
+                    ERDPlugin.logException(e);
                     return;
                 }
 
@@ -498,13 +498,13 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
                 root.copyFrom(newRoot);
 
             } catch (Exception e) {
-                Activator.logException(e);
+                ERDPlugin.logException(e);
             }
         }
     }
 
     private void applyPreferences() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        IPreferenceStore store = ERDPlugin.getDefault().getPreferenceStore();
 
         GraphicalViewer viewer = getGraphicalViewer();
         viewer.setProperty(SnapToGrid.PROPERTY_GRID_VISIBLE,

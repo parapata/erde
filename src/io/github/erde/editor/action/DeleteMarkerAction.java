@@ -12,7 +12,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.RootModel;
@@ -23,7 +23,7 @@ import io.github.erde.editor.diagram.model.TableModel;
  *
  * @author modified by parapata
  */
-public class DeleteMarkerAction extends Action implements IERDEAction {
+public class DeleteMarkerAction extends Action implements IERDAction {
 
     public DeleteMarkerAction() {
         super();
@@ -36,7 +36,7 @@ public class DeleteMarkerAction extends Action implements IERDEAction {
 
         GraphicalViewer viewer = getGraphicalViewer();
 
-        CommandStack stack = getCommandStack2();
+        CommandStack stack = getERDCommandStack();
         stack.execute(new Command("Delete markers") {
             @Override
             public void execute() {
@@ -60,7 +60,7 @@ public class DeleteMarkerAction extends Action implements IERDEAction {
             try {
                 file.deleteMarkers(IMarker.PROBLEM, false, 0);
             } catch (CoreException e) {
-                Activator.logException(e);
+                ERDPlugin.logException(e);
             }
         }
     }

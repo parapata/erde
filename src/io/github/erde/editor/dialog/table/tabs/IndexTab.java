@@ -29,8 +29,8 @@ import io.github.erde.dialect.type.IIndexType;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
-import io.github.erde.editor.dialog.table.ColumnSelectDialog;
 import io.github.erde.editor.dialog.table.ITableEdit;
+import io.github.erde.editor.dialog.table.IndexColumnSelectDialog;
 
 /**
  * IndexTabCreator.
@@ -115,7 +115,7 @@ public class IndexTab extends Composite {
         indexButtons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
         btnAddIndex = new Button(indexButtons, SWT.PUSH);
-        btnAddIndex.setText(DIALOG_TABLE_ADD_INDEX.getValue());
+        btnAddIndex.setText(LABEL_ADD.getValue());
         btnAddIndex.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnAddIndex.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -131,7 +131,7 @@ public class IndexTab extends Composite {
         });
 
         btnRemoveIndex = new Button(indexButtons, SWT.PUSH);
-        btnRemoveIndex.setText(DIALOG_TABLE_REMOVE_INDEX.getValue());
+        btnRemoveIndex.setText(LABEL_DELETE.getValue());
         btnRemoveIndex.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnRemoveIndex.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -144,7 +144,7 @@ public class IndexTab extends Composite {
             }
         });
 
-        new Label(composite, SWT.NULL).setText(DIALOG_TABLE_EDIT_INDEX_INDEX_TYPE.getValue());
+        new Label(composite, SWT.NULL).setText(LABEL_INDEX_TYPE.getValue());
         cmbIndexType = new Combo(composite, SWT.READ_ONLY);
         for (IIndexType type : tableEdit.getDialect().getIndexTypes()) {
             cmbIndexType.add(type.getName());
@@ -159,7 +159,7 @@ public class IndexTab extends Composite {
             }
         });
 
-        new Label(composite, SWT.NULL).setText(DIALOG_TABLE_EDIT_INDEX_INDEX_NAME.getValue());
+        new Label(composite, SWT.NULL).setText(LABEL_INDEX_NAME.getValue());
         txtIndexName = new Text(composite, SWT.BORDER);
         txtIndexName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtIndexName.addFocusListener(new FocusAdapter() {
@@ -174,7 +174,7 @@ public class IndexTab extends Composite {
 
     private void createIndexColumnListArea(Shell shell, Composite composite) {
         Group indexColumnGroup = new Group(composite, SWT.NULL);
-        indexColumnGroup.setText(DIALOG_TABLE_EDIT_INDEX_INDEX_COLUMNS.getValue());
+        indexColumnGroup.setText(LABEL_INDEX_COLUMNS.getValue());
         indexColumnGroup.setLayout(new GridLayout(2, false));
         indexColumnGroup.setLayoutData(UIUtils.createGridData(3, GridData.FILL_BOTH));
 
@@ -194,7 +194,7 @@ public class IndexTab extends Composite {
 
         btnAddColumn = new Button(indexColumnButtons, SWT.PUSH);
         btnAddColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        btnAddColumn.setText(DIALOG_TABLE_ADD_COLUMN.getValue());
+        btnAddColumn.setText(LABEL_ADD.getValue());
         btnAddColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -205,7 +205,7 @@ public class IndexTab extends Composite {
                         .filter(predicate -> !selectedList.contains(predicate.getPhysicalName()))
                         .collect(Collectors.toList());
 
-                ColumnSelectDialog dialog = new ColumnSelectDialog(shell, items);
+                IndexColumnSelectDialog dialog = new IndexColumnSelectDialog(shell, items);
                 if (dialog.open() == Window.OK) {
                     dialog.getSelectedColumns().forEach(column -> {
                         String columnName = column.getPhysicalName();
@@ -221,7 +221,7 @@ public class IndexTab extends Composite {
 
         btnRemoveColumn = new Button(indexColumnButtons, SWT.PUSH);
         btnRemoveColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        btnRemoveColumn.setText(DIALOG_TABLE_REMOVE_COLUMN.getValue());
+        btnRemoveColumn.setText(LABEL_DELETE.getValue());
         btnRemoveColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -238,7 +238,7 @@ public class IndexTab extends Composite {
         });
 
         btnUpColumn = new Button(indexColumnButtons, SWT.PUSH);
-        btnUpColumn.setText(DIALOG_TABLE_UP_COLUMN.getValue());
+        btnUpColumn.setText(LABEL_UP_COLUMN.getValue());
         btnUpColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnUpColumn.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -259,7 +259,7 @@ public class IndexTab extends Composite {
         });
 
         btnDownColumn = new Button(indexColumnButtons, SWT.PUSH);
-        btnDownColumn.setText(DIALOG_TABLE_DOWN_COLUMN.getValue());
+        btnDownColumn.setText(LABEL_DOWN_COLUMN.getValue());
         btnDownColumn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         btnDownColumn.addSelectionListener(new SelectionAdapter() {
             @Override

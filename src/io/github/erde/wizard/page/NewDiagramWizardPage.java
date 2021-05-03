@@ -1,5 +1,7 @@
 package io.github.erde.wizard.page;
 
+import static io.github.erde.Resource.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -17,8 +19,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
-import io.github.erde.Activator;
-import io.github.erde.Resource;
+import io.github.erde.ERDPlugin;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.figure.connection.decoration.DecorationFactory;
 import io.github.erde.editor.persistent.diagram.ErdeXmlModel;
@@ -31,15 +32,16 @@ import io.github.erde.editor.persistent.diagram.ObjectFactory;
  */
 public class NewDiagramWizardPage extends WizardNewFileCreationPage {
 
-    private static final String NEW_FILE_NAME = String.format("newfile%s", Activator.EXTENSION_ERDE);
+    private static final String NEW_FILE_NAME = String.format("newfile%s", ERDPlugin.EXTENSION_ERDE);
 
     private Combo products;
     private Text schema;
 
     public NewDiagramWizardPage(IStructuredSelection selection) {
+        super(ImportFromJDBCWizardPage2.class.getSimpleName(), selection);
+        setTitle(WIZARD_NEW_ERD_PAGE_TITLE.getValue());
+        setDescription(WIZARD_NEW_ERD_PAGE_DESCRIPTION.getValue());
 
-        super(Resource.WIZARD_NEW_ERD_TITLE.getValue(), selection);
-        setTitle(Resource.WIZARD_NEW_ERD_TITLE.getValue());
         setFileName(NEW_FILE_NAME);
     }
 
@@ -55,7 +57,7 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         Label productLabel = new Label(composite, SWT.NULL);
-        productLabel.setText(Resource.WIZARD_NEW_ERD_PRODUCT.getValue());
+        productLabel.setText(LABEL_DATABASE.getValue());
 
         products = new Combo(composite, SWT.READ_ONLY);
         List<String> dialectNames = DialectProvider.getDialectNames();
@@ -69,7 +71,7 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
         composite.setLayout(layout);
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         Label schemaLabel = new Label(composite, SWT.NULL);
-        schemaLabel.setText(Resource.WIZARD_NEW_ERD_SCHEMA.getValue());
+        schemaLabel.setText(LABEL_SCHEMA.getValue());
 
         schema = new Text(composite, SWT.BORDER);
         schema.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -86,13 +88,13 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
         boolean valid = super.validatePage();
         if (valid) {
             String fileName = getFileName();
-            if (!fileName.endsWith(Activator.EXTENSION_ERDE)) {
-                setErrorMessage(Resource.ERROR_ERD_EXTENSION.getValue());
+            if (!fileName.endsWith(ERDPlugin.EXTENSION_ERDE)) {
+                setErrorMessage(ERROR_ERD_EXTENSION.getValue());
                 valid = false;
             }
         }
         if (valid) {
-            setMessage(Resource.WIZARD_NEW_ERD_MESSAGE.getValue());
+            setMessage("エラーメッセージ");
         }
         return valid;
     }

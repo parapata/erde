@@ -10,7 +10,7 @@ import javax.xml.bind.JAXB;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
@@ -141,7 +141,7 @@ public interface IERDiagramReader {
     private void addColumns(DialectProvider dialectProvider, TableModel tableModel, String dialectName,
             List<ColumnXmlModel> columns, DomainsXmlModel domainsXmlModel) {
 
-        IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
+        IDialect dialect = ERDPlugin.getDefault().getContributedDialects().get(dialectName);
         columns.forEach(column -> {
             ColumnModel model = new ColumnModel();
             model.setPhysicalName(column.getPhysicalName());
@@ -249,7 +249,7 @@ public interface IERDiagramReader {
     private void addDomains(DialectProvider dialectProvider, ErdeXmlModel erde, List<DomainModel> domains) {
         if (erde.getDomains() != null) {
             String dialectName = erde.getDialectName();
-            IDialect dialect = Activator.getDefault().getContributedDialects().get(dialectName);
+            IDialect dialect = ERDPlugin.getDefault().getContributedDialects().get(dialectName);
             erde.getDomains().getDomains().forEach(domain -> {
                 DomainModel model = new DomainModel(dialectProvider);
                 model.setId(domain.getId());

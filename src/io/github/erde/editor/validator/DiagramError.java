@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 
 /**
  * DiagramError.
@@ -82,7 +82,7 @@ public class DiagramError {
      * @param file the ER-Diagram file
      */
     public void addMarker(IFile file) {
-        if (level == Activator.LEVEL_ERROR) {
+        if (level == ERDPlugin.LEVEL_ERROR) {
             addMarker(file, IMarker.SEVERITY_ERROR, message, id, name);
         } else {
             addMarker(file, IMarker.SEVERITY_WARNING, message, id, name);
@@ -107,7 +107,7 @@ public class DiagramError {
             IMarker marker = resource.createMarker(IMarker.PROBLEM);
             marker.setAttributes(map);
         } catch (CoreException e) {
-            Activator.logException(e);
+            ERDPlugin.logException(e);
         }
     }
 }

@@ -9,7 +9,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.ui.PlatformUI;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.JDBCConnection;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.DialectProvider;
@@ -72,10 +72,10 @@ public class ImportFromJDBCCommand extends Command implements ISchemaLoader {
 
         } catch (InvocationTargetException e) {
             UIUtils.openAlertDialog(ERROR_DB_IMPORT);
-            Activator.logException(e);
+            ERDPlugin.logException(e);
         } catch (InterruptedException e) {
-            UIUtils.openInfoDialog(INFO_CANCEL);
-            Activator.logException(e);
+            UIUtils.openInfoDialog(INFO_PROCESS_ABORTED);
+            ERDPlugin.logException(e);
         }
     }
 

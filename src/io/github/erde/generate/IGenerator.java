@@ -14,11 +14,11 @@ import io.github.erde.editor.diagram.model.RootModel;
  */
 public interface IGenerator {
 
-    public String getGeneratorName();
+    String getGeneratorName();
 
-    public void execute(IFile erdFile, RootModel root, GraphicalViewer viewer);
+    void execute(IFile erdFile, RootModel root, GraphicalViewer viewer);
 
-    public default String getDefaultPath(IFile erdFile) {
+    default String getDefaultPath(IFile erdFile) {
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
         IFile file = workspaceRoot.getFile(erdFile.getFullPath());
         return file.getRawLocation().toFile().getParent();

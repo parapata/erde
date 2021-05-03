@@ -14,7 +14,7 @@ import io.github.erde.wizard.ChangeDialectWizard;
  *
  * @author modified by parapata
  */
-public class ChangeDBTypeAction extends Action implements IERDEAction {
+public class ChangeDBTypeAction extends Action implements IERDAction {
 
     public ChangeDBTypeAction() {
         super();
@@ -28,7 +28,7 @@ public class ChangeDBTypeAction extends Action implements IERDEAction {
         RootModel root = (RootModel) viewer.getContents().getModel();
         WizardDialog dialog = new WizardDialog(
                 viewer.getControl().getShell(),
-                new ChangeDialectWizard(getCommandStack2(), root));
+                new ChangeDialectWizard(getERDCommandStack(), root));
         dialog.open();
     }
 }

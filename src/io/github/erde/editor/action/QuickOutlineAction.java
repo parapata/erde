@@ -12,11 +12,11 @@ import io.github.erde.editor.ERDiagramInformationControl;
  *
  * @author modified by parapata
  */
-public class QuickOutlineAction extends Action implements IERDEAction {
+public class QuickOutlineAction extends Action implements IERDAction {
 
     public QuickOutlineAction() {
         super();
-        setId(IERDEAction.QUICK_OUTLINE);
+        setId(IERDAction.QUICK_OUTLINE);
         setText(ACTION_QUICK_OUTLINE.getValue());
     }
 

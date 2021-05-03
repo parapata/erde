@@ -19,14 +19,14 @@ import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
-import io.github.erde.editor.dialog.DDLDisplayDialog;
+import io.github.erde.editor.dialog.SqlViewerDialog;
 
 /**
  * SelectedTablesDDLAction.
  *
  * @author modified by parapata
  */
-public class SelectedTablesDDLAction extends Action implements IERDEAction {
+public class SelectedTablesDDLAction extends Action implements IERDAction {
 
     public SelectedTablesDDLAction() {
         super();
@@ -68,7 +68,7 @@ public class SelectedTablesDDLAction extends Action implements IERDEAction {
                     }
                 }
                 pw.flush();
-                DDLDisplayDialog dialog = new DDLDisplayDialog(Display.getDefault().getActiveShell(), sw.toString());
+                SqlViewerDialog dialog = new SqlViewerDialog(Display.getDefault().getActiveShell(), sw.toString());
                 dialog.open();
             } catch (IOException e) {
                 throw new SystemException(e);

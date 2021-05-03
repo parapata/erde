@@ -7,8 +7,7 @@ import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
-import io.github.erde.Activator;
-import io.github.erde.core.util.swt.TableViewerSupport.ColumnInfo;
+import io.github.erde.ERDPlugin;
 import io.github.erde.preference.ERDPreferenceKey;
 
 /**
@@ -18,17 +17,15 @@ import io.github.erde.preference.ERDPreferenceKey;
  */
 public class NameConverter {
 
-    private static final String DICTIONARY_TXT = "/io/github/erde/dictionary.txt";
-
     /**
      * Loads a default dictionary.
      */
     public static List<DictionaryEntry> loadDefaultDictionary() {
         List<DictionaryEntry> entries = new ArrayList<>();
 
-        InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(DICTIONARY_TXT);
+        InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(ERDPlugin.DICTIONARY_TXT);
 
-        String str = IOUtils.loadStream(in, Activator.getCharset());
+        String str = IOUtils.loadStream(in, ERDPlugin.getCharset());
         str = str.replaceAll("\r\n", "\n");
         str = str.replaceAll("\r", "\n");
 
@@ -75,7 +72,7 @@ public class NameConverter {
     public static String logical2physical(String logical) {
         logical = logical.toUpperCase();
 
-        for (DictionaryEntry entry : loadFromPreferenceStore(Activator.getDefault().getPreferenceStore())) {
+        for (DictionaryEntry entry : loadFromPreferenceStore(ERDPlugin.getDefault().getPreferenceStore())) {
             logical = logical.replace(entry.logicalName, "_" + entry.physicalName + "_");
         }
         logical = logical.replaceAll("_+", "_");
@@ -93,7 +90,7 @@ public class NameConverter {
         physical = physical.toUpperCase();
 
         List<DictionaryEntry> entries = new ArrayList<>(
-                loadFromPreferenceStore(Activator.getDefault().getPreferenceStore()));
+                loadFromPreferenceStore(ERDPlugin.getDefault().getPreferenceStore()));
         Collections.sort(entries, (o1, o2) -> o1.physicalName.length() < o1.physicalName.length() ? 1
                 : o1.physicalName.length() > o2.physicalName.length() ? -1 : 0);
 
@@ -107,28 +104,4 @@ public class NameConverter {
         physical = physical.replace("_", "");
         return physical;
     }
-
-    public static class DictionaryEntry {
-
-        @ColumnInfo(index = 0, width = 150, label = "label.physicalName")
-        public String physicalName;
-
-        @ColumnInfo(index = 1, width = 150, label = "label.logicalName")
-        public String logicalName;
-
-        @ColumnInfo(index = 2, width = 100, label = "label.partialMatch")
-        public boolean partialMatch;
-
-        public DictionaryEntry(String physicalName, String logicalName, boolean partialMatch) {
-            this.physicalName = physicalName;
-            this.logicalName = logicalName;
-            this.partialMatch = partialMatch;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s,%s,%s", physicalName, logicalName, partialMatch);
-        }
-    }
-
 }

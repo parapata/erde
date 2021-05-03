@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.SpinnerFieldEditor;
 
 /**
@@ -92,7 +92,7 @@ public class ERDPreferencePage extends PreferencePage implements IWorkbenchPrefe
     }
 
     private void fillInitialValues() {
-        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        IPreferenceStore store = ERDPlugin.getDefault().getPreferenceStore();
 
         showGrid.setPreferenceStore(store);
         showGrid.load();

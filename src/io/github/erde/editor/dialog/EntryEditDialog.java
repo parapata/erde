@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.Resource;
-import io.github.erde.core.util.NameConverter.DictionaryEntry;
+import io.github.erde.core.util.DictionaryEntry;
 import io.github.erde.core.util.swt.UIUtils;
 
 /**
@@ -53,7 +53,7 @@ public class EntryEditDialog extends Dialog {
             txtPhysicalName.setText(element.physicalName);
         }
 
-        UIUtils.createLabel(composite, LABEL_LOGICAL_NAME);
+        UIUtils.createLabel(composite, LABEL_LOGICAL_TABLE_NAME);
         txtLogicalName = new Text(composite, SWT.BORDER);
         if (element != null) {
             txtLogicalName.setText(element.logicalName);
@@ -76,7 +76,7 @@ public class EntryEditDialog extends Dialog {
             return;
         }
         if (txtLogicalName.getText().isEmpty()) {
-            UIUtils.openAlertDialog(ERROR_REQUIRED, LABEL_LOGICAL_NAME.getValue());
+            UIUtils.openAlertDialog(ERROR_REQUIRED, LABEL_LOGICAL_TABLE_NAME.getValue());
             return;
         }
         element = new DictionaryEntry(txtPhysicalName.getText(), txtLogicalName.getText(), btnPartMatch.getSelection());

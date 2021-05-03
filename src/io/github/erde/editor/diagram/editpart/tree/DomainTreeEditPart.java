@@ -7,7 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.Activator;
+import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.DomainModel;
@@ -41,7 +41,7 @@ public class DomainTreeEditPart extends DBTreeEditPart {
         }
 
         setWidgetText(sb.toString());
-        setWidgetImage(Activator.getImage(ICON.DOMAIN.getPath()));
+        setWidgetImage(ERDPlugin.getImage(ICON.DOMAIN.getPath()));
     }
 
     @Override

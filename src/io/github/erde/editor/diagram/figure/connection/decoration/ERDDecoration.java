@@ -12,7 +12,7 @@ import io.github.erde.editor.diagram.figure.connection.RelationshipConnection;
  *
  * @author modified by parapata
  */
-public class ERDecoration extends PolygonDecoration {
+public class ERDDecoration extends PolygonDecoration {
     @Override
     public void paintFigure(Graphics graphics) {
 

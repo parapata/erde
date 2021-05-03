@@ -1,8 +1,12 @@
 package io.github.erde.wizard.page;
 
+import static io.github.erde.Resource.*;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -15,9 +19,11 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IFileEditorInput;
 
-import io.github.erde.Activator;
-import io.github.erde.Resource;
+import io.github.erde.ERDPlugin;
+import io.github.erde.core.util.StringUtils;
+import io.github.erde.core.util.swt.UIUtils;
 
 /**
  * FolderSelectWizardPage.
@@ -27,12 +33,15 @@ import io.github.erde.Resource;
 public class FolderSelectWizardPage extends WizardPage {
 
     private Text txtOutputFolder;
-    protected IFile erdFile;
+    private Path path;
 
-    public FolderSelectWizardPage(IFile erdFile, String pageName) {
-        super(pageName);
-        setTitle(pageName);
-        this.erdFile = erdFile;
+    public FolderSelectWizardPage(String pageName) {
+        super(FolderSelectWizardPage.class.getSimpleName());
+
+        // TODO パスは外部から取得するように修正
+        IFile file = ((IFileEditorInput) UIUtils.getActiveEditor().getEditorInput()).getFile();
+        IPath path = file.getParent().getLocation();
+        this.path = Paths.get(path.toOSString());
     }
 
     public String getOutputFolderResource() {
@@ -46,32 +55,34 @@ public class FolderSelectWizardPage extends WizardPage {
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText(Resource.WIZARD_GENERATE_FOLDER.getValue());
+        label.setText(WIZARD_FOLDER_SELECT_FOLDER.getValue());
         txtOutputFolder = new Text(composite, SWT.BORDER);
         txtOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtOutputFolder.setText(getCurrentPath());
-        txtOutputFolder.addModifyListener(e -> doValidate());
+        txtOutputFolder.addModifyListener(event -> doValidate());
 
         Button button = new Button(composite, SWT.PUSH);
-        button.setText(Resource.BUTTON_BROWSE.getValue());
+        button.setText(LABEL_BROWSE.getValue());
         button.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void widgetSelected(SelectionEvent e) {
-                txtOutputFolder.setText(selectFolder());
+            public void widgetSelected(SelectionEvent event) {
+                String folder = selectFolder();
+                if (StringUtils.isNotEmpty(folder)) {
+                    txtOutputFolder.setText(folder);
+                }
             }
         });
-
         setControl(composite);
     }
 
     protected void doValidate() {
         setErrorMessage(null);
-        setPageComplete(true);
-
-        // if(txtOutputFolder.getText().length() == 0){
-        // setErrorMessage("Choose a folder");
-        // setPageComplete(false);
-        // }
+        if (StringUtils.isEmpty(txtOutputFolder.getText())) {
+            setErrorMessage("Choose a folder");
+            setPageComplete(false);
+        } else {
+            setPageComplete(true);
+        }
     }
 
     private String selectFolder() {
@@ -81,14 +92,12 @@ public class FolderSelectWizardPage extends WizardPage {
             dialog.setFilterPath(getCurrentPath());
             outPath = dialog.open();
         } catch (Exception e) {
-            Activator.logException(e);
+            ERDPlugin.logException(e);
         }
         return outPath;
     }
 
     private String getCurrentPath() {
-        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IFile file = workspaceRoot.getFile(erdFile.getFullPath());
-        return file.getRawLocation().toFile().getParent();
+        return path.toString();
     }
 }

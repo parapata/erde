@@ -6,11 +6,11 @@ import org.eclipse.gef.commands.CommandStack;
 import io.github.erde.core.util.swt.UIUtils;
 
 /**
- * IERDEAction.
+ * IERDAction.
  *
  * @author modified by parapata
  */
-public interface IERDEAction {
+public interface IERDAction {
 
     String AUTO_LAYOUT = AutoLayoutAction.class.getName();
     String DOMAING_EDIT = DomainEditAction.class.getName();
@@ -19,7 +19,6 @@ public interface IERDEAction {
     String COPY_AS_IMAGE = CopyAsImageAction.class.getName();
     String DELETE_MARKER = DeleteMarkerAction.class.getName();
 
-    String IMPORT_FROM_DIAGRAM = ImportFromDiagramAction.class.getName();
     String IMPORT_FROM_JDBC = ImportFromJDBCAction.class.getName();
 
     String GENERATE = GenerateAction.class.getName();
@@ -33,7 +32,7 @@ public interface IERDEAction {
         return viewer;
     }
 
-    default CommandStack getCommandStack2() {
+    default CommandStack getERDCommandStack() {
         return getGraphicalViewer().getEditDomain().getCommandStack();
     }
 
