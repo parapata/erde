@@ -38,7 +38,7 @@ public class ImportFromJDBCCommand extends Command implements ISchemaLoader {
 
     @Override
     public void execute() {
-        if (tableNames.isEmpty()) {
+        if (importTableNames.isEmpty()) {
             return;
         }
 
