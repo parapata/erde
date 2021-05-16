@@ -3,7 +3,7 @@ package io.github.erde.editor.action;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
 
-import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.editor.ERDiagramEditor;
 
 /**
  * IERDAction.
@@ -28,7 +28,7 @@ public interface IERDAction {
     String VALIDATE = ValidateAction.class.getName();
 
     default GraphicalViewer getGraphicalViewer() {
-        GraphicalViewer viewer = (GraphicalViewer) UIUtils.getActiveEditor().getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = ERDiagramEditor.getERDiagramViewer();
         return viewer;
     }
 

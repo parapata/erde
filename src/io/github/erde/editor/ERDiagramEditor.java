@@ -107,11 +107,32 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     private boolean savePreviouslyNeeded = false;
     private boolean needViewerRefreshFlag = true;
 
+    private static ERDiagramEditor editor;
+
+    public static GraphicalViewer getERDiagramViewer() {
+        return editor.getGraphicalViewer();
+    }
+
+    public static RootModel getERDiagramRootModel() {
+        GraphicalViewer viewer = getERDiagramViewer();
+        return (RootModel) viewer.getContents().getModel();
+    }
+
+    public static IFile getERDiagramEditorFile() {
+        IEditorInput input = editor.getEditorInput();
+        IFile file = null;
+        if (input instanceof IFileEditorInput) {
+            file = ((IFileEditorInput) input).getFile();
+        }
+        return file;
+    }
+
     public ERDiagramEditor() {
         super();
         setEditDomain(new DefaultEditDomain(this));
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
         ERDPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(this);
+        editor = this;
     }
 
     @Override

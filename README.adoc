@@ -23,5 +23,12 @@ dropins
 == Licence
 https://opensource.org/licenses/EPL-2.0[Eclipse Public License version 2.0]
 
+
 == Thanks
-https://github.com/takezoe/amateras-modeler[Amateras Modeler], http://ermaster.sourceforge.net/[ERMaster]
+* https://github.com/takezoe/amateras-modeler[Amateras Modeler]
+* http://ermaster.sourceforge.net/[ERMaster]
+
+
+== References
+* https://www.ne.jp/asahi/hishidama/home/tech/eclipse/plugin/develop/index.html[hishidama's]
+* https://www.eclipse.org/tycho/sitedocs/[Tycho]

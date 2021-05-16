@@ -17,6 +17,7 @@ import io.github.erde.core.util.StringUtils;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
+import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.DomainModel;
@@ -189,7 +190,7 @@ public class TableEditDialog extends Dialog implements ITableEdit {
 
     private void validate() throws ValidateException {
 
-        List<TableModel> tables = UIUtils.getRootModel().getTables();
+        List<TableModel> tables = ERDiagramEditor.getERDiagramRootModel().getTables();
 
         // Physical table name check
         if (StringUtils.isEmpty(editTable.getPhysicalName())) {

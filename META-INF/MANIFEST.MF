@@ -25,7 +25,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: io.github.erde
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- icons/,
  target/dependency-jars/logback-classic-1.2.3.jar,
  target/dependency-jars/logback-core-1.2.3.jar,
  target/dependency-jars/slf4j-api-1.7.30.jar,

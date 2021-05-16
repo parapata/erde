@@ -19,11 +19,10 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IFileEditorInput;
 
 import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.StringUtils;
-import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.editor.ERDiagramEditor;
 
 /**
  * FolderSelectWizardPage.
@@ -39,7 +38,7 @@ public class FolderSelectWizardPage extends WizardPage {
         super(FolderSelectWizardPage.class.getSimpleName());
 
         // TODO パスは外部から取得するように修正
-        IFile file = ((IFileEditorInput) UIUtils.getActiveEditor().getEditorInput()).getFile();
+        IFile file = ERDiagramEditor.getERDiagramEditorFile();
         IPath path = file.getParent().getLocation();
         this.path = Paths.get(path.toOSString());
     }
