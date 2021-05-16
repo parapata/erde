@@ -21,4 +21,5 @@ Thumbs.db
 
 .classpath
 .project
+.jetproperties
 /lib/

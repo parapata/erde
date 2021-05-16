@@ -75,7 +75,7 @@ public class ERDiagramInformationControl extends AbstractInformationControl {
         Color foreground = parent.getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
         Color background = parent.getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
 
-        Composite composite = new Composite(parent, SWT.NULL);
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(1, false));
         composite.setForeground(foreground);
         composite.setBackground(background);

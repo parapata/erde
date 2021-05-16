@@ -6,7 +6,6 @@ import static java.sql.Types.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.erde.ERDPlugin;
 import io.github.erde.dialect.type.ColumnType;
@@ -26,18 +25,18 @@ import io.github.erde.editor.validator.DiagramErrorManager;
 public class OracleDialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance(Oracle, "NUMBER", "type.numeric", true, NUMERIC),
-            ColumnType.newInstance(Oracle, "INTEGER", "type.integer", false, INTEGER),
-            ColumnType.newInstance(Oracle, "BINARY_FLOAT", "type.bit", false, FLOAT),
-            ColumnType.newInstance(Oracle, "DOUBLE PRECISION", "type.real", false, DOUBLE),
-            ColumnType.newInstance(Oracle, "VARCHAR2", "type.string", true, VARCHAR),
-            ColumnType.newInstance(Oracle, "CHAR", "type.char", true, CHAR),
-            ColumnType.newInstance(Oracle, "CLOB", "type.string", true, CLOB),
-            ColumnType.newInstance(Oracle, "LONG", "type.string", false, CLOB),
-            ColumnType.newInstance(Oracle, "DATE", "type.date", false, DATE),
-            ColumnType.newInstance(Oracle, "TIMESTAMP", "type.date", false, TIMESTAMP),
-            ColumnType.newInstance(Oracle, "RAW", "type.binary", false, BINARY),
-            ColumnType.newInstance(Oracle, "BLOB", "type.binary", false, BLOB));
+            ColumnType.newInstance(Oracle, "NUMBER", TYPE_NUMERIC, true, NUMERIC),
+            ColumnType.newInstance(Oracle, "INTEGER", TYPE_INTEGER, false, INTEGER),
+            ColumnType.newInstance(Oracle, "BINARY_FLOAT", TYPE_BIT, false, FLOAT),
+            ColumnType.newInstance(Oracle, "DOUBLE PRECISION", TYPE_REAL, false, DOUBLE),
+            ColumnType.newInstance(Oracle, "VARCHAR2", TYPE_STRING, true, VARCHAR),
+            ColumnType.newInstance(Oracle, "CHAR", TYPE_CHAR, true, CHAR),
+            ColumnType.newInstance(Oracle, "CLOB", TYPE_STRING, true, CLOB),
+            ColumnType.newInstance(Oracle, "LONG", TYPE_STRING, false, CLOB),
+            ColumnType.newInstance(Oracle, "DATE", TYPE_DATE, false, DATE),
+            ColumnType.newInstance(Oracle, "TIMESTAMP", TYPE_DATE, false, TIMESTAMP),
+            ColumnType.newInstance(Oracle, "RAW", TYPE_BINARY, false, BINARY),
+            ColumnType.newInstance(Oracle, "BLOB", TYPE_BINARY, false, BLOB));
 
     public OracleDialect() {
         super(COLUMN_TYPES);
@@ -56,28 +55,8 @@ public class OracleDialect extends AbstractDialect {
     @Override
     public void additions(RootModel root) {
 
-        AtomicInteger count = new AtomicInteger();
-
-        // Oracle Table Comments
-        if (isComment()) {
-            TableDependencyCalculator.getSortedTable(root).forEach(table -> {
-                if (count.get() > 0) {
-                    println();
-                }
-                print(String.format("COMMENT ON TABLE %s IS '%s'",
-                        table.getPhysicalName(),
-                        table.getLogicalName()));
-                println(getSeparator());
-
-                table.getColumns().forEach(column -> {
-                    print(String.format("COMMENT ON COLUMN %s.%s IS '%s'",
-                            table.getPhysicalName(),
-                            column.getPhysicalName(),
-                            column.getLogicalName()));
-                    println(getSeparator());
-                });
-            });
-        }
+        // Table Comments
+        super.additions(root);
 
         // TODO シーケンス機能を検討する
         TableDependencyCalculator.getSortedTable(root).forEach(table -> {

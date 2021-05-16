@@ -6,13 +6,8 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.wizard.Wizard;
 
 import io.github.erde.dialect.DialectProvider;
-import io.github.erde.dialect.IDialect;
-import io.github.erde.dialect.type.IColumnType;
-import io.github.erde.editor.diagram.editpart.command.ChangeDBTypeCommand;
-import io.github.erde.editor.diagram.model.BaseEntityModel;
-import io.github.erde.editor.diagram.model.ColumnModel;
+import io.github.erde.editor.diagram.editpart.command.ChangeDialectCommand;
 import io.github.erde.editor.diagram.model.RootModel;
-import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.wizard.page.ChangeDialectWizardPage;
 
 /**
@@ -23,47 +18,27 @@ import io.github.erde.wizard.page.ChangeDialectWizardPage;
 public class ChangeDialectWizard extends Wizard {
 
     private CommandStack commandStack;
-    private RootModel root;
+    private RootModel rootModel;
     private ChangeDialectWizardPage page;
 
     public ChangeDialectWizard(CommandStack commandStack, RootModel rootModel) {
         setWindowTitle(WIZARD_CHANGEDB_DIALOG_TITLE.getValue());
         this.commandStack = commandStack;
-        this.root = rootModel;
+        this.rootModel = rootModel;
     }
 
     @Override
     public void addPages() {
-        page = new ChangeDialectWizardPage(root.getDialectProvider().name());
+        page = new ChangeDialectWizardPage(rootModel.getDialectProvider().name());
         addPage(page);
     }
 
     @Override
     public boolean performFinish() {
-        String dialectName = page.getDialectName();
-        if (!dialectName.equals(root.getDialectProvider().name())) {
-            IDialect dialect = DialectProvider.getDialect(dialectName);
-            for (BaseEntityModel entity : root.getChildren()) {
-                if (entity instanceof TableModel) {
-                    TableModel table = (TableModel) entity;
-                    for (ColumnModel column : table.getColumns()) {
-                        IColumnType type = getColumnType(dialect, table, column);
-                        column.setColumnType(type);
-                    }
-                    table.setColumns(table.getColumns());
-                }
-            }
-            root.setDialectProvider(DialectProvider.valueOf(dialectName));
-            commandStack.execute(new ChangeDBTypeCommand());
+        DialectProvider newProvider = DialectProvider.valueOf(page.getDialectName());
+        if (!rootModel.getDialectProvider().equals(newProvider)) {
+            commandStack.execute(new ChangeDialectCommand(newProvider, rootModel));
         }
         return true;
-    }
-
-    private IColumnType getColumnType(IDialect dialect, TableModel table, ColumnModel column) {
-        IColumnType type = dialect.getColumnType(column.getColumnType().getType());
-        if (type == null) {
-            type = dialect.getDefaultColumnType();
-        }
-        return type;
     }
 }

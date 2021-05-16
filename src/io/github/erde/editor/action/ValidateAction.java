@@ -9,10 +9,9 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
-import org.eclipse.ui.IFileEditorInput;
 
 import io.github.erde.ERDPlugin;
-import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.validator.DiagramError;
 import io.github.erde.editor.validator.DiagramErrorManager;
@@ -48,7 +47,7 @@ public class ValidateAction extends Action implements IERDAction {
             public void execute() {
                 try {
                     RootModel model = (RootModel) viewer.getContents().getModel();
-                    IFile file = ((IFileEditorInput) UIUtils.getActiveEditor().getEditorInput()).getFile();
+                    IFile file = ERDiagramEditor.getERDiagramEditorFile();
 
                     file.deleteMarkers(IMarker.PROBLEM, false, 0);
                     DiagramErrorManager deManager = new DiagramValidator(model).doValidate();

@@ -1,11 +1,13 @@
 package io.github.erde.dialect;
 
+import static io.github.erde.Resource.*;
 import static io.github.erde.dialect.DialectProvider.*;
 import static java.sql.Types.*;
 
 import java.util.Arrays;
 import java.util.List;
 
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -18,32 +20,31 @@ import io.github.erde.editor.diagram.model.ColumnModel;
 public class HsqldbDialect extends AbstractDialect {
 
     private static final List<IColumnType> COLUMN_TYPES = Arrays.asList(
-            ColumnType.newInstance(HSQLDB, "IDENTITY", "type.integer", false, INTEGER),
-            ColumnType.newInstance(HSQLDB, "INT", "type.integer", false, INTEGER),
-            ColumnType.newInstance(HSQLDB, "INTEGER", "type.integer", false, INTEGER),
-            ColumnType.newInstance(HSQLDB, "DOUBLE", "type.real", false, DOUBLE),
-            ColumnType.newInstance(HSQLDB, "FLOAT", "type.real", false, FLOAT),
-            ColumnType.newInstance(HSQLDB, "VARCHAR", "type.string", true, VARCHAR),
-            ColumnType.newInstance(HSQLDB, "VARCHAR_IGNORECASE", "type.string", true, VARCHAR),
-            ColumnType.newInstance(HSQLDB, "CHAR", "type.char", true, CHAR),
-            ColumnType.newInstance(HSQLDB, "CHARACTER", "type.char", true, CHAR),
-            ColumnType.newInstance(HSQLDB, "DECIMAL", "type.real", true, DECIMAL),
-            ColumnType.newInstance(HSQLDB, "NUMERIC", "type.numeric", true, NUMERIC),
-            ColumnType.newInstance(HSQLDB, "BOOLEAN", "type.boolean", true, BOOLEAN),
-            ColumnType.newInstance(HSQLDB, "BIT", "type.bit", true, BIT),
-            ColumnType.newInstance(HSQLDB, "TINYINT", "type.integer", true, TINYINT),
-            ColumnType.newInstance(HSQLDB, "SMALLINT", "type.integer", true, SMALLINT),
-            ColumnType.newInstance(HSQLDB, "BIGINT", "type.integer", true, BIGINT),
-            ColumnType.newInstance(HSQLDB, "REAL", "type.real", true, REAL),
-            ColumnType.newInstance(HSQLDB, "BINARY", "type.binary", true, BINARY),
-            ColumnType.newInstance(HSQLDB, "VARBINARY", "type.binary", true, BINARY),
-            ColumnType.newInstance(HSQLDB, "LONGVARBINARY", "type.binary", true, BINARY),
-            ColumnType.newInstance(HSQLDB, "DATE", "type.date", false, DATE),
-            ColumnType.newInstance(HSQLDB, "TIME", "type.time", false, TIME),
-            ColumnType.newInstance(HSQLDB, "TIMESTAMP", "type.datetime", false, TIMESTAMP),
-            ColumnType.newInstance(HSQLDB, "DATETIME", "type.datetime", false, TIMESTAMP),
-            ColumnType.newInstance(HSQLDB, "OTHER", "type.other", false, OTHER),
-            ColumnType.newInstance(HSQLDB, "OBJECT", "type.object", false, OTHER));
+            ColumnType.newInstance(HSQLDB, "INT", TYPE_INTEGER, false, INTEGER),
+            ColumnType.newInstance(HSQLDB, "INTEGER", TYPE_INTEGER, false, INTEGER),
+            ColumnType.newInstance(HSQLDB, "DOUBLE", TYPE_REAL, false, DOUBLE),
+            ColumnType.newInstance(HSQLDB, "FLOAT", TYPE_REAL, false, FLOAT),
+            ColumnType.newInstance(HSQLDB, "VARCHAR", TYPE_STRING, true, VARCHAR),
+            ColumnType.newInstance(HSQLDB, "VARCHAR_IGNORECASE", TYPE_STRING, true, VARCHAR),
+            ColumnType.newInstance(HSQLDB, "CHAR", TYPE_CHAR, true, CHAR),
+            ColumnType.newInstance(HSQLDB, "CHARACTER", TYPE_CHAR, true, CHAR),
+            ColumnType.newInstance(HSQLDB, "DECIMAL", TYPE_REAL, true, DECIMAL),
+            ColumnType.newInstance(HSQLDB, "NUMERIC", TYPE_NUMERIC, true, NUMERIC),
+            ColumnType.newInstance(HSQLDB, "BOOLEAN", TYPE_BOOLEAN, true, BOOLEAN),
+            ColumnType.newInstance(HSQLDB, "BIT", TYPE_BIT, true, BIT),
+            ColumnType.newInstance(HSQLDB, "TINYINT", TYPE_INTEGER, true, TINYINT),
+            ColumnType.newInstance(HSQLDB, "SMALLINT", TYPE_INTEGER, true, SMALLINT),
+            ColumnType.newInstance(HSQLDB, "BIGINT", TYPE_INTEGER, true, BIGINT),
+            ColumnType.newInstance(HSQLDB, "REAL", TYPE_REAL, true, REAL),
+            ColumnType.newInstance(HSQLDB, "BINARY", TYPE_BINARY, true, BINARY),
+            ColumnType.newInstance(HSQLDB, "VARBINARY", TYPE_BINARY, true, BINARY),
+            ColumnType.newInstance(HSQLDB, "LONGVARBINARY", TYPE_BINARY, true, BINARY),
+            ColumnType.newInstance(HSQLDB, "DATE", TYPE_DATE, false, DATE),
+            ColumnType.newInstance(HSQLDB, "TIME", TYPE_TIME, false, TIME),
+            ColumnType.newInstance(HSQLDB, "TIMESTAMP", TYPE_DATETIME, false, TIMESTAMP),
+            ColumnType.newInstance(HSQLDB, "DATETIME", TYPE_DATETIME, false, TIMESTAMP),
+            ColumnType.newInstance(HSQLDB, "OTHER", TYPE_OTHER, false, OTHER),
+            ColumnType.newInstance(HSQLDB, "OBJECT", TYPE_OBJECT, false, OTHER));
 
     public HsqldbDialect() {
         super(COLUMN_TYPES);
@@ -62,7 +63,7 @@ public class HsqldbDialect extends AbstractDialect {
         if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
             sb.append("(").append(column.getColumnSize()).append(")");
         }
-        if (column.getDefaultValue().length() != 0) {
+        if (StringUtils.isNotEmpty(column.getDefaultValue())) {
             sb.append(String.format(" DEFAULT %s", column.getDefaultValue()));
         }
         if (column.isNotNull()) {

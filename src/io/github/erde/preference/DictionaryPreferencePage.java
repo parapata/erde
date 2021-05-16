@@ -46,7 +46,7 @@ public class DictionaryPreferencePage extends PreferencePage implements IWorkben
 
     @Override
     protected Control createContents(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NULL);
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(1, false));
 
         models = NameConverter.loadFromPreferenceStore(ERDPlugin.getDefault().getPreferenceStore());

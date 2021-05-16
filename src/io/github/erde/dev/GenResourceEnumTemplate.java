@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import io.github.erde.dev.GenResourceBean;
 
-public class GenResourceEnum
+public class GenResourceEnumTemplate
 {
   protected static String nl;
-  public static synchronized GenResourceEnum create(String lineSeparator)
+  public static synchronized GenResourceEnumTemplate create(String lineSeparator)
   {
     nl = lineSeparator;
-    GenResourceEnum result = new GenResourceEnum();
+    GenResourceEnumTemplate result = new GenResourceEnumTemplate();
     nl = null;
     return result;
   }

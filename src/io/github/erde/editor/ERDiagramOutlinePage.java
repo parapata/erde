@@ -81,7 +81,7 @@ public class ERDiagramOutlinePage extends ContentOutlinePage {
 
     @Override
     public void createControl(Composite parent) {
-        composite = new Composite(parent, SWT.NULL);
+        composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(1, false));
 
         search = new Text(composite, SWT.BORDER);

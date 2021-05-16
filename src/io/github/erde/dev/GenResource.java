@@ -110,8 +110,8 @@ public class GenResource {
 
     private void genEnumSrc(List<GenResourceBean> list) throws IOException {
         try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(SRC_FILE_NAME))) {
-            GenResourceEnum gen = GenResourceEnum.create(null);
-            osw.write(gen.generate(list));
+            GenResourceEnumTemplate template = GenResourceEnumTemplate.create(null);
+            osw.write(template.generate(list));
         }
     }
 

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: io.github.erde;singleton:=true
-Bundle-Version: 1.0.15
+Bundle-Version: 1.0.16
 Bundle-Activator: io.github.erde.ERDPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
@@ -25,7 +25,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: io.github.erde
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- icons/,
  target/dependency-jars/logback-classic-1.2.3.jar,
  target/dependency-jars/logback-core-1.2.3.jar,
  target/dependency-jars/slf4j-api-1.7.30.jar,

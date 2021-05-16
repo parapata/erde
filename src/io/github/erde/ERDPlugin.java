@@ -105,7 +105,7 @@ public class ERDPlugin extends AbstractUIPlugin {
 
     public static void logException(Exception e) {
         IStatus status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, "Error", e);
-        getDefault().getLog().log(status);
+        plugin.getLog().log(status);
     }
 
     private Map<String, IDialect> contributedDialects = null;

@@ -1,5 +1,7 @@
 package io.github.erde.core.util;
 
+import static io.github.erde.Resource.*;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
@@ -114,7 +116,12 @@ public class JDBCConnection {
         Properties prop = new Properties();
         prop.setProperty("user", user);
         prop.setProperty("password", password);
-        return driver.connect(uri, prop);
+        Connection conn = driver.connect(uri, prop);
+        if (conn == null) {
+            throw new SQLException(ERROR_DATABASE_CONNECT.getValue());
+        } else {
+            return conn;
+        }
     }
 
     public String getDriverName() {

@@ -9,11 +9,9 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.action.Action;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IFileEditorInput;
 
 import io.github.erde.ERDPlugin;
-import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
@@ -53,15 +51,11 @@ public class DeleteMarkerAction extends Action implements IERDAction {
                 return false;
             }
         });
-
-        IEditorInput input = UIUtils.getActiveEditor().getEditorInput();
-        if (input instanceof IFileEditorInput) {
-            IFile file = ((IFileEditorInput) input).getFile();
-            try {
-                file.deleteMarkers(IMarker.PROBLEM, false, 0);
-            } catch (CoreException e) {
-                ERDPlugin.logException(e);
-            }
+        IFile file = ERDiagramEditor.getERDiagramEditorFile();
+        try {
+            file.deleteMarkers(IMarker.PROBLEM, false, 0);
+        } catch (CoreException e) {
+            ERDPlugin.logException(e);
         }
     }
 }

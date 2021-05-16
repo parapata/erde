@@ -5,7 +5,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.ui.ide.IGotoMarker;
 
-import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.editpart.RootEditPart;
 import io.github.erde.editor.diagram.editpart.TableEditPart;
 import io.github.erde.editor.diagram.model.TableModel;
@@ -24,7 +24,7 @@ public interface IERDGotoMarker extends IGotoMarker {
             return;
         }
 
-        GraphicalViewer viewer = (GraphicalViewer) UIUtils.getActiveEditor().getAdapter(GraphicalViewer.class);
+        GraphicalViewer viewer = ERDiagramEditor.getERDiagramViewer();
         EditPart editPart = viewer.getContents();
         EditPart found = findById(editPart, id);
         if (found == null) {

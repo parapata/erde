@@ -107,11 +107,35 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     private boolean savePreviouslyNeeded = false;
     private boolean needViewerRefreshFlag = true;
 
+    private static ERDiagramEditor editor;
+
+    public static GraphicalViewer getERDiagramViewer() {
+        if (editor == null) {
+            throw new IllegalStateException();
+        }
+        return editor.getGraphicalViewer();
+    }
+
+    public static RootModel getERDiagramRootModel() {
+        GraphicalViewer viewer = getERDiagramViewer();
+        return (RootModel) viewer.getContents().getModel();
+    }
+
+    public static IFile getERDiagramEditorFile() {
+        IEditorInput input = editor.getEditorInput();
+        IFile file = null;
+        if (input instanceof IFileEditorInput) {
+            file = ((IFileEditorInput) input).getFile();
+        }
+        return file;
+    }
+
     public ERDiagramEditor() {
         super();
         setEditDomain(new DefaultEditDomain(this));
         ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
         ERDPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(this);
+        editor = this;
     }
 
     @Override
@@ -122,15 +146,15 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
         PaletteGroup group = new PaletteGroup(PALETTE_TOOLS.getValue());
         group.add(new SelectionToolEntry());
 
-        group.add(createEntityEntry(PALETTE_NODE_TABLE.getValue(), TableModel.class, ICON.TABLE.getPath()));
+        group.add(createEntityEntry(PALETTE_NODE_TABLE.getValue(), TableModel.class, ICON.TABLE));
         group.add(createConnectionEntry(PALETTE_NODE_RELATIONSHIP.getValue(), RelationshipModel.class,
-                ICON.RELATION_1_N.getPath()));
+                ICON.RELATION_1_N));
 
         group.add(new PaletteSeparator());
 
-        group.add(createEntityEntry(PALETTE_NODE_NOTE.getValue(), NoteModel.class, ICON.NOTE.getPath()));
+        group.add(createEntityEntry(PALETTE_NODE_NOTE.getValue(), NoteModel.class, ICON.NOTE));
         group.add(createConnectionEntry(PALETTE_NODE_NOTE_CONNECTOR.getValue(), NoteConnectionModel.class,
-                ICON.COMMENT_CONNECTION.getPath()));
+                ICON.COMMENT_CONNECTION));
 
         group.add(new PaletteSeparator());
 
@@ -447,11 +471,8 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
      * @param icon the icon path
      * @return created <code>PaletteEntry</code>
      */
-    private PaletteEntry createConnectionEntry(String itemName, Class<?> clazz, String icon) {
-        ImageDescriptor image = null;
-        if (icon != null) {
-            image = ERDPlugin.getImageDescriptor(icon);
-        }
+    private PaletteEntry createConnectionEntry(String itemName, Class<?> clazz, ICON icon) {
+        ImageDescriptor image = ERDPlugin.getImageDescriptor(icon.getPath());
         ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry(itemName, itemName,
                 new SimpleFactory(clazz), image, image);
         // entry.setToolClass(SelectionTool.class);
@@ -466,13 +487,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
      * @param icon the icon path
      * @return created <code>PaletteEntry</code>
      */
-    private PaletteEntry createEntityEntry(String itemName, Class<?> clazz, String icon) {
-        ImageDescriptor image = null;
-        if (icon != null) {
-            image = ERDPlugin.getImageDescriptor(icon);
-        }
+    private PaletteEntry createEntityEntry(String itemName, Class<?> clazz, ICON icon) {
+        ImageDescriptor image = ERDPlugin.getImageDescriptor(icon.getPath());
         CreationToolEntry entry = new CreationToolEntry(itemName, itemName, new SimpleFactory(clazz), image, image);
-
         return entry;
     }
 

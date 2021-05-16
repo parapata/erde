@@ -10,7 +10,7 @@
 == HSQLDBコンテナ起動
 [source]
 ----
-> docker up -d
+> docker-compose up -d
 ----
 
 

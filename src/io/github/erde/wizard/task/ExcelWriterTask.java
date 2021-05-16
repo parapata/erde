@@ -3,21 +3,14 @@ package io.github.erde.wizard.task;
 import static io.github.erde.Resource.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.jxls.common.Context;
-import org.jxls.transform.poi.PoiTransformer;
-import org.jxls.util.JxlsHelper;
 
-import io.github.erde.ERDPlugin;
-import io.github.erde.core.util.swt.UIUtils;
+import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
@@ -53,7 +46,7 @@ public class ExcelWriterTask implements IRunnableWithProgress {
             }
 
             List<TableData> data = getTableData(rootModel);
-            export(data);
+            new ExcelGen(outFile).export(data);
             monitor.worked(1);
         } finally {
             monitor.done();
@@ -74,7 +67,17 @@ public class ExcelWriterTask implements IRunnableWithProgress {
                 ColumnData columnData = new ColumnData();
                 columnData.setLogicalColumnName(column.getLogicalName());
                 columnData.setPhysicalColumnName(column.getPhysicalName());
-                columnData.setDescription(column.getDescription());
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(StringUtils.defaultString(column.getDescription()));
+                if (!column.getEnumNames().isEmpty()) {
+                    if (StringUtils.isNotEmpty(column.getDescription())) {
+                        sb.append("\n");
+                    }
+                    sb.append(String.join(",", column.getEnumNames()));
+                }
+                columnData.setDescription(sb.toString());
+
                 if (column.isUnsigned()) {
                     String columnTypeName = String.format("%s UNSIGNED", column.getColumnType().getPhysicalName());
                     columnData.setType(columnTypeName);
@@ -84,6 +87,9 @@ public class ExcelWriterTask implements IRunnableWithProgress {
                 columnData.setDefaultValue(column.getDefaultValue());
                 if (column.getColumnType().isSizeSupported() && column.getColumnSize() != null) {
                     columnData.setColumnSize(String.valueOf(column.getColumnSize()));
+                    if (column.getDecimal() != null) {
+                        columnData.setDecimal(String.valueOf(column.getDecimal()));
+                    }
                 }
                 if (column.isPrimaryKey()) {
                     columnData.setPrimaryKey(LABEL_O.getValue());
@@ -120,22 +126,5 @@ public class ExcelWriterTask implements IRunnableWithProgress {
         }
 
         return tables;
-    }
-
-    private void export(List<TableData> tables) {
-        List<String> sheetNames = tables.stream()
-                .map(column -> column.getPhysicalTableName())
-                .collect(Collectors.toList());
-        try (InputStream in = ExcelGen.class.getResourceAsStream("template.xlsx");
-                FileOutputStream out = new FileOutputStream(outFile)) {
-            Context context = PoiTransformer.createInitialContext();
-            context.putVar("tables", tables);
-            context.putVar("sheetNames", sheetNames);
-            JxlsHelper.getInstance().processTemplate(in, out, context);
-        } catch (Exception e) {
-            ERDPlugin.logException(e);
-        } finally {
-            UIUtils.projectRefresh();
-        }
     }
 }

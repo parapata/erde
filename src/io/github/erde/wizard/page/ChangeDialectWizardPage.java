@@ -32,7 +32,7 @@ public class ChangeDialectWizardPage extends WizardPage {
 
     @Override
     public void createControl(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NULL);
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(2, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 

@@ -89,7 +89,7 @@ public abstract class AbstractDialogPropertyDescriptor extends PropertyDescripto
             editor.setBackground(bg);
             editor.setLayout(new DialogCellLayout());
 
-            text = new Text(editor, SWT.NULL | SWT.READ_ONLY);
+            text = new Text(editor, SWT.NONE | SWT.READ_ONLY);
             text.setFont(parent.getFont());
             text.setBackground(parent.getBackground());
 

@@ -29,6 +29,8 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.ERDPlugin;
+import io.github.erde.ICON;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.core.util.swt.UIUtils;
 
@@ -56,9 +58,10 @@ public class EnumEditDialog extends Dialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-
         Shell shell = getShell();
         shell.setText(DIALOG_ENUM_TITLE.getValue());
+        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+
         shell.setLayout(new FillLayout());
 
         viewer = new TableViewer(parent,
@@ -78,7 +81,7 @@ public class EnumEditDialog extends Dialog {
 
         // 行データを追加
         for (int i = 0; i < 64; i++) {
-            TableItem item = new TableItem(table, SWT.NULL | SWT.FILL);
+            TableItem item = new TableItem(table, SWT.NONE | SWT.FILL);
             if (i < items.size()) {
                 item.setText(0, items.get(i));
             } else {
@@ -88,52 +91,17 @@ public class EnumEditDialog extends Dialog {
 
         // Tableで行がクリックされた場合の処理
         table.addSelectionListener(new SelectionAdapter() {
+            // クリック
             @Override
             public void widgetSelected(SelectionEvent event) {
-                int index = table.getSelectionIndex();
-                if (index < 0) {
-                    return;
+                super.widgetSelected(event);
+            }
+
+            @Override
+            public void widgetDefaultSelected(SelectionEvent event) {
+                if (table.getSelectionIndex() > -1) {
+                    selectedTableLine(table);
                 }
-                // Tableの選択範囲を解除
-                table.setSelection(new int[0]);
-
-                TableEditor tableEditor = new TableEditor(table);
-                tableEditor.grabHorizontal = true;
-
-                // 選択された行のTableItemを取得
-                TableItem item = table.getItem(index);
-
-                // セルエディタを設定
-                Text text = new Text(table, SWT.NONE);
-                text.setText(item.getText(EDIT_COLUMN));
-
-                // フォーカスが外れた場合、重複チェックを行う
-                text.addFocusListener(new FocusAdapter() {
-                    @Override
-                    public void focusLost(FocusEvent event) {
-                        Text sourceText = (Text) event.getSource();
-                        logger.info("フォーカスロスト:{}", sourceText.getText());
-
-                        // 編集内容反映をテーブルに反映
-                        TableItem editItem = table.getItem(index);
-                        editItem.setText(EDIT_COLUMN, sourceText.getText());
-
-                        // 重複チェック
-                        if (StringUtils.isNotEmpty(text.getText())) {
-                            long count = Arrays.asList(table.getItems())
-                                    .stream()
-                                    .filter(predicate -> predicate.getText().equals(text.getText()))
-                                    .count();
-                            if (count > 1) {
-                                logger.error("重複エラー");
-                            }
-                        }
-                        logger.info("編集モード終了:index={}, text={}", index, sourceText.getText());
-                        text.dispose();
-                    }
-                });
-                logger.info("編集モード開始:index={}, text={}", index, text.getText());
-                tableEditor.setEditor(text, item, EDIT_COLUMN);
             }
         });
         return parent;
@@ -158,5 +126,50 @@ public class EnumEditDialog extends Dialog {
 
     public String[] getItems() {
         return items.toArray(new String[0]);
+    }
+
+    private void selectedTableLine(Table table) {
+        int index = table.getSelectionIndex();
+
+        // Tableの選択範囲を解除
+        table.setSelection(new int[0]);
+
+        TableEditor tableEditor = new TableEditor(table);
+        tableEditor.grabHorizontal = true;
+
+        // 選択された行のTableItemを取得
+        TableItem item = table.getItem(index);
+
+        // セルエディタを設定
+        Text text = new Text(table, SWT.NONE);
+        text.setText(item.getText(EDIT_COLUMN));
+
+        // フォーカスが外れた場合、重複チェックを行う
+        text.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent event) {
+                Text sourceText = (Text) event.getSource();
+                logger.info("フォーカスロスト:{}", sourceText.getText());
+
+                // 編集内容反映をテーブルに反映
+                TableItem editItem = table.getItem(index);
+                editItem.setText(EDIT_COLUMN, sourceText.getText());
+
+                // 重複チェック
+                if (StringUtils.isNotEmpty(text.getText())) {
+                    long count = Arrays.asList(table.getItems())
+                            .stream()
+                            .filter(predicate -> predicate.getText().equals(text.getText()))
+                            .count();
+                    if (count > 1) {
+                        logger.error("重複エラー");
+                    }
+                }
+                logger.info("編集モード終了:index={}, text={}", index, sourceText.getText());
+                text.dispose();
+            }
+        });
+        logger.info("編集モード開始:index={}, text={}", index, text.getText());
+        tableEditor.setEditor(text, item, EDIT_COLUMN);
     }
 }

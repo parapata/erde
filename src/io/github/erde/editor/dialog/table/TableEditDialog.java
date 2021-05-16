@@ -12,11 +12,14 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 
+import io.github.erde.ERDPlugin;
+import io.github.erde.ICON;
 import io.github.erde.core.exception.ValidateException;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
+import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.DomainModel;
@@ -86,9 +89,11 @@ public class TableEditDialog extends Dialog implements ITableEdit {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText(DIALOG_TABLE_TITLE.getValue());
+        Shell shell = getShell();
+        shell.setText(DIALOG_TABLE_TITLE.getValue());
+        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
 
-        TabFolder tabFolder = new TabFolder(parent, SWT.NULL);
+        TabFolder tabFolder = new TabFolder(parent, SWT.NONE);
         tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         // Attribute tab
@@ -110,7 +115,8 @@ public class TableEditDialog extends Dialog implements ITableEdit {
             validate();
             super.okPressed();
         } catch (ValidateException e) {
-            UIUtils.openAlertDialog(ERROR_VALIDATION);
+            // UIUtils.openAlertDialog(ERROR_VALIDATION);
+            UIUtils.openAlertDialog(e.getMessage());
         }
     }
 
@@ -189,45 +195,42 @@ public class TableEditDialog extends Dialog implements ITableEdit {
 
     private void validate() throws ValidateException {
 
-        List<TableModel> tables = UIUtils.getRootModel().getTables();
+        List<TableModel> tables = ERDiagramEditor.getERDiagramRootModel().getTables();
 
+        // -----
         // Physical table name check
-        if (StringUtils.isEmpty(editTable.getPhysicalName())) {
+        String tablePhysicalName = editTable.getPhysicalName();
+        if (StringUtils.isEmpty(tablePhysicalName)) {
             throw new ValidateException(VALIDATION_ERROR_PHYSICAL_TABLE_NAME_REQUIRED);
         }
 
-        long count = tables.stream()
-                .filter(table -> !StringUtils.equals(editTable.getId(), table.getId())
-                        && StringUtils.equalsIgnoreCase(editTable.getPhysicalName(), table.getPhysicalName()))
-                .count();
-        if (count > 0) {
+        if (tables.stream().anyMatch(table -> !StringUtils.equals(editTable.getId(), table.getId())
+                && StringUtils.equalsIgnoreCase(tablePhysicalName, table.getPhysicalName()))) {
             throw new ValidateException(VALIDATION_ERROR_PHYSICAL_TABLE_NAME_DUPLICATED);
         }
 
+        // -----
         // Logical table name check
-        if (StringUtils.isEmpty(editTable.getLogicalName())) {
+        String tableLogicalName = editTable.getLogicalName();
+        if (StringUtils.isEmpty(tableLogicalName)) {
             throw new ValidateException(VALIDATION_ERROR_LOGICAL_TABLE_NAME_REQUIRED);
         }
 
-        count = tables.stream()
-                .filter(table -> !StringUtils.equals(editTable.getId(), table.getId())
-                        && StringUtils.equalsIgnoreCase(editTable.getLogicalName(), table.getLogicalName()))
-                .count();
-        if (count > 0) {
+        if (tables.stream().anyMatch(table -> !StringUtils.equals(editTable.getId(), table.getId())
+                && StringUtils.equals(tableLogicalName, table.getLogicalName()))) {
             throw new ValidateException(VALIDATION_ERROR_LOGICAL_TABLE_NAME_DUPLICATED);
         }
 
+        // -----
         // Physical column name check
-        count = editTable.getColumns()
+        if (editTable.getColumns()
                 .stream()
                 .map(column -> column.getPhysicalName())
-                .filter(columnName -> StringUtils.isNotEmpty(columnName))
-                .count();
-        if (editTable.getColumns().size() != count) {
+                .anyMatch(columnName -> StringUtils.isEmpty(columnName))) {
             throw new ValidateException(VALIDATION_ERROR_PHYSICAL_TABLE_NAME_REQUIRED);
         }
 
-        count = editTable.getColumns()
+        long count = editTable.getColumns()
                 .stream()
                 .map(column -> column.getPhysicalName())
                 .distinct()
@@ -236,13 +239,12 @@ public class TableEditDialog extends Dialog implements ITableEdit {
             throw new ValidateException(VALIDATION_ERROR_PHYSICAL_TABLE_NAME_DUPLICATED);
         }
 
+        // -----
         // Logical column name check
-        count = editTable.getColumns()
+        if (editTable.getColumns()
                 .stream()
                 .map(column -> column.getLogicalName())
-                .filter(columnName -> StringUtils.isNotEmpty(columnName))
-                .count();
-        if (editTable.getColumns().size() != count) {
+                .anyMatch(columnName -> StringUtils.isEmpty(columnName))) {
             throw new ValidateException(VALIDATION_ERROR_LOGICAL_COLUMN_NAME_REQUIRED);
         }
 

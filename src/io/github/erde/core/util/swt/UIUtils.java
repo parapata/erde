@@ -6,7 +6,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -15,16 +14,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 
 import io.github.erde.ERDPlugin;
 import io.github.erde.Resource;
-import io.github.erde.editor.ERDiagramEditor;
-import io.github.erde.editor.diagram.model.RootModel;
 
 /**
  * UIUtils.
@@ -84,7 +76,7 @@ public class UIUtils {
      * @param width the column width
      */
     public static void createColumn(Table table, Resource key, int width) {
-        createColumn(table, key, width, SWT.NULL);
+        createColumn(table, key, width, SWT.NONE);
     }
 
     /**
@@ -109,7 +101,7 @@ public class UIUtils {
      * @return the created label
      */
     public static Label createLabel(Composite parent, Resource key) {
-        Label label = new Label(parent, SWT.NULL);
+        Label label = new Label(parent, SWT.NONE);
         label.setText(key.getValue());
         return label;
     }
@@ -175,47 +167,5 @@ public class UIUtils {
         } catch (CoreException e) {
             ERDPlugin.logException(e);
         }
-    }
-
-    /**
-     * Returns an active ERD editor in the workbench.
-     *
-     * @return an instance of active ERD editor
-     */
-    public static ERDiagramEditor getActiveEditor() {
-        IWorkbench workbench = PlatformUI.getWorkbench();
-        IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-        IWorkbenchPage page = window.getActivePage();
-        IEditorPart editorPart = page.getActiveEditor();
-        if (editorPart instanceof ERDiagramEditor) {
-            return (ERDiagramEditor) editorPart;
-        }
-        return null;
-    }
-
-    /**
-     * Returns an GraphicalViewer in the ERDiagramEditor.
-     *
-     * @return an instance of GraphicalViewer
-     */
-    public static GraphicalViewer getGraphicalViewer() {
-        ERDiagramEditor editor = getActiveEditor();
-        if (editor != null) {
-            return (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
-        }
-        return null;
-    }
-
-    /**
-     * Returns an root model in the GraphicalViewer.
-     *
-     * @return an instance of RootModel
-     */
-    public static RootModel getRootModel() {
-        GraphicalViewer viewer = getGraphicalViewer();
-        if (viewer != null) {
-            return (RootModel) viewer.getContents().getModel();
-        }
-        return null;
     }
 }

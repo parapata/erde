@@ -37,12 +37,12 @@ public class ERDPreferencePage extends PreferencePage implements IWorkbenchPrefe
 
     @Override
     protected Control createContents(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NULL);
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(1, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         // for Layout (Grid)
-        Group layoutGroup = new Group(composite, SWT.NULL);
+        Group layoutGroup = new Group(composite, SWT.NONE);
         layoutGroup.setText(PREFERENCE_LAYOUT.getValue());
         layoutGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -58,7 +58,7 @@ public class ERDPreferencePage extends PreferencePage implements IWorkbenchPrefe
         layoutGroup.setLayout(new GridLayout(3, false));
 
         // for Diagram (Grid)
-        Group diagramGroup = new Group(composite, SWT.NULL);
+        Group diagramGroup = new Group(composite, SWT.NONE);
         diagramGroup.setText(PREFERENCE_DIAGRAM.getValue());
         diagramGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         showNotNull = new BooleanFieldEditor(SHOW_NOT_NULL, PREFERENCE_DIAGRAM_SHOW_NOT_NULL.getValue(), diagramGroup);

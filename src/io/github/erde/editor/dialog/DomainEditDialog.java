@@ -31,6 +31,8 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.ERDPlugin;
+import io.github.erde.ICON;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.IDialect;
@@ -89,8 +91,11 @@ public class DomainEditDialog extends Dialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText(DIALOG_DOMAIN_TITLE.getValue());
-        Composite composite = new Composite(parent, SWT.NULL);
+        Shell shell = getShell();
+        shell.setText(DIALOG_DOMAIN_TITLE.getValue());
+        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(2, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -185,7 +190,7 @@ public class DomainEditDialog extends Dialog {
         });
 
         // ----------
-        Composite buttons = new Composite(composite, SWT.NULL);
+        Composite buttons = new Composite(composite, SWT.NONE);
         GridLayout buttonsLayout = new GridLayout(1, false);
         buttonsLayout.horizontalSpacing = 0;
         buttonsLayout.verticalSpacing = 0;
@@ -248,12 +253,12 @@ public class DomainEditDialog extends Dialog {
     }
 
     private void createEditArea(Composite composite) {
-        Composite editArea = new Composite(composite, SWT.NULL);
+        Composite editArea = new Composite(composite, SWT.NONE);
         editArea.setLayout(new GridLayout(7, false));
         editArea.setLayoutData(UIUtils.createGridData(2));
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(LABEL_DOMAIN_NAME.getValue());
+        new Label(editArea, SWT.NONE).setText(LABEL_DOMAIN_NAME.getValue());
         txtDomainName = new Text(editArea, SWT.BORDER);
         txtDomainName.setLayoutData(UIUtils.createGridData(6));
         txtDomainName.addFocusListener(new FocusAdapter() {
@@ -264,7 +269,7 @@ public class DomainEditDialog extends Dialog {
         });
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(LABEL_TYPE.getValue());
+        new Label(editArea, SWT.NONE).setText(LABEL_TYPE.getValue());
         cmbColumnType = new Combo(editArea, SWT.READ_ONLY);
         for (int i = 0; i < dialect.getColumnTypes().size(); i++) {
             cmbColumnType.add(dialect.getColumnTypes().get(i).toString());
@@ -280,7 +285,7 @@ public class DomainEditDialog extends Dialog {
         cmbColumnType.setLayoutData(UIUtils.createGridData(1));
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(LABEL_SIZE.getValue());
+        new Label(editArea, SWT.NONE).setText(LABEL_SIZE.getValue());
         txtColumnSize = new Text(editArea, SWT.BORDER);
         txtColumnSize.addFocusListener(new FocusAdapter() {
             @Override
@@ -293,7 +298,7 @@ public class DomainEditDialog extends Dialog {
         txtColumnSize.setLayoutData(columnSizeGrid);
 
         // ----------
-        new Label(editArea, SWT.NULL).setText(LABEL_DECIMAL.getValue());
+        new Label(editArea, SWT.NONE).setText(LABEL_DECIMAL.getValue());
         txtDecimalSize = new Text(editArea, SWT.BORDER);
         txtDecimalSize.addFocusListener(new FocusAdapter() {
             @Override

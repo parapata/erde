@@ -23,11 +23,11 @@ public class DescriptionTab extends Composite {
     private Text txtTableDescription;
 
     public DescriptionTab(ITableEdit tableEdit, TabFolder tabFolder) {
-        super(tabFolder, SWT.NULL);
+        super(tabFolder, SWT.NONE);
         setLayout(new GridLayout(1, false));
         setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        TabItem tab = new TabItem(tabFolder, SWT.NULL);
+        TabItem tab = new TabItem(tabFolder, SWT.NONE);
         tab.setText(LABEL_DESCRIPTION.getValue());
         tab.setControl(this);
         create(tableEdit);

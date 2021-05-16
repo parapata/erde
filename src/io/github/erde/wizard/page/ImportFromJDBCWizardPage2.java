@@ -37,7 +37,7 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
 
     @Override
     public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
+        Composite container = new Composite(parent, SWT.NONE);
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -74,7 +74,7 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
                 return;
             }
             task.getTableNames().forEach(tableName -> {
-                TreeItem item = new TreeItem(table, SWT.NULL);
+                TreeItem item = new TreeItem(table, SWT.NONE);
                 item.setText(tableName);
             });
         } else {
@@ -123,7 +123,7 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
             setPageComplete(tree.getItem(0).getChecked());
         });
         // ルートとなる要素を追加
-        TreeItem table = new TreeItem(tree, SWT.NULL);
+        TreeItem table = new TreeItem(tree, SWT.NONE);
         table.setText("Table");
     }
 

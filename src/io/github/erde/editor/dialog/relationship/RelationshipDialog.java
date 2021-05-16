@@ -26,6 +26,8 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.ERDPlugin;
+import io.github.erde.ICON;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
@@ -58,6 +60,7 @@ public class RelationshipDialog extends Dialog implements IRelationshipDialog {
 
     private Map<String, String> relationMap;
 
+    private Label message;
     private Combo cmbOnUpdate;
     private Combo cmbOnDelete;
     private Combo cmbSourceCardinality;
@@ -91,19 +94,21 @@ public class RelationshipDialog extends Dialog implements IRelationshipDialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText(DIALOG_MAPPING_TITLE.getValue());
+        Shell shell = getShell();
+        shell.setText(DIALOG_MAPPING_TITLE.getValue());
+        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
 
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(2, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        // メッセージ
-        if (true) {
-            GridData gd1 = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-            gd1.horizontalSpan = 3;
-            Label label1 = new Label(composite, SWT.NONE);
-            label1.setText(ERROR_DIALOG_MAPPING_NO_COLUMNS.getValue());
-            label1.setLayoutData(gd1);
+        // TODO メッセージ
+        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+        gd.horizontalSpan = 3;
+        message = new Label(composite, SWT.NONE);
+        message.setLayoutData(gd);
+        if (false) {
+            message.setText(ERROR_DIALOG_MAPPING_NO_COLUMNS.getValue());
         }
 
         // 制約名

@@ -13,7 +13,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
 import io.github.erde.editor.action.AutoLayoutAction;
-import io.github.erde.editor.action.ChangeDBTypeAction;
+import io.github.erde.editor.action.ChangeDialectAction;
 import io.github.erde.editor.action.CopyAsImageAction;
 import io.github.erde.editor.action.DeleteMarkerAction;
 import io.github.erde.editor.action.DomainEditAction;
@@ -53,7 +53,7 @@ public class ERDContextMenuProvider extends ContextMenuProvider {
         menu.add(new DomainEditAction());
         menu.add(registry.getAction(IERDAction.TOGGLE_MODEL));
         menu.add(registry.getAction(IERDAction.TOGGLE_NOTATION));
-        menu.add(new ChangeDBTypeAction());
+        menu.add(new ChangeDialectAction());
         menu.add(new Separator());
         menu.add(registry.getAction(GEFActionConstants.ZOOM_IN));
         menu.add(registry.getAction(GEFActionConstants.ZOOM_OUT));
