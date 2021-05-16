@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 
+import io.github.erde.ERDPlugin;
+import io.github.erde.ICON;
 import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.editor.diagram.model.ColumnModel;
 
@@ -45,8 +47,10 @@ public class IndexColumnSelectDialog extends Dialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
+        Shell shell = getShell();
+        shell.setText(DIALOG_INDEX_COLUMN_SELECT_TITLE.getValue());
+        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
 
-        getShell().setText(DIALOG_INDEX_COLUMN_SELECT_TITLE.getValue());
         viewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER);
         Table table = viewer.getTable();
         table.setLinesVisible(true);

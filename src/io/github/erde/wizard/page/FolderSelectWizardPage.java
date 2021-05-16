@@ -49,11 +49,11 @@ public class FolderSelectWizardPage extends WizardPage {
 
     @Override
     public void createControl(Composite parent) {
-        Composite composite = new Composite(parent, SWT.NULL);
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(3, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        Label label = new Label(composite, SWT.NULL);
+        Label label = new Label(composite, SWT.NONE);
         label.setText(WIZARD_FOLDER_SELECT_FOLDER.getValue());
         txtOutputFolder = new Text(composite, SWT.BORDER);
         txtOutputFolder.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

@@ -76,7 +76,7 @@ public class UIUtils {
      * @param width the column width
      */
     public static void createColumn(Table table, Resource key, int width) {
-        createColumn(table, key, width, SWT.NULL);
+        createColumn(table, key, width, SWT.NONE);
     }
 
     /**
@@ -101,7 +101,7 @@ public class UIUtils {
      * @return the created label
      */
     public static Label createLabel(Composite parent, Resource key) {
-        Label label = new Label(parent, SWT.NULL);
+        Label label = new Label(parent, SWT.NONE);
         label.setText(key.getValue());
         return label;
     }

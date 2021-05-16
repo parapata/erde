@@ -1,7 +1,5 @@
 package io.github.erde.dialect.type;
 
-import java.sql.Types;
-
 import io.github.erde.Resource;
 import io.github.erde.core.util.SerializationUtils;
 import io.github.erde.dialect.DialectProvider;
@@ -16,11 +14,11 @@ public class ColumnType implements IColumnType, IModel {
 
     private static final long serialVersionUID = 1L;
 
-    public static ColumnType newInstance(DialectProvider dialectProvider, String physicaNameKey, String logicalName,
+    public static ColumnType newInstance(DialectProvider dialectProvider, String physicaNameKey, Resource logicalName,
             boolean sizeSupported, int type) {
         ColumnType columnType = new ColumnType(dialectProvider);
         columnType.physicalName = physicaNameKey;
-        columnType.logicalName = Resource.toResource(logicalName).getValue();
+        columnType.logicalName = logicalName.getValue();
         columnType.sizeSupported = sizeSupported;
         columnType.type = type;
         return columnType;
@@ -75,42 +73,6 @@ public class ColumnType implements IColumnType, IModel {
 
     protected void setType(int type) {
         this.type = type;
-    }
-
-    @Override
-    public boolean isDomain() {
-        return false;
-    }
-
-    @Override
-    public boolean isDecimalSupported() {
-        if (isSizeSupported() &&
-                (type == Types.DECIMAL
-                        || type == Types.FLOAT
-                        || type == Types.DOUBLE
-                        || type == Types.NUMERIC)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean isUnsignedSupported() {
-        if (!DialectProvider.PostgreSQL.equals(dialectProvider)
-                && (type == Types.TINYINT
-                        || type == Types.SMALLINT
-                        || type == Types.INTEGER
-                        || type == Types.BIGINT)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean isEnum() {
-        return type == Types.OTHER && "ENUM".equals(physicalName);
     }
 
     @Override

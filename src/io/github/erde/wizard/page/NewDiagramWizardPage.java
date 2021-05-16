@@ -52,11 +52,11 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
         layout.marginWidth = 0;
         layout.marginHeight = 0;
 
-        Composite composite = new Composite((Composite) getControl(), SWT.NULL);
+        Composite composite = new Composite((Composite) getControl(), SWT.NONE);
         composite.setLayout(layout);
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-        Label productLabel = new Label(composite, SWT.NULL);
+        Label productLabel = new Label(composite, SWT.NONE);
         productLabel.setText(LABEL_DATABASE.getValue());
 
         products = new Combo(composite, SWT.READ_ONLY);
@@ -70,7 +70,7 @@ public class NewDiagramWizardPage extends WizardNewFileCreationPage {
 
         composite.setLayout(layout);
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        Label schemaLabel = new Label(composite, SWT.NULL);
+        Label schemaLabel = new Label(composite, SWT.NONE);
         schemaLabel.setText(LABEL_SCHEMA.getValue());
 
         schema = new Text(composite, SWT.BORDER);

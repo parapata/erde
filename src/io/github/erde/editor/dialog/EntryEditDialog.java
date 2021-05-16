@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import io.github.erde.ERDPlugin;
+import io.github.erde.ICON;
 import io.github.erde.Resource;
 import io.github.erde.core.util.DictionaryEntry;
 import io.github.erde.core.util.swt.UIUtils;
@@ -40,9 +42,11 @@ public class EntryEditDialog extends Dialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        getShell().setText(DIALOG_DICTIONARY_TITLE.getValue());
+        Shell shell = getShell();
+        shell.setText(DIALOG_DICTIONARY_TITLE.getValue());
+        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
 
-        Composite composite = new Composite(parent, SWT.NULL);
+        Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
         composite.setLayout(new GridLayout(2, false));
 

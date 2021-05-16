@@ -68,11 +68,11 @@ public class AttributeTab extends Composite {
     private Text txtDecimal;
     private Combo cmbEnum;
     private Button btnEnumEdit;
-    private Button btnChkUnsigned;
-    private Button btnChkNotNull;
-    private Button btnChkIsPK;
-    private Button btnChkIsUnique;
-    private Button btnAutoIncrement;
+    private Button chkUnsigned;
+    private Button chkNotNull;
+    private Button chkIsPK;
+    private Button chkIsUnique;
+    private Button chkAutoIncrement;
     private Text txtDefaultValue;
     private Text txtColumnDescription;
 
@@ -119,14 +119,14 @@ public class AttributeTab extends Composite {
 
     public AttributeTab(ITableEdit tableEdit, TabFolder tabFolder, int editColumnIndex,
             List<DomainModel> domains) {
-        super(tabFolder, SWT.NULL);
+        super(tabFolder, SWT.NONE);
         this.tableEdit = tableEdit;
         this.editColumnIndex = editColumnIndex;
         this.domains = domains;
 
         setLayout(new GridLayout());
         setLayoutData(new GridData(GridData.FILL_BOTH));
-        TabItem tab = new TabItem(tabFolder, SWT.NULL);
+        TabItem tab = new TabItem(tabFolder, SWT.NONE);
         tab.setText(LABEL_ATTRIBUTE.getValue());
         tab.setControl(this);
         create(tab);
@@ -137,7 +137,7 @@ public class AttributeTab extends Composite {
      */
     private void create(TabItem tab) {
 
-        Composite table = new Composite(this, SWT.NULL);
+        Composite table = new Composite(this, SWT.NONE);
         table.setLayout(new GridLayout(2, false));
         table.setLayoutData(UIUtils.createGridData(2));
 
@@ -156,7 +156,7 @@ public class AttributeTab extends Composite {
         // ------------------------------------------------------------
         // tabale area
         // ------------------------------------------------------------
-        Composite tableArea = new Composite(this, SWT.NULL);
+        Composite tableArea = new Composite(this, SWT.NONE);
         GridLayout layout = new GridLayout(2, false);
         layout.horizontalSpacing = 0;
         layout.verticalSpacing = 0;
@@ -178,11 +178,11 @@ public class AttributeTab extends Composite {
         UIUtils.createColumn(tblColumns, LABEL_UNIQUE, 55);
 
         for (ColumnModel model : tableEdit.getColumns()) {
-            TableItem item = new TableItem(tblColumns, SWT.NULL | SWT.FILL);
+            TableItem item = new TableItem(tblColumns, SWT.NONE | SWT.FILL);
             setTableItem(item, model);
         }
 
-        Composite buttons = new Composite(tableArea, SWT.NULL);
+        Composite buttons = new Composite(tableArea, SWT.NONE);
         GridLayout buttonsLayout = new GridLayout(1, false);
         buttonsLayout.horizontalSpacing = 0;
         buttonsLayout.verticalSpacing = 0;
@@ -207,7 +207,7 @@ public class AttributeTab extends Composite {
                 int index = tblColumns.getSelectionIndex();
                 if (index == -1) {
                     tableEdit.getColumns().add(column);
-                    TableItem item = new TableItem(tblColumns, SWT.NULL);
+                    TableItem item = new TableItem(tblColumns, SWT.NONE);
                     setTableItem(item, column);
                     tblColumns.setSelection(index - 1);
                 } else {
@@ -280,7 +280,7 @@ public class AttributeTab extends Composite {
         // ------------------------------------------------------------
         // column infomation area
         // ------------------------------------------------------------
-        Group group = new Group(this, SWT.NULL);
+        Group group = new Group(this, SWT.NONE);
         group.setText(LABEL_EDIT_COLUMN.getValue());
         group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         group.setLayout(new GridLayout(7, false));
@@ -288,30 +288,31 @@ public class AttributeTab extends Composite {
         // ------------------------------------------------------------
         // check box area(pkey, autoIncrement etc...)
         // ------------------------------------------------------------
-        Composite checks = new Composite(group, SWT.NULL);
+        // ----- line_1
+        Composite checks = new Composite(group, SWT.NONE);
         checks.setLayout(new GridLayout(6, false));
         checks.setLayoutData(UIUtils.createGridData(7));
 
-        btnChkIsPK = new Button(checks, SWT.CHECK);
-        btnChkIsPK.setText(LABEL_COLUMN_PK.getValue());
-        btnChkIsPK.addSelectionListener(columnInfoSelectionChanged);
+        chkIsPK = new Button(checks, SWT.CHECK);
+        chkIsPK.setText(LABEL_COLUMN_PK.getValue());
+        chkIsPK.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
-        btnChkNotNull = new Button(checks, SWT.CHECK);
-        btnChkNotNull.setText(LABEL_NOT_NULL.getValue());
-        btnChkNotNull.addSelectionListener(columnInfoSelectionChanged);
+        chkNotNull = new Button(checks, SWT.CHECK);
+        chkNotNull.setText(LABEL_NOT_NULL.getValue());
+        chkNotNull.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
-        btnChkIsUnique = new Button(checks, SWT.CHECK);
-        btnChkIsUnique.setText(LABEL_UNIQUE_KEY.getValue());
-        btnChkIsUnique.addSelectionListener(columnInfoSelectionChanged);
+        chkIsUnique = new Button(checks, SWT.CHECK);
+        chkIsUnique.setText(LABEL_UNIQUE_KEY.getValue());
+        chkIsUnique.addSelectionListener(columnInfoSelectionChanged);
 
         // -----
-        btnAutoIncrement = new Button(checks, SWT.CHECK);
-        btnAutoIncrement.setText(LABEL_AUTO_INCREMENT.getValue());
-        btnAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
+        chkAutoIncrement = new Button(checks, SWT.CHECK);
+        chkAutoIncrement.setText(LABEL_AUTO_INCREMENT.getValue());
+        chkAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
 
-        // -----
+        // ----- line_2
         UIUtils.createLabel(group, LABEL_PYHGICAL_COLUMN_NAME);
         txtColumnName = new Text(group, SWT.BORDER);
         GridData pyhgicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -319,7 +320,7 @@ public class AttributeTab extends Composite {
         txtColumnName.setLayoutData(pyhgicalNameGridData);
         txtColumnName.addFocusListener(updateColumnInfoChanged);
 
-        // -----
+        // ----- line_3
         UIUtils.createLabel(group, LABEL_LOGICAL_COLUMN_NAME);
         txtColumnLogicalName = new Text(group, SWT.BORDER);
         GridData logicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -327,7 +328,7 @@ public class AttributeTab extends Composite {
         txtColumnLogicalName.setLayoutData(logicalNameGridData);
         txtColumnLogicalName.addFocusListener(updateColumnInfoChanged);
 
-        // -----
+        // ----- line_4
         UIUtils.createLabel(group, LABEL_TYPE);
         cmbColumnType = new Combo(group, SWT.READ_ONLY);
         cmbColumnType.addSelectionListener(columnTypeSelectionChanged);
@@ -353,13 +354,13 @@ public class AttributeTab extends Composite {
         txtDecimal.addVerifyListener(new NumericVerifyListener());
 
         // -----
-        btnChkUnsigned = new Button(group, SWT.CHECK);
-        btnChkUnsigned.setText(LABEL_UNSIGNED.getValue());
-        btnChkUnsigned.addSelectionListener(columnInfoSelectionChanged);
+        chkUnsigned = new Button(group, SWT.CHECK);
+        chkUnsigned.setText(LABEL_UNSIGNED.getValue());
+        chkUnsigned.addSelectionListener(columnInfoSelectionChanged);
 
-        // -----
+        // ----- line_5
         UIUtils.createLabel(group, NONE);
-        Composite enumArea = new Composite(group, SWT.NULL);
+        Composite enumArea = new Composite(group, SWT.NONE);
         enumArea.setLayout(new GridLayout(5, false));
         enumArea.setLayoutData(UIUtils.createGridData(6));
         UIUtils.createLabel(enumArea, LABEL_ENUM_SET);
@@ -385,7 +386,7 @@ public class AttributeTab extends Composite {
             }
         });
 
-        // -----
+        // ----- line_6
         UIUtils.createLabel(group, LABEL_DEFAULT_VALUE);
         txtDefaultValue = new Text(group, SWT.BORDER);
         GridData defaultValueGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -393,7 +394,7 @@ public class AttributeTab extends Composite {
         txtDefaultValue.setLayoutData(defaultValueGridData);
         txtDefaultValue.addFocusListener(updateColumnInfoChanged);
 
-        // -----
+        // ----- line_7
         UIUtils.createLabel(group, LABEL_DESCRIPTION);
         txtColumnDescription = new Text(group, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         txtColumnDescription.setLayoutData(UIUtils.createGridDataWithColspan(6, 90));
@@ -467,14 +468,14 @@ public class AttributeTab extends Composite {
 
             // -----
             if (columnType.isUnsignedSupported()) {
-                btnChkUnsigned.setSelection(column.isUnsigned());
+                chkUnsigned.setSelection(column.isUnsigned());
             } else {
-                btnChkUnsigned.setSelection(false);
+                chkUnsigned.setSelection(false);
             }
             if (columnType.isDomain()) {
-                btnChkUnsigned.setEnabled(false);
+                chkUnsigned.setEnabled(false);
             } else {
-                btnChkUnsigned.setEnabled((columnType.isUnsignedSupported()));
+                chkUnsigned.setEnabled((columnType.isUnsignedSupported()));
             }
 
             // -----
@@ -503,34 +504,34 @@ public class AttributeTab extends Composite {
             txtColumnDescription.setEnabled(true);
 
             // -----
-            btnChkIsPK.setSelection(column.isPrimaryKey());
-            btnChkIsPK.setEnabled(true);
+            chkIsPK.setSelection(column.isPrimaryKey());
+            chkIsPK.setEnabled(true);
 
             // -----
-            btnChkIsUnique.setSelection(column.isUniqueKey());
-            btnChkIsUnique.setEnabled(!column.isPrimaryKey());
+            chkIsUnique.setSelection(column.isUniqueKey());
+            chkIsUnique.setEnabled(!column.isPrimaryKey());
 
             // -----
             if (column.isPrimaryKey()) {
-                btnChkNotNull.setSelection(true);
-                btnChkNotNull.setEnabled(false);
+                chkNotNull.setSelection(true);
+                chkNotNull.setEnabled(false);
             } else {
-                btnChkNotNull.setSelection(column.isNotNull());
-                btnChkNotNull.setEnabled(true);
+                chkNotNull.setSelection(column.isNotNull());
+                chkNotNull.setEnabled(true);
             }
 
             // -----
             if (tableEdit.getDialect().isAutoIncrement()) {
-                if (column.isPrimaryKey() && columnType.isSizeSupported()) {
-                    btnAutoIncrement.setEnabled(true);
-                    btnAutoIncrement.setSelection(column.isAutoIncrement());
+                if (column.isPrimaryKey() && columnType.isAutoIncrementSupported()) {
+                    chkAutoIncrement.setEnabled(true);
+                    chkAutoIncrement.setSelection(column.isAutoIncrement());
                 } else {
-                    btnAutoIncrement.setEnabled(false);
-                    btnAutoIncrement.setSelection(false);
+                    chkAutoIncrement.setEnabled(false);
+                    chkAutoIncrement.setSelection(false);
                 }
             } else {
-                btnAutoIncrement.setSelection(false);
-                btnAutoIncrement.setEnabled(false);
+                chkAutoIncrement.setSelection(false);
+                chkAutoIncrement.setEnabled(false);
             }
 
             editColumnIndex = selectedIndex;
@@ -587,10 +588,10 @@ public class AttributeTab extends Composite {
             column.setDecimal(null);
         }
         if (columnType.isUnsignedSupported()) {
-            column.setUnsigned(btnChkUnsigned.getSelection());
+            column.setUnsigned(chkUnsigned.getSelection());
         } else {
             column.setUnsigned(false);
-            btnChkUnsigned.setSelection(false);
+            chkUnsigned.setSelection(false);
         }
         if (columnType.isEnum()) {
             column.getEnumNames().clear();
@@ -625,44 +626,46 @@ public class AttributeTab extends Composite {
         if (columnType.isDomain()) {
             txtColumnSize.setEnabled(false);
             txtDecimal.setEnabled(false);
-            btnChkUnsigned.setEnabled(false);
+            chkUnsigned.setEnabled(false);
         } else {
             txtColumnSize.setEnabled(columnType.isSizeSupported());
             txtDecimal.setEnabled(columnType.isDecimalSupported());
-            btnChkUnsigned.setEnabled(columnType.isUnsignedSupported());
+            chkUnsigned.setEnabled(columnType.isUnsignedSupported());
         }
 
-        if (btnChkIsPK.getSelection()) {
-            btnChkNotNull.setSelection(true);
-            btnChkNotNull.setEnabled(false);
-            btnChkIsUnique.setSelection(false);
-            btnChkIsUnique.setEnabled(false);
+        if (chkIsPK.getSelection()) {
+            chkNotNull.setSelection(true);
+            chkNotNull.setEnabled(false);
+            chkIsUnique.setSelection(false);
+            chkIsUnique.setEnabled(false);
             if (tableEdit.getDialect().isAutoIncrement()) {
-                if (btnChkIsPK.getSelection()) {
-                    btnAutoIncrement.setEnabled(true);
+                if (chkIsPK.getSelection() && columnType.isAutoIncrementSupported()) {
+                    chkAutoIncrement.setEnabled(true);
+                } else {
+                    chkAutoIncrement.setEnabled(false);
                 }
             } else {
-                btnAutoIncrement.setSelection(false);
-                btnAutoIncrement.setEnabled(false);
+                chkAutoIncrement.setSelection(false);
+                chkAutoIncrement.setEnabled(false);
             }
 
         } else {
-            if (btnChkIsPK.getSelection() != column.isPrimaryKey()) {
-                btnChkNotNull.setSelection(false);
-                btnAutoIncrement.setSelection(false);
+            if (chkIsPK.getSelection() != column.isPrimaryKey()) {
+                chkNotNull.setSelection(false);
+                chkAutoIncrement.setSelection(false);
             }
-            btnChkNotNull.setEnabled(true);
-            btnChkIsUnique.setEnabled(true);
-            btnAutoIncrement.setEnabled(false);
+            chkNotNull.setEnabled(true);
+            chkIsUnique.setEnabled(true);
+            chkAutoIncrement.setEnabled(false);
         }
 
         column.setDefaultValue(txtDefaultValue.getText());
         column.setDescription(txtColumnDescription.getText());
 
-        column.setPrimaryKey(btnChkIsPK.getSelection());
-        column.setNotNull(btnChkNotNull.getSelection());
-        column.setUniqueKey(btnChkIsUnique.getSelection());
-        column.setAutoIncrement(btnAutoIncrement.getSelection());
+        column.setPrimaryKey(chkIsPK.getSelection());
+        column.setNotNull(chkNotNull.getSelection());
+        column.setUniqueKey(chkIsUnique.getSelection());
+        column.setAutoIncrement(chkAutoIncrement.getSelection());
 
         TableItem tblItem = tblColumns.getItem(editColumnIndex);
         setTableItem(tblItem, column);
@@ -676,7 +679,7 @@ public class AttributeTab extends Composite {
 
         tblColumns.removeAll();
         for (ColumnModel column : tableEdit.getColumns()) {
-            TableItem item = new TableItem(tblColumns, SWT.NULL);
+            TableItem item = new TableItem(tblColumns, SWT.NONE);
             setTableItem(item, column);
         }
     }
@@ -733,8 +736,8 @@ public class AttributeTab extends Composite {
 
         btnEnumEdit.setEnabled(false);
 
-        btnChkUnsigned.setSelection(false);
-        btnChkUnsigned.setEnabled(false);
+        chkUnsigned.setSelection(false);
+        chkUnsigned.setEnabled(false);
 
         txtDefaultValue.setText("");
         txtDefaultValue.setEnabled(false);
@@ -742,17 +745,17 @@ public class AttributeTab extends Composite {
         txtColumnDescription.setText("");
         txtColumnDescription.setEnabled(false);
 
-        btnChkIsPK.setSelection(false);
-        btnChkIsPK.setEnabled(false);
+        chkIsPK.setSelection(false);
+        chkIsPK.setEnabled(false);
 
-        btnChkIsUnique.setSelection(false);
-        btnChkIsUnique.setEnabled(false);
+        chkIsUnique.setSelection(false);
+        chkIsUnique.setEnabled(false);
 
-        btnChkNotNull.setSelection(false);
-        btnChkNotNull.setEnabled(false);
+        chkNotNull.setSelection(false);
+        chkNotNull.setEnabled(false);
 
-        btnAutoIncrement.setSelection(false);
-        btnAutoIncrement.setEnabled(false);
+        chkAutoIncrement.setSelection(false);
+        chkAutoIncrement.setEnabled(false);
     }
 
     private void setTableItem(TableItem item, ColumnModel model) {

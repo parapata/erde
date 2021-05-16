@@ -1,4 +1,4 @@
-<%@ jet package="io.github.erde.dev" class="GenResourceEnum" imports="java.util.Collection java.util.Iterator io.github.erde.dev.GenResourceBean"%>
+<%@ jet package="io.github.erde.dev" class="GenResourceEnumTemplate" imports="java.util.Collection java.util.Iterator io.github.erde.dev.GenResourceBean"%>
 package io.github.erde;
 
 import java.util.Arrays;

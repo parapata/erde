@@ -15,7 +15,7 @@ public interface IERDAction {
     String AUTO_LAYOUT = AutoLayoutAction.class.getName();
     String DOMAING_EDIT = DomainEditAction.class.getName();
     String QUICK_OUTLINE = QuickOutlineAction.class.getName();
-    String CHANGE_DB_TYPE = ChangeDBTypeAction.class.getName();
+    String CHANGE_DB_TYPE = ChangeDialectAction.class.getName();
     String COPY_AS_IMAGE = CopyAsImageAction.class.getName();
     String DELETE_MARKER = DeleteMarkerAction.class.getName();
 

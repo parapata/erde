@@ -198,6 +198,12 @@ public enum Resource {
     LABEL_WARNING("label.warning"),
     /** key:label.x. */
     LABEL_X("label.x"),
+    /** key:menuber.file. */
+    MENUBER_FILE("menuber.file"),
+    /** key:menuber.quit. */
+    MENUBER_QUIT("menuber.quit"),
+    /** key:menuber.save. */
+    MENUBER_SAVE("menuber.save"),
     /** key:none. */
     NONE("none"),
     /** key:palette.node.note. */
@@ -308,6 +314,8 @@ public enum Resource {
     WIZARD_NEW_ERD_PAGE_DESCRIPTION("wizard.new.erd.page.description"),
     /** key:wizard.new.erd.page.title. */
     WIZARD_NEW_ERD_PAGE_TITLE("wizard.new.erd.page.title"),
+    /** key:error.database.connect. */
+    ERROR_DATABASE_CONNECT("error.database.connect"),
     /** key:error.db.import. */
     ERROR_DB_IMPORT("error.db.import"),
     /** key:error.dialog.alert.domain.delete.error. */

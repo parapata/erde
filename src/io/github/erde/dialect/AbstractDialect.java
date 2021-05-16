@@ -249,8 +249,30 @@ public abstract class AbstractDialect implements IDialect {
     }
 
     protected void additions(RootModel root) {
-        return;
+
+        // Table Comments
+        if (isComment()) {
+            AtomicInteger count = new AtomicInteger(0);
+            TableDependencyCalculator.getSortedTable(root).forEach(table -> {
+                if (count.getAndIncrement() > 1) {
+                    println();
+                }
+                print(String.format("COMMENT ON TABLE %s IS '%s'",
+                        table.getPhysicalName(),
+                        table.getLogicalName()));
+                println(getSeparator());
+
+                table.getColumns().forEach(column -> {
+                    print(String.format("COMMENT ON COLUMN %s.%s IS '%s'",
+                            table.getPhysicalName(),
+                            column.getPhysicalName(),
+                            column.getLogicalName()));
+                    println(getSeparator());
+                });
+            });
+        }
     }
+
 
     protected String createColumnPart(ColumnModel column) {
 

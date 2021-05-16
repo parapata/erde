@@ -110,6 +110,9 @@ public class ERDiagramEditor extends GraphicalEditorWithPalette
     private static ERDiagramEditor editor;
 
     public static GraphicalViewer getERDiagramViewer() {
+        if (editor == null) {
+            throw new IllegalStateException();
+        }
         return editor.getGraphicalViewer();
     }
 

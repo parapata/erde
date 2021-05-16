@@ -1,5 +1,7 @@
 package io.github.erde.dialect.type;
 
+import java.sql.Types;
+
 import io.github.erde.dialect.DialectProvider;
 
 /**
@@ -16,13 +18,53 @@ public interface IColumnType {
 
     boolean isSizeSupported();
 
-    boolean isDecimalSupported();
-
-    boolean isUnsignedSupported();
-
-    boolean isEnum();
-
     int getType();
 
-    boolean isDomain();
+    default boolean isAutoIncrementSupported() {
+        if (getType() == Types.TINYINT
+                || getType() == Types.SMALLINT
+                || getType() == Types.INTEGER
+                || getType() == Types.BIGINT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    default boolean isDomain() {
+        return false;
+    }
+
+    default boolean isDecimalSupported() {
+        int type = getType();
+        if (isSizeSupported() &&
+                (type == Types.DECIMAL
+                        || type == Types.FLOAT
+                        || type == Types.DOUBLE
+                        || type == Types.NUMERIC)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    default boolean isUnsignedSupported() {
+        int type = getType();
+        DialectProvider dialectProvider = getDialectProvider();
+        if (!DialectProvider.PostgreSQL.equals(dialectProvider)
+                && (type == Types.TINYINT
+                        || type == Types.SMALLINT
+                        || type == Types.INTEGER
+                        || type == Types.BIGINT)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    default boolean isEnum() {
+        // TODO 判定見直し
+        return getType() == Types.OTHER && "ENUM".equals(getPhysicalName());
+    }
+
 }

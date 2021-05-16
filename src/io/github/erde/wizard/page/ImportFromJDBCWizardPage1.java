@@ -66,7 +66,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
 
     @Override
     public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
+        Composite container = new Composite(parent, SWT.NONE);
         container.setLayout(new GridLayout(4, false));
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
 

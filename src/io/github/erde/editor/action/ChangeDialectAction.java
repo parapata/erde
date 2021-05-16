@@ -14,9 +14,9 @@ import io.github.erde.wizard.ChangeDialectWizard;
  *
  * @author modified by parapata
  */
-public class ChangeDBTypeAction extends Action implements IERDAction {
+public class ChangeDialectAction extends Action implements IERDAction {
 
-    public ChangeDBTypeAction() {
+    public ChangeDialectAction() {
         super();
         setId(CHANGE_DB_TYPE);
         setText(ACTION_CHANGE_DATABASE_TYPE.getValue());

@@ -58,7 +58,7 @@ public class IndexTab extends Composite {
     private Button btnDownColumn;
 
     public IndexTab(ITableEdit tableEdit, TabFolder tabFolder, int editIndexIndex, boolean indexEditing) {
-        super(tabFolder, SWT.NULL);
+        super(tabFolder, SWT.NONE);
         this.tableEdit = tableEdit;
         this.editIndexIndex = editIndexIndex;
         this.indexEditing = indexEditing;
@@ -66,7 +66,7 @@ public class IndexTab extends Composite {
         setLayout(new GridLayout(2, false));
         setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        TabItem tab = new TabItem(tabFolder, SWT.NULL);
+        TabItem tab = new TabItem(tabFolder, SWT.NONE);
         tab.setText(LABEL_INDEX.getValue());
         tab.setControl(this);
 
@@ -92,7 +92,7 @@ public class IndexTab extends Composite {
     }
 
     private void createIndexListArea(Composite composite) {
-        Composite indexArea = new Composite(composite, SWT.NULL);
+        Composite indexArea = new Composite(composite, SWT.NONE);
         GridLayout layout = new GridLayout(2, false);
         indexArea.setLayout(layout);
         indexArea.setLayoutData(UIUtils.createGridData(2, GridData.FILL_BOTH));
@@ -109,7 +109,7 @@ public class IndexTab extends Composite {
             }
         });
 
-        Composite indexButtons = new Composite(indexArea, SWT.NULL);
+        Composite indexButtons = new Composite(indexArea, SWT.NONE);
         GridLayout buttonsLayout = new GridLayout(1, false);
         indexButtons.setLayout(buttonsLayout);
         indexButtons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
@@ -144,7 +144,7 @@ public class IndexTab extends Composite {
             }
         });
 
-        new Label(composite, SWT.NULL).setText(LABEL_INDEX_TYPE.getValue());
+        new Label(composite, SWT.NONE).setText(LABEL_INDEX_TYPE.getValue());
         cmbIndexType = new Combo(composite, SWT.READ_ONLY);
         for (IIndexType type : tableEdit.getDialect().getIndexTypes()) {
             cmbIndexType.add(type.getName());
@@ -159,7 +159,7 @@ public class IndexTab extends Composite {
             }
         });
 
-        new Label(composite, SWT.NULL).setText(LABEL_INDEX_NAME.getValue());
+        new Label(composite, SWT.NONE).setText(LABEL_INDEX_NAME.getValue());
         txtIndexName = new Text(composite, SWT.BORDER);
         txtIndexName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtIndexName.addFocusListener(new FocusAdapter() {
@@ -173,7 +173,7 @@ public class IndexTab extends Composite {
     }
 
     private void createIndexColumnListArea(Shell shell, Composite composite) {
-        Group indexColumnGroup = new Group(composite, SWT.NULL);
+        Group indexColumnGroup = new Group(composite, SWT.NONE);
         indexColumnGroup.setText(LABEL_INDEX_COLUMNS.getValue());
         indexColumnGroup.setLayout(new GridLayout(2, false));
         indexColumnGroup.setLayoutData(UIUtils.createGridData(3, GridData.FILL_BOTH));
@@ -188,7 +188,7 @@ public class IndexTab extends Composite {
             }
         });
 
-        Composite indexColumnButtons = new Composite(indexColumnGroup, SWT.NULL);
+        Composite indexColumnButtons = new Composite(indexColumnGroup, SWT.NONE);
         indexColumnButtons.setLayout(new GridLayout(1, false));
         indexColumnButtons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 

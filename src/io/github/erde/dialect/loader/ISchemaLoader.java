@@ -133,6 +133,7 @@ public interface ISchemaLoader {
                     column.setColumnType(type);
                     column.setColumnSize(columns.getInt("COLUMN_SIZE"));
                     column.setNotNull(columns.getString("IS_NULLABLE").equals("NO"));
+                    column.setAutoIncrement(StringUtils.toBoolean(columns.getString("IS_AUTOINCREMENT")));
 
                     ResultSetMetaData rm = rs.getMetaData();
                     int rmIndex = getResultSetMetaDataIndex(rm, columnName);

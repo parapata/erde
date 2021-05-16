@@ -154,7 +154,7 @@ public abstract class TableViewerSupport<T> {
         Table table = viewer.getTable();
 
         for (ColumnInfo column : getColumns((Class<?>) types[0])) {
-            TableColumn col = new TableColumn(table, SWT.NULL);
+            TableColumn col = new TableColumn(table, SWT.NONE);
             col.setText(Resource.toResource(column.label()).getValue());
             col.setWidth(column.width());
         }
