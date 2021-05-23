@@ -13,6 +13,7 @@ public class ColumnData {
     private String foreignKey = "";
     private String type = "";
     private String columnSize = "";
+    private String decimal = "";
     private String reference = "";
     private String description = "";
     private String nullable = "";
@@ -67,6 +68,14 @@ public class ColumnData {
 
     public void setColumnSize(String columnSize) {
         this.columnSize = columnSize;
+    }
+
+    public String getDecimal() {
+        return decimal;
+    }
+
+    public void setDecimal(String decimal) {
+        this.decimal = decimal;
     }
 
     public String getReference() {

@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -26,6 +25,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.w3c.dom.Document;
 
+import io.github.erde.ERDPlugin;
 import io.github.erde.core.util.IOUtils;
 import io.github.erde.generate.HtmlGenerator;
 
@@ -82,7 +82,7 @@ public class HtmlWriterTask implements IRunnableWithProgress {
     private void convertXMLToHTMLWithXSL(Document doc, Path html) throws InvocationTargetException {
         try (InputStream xsl = HtmlGenerator.class.getResourceAsStream("html/html-frames.xsl");
                 FileOutputStream fos = new FileOutputStream(html.toFile(), false);
-                OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+                OutputStreamWriter osw = new OutputStreamWriter(fos, ERDPlugin.getCharset())) {
 
             StreamSource source = new StreamSource(xsl);
             StreamResult result = new StreamResult(osw);

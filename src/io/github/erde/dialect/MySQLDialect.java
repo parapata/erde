@@ -50,7 +50,7 @@ public class MySQLDialect extends AbstractDialect {
             ColumnType.newInstance(MySQL, "TEXT", TYPE_STRING, false, VARCHAR),
             ColumnType.newInstance(MySQL, "MEDIUMTEXT", TYPE_STRING, false, VARCHAR),
             ColumnType.newInstance(MySQL, "LONGTEXT", TYPE_STRING, false, VARCHAR),
-            ColumnType.newInstance(MySQL, "ENUM", TYPE_STRING, false, OTHER));
+            ColumnType.newInstance(MySQL, "ENUM", TYPE_ENUM, false, OTHER));
 
     public MySQLDialect() {
         super(COLUMN_TYPES);

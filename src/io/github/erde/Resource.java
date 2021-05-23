@@ -388,6 +388,8 @@ public enum Resource {
     TYPE_DATE("type.date"),
     /** key:type.datetime. */
     TYPE_DATETIME("type.datetime"),
+    /** key:type.enum. */
+    TYPE_ENUM("type.enum"),
     /** key:type.guid. */
     TYPE_GUID("type.guid"),
     /** key:type.integer. */

@@ -5,7 +5,6 @@ import static io.github.erde.Resource.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.JFaceResources;
@@ -125,7 +124,7 @@ public class SqlViewerDialog extends Dialog {
 
     private void output(String saveFile) {
         try (FileOutputStream fos = new FileOutputStream(saveFile);
-                OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+                OutputStreamWriter osw = new OutputStreamWriter(fos, ERDPlugin.getCharset())) {
             osw.write(text.getText());
         } catch (IOException e) {
             UIUtils.openAlertDialog(ACTION_AUTO_LAYOUT);
