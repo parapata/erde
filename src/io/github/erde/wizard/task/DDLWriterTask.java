@@ -1,5 +1,7 @@
 package io.github.erde.wizard.task;
 
+import static io.github.erde.Resource.*;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,7 +42,7 @@ public class DDLWriterTask implements IRunnableWithProgress {
                 OutputStreamWriter osw = new OutputStreamWriter(fos, charsetName);
                 BufferedWriter bw = new BufferedWriter(osw);
                 PrintWriter pw = new PrintWriter(bw)) {
-            monitor.beginTask("DDL出力中...", IProgressMonitor.UNKNOWN);
+            monitor.beginTask(INFO_PROCESSING_NOW.getValue(), IProgressMonitor.UNKNOWN);
             if (monitor.isCanceled()) {
                 throw new InterruptedException();
             }

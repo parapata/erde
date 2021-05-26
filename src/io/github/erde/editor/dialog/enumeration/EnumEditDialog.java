@@ -57,12 +57,15 @@ public class EnumEditDialog extends Dialog {
     }
 
     @Override
-    protected Control createDialogArea(Composite parent) {
-        Shell shell = getShell();
-        shell.setText(DIALOG_ENUM_TITLE.getValue());
-        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText(DIALOG_ENUM_TITLE.getValue());
+        newShell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    }
 
-        shell.setLayout(new FillLayout());
+    @Override
+    protected Control createDialogArea(Composite parent) {
+        getShell().setLayout(new FillLayout());
 
         viewer = new TableViewer(parent,
                 SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);

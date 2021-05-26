@@ -22,7 +22,6 @@ import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.ERDiagramEditor;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.DomainModel;
 import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
@@ -50,8 +49,6 @@ public class TableEditDialog extends Dialog implements ITableEdit {
     private List<BaseConnectionModel> referenceKeys;
     private List<BaseConnectionModel> foreignKeys;
 
-    private List<DomainModel> domains;
-
     /**
      * The constructor.
      *
@@ -63,7 +60,7 @@ public class TableEditDialog extends Dialog implements ITableEdit {
      * @param editIndexModel the index models
      */
     public TableEditDialog(Shell parentShell, String dialectName, TableModel tableModel, ColumnModel editColumnModel,
-            boolean indexEditing, IndexModel editIndexModel, List<DomainModel> domains) {
+            boolean indexEditing, IndexModel editIndexModel) {
 
         super(parentShell);
         setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX | SWT.MIN);
@@ -75,8 +72,13 @@ public class TableEditDialog extends Dialog implements ITableEdit {
 
         this.referenceKeys = tableModel.getModelSourceConnections();
         this.foreignKeys = tableModel.getModelTargetConnections();
+    }
 
-        this.domains = domains;
+    @Override
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText(DIALOG_TABLE_TITLE.getValue());
+        newShell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
     }
 
     @Override
@@ -84,20 +86,16 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         Shell shell = getShell();
         shell.pack();
         // shell.setSize(shell.getSize().x, 450);
-        shell.setSize(860, 760);
+        shell.setSize(860, 600);
     }
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        Shell shell = getShell();
-        shell.setText(DIALOG_TABLE_TITLE.getValue());
-        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
-
         TabFolder tabFolder = new TabFolder(parent, SWT.NONE);
         tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         // Attribute tab
-        new AttributeTab(this, tabFolder, editColumnIndex, domains);
+        new AttributeTab(this, tabFolder, editColumnIndex);
 
         // Table description tab
         new DescriptionTab(this, tabFolder);
@@ -115,8 +113,7 @@ public class TableEditDialog extends Dialog implements ITableEdit {
             validate();
             super.okPressed();
         } catch (ValidateException e) {
-            // UIUtils.openAlertDialog(ERROR_VALIDATION);
-            UIUtils.openAlertDialog(e.getMessage());
+            UIUtils.openAlertDialog(e);
         }
     }
 

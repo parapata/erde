@@ -1,5 +1,7 @@
 package io.github.erde.wizard.task;
 
+import static io.github.erde.Resource.*;
+
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -34,7 +36,7 @@ public class TableLoaderTask implements IRunnableWithProgress {
 
     @Override
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-        monitor.beginTask("データベースメタ情報取得中...", IProgressMonitor.UNKNOWN);
+        monitor.beginTask(INFO_PROCESSING_NOW.getValue(), IProgressMonitor.UNKNOWN);
         tableNames = new ArrayList<>();
         try (Connection conn = jdbcConn.connect()) {
 

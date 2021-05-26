@@ -111,7 +111,7 @@ public class UIUtils {
      *
      * @param message message
      */
-    public static void openAlertDialog(String message) {
+    private static void openAlertDialog(String message) {
         String title = Resource.DIALOG_ALERT_TITLE.getValue();
         MessageDialog.openError(Display.getCurrent().getActiveShell(), title, message);
     }
@@ -132,6 +132,15 @@ public class UIUtils {
      */
     public static void openAlertDialog(Resource message, String... messageArgs) {
         openAlertDialog(message.createMessage(messageArgs));
+    }
+
+    /**
+     * Open the alert dialog.
+     *
+     * @param th exception
+     */
+    public static void openAlertDialog(Throwable th) {
+        openAlertDialog(th.getMessage());
     }
 
     /**

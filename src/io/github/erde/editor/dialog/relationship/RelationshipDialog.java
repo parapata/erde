@@ -79,6 +79,13 @@ public class RelationshipDialog extends Dialog implements IRelationshipDialog {
     }
 
     @Override
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText(DIALOG_MAPPING_TITLE.getValue());
+        newShell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    }
+
+    @Override
     protected void constrainShellSize() {
         Shell shell = getShell();
         shell.pack();
@@ -94,10 +101,6 @@ public class RelationshipDialog extends Dialog implements IRelationshipDialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        Shell shell = getShell();
-        shell.setText(DIALOG_MAPPING_TITLE.getValue());
-        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
-
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(2, false));
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));

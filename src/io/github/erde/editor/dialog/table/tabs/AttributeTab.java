@@ -5,37 +5,30 @@ import static io.github.erde.Resource.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.erde.core.util.StringUtils;
 import io.github.erde.core.util.swt.UIUtils;
-import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.DomainModel;
-import io.github.erde.editor.dialog.enumeration.EnumEditDialog;
-import io.github.erde.editor.dialog.parts.NumericVerifyListener;
+import io.github.erde.editor.dialog.table.ColumnEditDialog;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
 /**
@@ -56,73 +49,38 @@ public class AttributeTab extends Composite {
 
     private ITableEdit tableEdit;
     private int editColumnIndex;
-    private List<DomainModel> domains;
 
     private Text txtTablePyhgicalName;
     private Text txtTableLogicalName;
-    private Table tblColumns;
-    private Text txtColumnName;
-    private Text txtColumnLogicalName;
-    private Combo cmbColumnType;
-    private Text txtColumnSize;
-    private Text txtDecimal;
-    private Combo cmbEnum;
-    private Button btnEnumEdit;
-    private Button chkUnsigned;
-    private Button chkNotNull;
-    private Button chkIsPK;
-    private Button chkIsUnique;
-    private Button chkAutoIncrement;
-    private Text txtDefaultValue;
-    private Text txtColumnDescription;
+
+    private TableViewer viewer;
 
     private Button btnAddColumn;
     private Button btnRemoveColumn;
     private Button btnUpColumn;
     private Button btnDownColumn;
 
-    /** テーブル一覧からカラムが指定された場合の処理. */
-    private SelectionAdapter columnListSelectionChanged = new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
+    // テーブル一覧からカラムが指定された場合の処理
+    private IDoubleClickListener columnDoubleClick = new IDoubleClickListener() {
+        public void doubleClick(DoubleClickEvent event) {
             logger.info("テーブル一覧からカラム情報が選択されました");
-            columnSelectionChanged();
+
+            int index = viewer.getTable().getSelectionIndex();
+
+            ColumnModel columnModel = tableEdit.getColumns().get(index);
+            ColumnEditDialog dialog = new ColumnEditDialog(getShell(), tableEdit.getDialect(), columnModel);
+            if (dialog.open() == Window.OK) {
+                columnModel = dialog.getColumn();
+                TableItem[] items = viewer.getTable().getSelection();
+                setTableItem(items[0], columnModel);
+            }
         }
     };
 
-    // カラムタイプが変更された場合の処理
-    private SelectionListener columnTypeSelectionChanged = new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-            logger.info("カラムタイムが変更されました");
-            updateColumnInfo();
-        }
-    };
-
-    // カラム情報(TEXT)が更新された場合の処理
-    private FocusListener updateColumnInfoChanged = new FocusAdapter() {
-        @Override
-        public void focusLost(FocusEvent event) {
-            logger.info("カラム情報(TEXT)が変更されました");
-            updateColumnInfo();
-        }
-    };
-
-    // カラム情報(CheckBox)が更新された場合の処理
-    private SelectionListener columnInfoSelectionChanged = new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-            logger.info("カラム情報(Checkbox)が変更されました");
-            updateColumnInfo();
-        }
-    };
-
-    public AttributeTab(ITableEdit tableEdit, TabFolder tabFolder, int editColumnIndex,
-            List<DomainModel> domains) {
+    public AttributeTab(ITableEdit tableEdit, TabFolder tabFolder, int editColumnIndex) {
         super(tabFolder, SWT.NONE);
         this.tableEdit = tableEdit;
         this.editColumnIndex = editColumnIndex;
-        this.domains = domains;
 
         setLayout(new GridLayout());
         setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -137,18 +95,18 @@ public class AttributeTab extends Composite {
      */
     private void create(TabItem tab) {
 
-        Composite table = new Composite(this, SWT.NONE);
-        table.setLayout(new GridLayout(2, false));
-        table.setLayoutData(UIUtils.createGridData(2));
+        Composite composite = new Composite(this, SWT.NONE);
+        composite.setLayout(new GridLayout(2, false));
+        composite.setLayoutData(UIUtils.createGridData(2));
 
-        UIUtils.createLabel(table, LABEL_PHYSICAL_TABLE_NAME);
-        txtTablePyhgicalName = new Text(table, SWT.BORDER);
+        UIUtils.createLabel(composite, LABEL_PHYSICAL_TABLE_NAME);
+        txtTablePyhgicalName = new Text(composite, SWT.BORDER);
         txtTablePyhgicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTablePyhgicalName.setText(tableEdit.getPhysicalName());
         txtTablePyhgicalName.addModifyListener(event -> tableEdit.setPhysicalName(txtTablePyhgicalName.getText()));
 
-        UIUtils.createLabel(table, LABEL_LOGICAL_TABLE_NAME);
-        txtTableLogicalName = new Text(table, SWT.BORDER);
+        UIUtils.createLabel(composite, LABEL_LOGICAL_TABLE_NAME);
+        txtTableLogicalName = new Text(composite, SWT.BORDER);
         txtTableLogicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTableLogicalName.setText(tableEdit.getLogicalName());
         txtTableLogicalName.addModifyListener(event -> tableEdit.setLogicalName(txtTableLogicalName.getText()));
@@ -164,21 +122,30 @@ public class AttributeTab extends Composite {
         layout.marginWidth = 0;
         tableArea.setLayout(layout);
         tableArea.setLayoutData(new GridData(GridData.FILL_BOTH));
-        tblColumns = new Table(tableArea, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
-        tblColumns.setLayoutData(new GridData(GridData.FILL_BOTH));
-        tblColumns.setHeaderVisible(true);
-        tblColumns.addSelectionListener(columnListSelectionChanged);
 
-        UIUtils.createColumn(tblColumns, LABEL_COLUMN_PK, 55);
-        UIUtils.createColumn(tblColumns, LABEL_COLUMN_FK, 55);
-        UIUtils.createColumn(tblColumns, LABEL_PYHGICAL_COLUMN_NAME, 160);
-        UIUtils.createColumn(tblColumns, LABEL_LOGICAL_COLUMN_NAME, 160);
-        UIUtils.createColumn(tblColumns, LABEL_TYPE, 160);
-        UIUtils.createColumn(tblColumns, LABEL_NOT_NULL, 55);
-        UIUtils.createColumn(tblColumns, LABEL_UNIQUE, 55);
+        viewer = new TableViewer(tableArea, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
+        Table table = viewer.getTable();
+        table.setLayoutData(new GridData(GridData.FILL_BOTH));
+        table.setHeaderVisible(true);
+        // tblColumns.addSelectionListener(columnListSelectionChanged);
+        viewer.addDoubleClickListener(columnDoubleClick);
+        viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                updateButtons();
+            }
+        });
+
+        UIUtils.createColumn(table, LABEL_COLUMN_PK, 55);
+        UIUtils.createColumn(table, LABEL_COLUMN_FK, 55);
+        UIUtils.createColumn(table, LABEL_PYHGICAL_COLUMN_NAME, 160);
+        UIUtils.createColumn(table, LABEL_LOGICAL_COLUMN_NAME, 160);
+        UIUtils.createColumn(table, LABEL_TYPE, 160);
+        UIUtils.createColumn(table, LABEL_NOT_NULL, 55);
+        UIUtils.createColumn(table, LABEL_UNIQUE, 55);
 
         for (ColumnModel model : tableEdit.getColumns()) {
-            TableItem item = new TableItem(tblColumns, SWT.NONE | SWT.FILL);
+            TableItem item = new TableItem(table, SWT.NONE | SWT.FILL);
             setTableItem(item, model);
         }
 
@@ -204,18 +171,17 @@ public class AttributeTab extends Composite {
                 column.setLogicalName(String.format("%s_%d", LABEL_COLUMN.getValue(), num));
                 column.setColumnType(tableEdit.getDialect().getDefaultColumnType());
 
-                int index = tblColumns.getSelectionIndex();
+                int index = table.getSelectionIndex();
                 if (index == -1) {
                     tableEdit.getColumns().add(column);
-                    TableItem item = new TableItem(tblColumns, SWT.NONE);
+                    TableItem item = new TableItem(table, SWT.NONE);
                     setTableItem(item, column);
-                    tblColumns.setSelection(index - 1);
+                    table.setSelection(index - 1);
                 } else {
                     tableEdit.getColumns().add(index + 1, column);
                     syncColumnModelsToTable();
-                    tblColumns.setSelection(index + 1);
+                    table.setSelection(index + 1);
                 }
-                columnSelectionChanged();
             }
         });
 
@@ -226,20 +192,19 @@ public class AttributeTab extends Composite {
         btnRemoveColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                int index = tblColumns.getSelectionIndex();
+                int index = table.getSelectionIndex();
                 tableEdit.getColumns().remove(index);
-                tblColumns.remove(index);
-                int row = tblColumns.getItemCount();
+                table.remove(index);
+                int row = table.getItemCount();
                 if (index == 0 && row > 0) {
-                    tblColumns.select(0);
+                    table.select(0);
                 } else if (index == row) {
-                    tblColumns.select(index - 1);
+                    table.select(index - 1);
                 } else if (index < row) {
-                    tblColumns.select(index);
+                    table.select(index);
                 } else {
-                    tblColumns.select(-1);
+                    table.select(-1);
                 }
-                columnSelectionChanged();
             }
         });
 
@@ -250,13 +215,13 @@ public class AttributeTab extends Composite {
         btnUpColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                int index = tblColumns.getSelectionIndex();
+                int index = table.getSelectionIndex();
                 ColumnModel column = tableEdit.getColumns().get(index);
                 tableEdit.getColumns().remove(index);
                 tableEdit.getColumns().add(index - 1, column);
                 syncColumnModelsToTable();
-                tblColumns.setSelection(index - 1);
-                columnSelectionChanged();
+                table.setSelection(index - 1);
+                updateButtons();
             }
         });
 
@@ -267,408 +232,22 @@ public class AttributeTab extends Composite {
         btnDownColumn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                int index = tblColumns.getSelectionIndex();
+                int index = table.getSelectionIndex();
                 ColumnModel column = tableEdit.getColumns().get(index);
                 tableEdit.getColumns().remove(index);
                 tableEdit.getColumns().add(index + 1, column);
                 syncColumnModelsToTable();
-                tblColumns.setSelection(index + 1);
-                columnSelectionChanged();
+                table.setSelection(index + 1);
+                updateButtons();
             }
         });
-
-        // ------------------------------------------------------------
-        // column infomation area
-        // ------------------------------------------------------------
-        Group group = new Group(this, SWT.NONE);
-        group.setText(LABEL_EDIT_COLUMN.getValue());
-        group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        group.setLayout(new GridLayout(7, false));
-
-        // ------------------------------------------------------------
-        // check box area(pkey, autoIncrement etc...)
-        // ------------------------------------------------------------
-        // ----- line_1
-        Composite checks = new Composite(group, SWT.NONE);
-        checks.setLayout(new GridLayout(6, false));
-        checks.setLayoutData(UIUtils.createGridData(7));
-
-        chkIsPK = new Button(checks, SWT.CHECK);
-        chkIsPK.setText(LABEL_COLUMN_PK.getValue());
-        chkIsPK.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        chkNotNull = new Button(checks, SWT.CHECK);
-        chkNotNull.setText(LABEL_NOT_NULL.getValue());
-        chkNotNull.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        chkIsUnique = new Button(checks, SWT.CHECK);
-        chkIsUnique.setText(LABEL_UNIQUE_KEY.getValue());
-        chkIsUnique.addSelectionListener(columnInfoSelectionChanged);
-
-        // -----
-        chkAutoIncrement = new Button(checks, SWT.CHECK);
-        chkAutoIncrement.setText(LABEL_AUTO_INCREMENT.getValue());
-        chkAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
-
-        // ----- line_2
-        UIUtils.createLabel(group, LABEL_PYHGICAL_COLUMN_NAME);
-        txtColumnName = new Text(group, SWT.BORDER);
-        GridData pyhgicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
-        pyhgicalNameGridData.horizontalSpan = 6;
-        txtColumnName.setLayoutData(pyhgicalNameGridData);
-        txtColumnName.addFocusListener(updateColumnInfoChanged);
-
-        // ----- line_3
-        UIUtils.createLabel(group, LABEL_LOGICAL_COLUMN_NAME);
-        txtColumnLogicalName = new Text(group, SWT.BORDER);
-        GridData logicalNameGridData = new GridData(GridData.FILL_HORIZONTAL);
-        logicalNameGridData.horizontalSpan = 6;
-        txtColumnLogicalName.setLayoutData(logicalNameGridData);
-        txtColumnLogicalName.addFocusListener(updateColumnInfoChanged);
-
-        // ----- line_4
-        UIUtils.createLabel(group, LABEL_TYPE);
-        cmbColumnType = new Combo(group, SWT.READ_ONLY);
-        cmbColumnType.addSelectionListener(columnTypeSelectionChanged);
-        for (DomainModel doman : domains) {
-            cmbColumnType.add(doman.toString());
-        }
-        for (IColumnType type : tableEdit.getDialect().getColumnTypes()) {
-            cmbColumnType.add(type.toString());
-        }
-
-        // -----
-        UIUtils.createLabel(group, LABEL_SIZE);
-        txtColumnSize = new Text(group, SWT.BORDER);
-        txtColumnSize.setLayoutData(UIUtils.createGridDataWithWidth(60));
-        txtColumnSize.addFocusListener(updateColumnInfoChanged);
-        txtColumnSize.addVerifyListener(new NumericVerifyListener());
-
-        // -----
-        UIUtils.createLabel(group, LABEL_DECIMAL);
-        txtDecimal = new Text(group, SWT.BORDER);
-        txtDecimal.setLayoutData(UIUtils.createGridDataWithWidth(60));
-        txtDecimal.addFocusListener(updateColumnInfoChanged);
-        txtDecimal.addVerifyListener(new NumericVerifyListener());
-
-        // -----
-        chkUnsigned = new Button(group, SWT.CHECK);
-        chkUnsigned.setText(LABEL_UNSIGNED.getValue());
-        chkUnsigned.addSelectionListener(columnInfoSelectionChanged);
-
-        // ----- line_5
-        UIUtils.createLabel(group, NONE);
-        Composite enumArea = new Composite(group, SWT.NONE);
-        enumArea.setLayout(new GridLayout(5, false));
-        enumArea.setLayoutData(UIUtils.createGridData(6));
-        UIUtils.createLabel(enumArea, LABEL_ENUM_SET);
-
-        GridData cmbEnumGridData = new GridData();
-        cmbEnumGridData.widthHint = 160;
-        cmbEnum = new Combo(enumArea, SWT.DROP_DOWN | SWT.READ_ONLY);
-        cmbEnum.setLayoutData(cmbEnumGridData);
-
-        btnEnumEdit = new Button(enumArea, SWT.PUSH);
-        btnEnumEdit.setText(LABEL_EDIT.getValue());
-        btnEnumEdit.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                EnumEditDialog dialog = new EnumEditDialog(shell, cmbEnum.getItems());
-                if (dialog.open() == Window.OK) {
-                    cmbEnum.removeAll();
-                    cmbEnum.setItems(dialog.getItems());
-                    cmbEnum.select(0);
-                    updateColumnInfo();
-                }
-            }
-        });
-
-        // ----- line_6
-        UIUtils.createLabel(group, LABEL_DEFAULT_VALUE);
-        txtDefaultValue = new Text(group, SWT.BORDER);
-        GridData defaultValueGridData = new GridData(GridData.FILL_HORIZONTAL);
-        defaultValueGridData.horizontalSpan = 6;
-        txtDefaultValue.setLayoutData(defaultValueGridData);
-        txtDefaultValue.addFocusListener(updateColumnInfoChanged);
-
-        // ----- line_7
-        UIUtils.createLabel(group, LABEL_DESCRIPTION);
-        txtColumnDescription = new Text(group, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
-        txtColumnDescription.setLayoutData(UIUtils.createGridDataWithColspan(6, 90));
-        txtColumnDescription.addFocusListener(updateColumnInfoChanged);
 
         if (editColumnIndex > -1) {
             TabFolder tabFolder = (TabFolder) this.getParent();
             tabFolder.setSelection(tab);
-            tblColumns.select(editColumnIndex);
-            columnSelectionChanged();
-        } else {
-            disableColumnForm();
+            table.select(editColumnIndex);
         }
         updateButtons();
-    }
-
-    /**
-     * Display detailed information for the selected column.
-     */
-    private void columnSelectionChanged() {
-        logger.info("Call columnSelectionChanged");
-
-        int selectedIndex = tblColumns.getSelectionIndex();
-        if (selectedIndex > -1) {
-            ColumnModel column = tableEdit.getColumns().get(selectedIndex);
-            IColumnType columnType = column.getColumnType();
-
-            // -----
-            txtColumnName.setText(column.getPhysicalName());
-            txtColumnName.setEnabled(true);
-
-            // -----
-            txtColumnLogicalName.setText(column.getLogicalName());
-            txtColumnLogicalName.setEnabled(true);
-
-            // -----
-            cmbColumnType.setText(columnType.toString());
-            cmbColumnType.setEnabled(true);
-
-            // -----
-            if (columnType.isSizeSupported()) {
-                if (column.getColumnSize() == null) {
-                    txtColumnSize.setText("");
-                } else {
-                    txtColumnSize.setText(String.valueOf(column.getColumnSize()));
-                }
-            } else {
-                txtColumnSize.setText("");
-            }
-            if (columnType.isDomain()) {
-                txtColumnSize.setEnabled(false);
-            } else {
-                txtColumnSize.setEnabled(columnType.isSizeSupported());
-            }
-
-            // -----
-            if (columnType.isSizeSupported()) {
-                if (column.getDecimal() == null) {
-                    txtDecimal.setText("");
-                } else {
-                    txtDecimal.setText(String.valueOf(column.getDecimal()));
-                }
-            } else {
-                txtDecimal.setText("");
-            }
-            if (columnType.isDomain()) {
-                txtDecimal.setEnabled(false);
-            } else {
-                txtDecimal.setEnabled(columnType.isDecimalSupported());
-            }
-
-            // -----
-            if (columnType.isUnsignedSupported()) {
-                chkUnsigned.setSelection(column.isUnsigned());
-            } else {
-                chkUnsigned.setSelection(false);
-            }
-            if (columnType.isDomain()) {
-                chkUnsigned.setEnabled(false);
-            } else {
-                chkUnsigned.setEnabled((columnType.isUnsignedSupported()));
-            }
-
-            // -----
-            if (columnType.isEnum()) {
-                cmbEnum.setItems(column.getEnumNames().toArray(new String[0]));
-                if (cmbEnum.getItemCount() > 0) {
-                    cmbEnum.select(0);
-                } else {
-                    cmbEnum.select(-1);
-                }
-                cmbEnum.setEnabled(true);
-                btnEnumEdit.setEnabled(true);
-            } else {
-                cmbEnum.setItems();
-                cmbEnum.select(-1);
-                cmbEnum.setEnabled(false);
-                btnEnumEdit.setEnabled(false);
-            }
-
-            // -----
-            txtDefaultValue.setText(column.getDefaultValue());
-            txtDefaultValue.setEnabled(true);
-
-            // -----
-            txtColumnDescription.setText(column.getDescription());
-            txtColumnDescription.setEnabled(true);
-
-            // -----
-            chkIsPK.setSelection(column.isPrimaryKey());
-            chkIsPK.setEnabled(true);
-
-            // -----
-            chkIsUnique.setSelection(column.isUniqueKey());
-            chkIsUnique.setEnabled(!column.isPrimaryKey());
-
-            // -----
-            if (column.isPrimaryKey()) {
-                chkNotNull.setSelection(true);
-                chkNotNull.setEnabled(false);
-            } else {
-                chkNotNull.setSelection(column.isNotNull());
-                chkNotNull.setEnabled(true);
-            }
-
-            // -----
-            if (tableEdit.getDialect().isAutoIncrement()) {
-                if (column.isPrimaryKey() && columnType.isAutoIncrementSupported()) {
-                    chkAutoIncrement.setEnabled(true);
-                    chkAutoIncrement.setSelection(column.isAutoIncrement());
-                } else {
-                    chkAutoIncrement.setEnabled(false);
-                    chkAutoIncrement.setSelection(false);
-                }
-            } else {
-                chkAutoIncrement.setSelection(false);
-                chkAutoIncrement.setEnabled(false);
-            }
-
-            editColumnIndex = selectedIndex;
-        } else {
-            disableColumnForm();
-        }
-        updateButtons();
-    }
-
-    /**
-     * Update column information.
-     */
-    private void updateColumnInfo() {
-        logger.info("Call updateColumnInfo");
-
-        if (cmbColumnType.getSelectionIndex() < 0) {
-            return;
-        }
-
-        ColumnModel column = tableEdit.getColumns().get(editColumnIndex);
-        column.setPhysicalName(txtColumnName.getText());
-        column.setLogicalName(txtColumnLogicalName.getText());
-
-        int columnTypeIndex = cmbColumnType.getSelectionIndex();
-        int domainCount = domains.size();
-
-        IColumnType columnType;
-
-        if (columnTypeIndex < domainCount) {
-            // domain column selected
-
-            DomainModel domain = domains.get(columnTypeIndex);
-            column.setColumnType(domain);
-            column.setColumnSize(domain.getColumnSize());
-            column.setDecimal(domain.getDecimal());
-            columnType = domain;
-
-        } else {
-            // column type selected
-
-            List<IColumnType> columnTypes = tableEdit.getDialect().getColumnTypes();
-            columnType = columnTypes.get(columnTypeIndex - domainCount);
-            column.setColumnType(columnType);
-        }
-
-        if (txtColumnSize.isEnabled() && StringUtils.isNotEmpty(txtColumnSize.getText())) {
-            column.setColumnSize(Integer.valueOf(txtColumnSize.getText()));
-        } else {
-            column.setColumnSize(null);
-        }
-        if (txtDecimal.isEnabled() && StringUtils.isNotEmpty(txtDecimal.getText())) {
-            column.setDecimal(Integer.valueOf(txtDecimal.getText()));
-        } else {
-            column.setDecimal(null);
-        }
-        if (columnType.isUnsignedSupported()) {
-            column.setUnsigned(chkUnsigned.getSelection());
-        } else {
-            column.setUnsigned(false);
-            chkUnsigned.setSelection(false);
-        }
-        if (columnType.isEnum()) {
-            column.getEnumNames().clear();
-            for (String enumName : cmbEnum.getItems()) {
-                column.getEnumNames().add(enumName);
-            }
-        } else {
-            column.getEnumNames().clear();
-        }
-        cmbEnum.setEnabled(columnType.isEnum());
-        btnEnumEdit.setEnabled(columnType.isEnum());
-
-        if (columnType.isSizeSupported()) {
-            Integer columnSize = column.getColumnSize();
-            if (columnSize == null) {
-                txtColumnSize.setText("");
-            } else {
-                txtColumnSize.setText(String.valueOf(columnSize));
-            }
-
-            Integer decimal = column.getDecimal();
-            if (decimal == null) {
-                txtDecimal.setText("");
-            } else {
-                txtDecimal.setText(String.valueOf(decimal));
-            }
-        } else {
-            txtColumnSize.setText("");
-            txtDecimal.setText("");
-        }
-
-        if (columnType.isDomain()) {
-            txtColumnSize.setEnabled(false);
-            txtDecimal.setEnabled(false);
-            chkUnsigned.setEnabled(false);
-        } else {
-            txtColumnSize.setEnabled(columnType.isSizeSupported());
-            txtDecimal.setEnabled(columnType.isDecimalSupported());
-            chkUnsigned.setEnabled(columnType.isUnsignedSupported());
-        }
-
-        if (chkIsPK.getSelection()) {
-            chkNotNull.setSelection(true);
-            chkNotNull.setEnabled(false);
-            chkIsUnique.setSelection(false);
-            chkIsUnique.setEnabled(false);
-            if (tableEdit.getDialect().isAutoIncrement()) {
-                if (chkIsPK.getSelection() && columnType.isAutoIncrementSupported()) {
-                    chkAutoIncrement.setEnabled(true);
-                } else {
-                    chkAutoIncrement.setEnabled(false);
-                }
-            } else {
-                chkAutoIncrement.setSelection(false);
-                chkAutoIncrement.setEnabled(false);
-            }
-
-        } else {
-            if (chkIsPK.getSelection() != column.isPrimaryKey()) {
-                chkNotNull.setSelection(false);
-                chkAutoIncrement.setSelection(false);
-            }
-            chkNotNull.setEnabled(true);
-            chkIsUnique.setEnabled(true);
-            chkAutoIncrement.setEnabled(false);
-        }
-
-        column.setDefaultValue(txtDefaultValue.getText());
-        column.setDescription(txtColumnDescription.getText());
-
-        column.setPrimaryKey(chkIsPK.getSelection());
-        column.setNotNull(chkNotNull.getSelection());
-        column.setUniqueKey(chkIsUnique.getSelection());
-        column.setAutoIncrement(chkAutoIncrement.getSelection());
-
-        TableItem tblItem = tblColumns.getItem(editColumnIndex);
-        setTableItem(tblItem, column);
     }
 
     /**
@@ -677,9 +256,10 @@ public class AttributeTab extends Composite {
     private void syncColumnModelsToTable() {
         logger.info("Call syncColumnModelsToTable");
 
-        tblColumns.removeAll();
+        Table table = viewer.getTable();
+        table.removeAll();
         for (ColumnModel column : tableEdit.getColumns()) {
-            TableItem item = new TableItem(tblColumns, SWT.NONE);
+            TableItem item = new TableItem(table, SWT.NONE);
             setTableItem(item, column);
         }
     }
@@ -692,7 +272,7 @@ public class AttributeTab extends Composite {
 
         btnUpColumn.setEnabled(false);
         btnDownColumn.setEnabled(false);
-        int index = tblColumns.getSelectionIndex();
+        int index = viewer.getTable().getSelectionIndex();
         if (index > -1) {
             String physicalName = tableEdit.getColumns().get(index).getPhysicalName();
             if (tableEdit.isReferenceKey(physicalName) || tableEdit.isForeignkey(physicalName)) {
@@ -707,55 +287,6 @@ public class AttributeTab extends Composite {
                 btnDownColumn.setEnabled(true);
             }
         }
-    }
-
-    /**
-     * Clears and disables the column editing form.
-     */
-    private void disableColumnForm() {
-        logger.info("Call disableColumnForm");
-
-        txtColumnName.setText("");
-        txtColumnName.setEnabled(false);
-
-        txtColumnLogicalName.setText("");
-        txtColumnLogicalName.setEnabled(false);
-
-        cmbColumnType.select(-1);
-        cmbColumnType.setEnabled(false);
-
-        txtColumnSize.setText("");
-        txtColumnSize.setEnabled(false);
-
-        txtDecimal.setText("");
-        txtDecimal.setEnabled(false);
-
-        cmbEnum.setItems();
-        cmbEnum.select(-1);
-        cmbEnum.setEnabled(false);
-
-        btnEnumEdit.setEnabled(false);
-
-        chkUnsigned.setSelection(false);
-        chkUnsigned.setEnabled(false);
-
-        txtDefaultValue.setText("");
-        txtDefaultValue.setEnabled(false);
-
-        txtColumnDescription.setText("");
-        txtColumnDescription.setEnabled(false);
-
-        chkIsPK.setSelection(false);
-        chkIsPK.setEnabled(false);
-
-        chkIsUnique.setSelection(false);
-        chkIsUnique.setEnabled(false);
-
-        chkNotNull.setSelection(false);
-        chkNotNull.setEnabled(false);
-
-        chkAutoIncrement.setSelection(false);
-        chkAutoIncrement.setEnabled(false);
     }
 
     private void setTableItem(TableItem item, ColumnModel model) {

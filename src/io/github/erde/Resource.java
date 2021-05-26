@@ -56,6 +56,8 @@ public enum Resource {
     COLUMNINFO_PHYSICAL_NAME("columninfo.physicalName"),
     /** key:dialog.alert.title. */
     DIALOG_ALERT_TITLE("dialog.alert.title"),
+    /** key:dialog.column.title. */
+    DIALOG_COLUMN_TITLE("dialog.column.title"),
     /** key:dialog.confirm.title. */
     DIALOG_CONFIRM_TITLE("dialog.confirm.title"),
     /** key:dialog.dictionary.title. */
@@ -346,6 +348,8 @@ public enum Resource {
     INFO_PROCESS_ABORTED("info.processAborted"),
     /** key:info.saveBeforeExecute. */
     INFO_SAVE_BEFORE_EXECUTE("info.saveBeforeExecute"),
+    /** key:info.processing.now. */
+    INFO_PROCESSING_NOW("info.processing.now"),
     /** key:validation.error.foreignKey.columnSize. */
     VALIDATION_ERROR_FOREIGN_KEY_COLUMN_SIZE("validation.error.foreignKey.columnSize"),
     /** key:validation.error.foreignKey.columnType. */

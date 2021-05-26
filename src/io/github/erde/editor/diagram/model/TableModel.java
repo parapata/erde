@@ -12,7 +12,6 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import io.github.erde.core.util.SerializationUtils;
 import io.github.erde.core.util.StringUtils;
-import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.ColumnType;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
@@ -258,20 +257,5 @@ public class TableModel extends BaseEntityModel implements ITableEdit {
         // TODO Copy Connection...?
 
         return newModel;
-    }
-
-    @Override
-    public IDialect getDialect() {
-        throw new UnsupportedClassVersionError();
-    }
-
-    @Override
-    public boolean isForeignkey(String physicalName) {
-        throw new UnsupportedClassVersionError();
-    }
-
-    @Override
-    public boolean isReferenceKey(String physicalName) {
-        throw new UnsupportedClassVersionError();
     }
 }

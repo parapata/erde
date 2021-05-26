@@ -12,8 +12,6 @@ import io.github.erde.editor.diagram.model.IndexModel;
  * @author modified by parapata
  */
 public interface ITableEdit {
-    IDialect getDialect();
-
     String getPhysicalName();
 
     void setPhysicalName(String physicalName);
@@ -30,7 +28,15 @@ public interface ITableEdit {
 
     List<IndexModel> getIndices();
 
-    boolean isForeignkey(String physicalName);
+    default IDialect getDialect() {
+        throw new UnsupportedClassVersionError();
+    }
 
-    boolean isReferenceKey(String physicalName);
+    default boolean isForeignkey(String physicalName) {
+        throw new UnsupportedClassVersionError();
+    }
+
+    default boolean isReferenceKey(String physicalName) {
+        throw new UnsupportedClassVersionError();
+    }
 }

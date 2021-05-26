@@ -46,11 +46,14 @@ public class IndexColumnSelectDialog extends Dialog {
     }
 
     @Override
-    protected Control createDialogArea(Composite parent) {
-        Shell shell = getShell();
-        shell.setText(DIALOG_INDEX_COLUMN_SELECT_TITLE.getValue());
-        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText(DIALOG_INDEX_COLUMN_SELECT_TITLE.getValue());
+        newShell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    }
 
+    @Override
+    protected Control createDialogArea(Composite parent) {
         viewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER);
         Table table = viewer.getTable();
         table.setLinesVisible(true);

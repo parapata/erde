@@ -1,5 +1,7 @@
 package io.github.erde.wizard.task;
 
+import static io.github.erde.Resource.*;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
@@ -39,7 +41,7 @@ public class ImageWriterTask implements IRunnableWithProgress {
     @Override
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
         try {
-            monitor.beginTask("ファイル出力中...", IProgressMonitor.UNKNOWN);
+            monitor.beginTask(INFO_PROCESSING_NOW.getValue(), IProgressMonitor.UNKNOWN);
             if (monitor.isCanceled()) {
                 throw new InterruptedException();
             }
