@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: io.github.erde;singleton:=true
-Bundle-Version: 1.0.16
+Bundle-Version: 1.0.17
 Bundle-Activator: io.github.erde.ERDPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
@@ -77,7 +77,7 @@ Export-Package: io.github.erde,
  io.github.erde.editor.dialog.parts,
  io.github.erde.editor.dialog.relationship,
  io.github.erde.editor.dialog.table,
- io.github.erde.editor.dialog.table.tabs,
+ io.github.erde.editor.dialog.table.composite,
  io.github.erde.editor.persistent,
  io.github.erde.editor.persistent.adapter,
  io.github.erde.editor.persistent.diagram,

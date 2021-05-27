@@ -1,4 +1,4 @@
-package io.github.erde.editor.dialog.table.tabs;
+package io.github.erde.editor.dialog.table.composite;
 
 import static io.github.erde.Resource.*;
 
@@ -18,8 +18,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -32,12 +30,12 @@ import io.github.erde.editor.dialog.table.ColumnEditDialog;
 import io.github.erde.editor.dialog.table.ITableEdit;
 
 /**
- * AttributeTabCreator.
+ * AttributeComposite.
  *
  * @author modified by parapata
  */
-public class AttributeTab extends Composite {
-    private Logger logger = LoggerFactory.getLogger(AttributeTab.class);
+public class AttributeComposite extends Composite {
+    private Logger logger = LoggerFactory.getLogger(AttributeComposite.class);
 
     private static final int PK_CULUMN = 0;
     private static final int FK_CULUMN = 1;
@@ -48,7 +46,6 @@ public class AttributeTab extends Composite {
     private static final int UNIQUE_CULUMN = 6;
 
     private ITableEdit tableEdit;
-    private int editColumnIndex;
 
     private Text txtTablePyhgicalName;
     private Text txtTableLogicalName;
@@ -77,36 +74,31 @@ public class AttributeTab extends Composite {
         }
     };
 
-    public AttributeTab(ITableEdit tableEdit, TabFolder tabFolder, int editColumnIndex) {
-        super(tabFolder, SWT.NONE);
+    public AttributeComposite(Composite parent, ITableEdit tableEdit, int editColumnIndex) {
+        super(parent, SWT.NONE);
         this.tableEdit = tableEdit;
-        this.editColumnIndex = editColumnIndex;
-
-        setLayout(new GridLayout());
-        setLayoutData(new GridData(GridData.FILL_BOTH));
-        TabItem tab = new TabItem(tabFolder, SWT.NONE);
-        tab.setText(LABEL_ATTRIBUTE.getValue());
-        tab.setControl(this);
-        create(tab);
+        create(editColumnIndex);
     }
 
-    /**
-     * Create tab area.
-     */
-    private void create(TabItem tab) {
+    private void create(int editColumnIndex) {
+        setLayout(new GridLayout(2, false));
+        setLayoutData(UIUtils.createGridData(2));
 
-        Composite composite = new Composite(this, SWT.NONE);
-        composite.setLayout(new GridLayout(2, false));
-        composite.setLayoutData(UIUtils.createGridData(2));
+        // ------------------------------------------------------------
+        // table name area
+        // ------------------------------------------------------------
+        Composite tableNameArea = new Composite(this, SWT.NONE);
+        tableNameArea.setLayout(new GridLayout(2, false));
+        tableNameArea.setLayoutData(UIUtils.createGridData(2));
 
-        UIUtils.createLabel(composite, LABEL_PHYSICAL_TABLE_NAME);
-        txtTablePyhgicalName = new Text(composite, SWT.BORDER);
+        UIUtils.createLabel(tableNameArea, LABEL_PHYSICAL_TABLE_NAME);
+        txtTablePyhgicalName = new Text(tableNameArea, SWT.BORDER);
         txtTablePyhgicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTablePyhgicalName.setText(tableEdit.getPhysicalName());
         txtTablePyhgicalName.addModifyListener(event -> tableEdit.setPhysicalName(txtTablePyhgicalName.getText()));
 
-        UIUtils.createLabel(composite, LABEL_LOGICAL_TABLE_NAME);
-        txtTableLogicalName = new Text(composite, SWT.BORDER);
+        UIUtils.createLabel(tableNameArea, LABEL_LOGICAL_TABLE_NAME);
+        txtTableLogicalName = new Text(tableNameArea, SWT.BORDER);
         txtTableLogicalName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtTableLogicalName.setText(tableEdit.getLogicalName());
         txtTableLogicalName.addModifyListener(event -> tableEdit.setLogicalName(txtTableLogicalName.getText()));
@@ -243,8 +235,6 @@ public class AttributeTab extends Composite {
         });
 
         if (editColumnIndex > -1) {
-            TabFolder tabFolder = (TabFolder) this.getParent();
-            tabFolder.setSelection(tab);
             table.select(editColumnIndex);
         }
         updateButtons();

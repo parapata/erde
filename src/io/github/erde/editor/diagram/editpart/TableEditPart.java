@@ -239,7 +239,7 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         RootModel root = getRootModel(viewer);
         String dialectName = root.getDialectProvider().name();
 
-        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, false, null);
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, null);
 
         if (dialog.open() == Window.OK) {
             Command command = new TableEditCommand(table, dialog);
@@ -262,7 +262,7 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         RootModel root = getRootModel(viewer);
         String dialectName = root.getDialectProvider().name();
 
-        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, true, editIndex);
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, editIndex);
 
         if (dialog.open() == Window.OK) {
             Command command = new TableEditCommand(table, dialog);

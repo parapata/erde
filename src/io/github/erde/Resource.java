@@ -436,6 +436,62 @@ public enum Resource {
     TYPE_XML("type.xml"),
     /** key:type.year. */
     TYPE_YEAR("type.year"),
+    /** key:html.column.autoIncrement. */
+    HTML_COLUMN_AUTO_INCREMENT("html.column.autoIncrement"),
+    /** key:html.column.defaultValue. */
+    HTML_COLUMN_DEFAULT_VALUE("html.column.defaultValue"),
+    /** key:html.column.description. */
+    HTML_COLUMN_DESCRIPTION("html.column.description"),
+    /** key:html.column.description.domain. */
+    HTML_COLUMN_DESCRIPTION_DOMAIN("html.column.description.domain"),
+    /** key:html.column.logicalName. */
+    HTML_COLUMN_LOGICAL_NAME("html.column.logicalName"),
+    /** key:html.column.notNull. */
+    HTML_COLUMN_NOT_NULL("html.column.notNull"),
+    /** key:html.column.physicalName. */
+    HTML_COLUMN_PHYSICAL_NAME("html.column.physicalName"),
+    /** key:html.column.primaryKey. */
+    HTML_COLUMN_PRIMARY_KEY("html.column.primaryKey"),
+    /** key:html.column.rownum. */
+    HTML_COLUMN_ROWNUM("html.column.rownum"),
+    /** key:html.column.type. */
+    HTML_COLUMN_TYPE("html.column.type"),
+    /** key:html.column.unique. */
+    HTML_COLUMN_UNIQUE("html.column.unique"),
+    /** key:html.column.unsigned. */
+    HTML_COLUMN_UNSIGNED("html.column.unsigned"),
+    /** key:html.domain.name. */
+    HTML_DOMAIN_NAME("html.domain.name"),
+    /** key:html.domain.size. */
+    HTML_DOMAIN_SIZE("html.domain.size"),
+    /** key:html.domain.title. */
+    HTML_DOMAIN_TITLE("html.domain.title"),
+    /** key:html.domain.type. */
+    HTML_DOMAIN_TYPE("html.domain.type"),
+    /** key:html.foreignKeys. */
+    HTML_FOREIGN_KEYS("html.foreignKeys"),
+    /** key:html.indices. */
+    HTML_INDICES("html.indices"),
+    /** key:html.page.section.title.attribute. */
+    HTML_PAGE_SECTION_TITLE_ATTRIBUTE("html.page.section.title.attribute"),
+    /** key:html.page.section.title.compositeUniqueKeys. */
+    HTML_PAGE_SECTION_TITLE_COMPOSITE_UNIQUE_KEYS("html.page.section.title.compositeUniqueKeys"),
+    /** key:html.page.section.title.foreignKeys. */
+    HTML_PAGE_SECTION_TITLE_FOREIGN_KEYS("html.page.section.title.foreignKeys"),
+    /** key:html.page.section.title.index. */
+    HTML_PAGE_SECTION_TITLE_INDEX("html.page.section.title.index"),
+    /** key:html.page.title.table. */
+    HTML_PAGE_TITLE_TABLE("html.page.title.table"),
+    /** key:html.referencedTables. */
+    HTML_REFERENCED_TABLES("html.referencedTables"),
+    /** key:html.table.description. */
+    HTML_TABLE_DESCRIPTION("html.table.description"),
+    /** key:html.table.logicalName. */
+    HTML_TABLE_LOGICAL_NAME("html.table.logicalName"),
+    /** key:html.table.physicalName. */
+    HTML_TABLE_PHYSICAL_NAME("html.table.physicalName"),
+    /** key:html.title. */
+    HTML_TITLE("html.title"),
     ;
 
     private static final ResourceBundle resource = ResourceBundle.getBundle("io.github.erde.messages");

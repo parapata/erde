@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
@@ -26,9 +27,9 @@ import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.TableModel;
-import io.github.erde.editor.dialog.table.tabs.AttributeTab;
-import io.github.erde.editor.dialog.table.tabs.DescriptionTab;
-import io.github.erde.editor.dialog.table.tabs.IndexTab;
+import io.github.erde.editor.dialog.table.composite.AttributeComposite;
+import io.github.erde.editor.dialog.table.composite.DescriptionComposite;
+import io.github.erde.editor.dialog.table.composite.IndexComposite;
 
 /**
  * The table dialog.
@@ -44,8 +45,6 @@ public class TableEditDialog extends Dialog implements ITableEdit {
     private int editColumnIndex = -1;
     private int editIndexIndex = -1;
 
-    private boolean indexEditing = false;
-
     private List<BaseConnectionModel> referenceKeys;
     private List<BaseConnectionModel> foreignKeys;
 
@@ -60,7 +59,7 @@ public class TableEditDialog extends Dialog implements ITableEdit {
      * @param editIndexModel the index models
      */
     public TableEditDialog(Shell parentShell, String dialectName, TableModel tableModel, ColumnModel editColumnModel,
-            boolean indexEditing, IndexModel editIndexModel) {
+            IndexModel editIndexModel) {
 
         super(parentShell);
         setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX | SWT.MIN);
@@ -68,7 +67,6 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         this.editTable = tableModel.clone();
         this.editColumnIndex = tableModel.getColumns().indexOf(editColumnModel);
         this.editIndexIndex = tableModel.getIndices().indexOf(editIndexModel);
-        this.indexEditing = indexEditing;
 
         this.referenceKeys = tableModel.getModelSourceConnections();
         this.foreignKeys = tableModel.getModelTargetConnections();
@@ -95,14 +93,29 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
         // Attribute tab
-        new AttributeTab(this, tabFolder, editColumnIndex);
+        Composite attribute = new AttributeComposite(tabFolder, this, editColumnIndex);
+        TabItem attributeTab = new TabItem(tabFolder, SWT.NONE);
+        attributeTab.setText(LABEL_ATTRIBUTE.getValue());
+        attributeTab.setControl(attribute);
 
         // Table description tab
-        new DescriptionTab(this, tabFolder);
+        Composite description = new DescriptionComposite(tabFolder, this);
+        TabItem descriptionTab = new TabItem(tabFolder, SWT.NONE);
+        descriptionTab.setText(LABEL_DESCRIPTION.getValue());
+        descriptionTab.setControl(description);
 
         // Index tab
         // new IndexTabCreator(this, tabFolder, editIndexIndex, indexEditing, editTable.getPhysicalName());
-        new IndexTab(this, tabFolder, editIndexIndex, indexEditing);
+        Composite index = new IndexComposite(tabFolder, this, editIndexIndex);
+        TabItem indexTab = new TabItem(tabFolder, SWT.NONE);
+        indexTab.setText(LABEL_INDEX.getValue());
+        indexTab.setControl(index);
+
+        if (editIndexIndex > -1) {
+            tabFolder.setSelection(indexTab);
+        } else {
+            tabFolder.setSelection(attributeTab);
+        }
 
         return tabFolder;
     }

@@ -33,6 +33,7 @@ import io.github.erde.dialect.type.IColumnType;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.DomainModel;
 import io.github.erde.editor.dialog.enumeration.EnumEditDialog;
+import io.github.erde.editor.dialog.parts.NumericVerifyListener;
 
 /**
  * ColumnEditDialog.
@@ -178,15 +179,13 @@ public class ColumnEditDialog extends Dialog {
         UIUtils.createLabel(group, LABEL_SIZE);
         txtColumnSize = new Text(group, SWT.BORDER);
         txtColumnSize.setLayoutData(UIUtils.createGridDataWithWidth(60));
-        // txtColumnSize.addFocusListener(updateColumnInfoChanged);
-        // txtColumnSize.addVerifyListener(new NumericVerifyListener());
+        txtColumnSize.addVerifyListener(new NumericVerifyListener());
 
         // -----
         UIUtils.createLabel(group, LABEL_DECIMAL);
         txtDecimal = new Text(group, SWT.BORDER);
         txtDecimal.setLayoutData(UIUtils.createGridDataWithWidth(60));
-        // txtDecimal.addFocusListener(updateColumnInfoChanged);
-        // txtDecimal.addVerifyListener(new NumericVerifyListener());
+        txtDecimal.addVerifyListener(new NumericVerifyListener());
 
         // -----
         chkUnsigned = new Button(group, SWT.CHECK);
@@ -245,20 +244,31 @@ public class ColumnEditDialog extends Dialog {
         columnModel.setLogicalName(txtColumnLogicalName.getText());
         IColumnType columnType = (IColumnType) cmbColumnType.getData(cmbColumnType.getText());
         columnModel.setColumnType(columnType);
-        if (StringUtils.isNotEmpty(txtColumnSize.getText())) {
+        if (columnType.isSizeSupported() && StringUtils.isNotEmpty(txtColumnSize.getText())) {
             columnModel.setColumnSize(Integer.valueOf(txtColumnSize.getText()));
+            if (columnType.isDecimalSupported() && StringUtils.isNotEmpty(txtDecimal.getText())) {
+                columnModel.setDecimal(Integer.valueOf(txtDecimal.getText()));
+            }
         }
-        if (StringUtils.isNotEmpty(txtDecimal.getText())) {
-            columnModel.setDecimal(Integer.valueOf(txtDecimal.getText()));
-        }
-        for (String item : cmbEnum.getItems()) {
-            columnModel.getEnumNames().add(item);
+        if (columnModel.getColumnType().isEnum()) {
+            for (String item : cmbEnum.getItems()) {
+                columnModel.getEnumNames().add(item);
+            }
         }
         columnModel.setPrimaryKey(chkIsPK.getSelection());
-        columnModel.setNotNull(chkNotNull.getSelection());
-        columnModel.setUniqueKey(chkIsUnique.getSelection());
-        columnModel.setUnsigned(chkUnsigned.getSelection());
-        columnModel.setAutoIncrement(chkAutoIncrement.getSelection());
+        if (chkIsPK.getSelection()) {
+            columnModel.setNotNull(true);
+            columnModel.setUniqueKey(false);
+            columnModel.setAutoIncrement(chkAutoIncrement.getSelection());
+        } else {
+            columnModel.setNotNull(chkNotNull.getSelection());
+            columnModel.setUniqueKey(chkIsUnique.getSelection());
+        }
+        if (columnType.isUnsignedSupported()) {
+            columnModel.setUnsigned(chkUnsigned.getSelection());
+        } else {
+            columnModel.setUnsigned(false);
+        }
         columnModel.setDefaultValue(txtDefaultValue.getText());
         columnModel.setDescription(txtColumnDescription.getText());
         super.okPressed();
@@ -269,7 +279,6 @@ public class ColumnEditDialog extends Dialog {
     }
 
     private void initialize() {
-
         IColumnType columnType = columnModel.getColumnType();
 
         txtColumnPhysicalName.setText(columnModel.getPhysicalName());
@@ -309,7 +318,6 @@ public class ColumnEditDialog extends Dialog {
     }
 
     private void updateColumnTypeCmb() {
-
         if (cmbColumnType.getSelectionIndex() < 0) {
             return;
         }
