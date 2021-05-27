@@ -1,5 +1,7 @@
 package io.github.erde.dialect.loader;
 
+import static io.github.erde.Resource.*;
+
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,7 +39,7 @@ public class SchemaLoaderTask implements IRunnableWithProgress {
         tableModels = new ArrayList<>();
         try (Connection conn = schemaLoader.getJDBCConnection().connect()) {
             List<String> tableNames = schemaLoader.getImportTableNames();
-            monitor.beginTask("テーブル情報取込中...", tableNames.size());
+            monitor.beginTask(INFO_PROCESSING_NOW.getValue(), tableNames.size());
 
             AtomicInteger i = new AtomicInteger(0);
             for (String tableName : tableNames) {

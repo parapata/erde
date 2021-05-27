@@ -41,11 +41,14 @@ public class EntryEditDialog extends Dialog {
     }
 
     @Override
-    protected Control createDialogArea(Composite parent) {
-        Shell shell = getShell();
-        shell.setText(DIALOG_DICTIONARY_TITLE.getValue());
-        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText(DIALOG_DICTIONARY_TITLE.getValue());
+        newShell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    }
 
+    @Override
+    protected Control createDialogArea(Composite parent) {
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
         composite.setLayout(new GridLayout(2, false));

@@ -136,7 +136,7 @@ public class ImportFromJDBCWizardPage2 extends WizardPage {
     }
 
     private void doDatabaseError(Throwable th) {
-        UIUtils.openAlertDialog(th.getMessage());
+        UIUtils.openAlertDialog(th);
         super.setVisible(false);
         setErrorMessage(ERROR_GET_DATABASE_METADATA.getValue());
         setPageComplete(false);

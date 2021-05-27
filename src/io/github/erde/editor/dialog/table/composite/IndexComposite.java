@@ -1,4 +1,4 @@
-package io.github.erde.editor.dialog.table.tabs;
+package io.github.erde.editor.dialog.table.composite;
 
 import static io.github.erde.Resource.*;
 
@@ -19,9 +19,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
 import io.github.erde.core.util.swt.UIUtils;
@@ -33,16 +30,13 @@ import io.github.erde.editor.dialog.table.ITableEdit;
 import io.github.erde.editor.dialog.table.IndexColumnSelectDialog;
 
 /**
- * IndexTabCreator.
+ * IndexComposite.
  *
  * @author modified by parapata
  */
-public class IndexTab extends Composite {
+public class IndexComposite extends Composite {
 
     private ITableEdit tableEdit;
-
-    private boolean indexEditing;
-    private int editIndexIndex;
 
     private org.eclipse.swt.widgets.List lstIndexs;
     private Text txtIndexName;
@@ -57,42 +51,30 @@ public class IndexTab extends Composite {
     private Button btnUpColumn;
     private Button btnDownColumn;
 
-    public IndexTab(ITableEdit tableEdit, TabFolder tabFolder, int editIndexIndex, boolean indexEditing) {
-        super(tabFolder, SWT.NONE);
+    public IndexComposite(Composite parent, ITableEdit tableEdit, int editIndexIndex) {
+        super(parent, SWT.NONE);
         this.tableEdit = tableEdit;
-        this.editIndexIndex = editIndexIndex;
-        this.indexEditing = indexEditing;
 
+        create(editIndexIndex);
+    }
+
+    private void create(int editIndexIndex) {
         setLayout(new GridLayout(2, false));
         setLayoutData(new GridData(GridData.FILL_BOTH));
 
-        TabItem tab = new TabItem(tabFolder, SWT.NONE);
-        tab.setText(LABEL_INDEX.getValue());
-        tab.setControl(this);
+        createIndexListArea(editIndexIndex);
+        createIndexColumnListArea();
 
-        create(tab);
-    }
-
-    private void create(TabItem tab) {
-        createIndexListArea(this);
-        createIndexColumnListArea(getShell(), this);
-
-        if (indexEditing) {
-            TabFolder tabFolder = (TabFolder) this.getParent();
-            tabFolder.setSelection(tab);
-            if (editIndexIndex >= 0) {
-                lstIndexs.select(editIndexIndex);
-                indexSelectionChanged();
-            } else {
-                disableIndexForm();
-            }
+        if (editIndexIndex >= 0) {
+            lstIndexs.select(editIndexIndex);
+            indexSelectionChanged();
         } else {
             disableIndexForm();
         }
     }
 
-    private void createIndexListArea(Composite composite) {
-        Composite indexArea = new Composite(composite, SWT.NONE);
+    private void createIndexListArea(int editIndexIndex) {
+        Composite indexArea = new Composite(this, SWT.NONE);
         GridLayout layout = new GridLayout(2, false);
         indexArea.setLayout(layout);
         indexArea.setLayoutData(UIUtils.createGridData(2, GridData.FILL_BOTH));
@@ -144,8 +126,8 @@ public class IndexTab extends Composite {
             }
         });
 
-        new Label(composite, SWT.NONE).setText(LABEL_INDEX_TYPE.getValue());
-        cmbIndexType = new Combo(composite, SWT.READ_ONLY);
+        new Label(this, SWT.NONE).setText(LABEL_INDEX_TYPE.getValue());
+        cmbIndexType = new Combo(this, SWT.READ_ONLY);
         for (IIndexType type : tableEdit.getDialect().getIndexTypes()) {
             cmbIndexType.add(type.getName());
         }
@@ -153,27 +135,29 @@ public class IndexTab extends Composite {
         cmbIndexType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+                int index = lstIndexs.getSelectionIndex();
+                IndexModel model = tableEdit.getIndices().get(index);
                 model.setIndexType(IndexType.toIndexType(cmbIndexType.getText()));
-                lstIndexs.setItem(editIndexIndex, model.toString());
+                lstIndexs.setItem(index, model.toString());
             }
         });
 
-        new Label(composite, SWT.NONE).setText(LABEL_INDEX_NAME.getValue());
-        txtIndexName = new Text(composite, SWT.BORDER);
+        new Label(this, SWT.NONE).setText(LABEL_INDEX_NAME.getValue());
+        txtIndexName = new Text(this, SWT.BORDER);
         txtIndexName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         txtIndexName.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent event) {
-                IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+                int index = lstIndexs.getSelectionIndex();
+                IndexModel model = tableEdit.getIndices().get(index);
                 model.setIndexName(txtIndexName.getText().toUpperCase());
-                lstIndexs.setItem(editIndexIndex, model.toString());
+                lstIndexs.setItem(index, model.toString());
             }
         });
     }
 
-    private void createIndexColumnListArea(Shell shell, Composite composite) {
-        Group indexColumnGroup = new Group(composite, SWT.NONE);
+    private void createIndexColumnListArea() {
+        Group indexColumnGroup = new Group(this, SWT.NONE);
         indexColumnGroup.setText(LABEL_INDEX_COLUMNS.getValue());
         indexColumnGroup.setLayout(new GridLayout(2, false));
         indexColumnGroup.setLayoutData(UIUtils.createGridData(3, GridData.FILL_BOTH));
@@ -205,14 +189,15 @@ public class IndexTab extends Composite {
                         .filter(predicate -> !selectedList.contains(predicate.getPhysicalName()))
                         .collect(Collectors.toList());
 
-                IndexColumnSelectDialog dialog = new IndexColumnSelectDialog(shell, items);
+                IndexColumnSelectDialog dialog = new IndexColumnSelectDialog(getShell(), items);
                 if (dialog.open() == Window.OK) {
                     dialog.getSelectedColumns().forEach(column -> {
+                        int index = lstIndexs.getSelectionIndex();
                         String columnName = column.getPhysicalName();
-                        IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+                        IndexModel model = tableEdit.getIndices().get(index);
                         model.getColumns().add(columnName);
                         lstIndexColumns.add(columnName);
-                        lstIndexs.setItem(editIndexIndex, model.toString());
+                        lstIndexs.setItem(index, model.toString());
                         updateIndexColumnButtons();
                     });
                 }
@@ -227,10 +212,11 @@ public class IndexTab extends Composite {
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
                 if (index >= 0) {
-                    IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+                    int i = lstIndexs.getSelectionIndex();
+                    IndexModel model = tableEdit.getIndices().get(i);
                     model.getColumns().remove(index);
                     lstIndexColumns.remove(index);
-                    lstIndexs.setItem(editIndexIndex, model.toString());
+                    lstIndexs.setItem(i, model.toString());
                     lstIndexColumns.select(index - 1);
                     updateIndexColumnButtons();
                 }
@@ -245,14 +231,15 @@ public class IndexTab extends Composite {
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
                 if (index > 0) {
-                    IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+                    int i = lstIndexs.getSelectionIndex();
+                    IndexModel model = tableEdit.getIndices().get(i);
                     String columnName = model.getColumns().get(index);
                     model.getColumns().remove(index);
                     model.getColumns().add(index - 1, columnName);
                     lstIndexColumns.remove(index);
                     lstIndexColumns.add(columnName, index - 1);
                     lstIndexColumns.select(index - 1);
-                    lstIndexs.setItem(editIndexIndex, model.toString());
+                    lstIndexs.setItem(i, model.toString());
                     updateIndexColumnButtons();
                 }
             }
@@ -265,15 +252,16 @@ public class IndexTab extends Composite {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
-                if (index < tableEdit.getIndices().get(editIndexIndex).getColumns().size() - 1) {
-                    IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+                int i = lstIndexs.getSelectionIndex();
+                if (index < tableEdit.getIndices().get(i).getColumns().size() - 1) {
+                    IndexModel model = tableEdit.getIndices().get(i);
                     String columnName = model.getColumns().get(index);
                     model.getColumns().remove(index);
                     model.getColumns().add(index + 1, columnName);
                     lstIndexColumns.remove(index);
                     lstIndexColumns.add(columnName, index + 1);
                     lstIndexColumns.select(index + 1);
-                    lstIndexs.setItem(editIndexIndex, model.toString());
+                    lstIndexs.setItem(i, model.toString());
                     updateIndexColumnButtons();
                 }
             }
@@ -281,9 +269,9 @@ public class IndexTab extends Composite {
     }
 
     private void indexSelectionChanged() {
-        editIndexIndex = lstIndexs.getSelectionIndex();
-        if (editIndexIndex >= 0) {
-            IndexModel model = tableEdit.getIndices().get(editIndexIndex);
+        int index = lstIndexs.getSelectionIndex();
+        if (index >= 0) {
+            IndexModel model = tableEdit.getIndices().get(index);
             txtIndexName.setEnabled(true);
             cmbIndexType.setEnabled(true);
             lstIndexColumns.setEnabled(true);
@@ -304,23 +292,19 @@ public class IndexTab extends Composite {
     }
 
     private void updateIndexColumnButtons() {
-        btnRemoveColumn.setEnabled(false);
-        btnUpColumn.setEnabled(false);
-        btnDownColumn.setEnabled(false);
-
         int index = lstIndexColumns.getSelectionIndex();
-        if (index >= 0) {
+        if (index <= -1) {
+            btnRemoveColumn.setEnabled(false);
+            btnUpColumn.setEnabled(false);
+            btnDownColumn.setEnabled(false);
+        } else {
             btnRemoveColumn.setEnabled(true);
-            if (index > 0) {
-                btnUpColumn.setEnabled(true);
-            } else if (index < lstIndexColumns.getItemCount() - 1) {
-                btnDownColumn.setEnabled(true);
-            }
+            btnUpColumn.setEnabled((index > 0));
+            btnDownColumn.setEnabled((index < lstIndexColumns.getItemCount() - 1));
         }
     }
 
     private void disableIndexForm() {
-        editIndexIndex = -1;
         txtIndexName.setText("");
         cmbIndexType.setText("");
         lstIndexColumns.removeAll();

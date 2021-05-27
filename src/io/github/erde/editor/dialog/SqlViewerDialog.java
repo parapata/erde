@@ -54,11 +54,14 @@ public class SqlViewerDialog extends Dialog {
     }
 
     @Override
-    protected Control createDialogArea(Composite parent) {
-        Shell shell = getShell();
-        shell.setText(DIALOG_SQL_VIEWER_TITLE.getValue());
-        shell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText(DIALOG_SQL_VIEWER_TITLE.getValue());
+        newShell.setImage(ERDPlugin.getImage(ICON.TABLE.getPath()));
+    }
 
+    @Override
+    protected Control createDialogArea(Composite parent) {
         createMenuber();
         return createEditer(parent);
     }

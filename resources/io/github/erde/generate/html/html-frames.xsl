@@ -242,7 +242,7 @@
                             <tr>
                                 <td><a href="./table/{physicalName}.html" target="right"><xsl:value-of select="physicalName" /></a></td>
                                 <td><xsl:value-of select="logicalName" /></td>
-                                <td><xsl:value-of select="description" /></td>
+                                <td><xsl:value-of select="utils:escapeHTML(description)" disable-output-escaping="yes" /></td>
                             </tr>
                             </xsl:for-each>
                         </tbody>
@@ -289,7 +289,7 @@
                 <xsl:call-template name="site-header" />
                 <div id="content">
                     <h2><xsl:value-of select="utils:getResource('html.page.title.table')" /><span class="separator">:</span><xsl:value-of select="physicalName" /></h2>
-                    <p><xsl:value-of select="description" /></p>
+                    <p><xsl:value-of select="utils:escapeHTML(description)" disable-output-escaping="yes" /></p>
                     <hr />
                     <!-- 属性の概要 -->
                     <div class="box">
@@ -398,7 +398,7 @@
                         <xsl:for-each select="column">
                         <div id="{physicalName}" class="details_inner">
                             <h4><xsl:value-of select="physicalName" /><xsl:if test="primaryKey">(PK)</xsl:if><span class="separator">:</span><xsl:value-of select="logicalName" /></h4>
-                            <p><xsl:value-of select="description" /></p>
+                            <p><xsl:value-of select="utils:escapeHTML(description)" disable-output-escaping="yes" /></p>
                             <dl class="column__definition">
                                 <dt><xsl:value-of select="utils:getResource('html.column.type')" />:</dt>
                                 <dd><xsl:value-of select="utils:getType(type, columnSize, decimal, unsigned)" /></dd>

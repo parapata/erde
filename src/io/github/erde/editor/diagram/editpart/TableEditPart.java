@@ -32,7 +32,6 @@ import io.github.erde.editor.diagram.figure.TableFigure;
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
-import io.github.erde.editor.diagram.model.DomainModel;
 import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
@@ -239,9 +238,8 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         Shell shell = viewer.getControl().getShell();
         RootModel root = getRootModel(viewer);
         String dialectName = root.getDialectProvider().name();
-        List<DomainModel> domains = root.getDomains();
 
-        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, false, null, domains);
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, editColumn, null);
 
         if (dialog.open() == Window.OK) {
             Command command = new TableEditCommand(table, dialog);
@@ -263,9 +261,8 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         Shell shell = viewer.getControl().getShell();
         RootModel root = getRootModel(viewer);
         String dialectName = root.getDialectProvider().name();
-        List<DomainModel> domains = root.getDomains();
 
-        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, true, editIndex, domains);
+        TableEditDialog dialog = new TableEditDialog(shell, dialectName, table, null, editIndex);
 
         if (dialog.open() == Window.OK) {
             Command command = new TableEditCommand(table, dialog);
