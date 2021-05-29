@@ -284,13 +284,21 @@ public class ColumnEditDialog extends Dialog {
         txtColumnPhysicalName.setText(columnModel.getPhysicalName());
         txtColumnLogicalName.setText(columnModel.getLogicalName());
         cmbColumnType.setText(columnType.getPhysicalName());
-        if (columnModel.getColumnSize() != null) {
+
+        if (columnType.isSizeSupported() && columnModel.getColumnSize() != null) {
             txtColumnSize.setText(String.valueOf(columnModel.getColumnSize()));
+            if (columnType.isDecimalSupported() && columnModel.getDecimal() != null) {
+                txtDecimal.setText(String.valueOf(columnModel.getDecimal()));
+            }
         }
-        txtDecimal.setText(columnModel.getDefaultValue());
+        txtColumnSize.setEnabled(columnType.isSizeSupported());
+        txtDecimal.setEditable(columnType.isDecimalSupported());
+
         columnModel.getEnumNames().forEach(name -> {
             cmbEnum.setText(name);
         });
+        cmbEnum.setEnabled(columnType.isEnum());
+
         chkIsPK.setSelection(columnModel.isPrimaryKey());
         if (chkIsPK.getSelection()) {
             chkNotNull.setSelection(true);
@@ -300,9 +308,11 @@ public class ColumnEditDialog extends Dialog {
             chkNotNull.setSelection(columnModel.isNotNull());
             chkIsUnique.setSelection(columnModel.isUniqueKey());
         }
+
         if (columnType.isUnsignedSupported()) {
             chkUnsigned.setSelection(columnModel.isUnsigned());
         }
+        chkUnsigned.setEnabled(columnType.isUnsignedSupported());
         txtDefaultValue.setText(columnModel.getDefaultValue());
         txtColumnDescription.setText(columnModel.getDescription());
         updatePkChkBtn();

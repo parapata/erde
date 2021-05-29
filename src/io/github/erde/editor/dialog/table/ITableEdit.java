@@ -56,7 +56,7 @@ public interface ITableEdit {
     default boolean isReferenceKey(String id) {
         for (RelationshipModel conn : getReferenceKeyConnections()) {
             for (RelationshipMappingModel item : conn.getMappings()) {
-                if (StringUtils.equals(id, item.getForeignKey().getId())) {
+                if (StringUtils.equals(id, item.getReferenceKey().getId())) {
                     return true;
                 }
             }
@@ -94,6 +94,39 @@ public interface ITableEdit {
                     RelationshipMappingModel newMapping = new RelationshipMappingModel();
                     newMapping.setReferenceKey(mapping.getReferenceKey());
                     newMapping.setForeignKey(column);
+                    newMappings.add(newMapping);
+                    break;
+                }
+            }
+        }
+        if (!newMappings.isEmpty()) {
+            relationship.setMappings(newMappings);
+        }
+    }
+
+    default void updateReferenceKey(List<ColumnModel> referenceKey) {
+
+        List<BaseConnectionModel> connections = getReferenceKeyConnections()
+                .stream()
+                .filter(conn -> (conn instanceof RelationshipModel))
+                .collect(Collectors.toList());
+
+        connections.forEach(conn -> {
+            updateReferenceKey(((RelationshipModel) conn),
+                    getColumns().stream()
+                            .filter(column -> isReferenceKey(column.getId()))
+                            .collect(Collectors.toList()));
+        });
+    }
+
+    private void updateReferenceKey(RelationshipModel relationship, List<ColumnModel> referenceKeyColumns) {
+        List<RelationshipMappingModel> newMappings = new ArrayList<>();
+        for (RelationshipMappingModel mapping : relationship.getMappings()) {
+            for (ColumnModel column : referenceKeyColumns) {
+                if (StringUtils.equals(column.getId(), mapping.getReferenceKey().getId())) {
+                    RelationshipMappingModel newMapping = new RelationshipMappingModel();
+                    newMapping.setReferenceKey(column);
+                    newMapping.setForeignKey(mapping.getForeignKey());
                     newMappings.add(newMapping);
                     break;
                 }

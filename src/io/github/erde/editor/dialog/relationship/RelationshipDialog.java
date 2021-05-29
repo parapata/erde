@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import io.github.erde.ERDPlugin;
 import io.github.erde.ICON;
+import io.github.erde.core.exception.NotFoundException;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
@@ -323,17 +324,24 @@ public class RelationshipDialog extends Dialog implements IRelationshipDialog {
 
             logger.info("[{}]{} : {}", index, sourceColumnName, targetColumnName);
 
-            ColumnModel source = helper.getSelectColumnModel(
-                    sourceColumnName,
-                    relationshipModel.getSource().getColumns());
+            try {
+                ColumnModel source = helper.getSelectColumnModel(
+                        sourceColumnName,
+                        relationshipModel.getSource().getColumns());
 
-            ColumnModel target = helper.getSelectColumnModel(
-                    targetColumnName,
-                    relationshipModel.getTarget().getColumns());
+                ColumnModel target = helper.getSelectColumnModel(
+                        targetColumnName,
+                        relationshipModel.getTarget().getColumns());
 
-            RelationshipMappingModel mapping = new RelationshipMappingModel(source, target);
-            newRelationshipMappings.add(mapping);
+                RelationshipMappingModel mapping = new RelationshipMappingModel(source, target);
+                newRelationshipMappings.add(mapping);
+
+            } catch (NotFoundException e) {
+                // TODO
+                logger.error("error", e);
+            }
             index.incrementAndGet();
+
         });
 
         relationshipModel.setForeignKeyName(txtForeignKeyName.getText());
