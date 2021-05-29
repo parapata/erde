@@ -17,6 +17,7 @@ public class ColumnModel implements IModel {
 
     private static final long serialVersionUID = 1L;
 
+    private String id;
     private String physicalName;
     private String logicalName;
     private IColumnType columnType;
@@ -30,6 +31,22 @@ public class ColumnModel implements IModel {
     private String description;
     private boolean autoIncrement;
     private String defaultValue;
+
+    public ColumnModel() {
+        this.id = generateId();
+    }
+
+    public ColumnModel(String id) {
+        this.setId(id);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getLogicalName() {
         return this.logicalName;

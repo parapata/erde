@@ -21,7 +21,6 @@ import io.github.erde.core.util.swt.UIUtils;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.editor.ERDiagramEditor;
-import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
 import io.github.erde.editor.diagram.model.RelationshipMappingModel;
@@ -45,8 +44,8 @@ public class TableEditDialog extends Dialog implements ITableEdit {
     private int editColumnIndex = -1;
     private int editIndexIndex = -1;
 
-    private List<BaseConnectionModel> referenceKeys;
-    private List<BaseConnectionModel> foreignKeys;
+    private List<RelationshipModel> referenceKeys;
+    private List<RelationshipModel> foreignKeys;
 
     /**
      * The constructor.
@@ -68,8 +67,8 @@ public class TableEditDialog extends Dialog implements ITableEdit {
         this.editColumnIndex = tableModel.getColumns().indexOf(editColumnModel);
         this.editIndexIndex = tableModel.getIndices().indexOf(editIndexModel);
 
-        this.referenceKeys = tableModel.getModelSourceConnections();
-        this.foreignKeys = tableModel.getModelTargetConnections();
+        this.referenceKeys = toRelationshipConnections(tableModel.getModelSourceConnections());
+        this.foreignKeys = toRelationshipConnections(tableModel.getModelTargetConnections());
     }
 
     @Override
@@ -176,13 +175,16 @@ public class TableEditDialog extends Dialog implements ITableEdit {
     }
 
     @Override
-    public boolean isForeignkey(String physicalName) {
-        for (BaseConnectionModel conn : foreignKeys) {
-            if (conn instanceof RelationshipModel) {
-                for (RelationshipMappingModel item : ((RelationshipModel) conn).getMappings()) {
-                    if (physicalName.equals(item.getForeignKey().getPhysicalName())) {
-                        return true;
-                    }
+    public List<RelationshipModel> getForeignKeyConnections() {
+        return foreignKeys;
+    }
+
+    @Override
+    public boolean isForeignkey(String id) {
+        for (RelationshipModel conn : foreignKeys) {
+            for (RelationshipMappingModel item : conn.getMappings()) {
+                if (StringUtils.equals(id, item.getForeignKey().getId())) {
+                    return true;
                 }
             }
         }
@@ -190,13 +192,16 @@ public class TableEditDialog extends Dialog implements ITableEdit {
     }
 
     @Override
-    public boolean isReferenceKey(String physicalName) {
-        for (BaseConnectionModel conn : referenceKeys) {
-            if (conn instanceof RelationshipModel) {
-                for (RelationshipMappingModel item : ((RelationshipModel) conn).getMappings()) {
-                    if (physicalName.equals(item.getReferenceKey().getPhysicalName())) {
-                        return true;
-                    }
+    public List<RelationshipModel> getReferenceKeyConnections() {
+        return referenceKeys;
+    }
+
+    @Override
+    public boolean isReferenceKey(String id) {
+        for (RelationshipModel conn : referenceKeys) {
+            for (RelationshipMappingModel item : conn.getMappings()) {
+                if (StringUtils.equals(id, item.getReferenceKey().getId())) {
+                    return true;
                 }
             }
         }

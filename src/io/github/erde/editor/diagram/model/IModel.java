@@ -8,4 +8,7 @@ import java.io.Serializable;
  * @author modified by parapata
  */
 public interface IModel extends Cloneable, Serializable {
+    default String generateId() {
+        return String.valueOf((System.nanoTime()));
+    }
 }

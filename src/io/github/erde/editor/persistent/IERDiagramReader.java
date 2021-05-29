@@ -11,6 +11,7 @@ import javax.xml.bind.JAXB;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import io.github.erde.ERDPlugin;
+import io.github.erde.core.exception.NotFoundException;
 import io.github.erde.dialect.DialectProvider;
 import io.github.erde.dialect.IDialect;
 import io.github.erde.dialect.type.IColumnType;
@@ -72,28 +73,39 @@ public interface IERDiagramReader {
                         foreignKeyModel.setSourceCardinality(foreignKey.getSourceCardinality());
                         foreignKeyModel.setTargetCardinality(foreignKey.getTargetCardinality());
 
-                        TableModel sourceTableModel = getTableModel(rootModel.getTables(), foreignKey.getSourceId());
-                        foreignKeyModel.setSource(sourceTableModel);
-                        sourceTableModel.getModelSourceConnections().add(foreignKeyModel);
+                        try {
+                            TableModel sourceTableModel = getTableModel(rootModel.getTables(),
+                                    foreignKey.getSourceId());
+                            foreignKeyModel.setSource(sourceTableModel);
+                            sourceTableModel.getModelSourceConnections().add(foreignKeyModel);
 
-                        TableModel targetTableModel = getTableModel(rootModel.getTables(), table.getId());
-                        foreignKeyModel.setTarget(targetTableModel);
-                        targetTableModel.getModelTargetConnections().add(foreignKeyModel);
+                            TableModel targetTableModel = getTableModel(rootModel.getTables(), table.getId());
+                            foreignKeyModel.setTarget(targetTableModel);
+                            targetTableModel.getModelTargetConnections().add(foreignKeyModel);
 
-                        List<RelationshipMappingModel> mappings = new ArrayList<>();
-                        foreignKey.getForeignKeyMappings().forEach(mapping -> {
-                            RelationshipMappingModel mappingModel = new RelationshipMappingModel();
+                            List<RelationshipMappingModel> mappings = new ArrayList<>();
+                            foreignKey.getForeignKeyMappings().forEach(mapping -> {
+                                RelationshipMappingModel mappingModel = new RelationshipMappingModel();
 
-                            ColumnModel sourceColumnModel = getColumnModel(sourceTableModel.getColumns(),
-                                    mapping.getReferenceName());
-                            ColumnModel targetColumnModel = getColumnModel(targetTableModel.getColumns(),
-                                    mapping.getTargetName());
-                            mappingModel.setReferenceKey(sourceColumnModel);
-                            mappingModel.setForeignKey(targetColumnModel);
-                            mappings.add(mappingModel);
-                        });
-
-                        foreignKeyModel.setMappings(mappings);
+                                ColumnModel sourceColumnModel;
+                                try {
+                                    sourceColumnModel = getColumnModel(sourceTableModel.getColumns(),
+                                            mapping.getReferenceName());
+                                    ColumnModel targetColumnModel = getColumnModel(targetTableModel.getColumns(),
+                                            mapping.getTargetName());
+                                    mappingModel.setReferenceKey(sourceColumnModel);
+                                    mappingModel.setForeignKey(targetColumnModel);
+                                    mappings.add(mappingModel);
+                                } catch (NotFoundException e) {
+                                    // TODO メッセージの出力どうする
+                                    ERDPlugin.getDefault().getLog().error("error", e);
+                                }
+                            });
+                            foreignKeyModel.setMappings(mappings);
+                        } catch (NotFoundException e) {
+                            // TODO メッセージの出力どうする
+                            ERDPlugin.getDefault().getLog().error("error", e);
+                        }
                     });
                 });
 
@@ -232,18 +244,18 @@ public interface IERDiagramReader {
         return result;
     }
 
-    private TableModel getTableModel(List<TableModel> tables, String id) {
+    private TableModel getTableModel(List<TableModel> tables, String id) throws NotFoundException {
         return tables.stream()
                 .filter(predicate -> predicate.getId().equals(id))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
-    private ColumnModel getColumnModel(List<ColumnModel> columns, String columnName) {
+    private ColumnModel getColumnModel(List<ColumnModel> columns, String columnName) throws NotFoundException {
         return columns.stream()
                 .filter(predicate -> predicate.getPhysicalName().equals(columnName))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
     private void addDomains(DialectProvider dialectProvider, ErdeXmlModel erde, List<DomainModel> domains) {

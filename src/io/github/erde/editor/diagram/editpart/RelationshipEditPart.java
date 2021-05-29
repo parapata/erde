@@ -96,7 +96,6 @@ public class RelationshipEditPart extends AbstractERDConnectionEditPart implemen
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-
         if (BaseEntityModel.P_TARGET_CONNECTION.equals(event.getPropertyName())
                 && event.getNewValue() != null
                 && event.getNewValue() instanceof RelationshipModel
