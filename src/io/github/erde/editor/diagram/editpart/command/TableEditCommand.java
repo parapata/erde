@@ -24,19 +24,18 @@ public class TableEditCommand extends Command {
 
     @Override
     public void execute() {
-
-        this.newTable.setPhysicalName(tableEdit.getPhysicalName());
-        this.newTable.setLogicalName(tableEdit.getLogicalName());
-        this.newTable.setDescription(tableEdit.getDescription());
-        this.newTable.setColumns(tableEdit.getColumns());
-        this.newTable.setIndices(tableEdit.getIndices());
+        newTable.setPhysicalName(tableEdit.getPhysicalName());
+        newTable.setLogicalName(tableEdit.getLogicalName());
+        newTable.setDescription(tableEdit.getDescription());
+        newTable.setColumns(tableEdit.getColumns());
+        newTable.setIndices(tableEdit.getIndices());
         super.execute();
     }
 
     @Override
     public void undo() {
-        this.newTable = this.oldTable;
-        this.oldTable = null;
+        newTable = this.oldTable;
+        oldTable = null;
         super.undo();
     }
 }

@@ -258,4 +258,14 @@ public class TableModel extends BaseEntityModel implements ITableEdit {
 
         return newModel;
     }
+
+    @Override
+    public List<RelationshipModel> getForeignKeyConnections() {
+        return toRelationshipConnections(getModelTargetConnections());
+    }
+
+    @Override
+    public List<RelationshipModel> getReferenceKeyConnections() {
+        return toRelationshipConnections(getModelSourceConnections());
+    }
 }

@@ -19,7 +19,7 @@ public class DomainModel extends ColumnType implements IModel {
             IColumnType columnType, Integer columnSize, Integer decimal, boolean unsigned) {
         DomainModel domain = new DomainModel(dialectProvider);
         if (StringUtils.isEmpty(id)) {
-            domain.generateId();
+            domain.setId(domain.generateId());
         } else {
             domain.setId(id);
         }
@@ -47,6 +47,14 @@ public class DomainModel extends ColumnType implements IModel {
         super(dialectProvider);
     }
 
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public boolean isDomain() {
         return true;
@@ -57,14 +65,6 @@ public class DomainModel extends ColumnType implements IModel {
         setLogicalName(columnType.getLogicalName());
         setType(columnType.getType());
         setSizeSupported(columnType.isSizeSupported());
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDomainName() {
@@ -97,10 +97,6 @@ public class DomainModel extends ColumnType implements IModel {
 
     public void setUnsigned(boolean unsigned) {
         this.unsigned = unsigned;
-    }
-
-    private void generateId() {
-        this.id = String.valueOf((System.nanoTime()));
     }
 
     @Override

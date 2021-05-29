@@ -264,8 +264,8 @@ public class AttributeComposite extends Composite {
         btnDownColumn.setEnabled(false);
         int index = viewer.getTable().getSelectionIndex();
         if (index > -1) {
-            String physicalName = tableEdit.getColumns().get(index).getPhysicalName();
-            if (tableEdit.isReferenceKey(physicalName) || tableEdit.isForeignkey(physicalName)) {
+            String id = tableEdit.getColumns().get(index).getId();
+            if (tableEdit.isReferenceKey(id) || tableEdit.isForeignkey(id)) {
                 btnRemoveColumn.setEnabled(false);
             } else {
                 btnRemoveColumn.setEnabled(true);
@@ -297,7 +297,7 @@ public class AttributeComposite extends Composite {
         }
 
         item.setText(PK_CULUMN, model.isPrimaryKey() ? "PK" : "");
-        item.setText(FK_CULUMN, tableEdit.isForeignkey(model.getPhysicalName()) ? "FK" : "");
+        item.setText(FK_CULUMN, tableEdit.isForeignkey(model.getId()) ? "FK" : "");
         item.setText(PHYSICAL_NAME_CULUMN, model.getPhysicalName());
         item.setText(LOGICAL_NAME_CULUMN, model.getLogicalName());
         if (column != null) {

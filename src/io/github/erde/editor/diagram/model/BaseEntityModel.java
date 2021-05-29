@@ -28,7 +28,7 @@ public abstract class BaseEntityModel extends BaseModel implements IPropertySour
     private List<BaseConnectionModel> targetConnections = new ArrayList<>();
 
     public BaseEntityModel() {
-        generateId();
+        this.id = generateId();
     }
 
     public BaseEntityModel(String id) {
@@ -114,10 +114,6 @@ public abstract class BaseEntityModel extends BaseModel implements IPropertySour
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public void generateId() {
-        this.id = String.valueOf((System.nanoTime()));
     }
 
     @Override

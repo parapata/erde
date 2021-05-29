@@ -29,7 +29,7 @@ public class CreateTableConnectionCommand extends CreateConnectionCommand {
                 .filter(predicate -> predicate.getReferenceKey() == null)
                 .forEach(mapping -> {
                     ColumnModel targetColumn = mapping.getForeignKey();
-                    ColumnModel referColumn = new ColumnModel();
+                    ColumnModel referColumn = new ColumnModel(targetColumn.getId());
                     referColumn.setPhysicalName(targetColumn.getPhysicalName());
                     referColumn.setLogicalName(targetColumn.getLogicalName());
                     referColumn.setColumnType(targetColumn.getColumnType());

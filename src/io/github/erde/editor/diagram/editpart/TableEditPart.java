@@ -2,6 +2,7 @@ package io.github.erde.editor.diagram.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
@@ -29,12 +30,9 @@ import io.github.erde.editor.diagram.editpart.editpolicy.TableEditPolicy;
 import io.github.erde.editor.diagram.editpart.editpolicy.TableSelectionEditPolicy;
 import io.github.erde.editor.diagram.figure.ColumnFigure;
 import io.github.erde.editor.diagram.figure.TableFigure;
-import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.BaseEntityModel;
 import io.github.erde.editor.diagram.model.ColumnModel;
 import io.github.erde.editor.diagram.model.IndexModel;
-import io.github.erde.editor.diagram.model.RelationshipMappingModel;
-import io.github.erde.editor.diagram.model.RelationshipModel;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 import io.github.erde.editor.dialog.table.TableEditDialog;
@@ -142,7 +140,8 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         lblColumnType.setUnderline(model.isPrimaryKey());
         lblNotNull.setUnderline(model.isPrimaryKey());
 
-        boolean foreignKey = isForeignkey(table.getModelTargetConnections(), model.getPhysicalName());
+        //boolean foreignKey = isForeignkey(table.getModelTargetConnections(), model.getId());
+        boolean foreignKey =table.isForeignkey(model.getId());
 
         String columnName = root.isLogicalMode() ? model.getLogicalName() : model.getPhysicalName();
         if (model.isPrimaryKey() && foreignKey) {
@@ -203,19 +202,6 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         return new ColumnFigure[] { lblColumnName, lblColumnType, lblNotNull };
     }
 
-    private boolean isForeignkey(List<BaseConnectionModel> list, String columnName) {
-        for (BaseConnectionModel conn : list) {
-            if (conn instanceof RelationshipModel) {
-                for (RelationshipMappingModel relationship : ((RelationshipModel) conn).getMappings()) {
-                    if (columnName.equals(relationship.getForeignKey().getPhysicalName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     /**
      * Opens the {@link TableEditDialog}.
      *
@@ -243,9 +229,9 @@ public class TableEditPart extends AbstractERDEntityEditPart {
 
         if (dialog.open() == Window.OK) {
             Command command = new TableEditCommand(table, dialog);
-
             CommandStack commandStack = viewer.getEditDomain().getCommandStack();
             commandStack.execute(command);
+            updateForeignkey(table);
         }
     }
 
@@ -266,14 +252,21 @@ public class TableEditPart extends AbstractERDEntityEditPart {
 
         if (dialog.open() == Window.OK) {
             Command command = new TableEditCommand(table, dialog);
-
             CommandStack commandStack = viewer.getEditDomain().getCommandStack();
             commandStack.execute(command);
+            updateForeignkey(table);
         }
     }
 
     private static RootModel getRootModel(EditPartViewer viewer) {
         EditPart rootEditPart = viewer.getContents();
         return (RootModel) rootEditPart.getModel();
+    }
+
+    private static void updateForeignkey(TableModel table) {
+        List<ColumnModel> columns = table.getColumns().stream()
+                .filter(column -> table.isForeignkey(column.getId()))
+                .collect(Collectors.toList());
+        table.updateForeignkey(columns);
     }
 }
