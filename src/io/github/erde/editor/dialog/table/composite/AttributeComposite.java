@@ -168,12 +168,13 @@ public class AttributeComposite extends Composite {
                     tableEdit.getColumns().add(column);
                     TableItem item = new TableItem(table, SWT.NONE);
                     setTableItem(item, column);
-                    table.setSelection(index - 1);
+                    table.setSelection(0);
                 } else {
                     tableEdit.getColumns().add(index + 1, column);
                     syncColumnModelsToTable();
                     table.setSelection(index + 1);
                 }
+                updateButtons();
             }
         });
 
@@ -187,16 +188,18 @@ public class AttributeComposite extends Composite {
                 int index = table.getSelectionIndex();
                 tableEdit.getColumns().remove(index);
                 table.remove(index);
-                int row = table.getItemCount();
-                if (index == 0 && row > 0) {
-                    table.select(0);
-                } else if (index == row) {
-                    table.select(index - 1);
-                } else if (index < row) {
-                    table.select(index);
+
+                int size = table.getItemCount();
+                if (size > 0) {
+                    if (index >= size) {
+                        table.setSelection(index - 1);
+                    } else {
+                        table.setSelection(index);
+                    }
                 } else {
-                    table.select(-1);
+                    table.setSelection(-1);
                 }
+                updateButtons();
             }
         });
 
@@ -260,23 +263,20 @@ public class AttributeComposite extends Composite {
     private void updateButtons() {
         logger.info("Call updateButtons");
 
-        btnUpColumn.setEnabled(false);
-        btnDownColumn.setEnabled(false);
-        int index = viewer.getTable().getSelectionIndex();
+        Table table = viewer.getTable();
+        int index = table.getSelectionIndex();
+        int size = table.getItemCount();
+
+        boolean res = false;
         if (index > -1) {
             String id = tableEdit.getColumns().get(index).getId();
-            if (tableEdit.isReferenceKey(id) || tableEdit.isForeignkey(id)) {
-                btnRemoveColumn.setEnabled(false);
-            } else {
-                btnRemoveColumn.setEnabled(true);
-            }
-            if (index > 0) {
-                btnUpColumn.setEnabled(true);
-            }
-            if (index < tableEdit.getColumns().size() - 1) {
-                btnDownColumn.setEnabled(true);
-            }
+            res = !(tableEdit.isReferenceKey(id) || tableEdit.isForeignkey(id));
         }
+
+        btnAddColumn.setEnabled(true);
+        btnRemoveColumn.setEnabled(res);
+        btnUpColumn.setEnabled(index > 0);
+        btnDownColumn.setEnabled(index > -1 && index < size - 1);
     }
 
     private void setTableItem(TableItem item, ColumnModel model) {
