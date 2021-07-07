@@ -72,7 +72,7 @@ public abstract class AbstractDialect implements IDialect {
         AtomicInteger count = new AtomicInteger();
         tables.forEach(table -> {
             if (count.get() > 0) {
-                println();
+                newLine();
             }
             createTableDDL(root, table, writer);
             count.incrementAndGet();
@@ -153,7 +153,8 @@ public abstract class AbstractDialect implements IDialect {
                 .collect(Collectors.toList());
         if (isAlterTable() && !primaryKeyNames.isEmpty()) {
             print(TAB_SPACE);
-            println(String.format(", PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
+            print(", PRIMARY KEY");
+            println(String.format(" (%s)", String.join(", ", primaryKeyNames)));
         }
 
         print(")");
@@ -188,22 +189,23 @@ public abstract class AbstractDialect implements IDialect {
                                 .collect(Collectors.toList());
 
                         if (count.get() > 0) {
-                            println();
+                            newLine();
                         }
                         println(String.format("ALTER TABLE %s", targetTableName));
                         print(TAB_SPACE);
                         println(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
                         print(TAB_SPACE);
-                        println(String.format("FOREIGN KEY (%s)", String.join(", ", fkeys)));
+                        print("FOREIGN KEY");
+                        println(String.format(" (%s)", String.join(", ", fkeys)));
                         print(TAB_SPACE);
                         print(String.format("REFERENCES %s (%s)", sourceTableName, String.join(", ", refkeys)));
                         if (StringUtils.isNotEmpty(fk.getOnUpdateOption())) {
-                            println();
+                            newLine();
                             print(TAB_SPACE);
                             print(String.format("ON UPDATE %s", fk.getOnUpdateOption()));
                         }
                         if (StringUtils.isNotEmpty(fk.getOnDeleteOption())) {
-                            println();
+                            newLine();
                             print(TAB_SPACE);
                             print(String.format("ON DELETE %s", fk.getOnDeleteOption()));
                         }
@@ -255,7 +257,7 @@ public abstract class AbstractDialect implements IDialect {
             AtomicInteger count = new AtomicInteger(0);
             TableDependencyCalculator.getSortedTable(root).forEach(table -> {
                 if (count.getAndIncrement() > 1) {
-                    println();
+                    newLine();
                 }
                 print(String.format("COMMENT ON TABLE %s IS '%s'",
                         table.getPhysicalName(),
@@ -272,7 +274,6 @@ public abstract class AbstractDialect implements IDialect {
             });
         }
     }
-
 
     protected String createColumnPart(ColumnModel column) {
 
@@ -313,7 +314,7 @@ public abstract class AbstractDialect implements IDialect {
 
     protected void reset(AtomicInteger count) {
         if (count.intValue() > 0) {
-            println();
+            newLine();
             count.set(0);
         }
     }
@@ -322,12 +323,12 @@ public abstract class AbstractDialect implements IDialect {
         writer.print(str);
     }
 
-    protected void println() {
-        writer.print(getLineSeparator());
-    }
-
     protected void println(String str) {
         writer.print(str + getLineSeparator());
+    }
+
+    protected void newLine() {
+        writer.print(getLineSeparator());
     }
 
     public AbstractDialect(List<IColumnType> types) {
