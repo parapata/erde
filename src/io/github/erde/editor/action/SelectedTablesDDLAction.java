@@ -53,7 +53,7 @@ public class SelectedTablesDDLAction extends Action implements IERDAction {
             IDialect dialect = root.getDialectProvider().getDialect();
 
             dialect.setSchema(false);
-            dialect.setDrop(true);
+            dialect.setDrop(false);
             dialect.setComment(true);
             dialect.setAlterTable(false);
             dialect.setLineSeparator(System.lineSeparator());
@@ -63,9 +63,7 @@ public class SelectedTablesDDLAction extends Action implements IERDAction {
                 if (tableModels.isEmpty()) {
                     dialect.createDDL(root, pw);
                 } else {
-                    for (TableModel tableModel : tableModels) {
-                        dialect.createTableDDL(root, tableModel, pw);
-                    }
+                    dialect.createDDL(root, tableModels, pw);
                 }
                 pw.flush();
                 SqlViewerDialog dialog = new SqlViewerDialog(Display.getDefault().getActiveShell(), sw.toString());

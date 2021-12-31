@@ -137,7 +137,12 @@ public class ColumnEditDialog extends Dialog {
         // -----
         chkAutoIncrement = new Button(checks, SWT.CHECK);
         chkAutoIncrement.setText(LABEL_AUTO_INCREMENT.getValue());
-        // chkAutoIncrement.addSelectionListener(columnInfoSelectionChanged);
+        chkAutoIncrement.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent event) {
+                updateAutoIncrement();
+            }
+        });
 
         // ----- line_2
         UIUtils.createLabel(group, LABEL_PYHGICAL_COLUMN_NAME);
@@ -313,7 +318,14 @@ public class ColumnEditDialog extends Dialog {
             chkUnsigned.setSelection(columnModel.isUnsigned());
         }
         chkUnsigned.setEnabled(columnType.isUnsignedSupported());
-        txtDefaultValue.setText(columnModel.getDefaultValue());
+
+        if (chkAutoIncrement.getSelection()) {
+            txtDefaultValue.setEnabled(false);
+        } else {
+            txtDefaultValue.setEnabled(true);
+            txtDefaultValue.setText(columnModel.getDefaultValue());
+        }
+
         txtColumnDescription.setText(columnModel.getDescription());
         updatePkChkBtn();
     }
@@ -357,5 +369,12 @@ public class ColumnEditDialog extends Dialog {
         chkUnsigned.setEnabled(newColumnType.isUnsignedSupported());
         cmbEnum.setEnabled(newColumnType.isEnum());
         btnEnumEdit.setEnabled(newColumnType.isEnum());
+    }
+
+    private void updateAutoIncrement() {
+        txtDefaultValue.setEnabled(!chkAutoIncrement.getSelection());
+        if (chkAutoIncrement.getSelection()) {
+            txtDefaultValue.setText("");
+        }
     }
 }
