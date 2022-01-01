@@ -67,14 +67,14 @@ public interface IDialect {
     void createDDL(RootModel root, PrintWriter writer);
 
     /**
-     * Creates DDL from a given table model.
+     * Creates DDL from a given select model.
      *
      * @param root a root model of diagram
-     * @param table a tablemodel of diagram
+     * @param tables a tablemodel of diagram
      * @param writer DDL writer
      */
-    void createTableDDL(RootModel root, TableModel table, PrintWriter writer);
-
+    void createDDL(RootModel root, List<TableModel> tables, PrintWriter writer);
+    
     /**
      * Validates diagram models.
      *

@@ -84,4 +84,9 @@ public class HsqldbDialect extends AbstractDialect {
     public String getColumnMetadataSQL(String tableName) {
         return super.getColumnMetadataSQL(tableName) + "  LIMIT 1";
     }
+
+    @Override
+    public boolean isComment() {
+        return false;
+    }
 }

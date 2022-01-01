@@ -59,7 +59,7 @@ public class OracleDialect extends AbstractDialect {
         super.additions(root);
 
         // TODO シーケンス機能を検討する
-        TableDependencyCalculator.getSortedTable(root).forEach(table -> {
+        TableDependencyCalculator.getSortedTable(root.getTables()).forEach(table -> {
             table.getColumns().forEach(column -> {
                 if (column.isAutoIncrement()) {
                     String seqName = String.format("%s_%s_SEQ", table.getPhysicalName(), column.getPhysicalName());

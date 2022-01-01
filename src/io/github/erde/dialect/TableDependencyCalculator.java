@@ -7,7 +7,6 @@ import java.util.Set;
 
 import io.github.erde.editor.diagram.model.BaseConnectionModel;
 import io.github.erde.editor.diagram.model.RelationshipModel;
-import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.diagram.model.TableModel;
 
 /**
@@ -17,9 +16,9 @@ import io.github.erde.editor.diagram.model.TableModel;
  */
 public class TableDependencyCalculator {
 
-    public static List<TableModel> getSortedTable(RootModel root) {
+    public static List<TableModel> getSortedTable(List<TableModel> tables) {
         List<TableModel> result = new ArrayList<>();
-        for (TableModel table : root.getTables()) {
+        for (TableModel table : tables) {
             addTableModel(result, table, null);
         }
         return result;

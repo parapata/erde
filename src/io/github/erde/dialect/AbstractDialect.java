@@ -3,9 +3,9 @@ package io.github.erde.dialect;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -40,46 +40,44 @@ public abstract class AbstractDialect implements IDialect {
 
     @Override
     public void createDDL(RootModel root, PrintWriter writer) {
-
         this.writer = writer;
 
-        List<TableModel> tables = TableDependencyCalculator.getSortedTable(root);
+        createDDL(root, root.getTables(), writer);
+    }
+
+    @Override
+    public void createDDL(RootModel root, List<TableModel> tables, PrintWriter writer) {
+        this.writer = writer;
+
         if (isDrop()) {
             // reverse
-            List<TableModel> reverses = new ArrayList<>();
-            for (ListIterator<TableModel> iterator = tables.listIterator(tables.size()); iterator.hasPrevious();) {
-                reverses.add(iterator.previous());
-            }
+            List<TableModel> reverses = new ArrayList<>(tables);
+            Collections.reverse(reverses);
+//            for (ListIterator<TableModel> iterator = tables.listIterator(tables.size()); iterator.hasPrevious();) {
+//                reverses.add(iterator.previous());
+//            }
             dropDDL(root, reverses);
         }
         createDDL(root, tables);
-    }
-
-    /**
-     * Creates DDL that creates a given table.
-     *
-     * @param root a root model of diagram
-     * @param table a table model
-     * @param writer a ddl wreiter
-     */
-    @Override
-    public void createTableDDL(RootModel root, TableModel table, PrintWriter writer) {
-        this.writer = writer;
-        createTableDDL(root, table);
     }
 
     protected void createDDL(RootModel root, List<TableModel> tables) {
         AtomicInteger count = new AtomicInteger();
         tables.forEach(table -> {
             if (count.get() > 0) {
-                println();
+                newLine();
             }
-            createTableDDL(root, table, writer);
+            createTableDDL(root, table);
             count.incrementAndGet();
         });
         reset(count);
 
         if (isAlterTable()) {
+            tables.forEach(table -> {
+                count.set(createPrimaryKey(table));
+                reset(count);
+            });
+
             tables.forEach(table -> {
                 count.set(createForeignKey(root, table));
                 reset(count);
@@ -146,14 +144,21 @@ public abstract class AbstractDialect implements IDialect {
             }
         });
 
-        // primaryKey part
-        List<String> primaryKeyNames = Arrays.asList(table.getPrimaryKeyColumns())
-                .stream()
-                .map(column -> column.getPhysicalName())
-                .collect(Collectors.toList());
-        if (isAlterTable() && !primaryKeyNames.isEmpty()) {
-            print(TAB_SPACE);
-            println(String.format(", PRIMARY KEY (%s)", String.join(", ", primaryKeyNames)));
+        if (!isAlterTable()) {
+            // primaryKey part
+            List<String> primaryKeyNames = Arrays.asList(table.getPrimaryKeyColumns())
+                    .stream()
+                    .map(column -> column.getPhysicalName())
+                    .collect(Collectors.toList());
+
+            if (!primaryKeyNames.isEmpty()) {
+                print(TAB_SPACE);
+                print(", PRIMARY KEY");
+                println(String.format(" (%s)", String.join(", ", primaryKeyNames)));
+            }
+
+            // foreignKey part
+            createForeignKey(root, table);
         }
 
         print(")");
@@ -162,6 +167,21 @@ public abstract class AbstractDialect implements IDialect {
 
     protected void setupTableOption(RootModel root, TableModel table) {
         println(getSeparator());
+    }
+
+    protected int createPrimaryKey(TableModel table) {
+        AtomicInteger count = new AtomicInteger();
+        List<String> primaryKeyNames = Arrays.asList(table.getPrimaryKeyColumns())
+                .stream()
+                .map(column -> column.getPhysicalName())
+                .collect(Collectors.toList());
+        if (!primaryKeyNames.isEmpty()) {
+            println(String.format("ALTER TABLE %s ADD PRIMARY KEY (%s);",
+                    table.getPhysicalName(),
+                    String.join(", ", primaryKeyNames)));
+            count.incrementAndGet();
+        }
+        return count.get();
     }
 
     protected int createForeignKey(RootModel root, TableModel table) {
@@ -188,26 +208,37 @@ public abstract class AbstractDialect implements IDialect {
                                 .collect(Collectors.toList());
 
                         if (count.get() > 0) {
-                            println();
+                            newLine();
                         }
-                        println(String.format("ALTER TABLE %s", targetTableName));
+                        if (isAlterTable()) {
+                            println(String.format("ALTER TABLE %s", targetTableName));
+                        }
                         print(TAB_SPACE);
-                        println(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
+                        if (isAlterTable()) {
+                            println(String.format("ADD CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
+                        } else {
+                            println(String.format("CONSTRAINT FK_%s", StringUtils.upperCase(sourceTableName)));
+                        }
                         print(TAB_SPACE);
-                        println(String.format("FOREIGN KEY (%s)", String.join(", ", fkeys)));
+                        print("FOREIGN KEY");
+                        println(String.format(" (%s)", String.join(", ", fkeys)));
                         print(TAB_SPACE);
                         print(String.format("REFERENCES %s (%s)", sourceTableName, String.join(", ", refkeys)));
                         if (StringUtils.isNotEmpty(fk.getOnUpdateOption())) {
-                            println();
+                            newLine();
                             print(TAB_SPACE);
                             print(String.format("ON UPDATE %s", fk.getOnUpdateOption()));
                         }
                         if (StringUtils.isNotEmpty(fk.getOnDeleteOption())) {
-                            println();
+                            newLine();
                             print(TAB_SPACE);
                             print(String.format("ON DELETE %s", fk.getOnDeleteOption()));
                         }
-                        println(getSeparator());
+                        if (isAlterTable()) {
+                            println(getSeparator());
+                        } else {
+                            newLine();
+                        }
                         count.incrementAndGet();
                     }
                 });
@@ -253,9 +284,9 @@ public abstract class AbstractDialect implements IDialect {
         // Table Comments
         if (isComment()) {
             AtomicInteger count = new AtomicInteger(0);
-            TableDependencyCalculator.getSortedTable(root).forEach(table -> {
+            TableDependencyCalculator.getSortedTable(root.getTables()).forEach(table -> {
                 if (count.getAndIncrement() > 1) {
-                    println();
+                    newLine();
                 }
                 print(String.format("COMMENT ON TABLE %s IS '%s'",
                         table.getPhysicalName(),
@@ -272,7 +303,6 @@ public abstract class AbstractDialect implements IDialect {
             });
         }
     }
-
 
     protected String createColumnPart(ColumnModel column) {
 
@@ -313,7 +343,7 @@ public abstract class AbstractDialect implements IDialect {
 
     protected void reset(AtomicInteger count) {
         if (count.intValue() > 0) {
-            println();
+            newLine();
             count.set(0);
         }
     }
@@ -322,12 +352,12 @@ public abstract class AbstractDialect implements IDialect {
         writer.print(str);
     }
 
-    protected void println() {
-        writer.print(getLineSeparator());
-    }
-
     protected void println(String str) {
         writer.print(str + getLineSeparator());
+    }
+
+    protected void newLine() {
+        writer.print(getLineSeparator());
     }
 
     public AbstractDialect(List<IColumnType> types) {

@@ -121,7 +121,18 @@ public class IndexComposite extends Composite {
                 int index = lstIndexs.getSelectionIndex();
                 lstIndexs.remove(index);
                 tableEdit.getIndices().remove(index);
-                lstIndexs.select(index - 1);
+
+                int size = lstIndexs.getItemCount();
+                if (size > 0) {
+                    if (index >= size) {
+                        lstIndexs.setSelection(index - 1);
+                    } else {
+                        lstIndexs.setSelection(index);
+                    }
+                } else {
+                    lstIndexs.setSelection(-1);
+                }
+
                 indexSelectionChanged();
             }
         });
@@ -211,13 +222,23 @@ public class IndexComposite extends Composite {
             @Override
             public void widgetSelected(SelectionEvent event) {
                 int index = lstIndexColumns.getSelectionIndex();
-                if (index >= 0) {
+                if (index > -1) {
                     int i = lstIndexs.getSelectionIndex();
                     IndexModel model = tableEdit.getIndices().get(i);
                     model.getColumns().remove(index);
                     lstIndexColumns.remove(index);
                     lstIndexs.setItem(i, model.toString());
-                    lstIndexColumns.select(index - 1);
+
+                    int size = lstIndexColumns.getItemCount();
+                    if (size > 0) {
+                        if (index >= size) {
+                            lstIndexColumns.setSelection(index - 1);
+                        } else {
+                            lstIndexColumns.setSelection(index);
+                        }
+                    } else {
+                        lstIndexColumns.setSelection(-1);
+                    }
                     updateIndexColumnButtons();
                 }
             }
@@ -293,15 +314,12 @@ public class IndexComposite extends Composite {
 
     private void updateIndexColumnButtons() {
         int index = lstIndexColumns.getSelectionIndex();
-        if (index <= -1) {
-            btnRemoveColumn.setEnabled(false);
-            btnUpColumn.setEnabled(false);
-            btnDownColumn.setEnabled(false);
-        } else {
-            btnRemoveColumn.setEnabled(true);
-            btnUpColumn.setEnabled((index > 0));
-            btnDownColumn.setEnabled((index < lstIndexColumns.getItemCount() - 1));
-        }
+        int size = lstIndexColumns.getItemCount();
+
+        btnAddColumn.setEnabled(true);
+        btnRemoveColumn.setEnabled(size > -1);
+        btnUpColumn.setEnabled(index > 0);
+        btnDownColumn.setEnabled(index > -1 && index < size - 1);
     }
 
     private void disableIndexForm() {

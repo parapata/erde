@@ -88,4 +88,9 @@ public class H2Dialect extends AbstractDialect {
     public boolean isAutoIncrement() {
         return true;
     }
+
+    @Override
+    public boolean isComment() {
+        return false;
+    }
 }

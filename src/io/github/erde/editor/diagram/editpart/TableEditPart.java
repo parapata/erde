@@ -231,7 +231,7 @@ public class TableEditPart extends AbstractERDEntityEditPart {
             Command command = new TableEditCommand(table, dialog);
             CommandStack commandStack = viewer.getEditDomain().getCommandStack();
             commandStack.execute(command);
-            updateForeignkey(table);
+            updateRelationship(table);
         }
     }
 
@@ -254,7 +254,7 @@ public class TableEditPart extends AbstractERDEntityEditPart {
             Command command = new TableEditCommand(table, dialog);
             CommandStack commandStack = viewer.getEditDomain().getCommandStack();
             commandStack.execute(command);
-            updateForeignkey(table);
+            updateRelationship(table);
         }
     }
 
@@ -263,10 +263,17 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         return (RootModel) rootEditPart.getModel();
     }
 
-    private static void updateForeignkey(TableModel table) {
-        List<ColumnModel> columns = table.getColumns().stream()
+    private static void updateRelationship(TableModel table) {
+        // ReferenceKey
+        List<ColumnModel> referenceKeyColumns = table.getColumns().stream()
+                .filter(column -> table.isReferenceKey(column.getId()))
+                .collect(Collectors.toList());
+        table.updateReferenceKey(referenceKeyColumns);
+
+        // Foreignkey
+        List<ColumnModel> foreignkeyColumns = table.getColumns().stream()
                 .filter(column -> table.isForeignkey(column.getId()))
                 .collect(Collectors.toList());
-        table.updateForeignkey(columns);
+        table.updateForeignkey(foreignkeyColumns);
     }
 }

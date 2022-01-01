@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.erde.core.exception.NotFoundException;
 import io.github.erde.core.util.StringUtils;
 import io.github.erde.dialect.type.IndexType;
 import io.github.erde.editor.diagram.model.ColumnModel;
@@ -89,12 +90,12 @@ public class RelationshipHelper {
                 .collect(Collectors.toList());
     }
 
-    public ColumnModel getSelectColumnModel(String columnName, List<ColumnModel> columns) {
+    public ColumnModel getSelectColumnModel(String columnName, List<ColumnModel> columns) throws NotFoundException {
         Predicate<ColumnModel> selectColumn = predicate -> getColumnName(predicate).equals(columnName);
         ColumnModel result = columns.stream()
                 .filter(selectColumn)
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundException::new);
         return result;
     }
 
