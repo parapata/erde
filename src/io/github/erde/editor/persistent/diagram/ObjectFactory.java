@@ -1,14 +1,14 @@
 
 package io.github.erde.editor.persistent.diagram;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlElementDecl;
-import javax.xml.bind.annotation.XmlRegistry;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 import io.github.erde.editor.persistent.adapter.BooleanAdapter;
 import io.github.erde.editor.persistent.adapter.IntegerAdapter;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.annotation.XmlElementDecl;
+import jakarta.xml.bind.annotation.XmlRegistry;
+import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -75,6 +75,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link ErdeXmlModel }
      * 
+     * @return
+     *     the new instance of {@link ErdeXmlModel }
      */
     public ErdeXmlModel createErdeXmlModel() {
         return new ErdeXmlModel();
@@ -83,6 +85,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link ColorXmlModel }
      * 
+     * @return
+     *     the new instance of {@link ColorXmlModel }
      */
     public ColorXmlModel createColorXmlModel() {
         return new ColorXmlModel();
@@ -91,6 +95,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link FontXmlModel }
      * 
+     * @return
+     *     the new instance of {@link FontXmlModel }
      */
     public FontXmlModel createFontXmlModel() {
         return new FontXmlModel();
@@ -99,6 +105,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link DiagramXmlModel }
      * 
+     * @return
+     *     the new instance of {@link DiagramXmlModel }
      */
     public DiagramXmlModel createDiagramXmlModel() {
         return new DiagramXmlModel();
@@ -107,6 +115,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link TableXmlModel }
      * 
+     * @return
+     *     the new instance of {@link TableXmlModel }
      */
     public TableXmlModel createTableXmlModel() {
         return new TableXmlModel();
@@ -115,6 +125,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link LocationXmlModel }
      * 
+     * @return
+     *     the new instance of {@link LocationXmlModel }
      */
     public LocationXmlModel createLocationXmlModel() {
         return new LocationXmlModel();
@@ -123,6 +135,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link ColumnXmlModel }
      * 
+     * @return
+     *     the new instance of {@link ColumnXmlModel }
      */
     public ColumnXmlModel createColumnXmlModel() {
         return new ColumnXmlModel();
@@ -131,6 +145,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link IndexXmlModel }
      * 
+     * @return
+     *     the new instance of {@link IndexXmlModel }
      */
     public IndexXmlModel createIndexXmlModel() {
         return new IndexXmlModel();
@@ -139,6 +155,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link ForeignKeyXmlModel }
      * 
+     * @return
+     *     the new instance of {@link ForeignKeyXmlModel }
      */
     public ForeignKeyXmlModel createForeignKeyXmlModel() {
         return new ForeignKeyXmlModel();
@@ -147,6 +165,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link ForeignKeyMappingXmlModel }
      * 
+     * @return
+     *     the new instance of {@link ForeignKeyMappingXmlModel }
      */
     public ForeignKeyMappingXmlModel createForeignKeyMappingXmlModel() {
         return new ForeignKeyMappingXmlModel();
@@ -155,6 +175,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link TablePropertiesXmlModel }
      * 
+     * @return
+     *     the new instance of {@link TablePropertiesXmlModel }
      */
     public TablePropertiesXmlModel createTablePropertiesXmlModel() {
         return new TablePropertiesXmlModel();
@@ -163,6 +185,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link NoteXmlModel }
      * 
+     * @return
+     *     the new instance of {@link NoteXmlModel }
      */
     public NoteXmlModel createNoteXmlModel() {
         return new NoteXmlModel();
@@ -171,6 +195,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link NoteConnectionXmlModel }
      * 
+     * @return
+     *     the new instance of {@link NoteConnectionXmlModel }
      */
     public NoteConnectionXmlModel createNoteConnectionXmlModel() {
         return new NoteConnectionXmlModel();
@@ -179,6 +205,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link DomainsXmlModel }
      * 
+     * @return
+     *     the new instance of {@link DomainsXmlModel }
      */
     public DomainsXmlModel createDomainsXmlModel() {
         return new DomainsXmlModel();
@@ -187,6 +215,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link DomainXmlModel }
      * 
+     * @return
+     *     the new instance of {@link DomainXmlModel }
      */
     public DomainXmlModel createDomainXmlModel() {
         return new DomainXmlModel();
@@ -195,6 +225,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link PropertyXmlModel }
      * 
+     * @return
+     *     the new instance of {@link PropertyXmlModel }
      */
     public PropertyXmlModel createPropertyXmlModel() {
         return new PropertyXmlModel();
@@ -210,7 +242,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "dialectName")
     public JAXBElement<String> createDialectName(String value) {
-        return new JAXBElement<String>(_DialectName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_DialectName_QNAME, String.class, null, value);
     }
 
     /**
@@ -223,7 +255,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "schemaName")
     public JAXBElement<String> createSchemaName(String value) {
-        return new JAXBElement<String>(_SchemaName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_SchemaName_QNAME, String.class, null, value);
     }
 
     /**
@@ -237,7 +269,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "lowerCase")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createLowerCase(Boolean value) {
-        return new JAXBElement<Boolean>(_LowerCase_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_LowerCase_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -251,7 +283,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "logicalMode")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createLogicalMode(Boolean value) {
-        return new JAXBElement<Boolean>(_LogicalMode_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_LogicalMode_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -265,7 +297,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "includeView")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createIncludeView(Boolean value) {
-        return new JAXBElement<Boolean>(_IncludeView_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_IncludeView_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -279,7 +311,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "notation")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     public JAXBElement<String> createNotation(String value) {
-        return new JAXBElement<String>(_Notation_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Notation_QNAME, String.class, null, value);
     }
 
     /**
@@ -292,7 +324,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "zoom")
     public JAXBElement<Double> createZoom(Double value) {
-        return new JAXBElement<Double>(_Zoom_QNAME, Double.class, null, value);
+        return new JAXBElement<>(_Zoom_QNAME, Double.class, null, value);
     }
 
     /**
@@ -305,7 +337,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "physicalName")
     public JAXBElement<String> createPhysicalName(String value) {
-        return new JAXBElement<String>(_PhysicalName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_PhysicalName_QNAME, String.class, null, value);
     }
 
     /**
@@ -318,7 +350,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "logicalName")
     public JAXBElement<String> createLogicalName(String value) {
-        return new JAXBElement<String>(_LogicalName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_LogicalName_QNAME, String.class, null, value);
     }
 
     /**
@@ -331,7 +363,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "description")
     public JAXBElement<String> createDescription(String value) {
-        return new JAXBElement<String>(_Description_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Description_QNAME, String.class, null, value);
     }
 
     /**
@@ -344,7 +376,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "domainId")
     public JAXBElement<String> createDomainId(String value) {
-        return new JAXBElement<String>(_DomainId_QNAME, String.class, null, value);
+        return new JAXBElement<>(_DomainId_QNAME, String.class, null, value);
     }
 
     /**
@@ -357,7 +389,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "type")
     public JAXBElement<String> createType(String value) {
-        return new JAXBElement<String>(_Type_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Type_QNAME, String.class, null, value);
     }
 
     /**
@@ -370,7 +402,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "enumName")
     public JAXBElement<String> createEnumName(String value) {
-        return new JAXBElement<String>(_EnumName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_EnumName_QNAME, String.class, null, value);
     }
 
     /**
@@ -384,7 +416,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "columnSize")
     @XmlJavaTypeAdapter(IntegerAdapter.class)
     public JAXBElement<Integer> createColumnSize(Integer value) {
-        return new JAXBElement<Integer>(_ColumnSize_QNAME, Integer.class, null, value);
+        return new JAXBElement<>(_ColumnSize_QNAME, Integer.class, null, value);
     }
 
     /**
@@ -398,7 +430,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "decimal")
     @XmlJavaTypeAdapter(IntegerAdapter.class)
     public JAXBElement<Integer> createDecimal(Integer value) {
-        return new JAXBElement<Integer>(_Decimal_QNAME, Integer.class, null, value);
+        return new JAXBElement<>(_Decimal_QNAME, Integer.class, null, value);
     }
 
     /**
@@ -412,7 +444,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "unsigned")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createUnsigned(Boolean value) {
-        return new JAXBElement<Boolean>(_Unsigned_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_Unsigned_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -426,7 +458,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "autoIncrement")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createAutoIncrement(Boolean value) {
-        return new JAXBElement<Boolean>(_AutoIncrement_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_AutoIncrement_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -440,7 +472,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "notNull")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createNotNull(Boolean value) {
-        return new JAXBElement<Boolean>(_NotNull_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_NotNull_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -454,7 +486,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "primaryKey")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createPrimaryKey(Boolean value) {
-        return new JAXBElement<Boolean>(_PrimaryKey_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_PrimaryKey_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -468,7 +500,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "uniqueKey")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createUniqueKey(Boolean value) {
-        return new JAXBElement<Boolean>(_UniqueKey_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_UniqueKey_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -481,7 +513,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "defaultValue")
     public JAXBElement<String> createDefaultValue(String value) {
-        return new JAXBElement<String>(_DefaultValue_QNAME, String.class, null, value);
+        return new JAXBElement<>(_DefaultValue_QNAME, String.class, null, value);
     }
 
     /**
@@ -494,7 +526,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "columnName")
     public JAXBElement<String> createColumnName(String value) {
-        return new JAXBElement<String>(_ColumnName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_ColumnName_QNAME, String.class, null, value);
     }
 
     /**
@@ -507,7 +539,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "onUpdateOption")
     public JAXBElement<ReferenceOption> createOnUpdateOption(ReferenceOption value) {
-        return new JAXBElement<ReferenceOption>(_OnUpdateOption_QNAME, ReferenceOption.class, null, value);
+        return new JAXBElement<>(_OnUpdateOption_QNAME, ReferenceOption.class, null, value);
     }
 
     /**
@@ -520,7 +552,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "onDeleteOption")
     public JAXBElement<ReferenceOption> createOnDeleteOption(ReferenceOption value) {
-        return new JAXBElement<ReferenceOption>(_OnDeleteOption_QNAME, ReferenceOption.class, null, value);
+        return new JAXBElement<>(_OnDeleteOption_QNAME, ReferenceOption.class, null, value);
     }
 
     /**
@@ -533,7 +565,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "sourceCardinality")
     public JAXBElement<String> createSourceCardinality(String value) {
-        return new JAXBElement<String>(_SourceCardinality_QNAME, String.class, null, value);
+        return new JAXBElement<>(_SourceCardinality_QNAME, String.class, null, value);
     }
 
     /**
@@ -546,7 +578,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "targetCardinality")
     public JAXBElement<String> createTargetCardinality(String value) {
-        return new JAXBElement<String>(_TargetCardinality_QNAME, String.class, null, value);
+        return new JAXBElement<>(_TargetCardinality_QNAME, String.class, null, value);
     }
 
     /**
@@ -559,7 +591,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "referenceName")
     public JAXBElement<String> createReferenceName(String value) {
-        return new JAXBElement<String>(_ReferenceName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_ReferenceName_QNAME, String.class, null, value);
     }
 
     /**
@@ -572,7 +604,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "targetName")
     public JAXBElement<String> createTargetName(String value) {
-        return new JAXBElement<String>(_TargetName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_TargetName_QNAME, String.class, null, value);
     }
 
     /**
@@ -585,7 +617,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "schema")
     public JAXBElement<String> createSchema(String value) {
-        return new JAXBElement<String>(_Schema_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Schema_QNAME, String.class, null, value);
     }
 
     /**
@@ -599,7 +631,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "withoutOIDs")
     @XmlJavaTypeAdapter(BooleanAdapter.class)
     public JAXBElement<Boolean> createWithoutOIDs(Boolean value) {
-        return new JAXBElement<Boolean>(_WithoutOIDs_QNAME, Boolean.class, null, value);
+        return new JAXBElement<>(_WithoutOIDs_QNAME, Boolean.class, null, value);
     }
 
     /**
@@ -612,7 +644,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "characterSet")
     public JAXBElement<String> createCharacterSet(String value) {
-        return new JAXBElement<String>(_CharacterSet_QNAME, String.class, null, value);
+        return new JAXBElement<>(_CharacterSet_QNAME, String.class, null, value);
     }
 
     /**
@@ -625,7 +657,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "collation")
     public JAXBElement<String> createCollation(String value) {
-        return new JAXBElement<String>(_Collation_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Collation_QNAME, String.class, null, value);
     }
 
     /**
@@ -638,7 +670,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "storageEngine")
     public JAXBElement<String> createStorageEngine(String value) {
-        return new JAXBElement<String>(_StorageEngine_QNAME, String.class, null, value);
+        return new JAXBElement<>(_StorageEngine_QNAME, String.class, null, value);
     }
 
     /**
@@ -652,7 +684,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "primaryKeyLengthOfText")
     @XmlJavaTypeAdapter(IntegerAdapter.class)
     public JAXBElement<Integer> createPrimaryKeyLengthOfText(Integer value) {
-        return new JAXBElement<Integer>(_PrimaryKeyLengthOfText_QNAME, Integer.class, null, value);
+        return new JAXBElement<>(_PrimaryKeyLengthOfText_QNAME, Integer.class, null, value);
     }
 
     /**
@@ -665,7 +697,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "text")
     public JAXBElement<String> createText(String value) {
-        return new JAXBElement<String>(_Text_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Text_QNAME, String.class, null, value);
     }
 
     /**
@@ -678,7 +710,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "domainName")
     public JAXBElement<String> createDomainName(String value) {
-        return new JAXBElement<String>(_DomainName_QNAME, String.class, null, value);
+        return new JAXBElement<>(_DomainName_QNAME, String.class, null, value);
     }
 
 }

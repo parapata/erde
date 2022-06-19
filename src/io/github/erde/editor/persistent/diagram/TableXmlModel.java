@@ -4,13 +4,13 @@ package io.github.erde.editor.persistent.diagram;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSchemaType;
+import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
@@ -18,27 +18,27 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
- * <pre>
- * &lt;complexType&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element ref="{}location"/&gt;
- *         &lt;element ref="{}font"/&gt;
- *         &lt;element ref="{}color"/&gt;
- *         &lt;element ref="{}physicalName"/&gt;
- *         &lt;element ref="{}logicalName"/&gt;
- *         &lt;element ref="{}description"/&gt;
- *         &lt;element ref="{}column" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element ref="{}index" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element ref="{}foreignKey" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element ref="{}tableProperties"/&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute name="id" use="required" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType>
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{}location"/>
+ *         <element ref="{}font"/>
+ *         <element ref="{}color"/>
+ *         <element ref="{}physicalName"/>
+ *         <element ref="{}logicalName"/>
+ *         <element ref="{}description"/>
+ *         <element ref="{}column" maxOccurs="unbounded" minOccurs="0"/>
+ *         <element ref="{}index" maxOccurs="unbounded" minOccurs="0"/>
+ *         <element ref="{}foreignKey" maxOccurs="unbounded" minOccurs="0"/>
+ *         <element ref="{}tableProperties"/>
+ *       </sequence>
+ *       <attribute name="id" use="required" type="{http://www.w3.org/2001/XMLSchema}anySimpleType" />
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -235,8 +235,8 @@ public class TableXmlModel
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the columns property.
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the columns property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
@@ -250,10 +250,12 @@ public class TableXmlModel
      * {@link ColumnXmlModel }
      * 
      * 
+     * @return
+     *     The value of the columns property.
      */
     public List<ColumnXmlModel> getColumns() {
         if (columns == null) {
-            columns = new ArrayList<ColumnXmlModel>();
+            columns = new ArrayList<>();
         }
         return this.columns;
     }
@@ -264,8 +266,8 @@ public class TableXmlModel
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the indices property.
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the indices property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
@@ -279,10 +281,12 @@ public class TableXmlModel
      * {@link IndexXmlModel }
      * 
      * 
+     * @return
+     *     The value of the indices property.
      */
     public List<IndexXmlModel> getIndices() {
         if (indices == null) {
-            indices = new ArrayList<IndexXmlModel>();
+            indices = new ArrayList<>();
         }
         return this.indices;
     }
@@ -293,8 +297,8 @@ public class TableXmlModel
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the foreignKeies property.
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the foreignKeies property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
@@ -308,10 +312,12 @@ public class TableXmlModel
      * {@link ForeignKeyXmlModel }
      * 
      * 
+     * @return
+     *     The value of the foreignKeies property.
      */
     public List<ForeignKeyXmlModel> getForeignKeies() {
         if (foreignKeies == null) {
-            foreignKeies = new ArrayList<ForeignKeyXmlModel>();
+            foreignKeies = new ArrayList<>();
         }
         return this.foreignKeies;
     }

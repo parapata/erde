@@ -5,11 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.bind.JAXB;
-
 import io.github.erde.core.exception.AppException;
 import io.github.erde.editor.diagram.model.RootModel;
 import io.github.erde.editor.persistent.diagram.ErdeXmlModel;
+import jakarta.xml.bind.JAXB;
 
 /**
  * The diagram persistent.
