@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxb:bindings
+<jaxb:bindings version="3.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://jakarta.ee/xml/ns/bindingschema_3_0.xsd" version="3.0"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/bindingschema_3_0.xsd"
     xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
     xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
     xmlns:inherit="http://www.lxtreme.nl/xml/ns/jaxb/inherit"
     jaxb:extensionBindingPrefixes="xjc inherit">
-
 
     <jaxb:globalBindings>
         <jaxb:serializable uid="1" />
@@ -33,7 +32,7 @@
         <xjc:simple />
     </jaxb:globalBindings>
 
-    <jaxb:bindings schemaLocation="diagram.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="diagram.xsd">
 
         <jaxb:schemaBindings>
             <jaxb:package name="io.github.erde.editor.persistent.diagram" />
