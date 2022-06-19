@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxb:bindings version="1.0"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xs:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd"
+<jaxb:bindings version="3.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/bindingschema_3_0.xsd"
     xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
     xmlns:inherit="http://www.lxtreme.nl/xml/ns/jaxb/inherit"
     jaxb:extensionBindingPrefixes="xjc inherit">
-
 
     <jaxb:globalBindings>
         <jaxb:serializable uid="1" />
@@ -37,7 +36,9 @@
         </jaxb:bindings>
 
         <jaxb:bindings node="//xs:element[@name='table']">
+            <!--
             jaxb:classタグを明示的に設定しないと生成されたjavaファイルに継承・実装クラスが付与されない
+            -->
             <jaxb:class />
             <inherit:extends name="io.github.erde.editor.diagram.model.AbstractDBModel" />
         </jaxb:bindings>

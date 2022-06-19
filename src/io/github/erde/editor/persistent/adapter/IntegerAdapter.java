@@ -1,7 +1,7 @@
 
 package io.github.erde.editor.persistent.adapter;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * IntegerAdapter.

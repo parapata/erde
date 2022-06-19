@@ -7,8 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.xml.bind.JAXB;
-
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -24,6 +22,7 @@ import io.github.erde.dialect.DialectProvider;
 import io.github.erde.editor.diagram.figure.connection.decoration.DecorationFactory;
 import io.github.erde.editor.persistent.diagram.ErdeXmlModel;
 import io.github.erde.editor.persistent.diagram.ObjectFactory;
+import jakarta.xml.bind.JAXB;
 
 /**
  * NewDiagramWizardPage.

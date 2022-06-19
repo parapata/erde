@@ -1,25 +1,24 @@
 
 package io.github.erde.editor.persistent.diagram;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlEnum;
+import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
  * <p>referenceOptionのJavaクラス。
  * 
  * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * <p>
- * <pre>
- * &lt;simpleType name="referenceOption"&gt;
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="NO_ACTION"/&gt;
- *     &lt;enumeration value="RESTRICT"/&gt;
- *     &lt;enumeration value="CASCADE"/&gt;
- *     &lt;enumeration value="SET_NULL"/&gt;
- *   &lt;/restriction&gt;
- * &lt;/simpleType&gt;
- * </pre>
+ * <pre>{@code
+ * <simpleType name="referenceOption">
+ *   <restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     <enumeration value="NO_ACTION"/>
+ *     <enumeration value="RESTRICT"/>
+ *     <enumeration value="CASCADE"/>
+ *     <enumeration value="SET_NULL"/>
+ *   </restriction>
+ * </simpleType>
+ * }</pre>
  * 
  */
 @XmlType(name = "referenceOption")

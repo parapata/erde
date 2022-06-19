@@ -6,8 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 
-import javax.xml.bind.JAXB;
-
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import io.github.erde.ERDPlugin;
@@ -32,6 +30,7 @@ import io.github.erde.editor.persistent.diagram.DomainsXmlModel;
 import io.github.erde.editor.persistent.diagram.ErdeXmlModel;
 import io.github.erde.editor.persistent.diagram.IndexXmlModel;
 import io.github.erde.editor.persistent.diagram.LocationXmlModel;
+import jakarta.xml.bind.JAXB;
 
 /**
  * IERDiagramReader.

@@ -4,15 +4,15 @@ package io.github.erde.editor.persistent.diagram;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import io.github.erde.editor.persistent.adapter.BooleanAdapter;
 import io.github.erde.editor.persistent.adapter.IntegerAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSchemaType;
+import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -20,30 +20,30 @@ import io.github.erde.editor.persistent.adapter.IntegerAdapter;
  * 
  * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
  * 
- * <pre>
- * &lt;complexType&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element ref="{}physicalName"/&gt;
- *         &lt;element ref="{}logicalName"/&gt;
- *         &lt;element ref="{}domainId"/&gt;
- *         &lt;element ref="{}type"/&gt;
- *         &lt;element ref="{}enumName" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element ref="{}columnSize"/&gt;
- *         &lt;element ref="{}decimal"/&gt;
- *         &lt;element ref="{}unsigned"/&gt;
- *         &lt;element ref="{}description"/&gt;
- *         &lt;element ref="{}autoIncrement"/&gt;
- *         &lt;element ref="{}notNull"/&gt;
- *         &lt;element ref="{}primaryKey"/&gt;
- *         &lt;element ref="{}uniqueKey"/&gt;
- *         &lt;element ref="{}defaultValue"/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType>
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{}physicalName"/>
+ *         <element ref="{}logicalName"/>
+ *         <element ref="{}domainId"/>
+ *         <element ref="{}type"/>
+ *         <element ref="{}enumName" maxOccurs="unbounded" minOccurs="0"/>
+ *         <element ref="{}columnSize"/>
+ *         <element ref="{}decimal"/>
+ *         <element ref="{}unsigned"/>
+ *         <element ref="{}description"/>
+ *         <element ref="{}autoIncrement"/>
+ *         <element ref="{}notNull"/>
+ *         <element ref="{}primaryKey"/>
+ *         <element ref="{}uniqueKey"/>
+ *         <element ref="{}defaultValue"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -215,8 +215,8 @@ public class ColumnXmlModel
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the enumNames property.
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the enumNames property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
@@ -230,10 +230,12 @@ public class ColumnXmlModel
      * {@link String }
      * 
      * 
+     * @return
+     *     The value of the enumNames property.
      */
     public List<String> getEnumNames() {
         if (enumNames == null) {
-            enumNames = new ArrayList<String>();
+            enumNames = new ArrayList<>();
         }
         return this.enumNames;
     }
