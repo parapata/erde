@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://www.kohsuke.org/relaxng/tutorial.ja.html -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+
+    <define name="productName" combine="choice">
+        <choice>
+            <value type="string">HSQLDB</value>
+            <value type="string">DB2</value>
+            <value type="string">PostgreSQL</value>
+            <value type="string">MySQL</value>
+            <value type="string">H2</value>
+            <value type="string">MSSQL</value>
+            <value type="string">Oracle</value>
+            <value type="string">Other</value>
+        </choice>
+    </define>
+
+</grammar>
+

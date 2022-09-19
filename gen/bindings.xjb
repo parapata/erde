@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://jakarta.ee/xml/ns/bindingschema_3_0.xsd" version="3.0"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+    xmlns:inherit="http://www.lxtreme.nl/xml/ns/jaxb/inherit"
+    jaxb:extensionBindingPrefixes="xjc inherit">
+
+    <jaxb:globalBindings>
+        <jaxb:serializable uid="1" />
+        <!-- All generated classes must have MySignature interface (supplied in dependencies) -->
+        <!--
+        <xjc:superClass name="io.github.erde.editor.persistent.model.AbstractModel" />
+        <xjc:superInterface name="java.lang.Cloneable" />
+        -->
+        <!-- All temporal fields are implemented as Joda DateTime and use DateUtils as an adapter
+        <jaxb:javaType name="org.joda.time.DateTime" xmlType="xs:time"
+            parseMethod="com.cigna.framework.util.DateUtil.stringToDateTime"
+            printMethod="com.cigna.framework.util.DateUtil.dateTimeToString" />
+        -->
+        <xjc:simple />
+    </jaxb:globalBindings>
+
+    <jaxb:bindings schemaLocation="diagram.xsd" node="/xs:schema">
+        <jaxb:schemaBindings>
+            <jaxb:package name="io.github.erde.editor.persistent.diagram"/>
+            <jaxb:nameXmlTransform>
+                <jaxb:elementName suffix="XmlModel" />
+            </jaxb:nameXmlTransform>
+        </jaxb:schemaBindings>
+
+        <jaxb:bindings node="//xs:element[@name='root']">
+            <jaxb:class />
+            <inherit:extends name="io.github.erde.editor.diagram.model.AbstractDBModel" />
+        </jaxb:bindings>
+
+        <jaxb:bindings node="//xs:element[@name='table']">
+            <!--
+            jaxb:classタグを明示的に設定しないと生成されたjavaファイルに継承・実装クラスが付与されない
+            -->
+            <jaxb:class />
+            <inherit:extends name="io.github.erde.editor.diagram.model.AbstractDBModel" />
+        </jaxb:bindings>
+
+        <!--
+        <jaxb:bindings node="//xs:element[@name='note']">
+            <jaxb:class />
+            <inherit:extends name="io.github.erde.editors.diagram.model.NodeElement" />
+        </jaxb:bindings>
+        -->
+
+    </jaxb:bindings>
+
+</jaxb:bindings>

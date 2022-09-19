@@ -1,0 +1,57 @@
+= Doker/HSQLDBコンテナ構築メモ
+
+== HSQLDBのイメージ作成
+[source]
+----
+> docker build -t hsqldb .
+----
+
+
+== HSQLDBコンテナ起動
+[source]
+----
+> docker-compose up -d
+----
+
+
+== bash起動
+[source]
+----
+> docker-compose exec db bash
+----
+
+
+== sqltool起動
+
+[source]
+----
+java -cp /opt/hsqldb/sqltool.jar org.hsqldb.cmdline.SqlTool --inlineRc="url=jdbc:hsqldb:hsql://localhost/demo,user=SA,password="
+
+SqlTool v. 6140.
+JDBC Connection established to a HSQL Database Engine v. 2.5.1 database
+as "SA" with R/W TRANSACTION_READ_COMMITTED Isolation.
+SqlFile processor v. 6139.
+Distribution is permitted under the terms of the HSQLDB license.
+(c) 2004-2011 Blaine Simpson and the HSQL Development Group.
+
+    \q    to Quit.
+    \?    lists Special Commands.
+    :?    lists Edit-Buffer/History commands.
+    *?    lists PL commands.
+    /?    displays help on how to set and use macros (incl. functions).
+
+SPECIAL Commands begin with '\' and execute when you hit ENTER.
+EDIT-BUFFER / HISTORY Commands begin with ':' and execute when you hit ENTER.
+PROCEDURAL LANGUAGE commands begin with '*' and end when you hit ENTER.
+MACRO executions and definitions begin with '/' and end when you hit ENTER.
+All other lines comprise SQL Statements (or comments).
+  SQL Statements are terminated by either unquoted ';' (which executes the
+  statement), or a blank line (which moves the statement into the edit buffer
+  without executing).
+After turning on variable expansion with command "*" (or any other PL
+command), PL variables may be used in most commands like so:  *{PLVARNAME}.
+Be aware when using regular expressions on commands, that the regex.s
+operate only on the command text after the * or \ prefix, if any.
+
+sql>
+----

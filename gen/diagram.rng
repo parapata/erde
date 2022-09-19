@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://www.kohsuke.org/relaxng/tutorial.ja.html -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">
+
+    <start>
+        <element name="erde">
+
+            <ref name="color" />
+            <ref name="font" />
+
+            <element name="dialectName">
+                <text />
+            </element>
+
+            <element name="schemaName">
+                <text />
+            </element>
+
+            <element name="lowerCase" a:defaultValue="false">
+                <data type="boolean" />
+            </element>
+
+            <element name="logicalMode" a:defaultValue="false">
+                <data type="boolean" />
+            </element>
+
+            <element name="includeView" a:defaultValue="false">
+                <data type="boolean" />
+            </element>
+
+            <element name="notation"  a:defaultValue="IE">
+                <choice>
+                    <value>IE</value>
+                    <value>IDEF1X</value>
+                  </choice>
+            </element>
+
+            <element name="zoom">
+                <data type="double" />
+            </element>
+
+            <element name="diagram">
+                <ref name="tables" />
+                <ref name="notes" />
+            </element>
+            <a:comment>END : diagram</a:comment>
+
+            <ref name="domains" />
+        </element>
+    </start>
+
+    <define name="referenceOption" combine="choice">
+        <choice>
+            <value type="string">NO_ACTION</value>
+            <value type="string">RESTRICT</value>
+            <value type="string">CASCADE</value>
+            <value type="string">SET_NULL</value>
+        </choice>
+    </define>
+
+    <define name="color">
+        <element name="color">
+            <attribute name="r">
+                <data type="int" />
+            </attribute>
+            <attribute name="g">
+                <data type="int" />
+            </attribute>
+            <attribute name="b">
+                <data type="int" />
+            </attribute>
+        </element>
+    </define>
+
+
+    <define name="font">
+        <element name="font">
+            <attribute name="fontName">
+                <text />
+            </attribute>
+            <attribute name="fontSize">
+                <data type="int" />
+            </attribute>
+        </element>
+    </define>
+
+
+    <define name="location">
+        <element name="location">
+            <attribute name="x">
+                <data type="int" />
+            </attribute>
+            <attribute name="y">
+                <data type="int" />
+            </attribute>
+            <attribute name="width">
+                <data type="int" />
+            </attribute>
+            <attribute name="height">
+                <data type="int" />
+            </attribute>
+        </element>
+    </define>
+
+
+    <define name="property">
+        <element name="property">
+            <attribute name="name">
+                <text />
+            </attribute>
+            <attribute name="value">
+                <text />
+            </attribute>
+        </element>
+    </define>
+
+
+    <define name="tableProperties">
+        <element name="tableProperties">
+            <element name="schema">
+                <text />
+            </element>
+            <choice>
+                <group>
+                    <element name="characterSet">
+                        <text />
+                    </element>
+                    <element name="collation">
+                        <text />
+                    </element>
+                    <element name="storageEngine">
+                        <text />
+                    </element>
+                    <element name="primaryKeyLengthOfText">
+                        <data type="integer" />
+                    </element>
+                </group>
+                <element name="withoutOIDs">
+                    <data type="boolean" />
+                </element>
+            </choice>
+        </element>
+    </define>
+
+    <define name="notes">
+        <zeroOrMore>
+            <element name="note">
+                <attribute name="id">
+                    <text />
+                </attribute>
+                <ref name="location" />
+                <element name="text">
+                    <text />
+                </element>
+                <zeroOrMore>
+                    <element name="noteConnection">
+                        <attribute name="targetId">
+                            <text />
+                        </attribute>
+                    </element>
+                </zeroOrMore>
+            </element>
+        </zeroOrMore>
+    </define>
+
+    <define name="tables">
+        <zeroOrMore>
+            <element name="table">
+                <attribute name="id">
+                    <text />
+                </attribute>
+
+                <ref name="location" />
+                <ref name="font" />
+                <ref name="color" />
+
+                <element name="physicalName">
+                    <text />
+                </element>
+                <element name="logicalName">
+                    <text />
+                </element>
+                <element name="description">
+                    <text />
+                </element>
+
+                <zeroOrMore>
+                    <element name="column">
+                        <element name="physicalName">
+                            <text />
+                        </element>
+                        <element name="logicalName">
+                            <text />
+                        </element>
+                        <element name="domainId">
+                            <text />
+                        </element>
+                        <element name="type">
+                            <text />
+                        </element>
+                        <zeroOrMore>
+                            <element name="enumName">
+                                <text />
+                            </element>
+                        </zeroOrMore>
+                        <element name="columnSize">
+                            <data type="integer" />
+                        </element>
+                        <element name="decimal">
+                            <data type="integer" />
+                        </element>
+                        <element name="unsigned">
+                            <data type="boolean" />
+                        </element>
+                        <element name="description">
+                            <text />
+                        </element>
+                        <element name="autoIncrement">
+                            <data type="boolean" />
+                        </element>
+                        <element name="notNull">
+                            <data type="boolean" />
+                        </element>
+                        <element name="primaryKey">
+                            <data type="boolean" />
+                        </element>
+                        <element name="uniqueKey">
+                            <data type="boolean" />
+                        </element>
+                        <element name="defaultValue">
+                            <text />
+                        </element>
+                    </element>
+                </zeroOrMore>
+
+                <zeroOrMore>
+                    <element name="index">
+                        <attribute name="indexName">
+                            <text />
+                        </attribute>
+                        <attribute name="indexType">
+                            <text />
+                        </attribute>
+                        <zeroOrMore>
+                            <element name="columnName">
+                                <text />
+                            </element>
+                        </zeroOrMore>
+                    </element>
+                </zeroOrMore>
+
+                <zeroOrMore>
+                    <element name="foreignKey">
+                        <attribute name="sourceId">
+                            <text />
+                        </attribute>
+                        <attribute name="foreignKeyName">
+                            <text />
+                        </attribute>
+                        <element name="onUpdateOption">
+                            <ref name="referenceOption" />
+                        </element>
+                        <element name="onDeleteOption">
+                            <ref name="referenceOption" />
+                        </element>
+                        <element name="sourceCardinality">
+                            <text />
+                        </element>
+                        <element name="targetCardinality">
+                            <text />
+                        </element>
+                        <oneOrMore>
+                            <element name="foreignKeyMapping">
+                                <element name="referenceName">
+                                    <text />
+                                </element>
+                                <element name="targetName">
+                                    <text />
+                                </element>
+                            </element>
+                        </oneOrMore>
+                    </element>
+                </zeroOrMore>
+
+                <ref name="tableProperties" />
+            </element>
+        </zeroOrMore>
+    </define>
+    <a:comment>END : table</a:comment>
+
+    <define name="domains">
+        <element name="domains">
+        <zeroOrMore>
+            <element name="domain">
+                <attribute name="id">
+                    <text />
+                </attribute>
+                <element name="domainName">
+                    <text />
+                </element>
+                <element name="type">
+                    <text />
+                </element>
+                <element name="columnSize">
+                    <data type="integer" />
+                </element>
+                <element name="decimal">
+                    <data type="integer" />
+                </element>
+                <element name="unsigned">
+                    <data type="boolean" />
+                </element>
+            </element>
+        </zeroOrMore>
+        </element>
+    </define>
+    <a:comment>END : domain</a:comment>
+
+</grammar>
+

@@ -1,0 +1,35 @@
+= ERDE
+
+Lightweight ER-Diagram editor for Eclipse.
+
+
+NOTE: Version 1.0.x is under development.
+
+
+== Installation
+
+eclipse 2020-12(java11)
+
+
+[source]
+----
+dropins
+ |-erde
+    |-eclipse
+       |-plugins
+          |-erde-x.x.x.jar
+----
+
+== Licence
+https://opensource.org/licenses/EPL-2.0[Eclipse Public License version 2.0]
+
+
+== Thanks
+* https://github.com/takezoe/amateras-modeler[Amateras Modeler]
+* http://ermaster.sourceforge.net/[ERMaster]
+
+
+== References
+* https://help.eclipse.org/2021-03/index.jsp[Eclipse Documentation]
+* https://www.ne.jp/asahi/hishidama/home/tech/eclipse/plugin/develop/index.html[hishidama's]
+* https://www.eclipse.org/tycho/sitedocs/[Tycho]

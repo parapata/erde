@@ -1,0 +1,103 @@
+= Docker/Oracleコンテナ構築メモ
+
+
+== 1. Oracleイメージ作成
+
+
+=== 1-1. docker-imageのクローン作成
+[source]
+----
+> cd c:\
+> mkdir oracle
+> cd oracle
+> git clone https://github.com/oracle/docker-images.git
+----
+
+
+=== 1-2. Oracleのダウンロード
+
+https://www.oracle.com/jp/database/technologies/oracle-database-software-downloads.html[Donwnload]
+
+
+=== 1-3. ダウンロードファイルのコピー
+[source]
+----
+> cd .\docker-images\OracleDatabase\SingleInstance
+> move %USERPROFILE%\Downloads\LINUX.X64_193000_db_home.zip .\dockerfiles\19.3.0
+----
+
+
+=== 1-4. Oracleイメージの作成
+
+[source]
+----
+> cd .\docker-images\OracleDatabase\SingleInstance\dockerfiles
+> ./buildContainerImage.sh -v 19.3.0 -s -i
+----
+
+
+== 2. 初期設定
+
+
+=== 2-1. Oracleコンテナ起動
+[source]
+----
+> cd [docker-compose.ymlファイル格納パス]
+> docker-compose up -d
+----
+
+
+=== 2-2. bash起動
+[source]
+----
+> docker-compose exec db bash
+----
+
+
+=== 2-3. sqlplus起動
+[source]
+----
+> sqlplus system/manager@localhost:1521/ORCLCDB
+> conn / as sysdba
+----
+
+
+=== 2-4. demoユーザ作成
+[source]
+----
+-- 今接続しているコンテナ名を確認
+SHOW con_name;
+
+-- PDB名を確認
+SELECT pdb_name FROM cdb_pdbs;
+
+-- PDBに接続
+ALTER SESSION SET container = ORCLPDB;
+
+-- demoユーザ作成
+CREATE USER demo IDENTIFIED BY demo DEFAULT TABLESPACE users TEMPORARY TABLESPACE temp;
+
+-- テスト環境ためロールの付与と表領域の使用量を無制限に設定
+GRANT DBA TO demo;
+GRANT UNLIMITED TABLESPACE TO demo;
+----
+
+
+== 3. 管理画面起動
+
+https://localhost:5500/em[Enterprise Manager Database Express]
+
+* User:system
+* Password:manager
+* Contener:ORCLPDB
+
+
+== 4. 付録
+[source]
+----
+> docker-compose up -d
+> docker-compose down
+> docker-compose down --volumes
+> docker-compose start
+> docker-compose stop
+----
