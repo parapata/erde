@@ -2,7 +2,7 @@ package io.github.erde.editor.diagram.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import io.github.erde.dialect.type.IndexType;
@@ -10,7 +10,7 @@ import io.github.erde.dialect.type.IndexType;
 class IndexModelTest {
 
     @Test
-    @Ignore
+    @Disabled
     void test() throws CloneNotSupportedException {
         IndexModel expected = new IndexModel();
         expected.getColumns().add("column_1");
