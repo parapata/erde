@@ -74,7 +74,7 @@ public interface IDialect {
      * @param writer DDL writer
      */
     void createDDL(RootModel root, List<TableModel> tables, PrintWriter writer);
-    
+
     /**
      * Validates diagram models.
      *

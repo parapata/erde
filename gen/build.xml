@@ -3,7 +3,7 @@
 <project name="DBDT JAXB Code Generator" basedir=".." default="build">
 
     <property name="schema.dir" value="${basedir}/gen" />
-    <property name="src.dir" value="${basedir}/src" />
+    <property name="src.dir" value="${basedir}/src/main/java" />
     <property name="model.dir" value="${src.dir}/io/github/erde/editor/persistent" />
     <property name="lib.dir" value="${basedir}/target/dependency-jars" />
 

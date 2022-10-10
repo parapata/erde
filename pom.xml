@@ -5,9 +5,7 @@
     <groupId>io.github.parapata.erde</groupId>
     <artifactId>io.github.erde</artifactId>
     <version>1.0.18</version>
-    <!--
     <packaging>eclipse-plugin</packaging>
-    -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
@@ -24,8 +22,8 @@
             </releases>
         </repository>
         <repository>
-            <id>2020-06</id>
-            <url>https://download.eclipse.org/releases/2020-06/202006171000/</url>
+            <id>2020-09</id>
+            <url>https://download.eclipse.org/releases/2020-09/202009161000/</url>
             <layout>p2</layout>
         </repository>
     </repositories>
@@ -149,9 +147,10 @@
     <build>
         <plugins>
             <plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -199,7 +198,7 @@
                             <goal>format</goal>
                         </goals>
                         <configuration>
-                            <configFile>${project.basedir}/resources/formatter.xml</configFile>
+                            <configFile>${project.basedir}/src/main/resources/formatter.xml</configFile>
                         </configuration>
                     </execution>
                 </executions>

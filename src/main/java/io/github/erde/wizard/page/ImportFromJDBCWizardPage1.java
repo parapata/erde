@@ -163,7 +163,7 @@ public class ImportFromJDBCWizardPage1 extends WizardPage {
         setControl(container);
     }
 
-    public JDBCConnection getJDBCConnection() throws ClassNotFoundException  {
+    public JDBCConnection getJDBCConnection() throws ClassNotFoundException {
         Class<?> driverClass = classLoader.loadClass(cmbJdbcDriver.getText());
         JDBCConnection jdbcConn = new JDBCConnection(driverClass);
         jdbcConn.setDialectProvider(cmbDialectProvider.getText());

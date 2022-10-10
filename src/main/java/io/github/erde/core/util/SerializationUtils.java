@@ -5,9 +5,7 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -189,7 +187,7 @@ public class SerializationUtils {
      * @throws SerializationException (runtime) if the serialization fails
      */
     public static <T> T deserialize(final byte[] objectData) {
-        //Validate.notNull(objectData, "objectData");
+        // Validate.notNull(objectData, "objectData");
         return deserialize(new ByteArrayInputStream(objectData));
     }
 
@@ -218,9 +216,9 @@ public class SerializationUtils {
      * @throws NullPointerException if {@code inputStream} is {@code null}
      * @throws SerializationException (runtime) if the serialization fails
      */
-    //@SuppressWarnings("resource") // inputStream is managed by the caller
+    // @SuppressWarnings("resource") // inputStream is managed by the caller
     public static <T> T deserialize(final InputStream inputStream) {
-        //Validate.notNull(inputStream, "inputStream");
+        // Validate.notNull(inputStream, "inputStream");
         try (ObjectInputStream in = new ObjectInputStream(inputStream)) {
             @SuppressWarnings("unchecked")
             final T obj = (T) in.readObject();
@@ -281,9 +279,9 @@ public class SerializationUtils {
      * @throws NullPointerException if {@code outputStream} is {@code null}
      * @throws SerializationException (runtime) if the serialization fails
      */
-    //@SuppressWarnings("resource") // outputStream is managed by the caller
+    // @SuppressWarnings("resource") // outputStream is managed by the caller
     public static void serialize(final Serializable obj, final OutputStream outputStream) {
-        //Validate.notNull(outputStream, "outputStream");
+        // Validate.notNull(outputStream, "outputStream");
         try (ObjectOutputStream out = new ObjectOutputStream(outputStream)) {
             out.writeObject(obj);
         } catch (final IOException ex) {
@@ -307,4 +305,3 @@ public class SerializationUtils {
     }
 
 }
-

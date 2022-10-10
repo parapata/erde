@@ -239,11 +239,13 @@ public enum Resource {
     /** key:preference.validation.label.foreignKey.columnType. */
     PREFERENCE_VALIDATION_LABEL_FOREIGN_KEY_COLUMN_TYPE("preference.validation.label.foreignKey.columnType"),
     /** key:preference.validation.label.logicalColumnName.duplicated. */
-    PREFERENCE_VALIDATION_LABEL_LOGICAL_COLUMN_NAME_DUPLICATED("preference.validation.label.logicalColumnName.duplicated"),
+    PREFERENCE_VALIDATION_LABEL_LOGICAL_COLUMN_NAME_DUPLICATED(
+            "preference.validation.label.logicalColumnName.duplicated"),
     /** key:preference.validation.label.logicalColumnName.required. */
     PREFERENCE_VALIDATION_LABEL_LOGICAL_COLUMN_NAME_REQUIRED("preference.validation.label.logicalColumnName.required"),
     /** key:preference.validation.label.logicalTableName.duplicated. */
-    PREFERENCE_VALIDATION_LABEL_LOGICAL_TABLE_NAME_DUPLICATED("preference.validation.label.logicalTableName.duplicated"),
+    PREFERENCE_VALIDATION_LABEL_LOGICAL_TABLE_NAME_DUPLICATED(
+            "preference.validation.label.logicalTableName.duplicated"),
     /** key:preference.validation.label.logicalTableName.required. */
     PREFERENCE_VALIDATION_LABEL_LOGICAL_TABLE_NAME_REQUIRED("preference.validation.label.logicalTableName.required"),
     /** key:preference.validation.label.noColumns. */

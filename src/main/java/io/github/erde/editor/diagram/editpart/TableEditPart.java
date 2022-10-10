@@ -140,8 +140,8 @@ public class TableEditPart extends AbstractERDEntityEditPart {
         lblColumnType.setUnderline(model.isPrimaryKey());
         lblNotNull.setUnderline(model.isPrimaryKey());
 
-        //boolean foreignKey = isForeignkey(table.getModelTargetConnections(), model.getId());
-        boolean foreignKey =table.isForeignkey(model.getId());
+        // boolean foreignKey = isForeignkey(table.getModelTargetConnections(), model.getId());
+        boolean foreignKey = table.isForeignkey(model.getId());
 
         String columnName = root.isLogicalMode() ? model.getLogicalName() : model.getPhysicalName();
         if (model.isPrimaryKey() && foreignKey) {

@@ -25,7 +25,8 @@ class ColumnModelTest {
         expected.setUniqueKey(true);
         expected.setUnsigned(true);
 
-        ColumnType columnType = ColumnType.newInstance(DialectProvider.MySQL, "physicaName", Resource.TYPE_STRING, true, 5);
+        ColumnType columnType = ColumnType.newInstance(DialectProvider.MySQL, "physicaName", Resource.TYPE_STRING, true,
+                5);
         expected.setColumnType(columnType);
 
         ColumnModel actual = expected.clone();

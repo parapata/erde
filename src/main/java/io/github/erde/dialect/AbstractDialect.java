@@ -53,9 +53,9 @@ public abstract class AbstractDialect implements IDialect {
             // reverse
             List<TableModel> reverses = new ArrayList<>(tables);
             Collections.reverse(reverses);
-//            for (ListIterator<TableModel> iterator = tables.listIterator(tables.size()); iterator.hasPrevious();) {
-//                reverses.add(iterator.previous());
-//            }
+// for (ListIterator<TableModel> iterator = tables.listIterator(tables.size()); iterator.hasPrevious();) {
+// reverses.add(iterator.previous());
+// }
             dropDDL(root, reverses);
         }
         createDDL(root, tables);
