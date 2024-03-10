@@ -1,6 +1,6 @@
-version: '3'
 services:
   db:
     image: hsqldb
+    container_name: hsqldb
     ports:
     - 9001:9001

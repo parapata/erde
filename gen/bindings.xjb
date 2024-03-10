@@ -11,7 +11,7 @@
         <jaxb:serializable uid="1" />
         <!-- All generated classes must have MySignature interface (supplied in dependencies) -->
         <!--
-        <xjc:superClass name="io.github.erde.editor.persistent.model.AbstractModel" />
+        <xjc:superClass name="io.github.parapata.erde.editor.persistent.model.AbstractModel" />
         <xjc:superInterface name="java.lang.Cloneable" />
         -->
         <!-- All temporal fields are implemented as Joda DateTime and use DateUtils as an adapter
@@ -24,7 +24,7 @@
 
     <jaxb:bindings schemaLocation="diagram.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
-            <jaxb:package name="io.github.erde.editor.persistent.diagram"/>
+            <jaxb:package name="io.github.parapata.erde.editor.persistent.diagram"/>
             <jaxb:nameXmlTransform>
                 <jaxb:elementName suffix="XmlModel" />
             </jaxb:nameXmlTransform>
@@ -32,7 +32,7 @@
 
         <jaxb:bindings node="//xs:element[@name='root']">
             <jaxb:class />
-            <inherit:extends name="io.github.erde.editor.diagram.model.AbstractDBModel" />
+            <inherit:extends name="io.github.parapata.erde.editor.diagram.model.AbstractDBModel" />
         </jaxb:bindings>
 
         <jaxb:bindings node="//xs:element[@name='table']">
@@ -40,13 +40,13 @@
             jaxb:classタグを明示的に設定しないと生成されたjavaファイルに継承・実装クラスが付与されない
             -->
             <jaxb:class />
-            <inherit:extends name="io.github.erde.editor.diagram.model.AbstractDBModel" />
+            <inherit:extends name="io.github.parapata.erde.editor.diagram.model.AbstractDBModel" />
         </jaxb:bindings>
 
         <!--
         <jaxb:bindings node="//xs:element[@name='note']">
             <jaxb:class />
-            <inherit:extends name="io.github.erde.editors.diagram.model.NodeElement" />
+            <inherit:extends name="io.github.parapata.erde.editors.diagram.model.NodeElement" />
         </jaxb:bindings>
         -->
 

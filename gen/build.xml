@@ -4,7 +4,7 @@
 
     <property name="schema.dir" value="${basedir}/gen" />
     <property name="src.dir" value="${basedir}/src/main/java" />
-    <property name="model.dir" value="${src.dir}/io/github/erde/editor/persistent" />
+    <property name="model.dir" value="${src.dir}/io/github/parapata/erde/editor/persistent" />
     <property name="lib.dir" value="${basedir}/target/dependency-jars" />
 
 	<property name="diagram.rng" value="diagram.rng" />
@@ -21,7 +21,7 @@
 
     <!-- diagram・スキーマファイル作成 -->
     <target name="gen.diagram.schema">
-        <java jar="${lib.dir}/trang-20181222.jar" fork="true">
+        <java jar="${lib.dir}/trang-20220510.jar" fork="true">
             <arg value="${schema.dir}/${diagram.rng}" />
             <arg value="${schema.dir}/${diagram.schema}" />
         </java>

@@ -11,13 +11,13 @@
     <jaxb:globalBindings>
         <jaxb:serializable uid="1" />
 
-	    <xjc:javaType name="java.lang.Integer" xmlType="xs:integer" adapter="io.github.erde.editor.persistent.adapter.IntegerAdapter"/>
-	    <xjc:javaType name="java.lang.Boolean" xmlType="xs:boolean" adapter="io.github.erde.editor.persistent.adapter.BooleanAdapter"/>
+	    <xjc:javaType name="java.lang.Integer" xmlType="xs:integer" adapter="io.github.parapata.erde.editor.persistent.adapter.IntegerAdapter"/>
+	    <xjc:javaType name="java.lang.Boolean" xmlType="xs:boolean" adapter="io.github.parapata.erde.editor.persistent.adapter.BooleanAdapter"/>
         <!-- All generated classes must have MySignature interface (supplied in dependencies) -->
         <!--
         <jaxb:javaType xmlType="xs:integer" name="java.lang.Integer" />
         <jaxb:javaType xmlType="xs:boolean" name="java.lang.Boolean" />
-        <xjc:superClass name="io.github.erde.editors.persistent.model.AbstractModel" />
+        <xjc:superClass name="io.github.parapata.erde.editors.persistent.model.AbstractModel" />
         -->
 
         <!--
@@ -36,7 +36,7 @@
     <jaxb:bindings schemaLocation="diagram.xsd" >
 
         <jaxb:schemaBindings>
-            <jaxb:package name="io.github.erde.editor.persistent.diagram" />
+            <jaxb:package name="io.github.parapata.erde.editor.persistent.diagram" />
             <jaxb:nameXmlTransform>
                 <jaxb:elementName suffix="XmlModel" />
             </jaxb:nameXmlTransform>

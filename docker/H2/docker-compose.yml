@@ -1,7 +1,7 @@
-version: '3'
 services:
   db:
     image: h2db
+    container_name: h2db
     ports:
     - 9092:9092
     - 5435:5435

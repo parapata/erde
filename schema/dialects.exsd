@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="io.github.erde">
+<schema targetNamespace="io.github.parapata.erde">
 <annotation>
       <appInfo>
-         <meta.schema plugin="io.github.erde" id="dialects" name="dialects"/>
+         <meta.schema plugin="io.github.parapata.erde" id="dialects" name="dialects"/>
       </appInfo>
       <documentation>
 
@@ -57,7 +57,7 @@
 
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="io.github.erde.dialect.IDialect"/>
+                  <meta.attribute kind="java" basedOn="io.github.parapata.erde.dialect.IDialect"/>
                </appInfo>
             </annotation>
          </attribute>

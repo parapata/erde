@@ -1,5 +1,5 @@
 <%@ jet package="io.github.erde.dev" class="GenResourceEnumTemplate" imports="java.util.Collection java.util.Iterator io.github.erde.dev.GenResourceBean"%>
-package io.github.erde;
+package io.github.parapata.erde;
 
 import java.util.Arrays;
 import java.util.MissingResourceException;

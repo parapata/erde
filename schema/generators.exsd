@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="io.github.erde" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="io.github.parapata.erde" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="io.github.erde" id="generators" name="generators"/>
+         <meta.schema plugin="io.github.parapata.erde" id="generators" name="generators"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -55,7 +55,7 @@
 
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":io.github.erde.generate.IGenerator"/>
+                  <meta.attribute kind="java" basedOn=":io.github.parapata.erde.generate.IGenerator"/>
                </appinfo>
             </annotation>
          </attribute>

@@ -17,9 +17,10 @@ Thumbs.db
 *.log
 *.swp
 *.bak
-/.settings/
+/.settings/**/*
+/.cache/**/*
 
 .classpath
 .project
 .jetproperties
-/lib/
+/pom.xml.versionsBackup
