@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Automatic-Module-Name: erde.test
+Bundle-Name: %Bundle-Name
+Bundle-SymbolicName: io.github.parapata.erde.test
+Bundle-Vendor: %Bundle-Vendor
+Bundle-Version: 1.0.19
+Import-Package: org.slf4j
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.ui,
+ junit-jupiter-engine,
+ junit-jupiter-api,
+ junit-jupiter-params,
+ io.github.parapata.erde
