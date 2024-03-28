@@ -1,4 +1,3 @@
-version: '3'
 services:
   db:
     image: oracle/database:19.3.0-se2

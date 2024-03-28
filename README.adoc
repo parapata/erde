@@ -32,4 +32,5 @@ https://opensource.org/licenses/EPL-2.0[Eclipse Public License version 2.0]
 == References
 * https://help.eclipse.org/2021-03/index.jsp[Eclipse Documentation]
 * https://www.ne.jp/asahi/hishidama/home/tech/eclipse/plugin/develop/index.html[hishidama's]
-* https://www.eclipse.org/tycho/sitedocs/[Tycho]
+* https://github.com/eclipse-tycho/tycho/[Tycho Github]
+* https://tycho.eclipseprojects.io/doc/latest/[Tycho Documentation]

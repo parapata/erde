@@ -14,12 +14,14 @@ Thumbs.db
 .DS_Store
 
 # Other
+/.settings
+/.cache
 *.log
 *.swp
 *.bak
-/.settings/
 
 .classpath
 .project
 .jetproperties
-/lib/
+/pom.xml.versionsBackup
+/**/.settings
