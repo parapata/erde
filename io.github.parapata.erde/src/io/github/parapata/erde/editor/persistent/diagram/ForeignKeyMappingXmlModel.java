@@ -8,12 +8,12 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -26,18 +26,15 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "referenceName",
-    "targetName"
+        "referenceName",
+        "targetName"
 })
 @XmlRootElement(name = "foreignKeyMapping")
 public class ForeignKeyMappingXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -47,11 +44,10 @@ public class ForeignKeyMappingXmlModel
 
     /**
      * referenceNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getReferenceName() {
         return referenceName;
@@ -59,11 +55,10 @@ public class ForeignKeyMappingXmlModel
 
     /**
      * referenceNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setReferenceName(String value) {
         this.referenceName = value;
@@ -71,11 +66,10 @@ public class ForeignKeyMappingXmlModel
 
     /**
      * targetNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getTargetName() {
         return targetName;
@@ -83,11 +77,10 @@ public class ForeignKeyMappingXmlModel
 
     /**
      * targetNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setTargetName(String value) {
         this.targetName = value;

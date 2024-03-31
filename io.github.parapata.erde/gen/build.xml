@@ -57,8 +57,6 @@
         3.[JRE]タブを選択し、ランタイムJREが[ワークスペースと同じJREで実行]が選択されていること
         -->
         <echo message="Full build..." />
-        <eclipse.refreshLocal resource="io.github.parapata.erde" depth="infinite" />
-        <eclipse.incrementalBuild project="io.github.parapata.erde" kind="full" />
     </target>
 
 </project>

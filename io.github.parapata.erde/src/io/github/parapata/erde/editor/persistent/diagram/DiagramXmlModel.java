@@ -10,12 +10,12 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -28,18 +28,15 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "tables",
-    "notes"
+        "tables",
+        "notes"
 })
 @XmlRootElement(name = "diagram")
 public class DiagramXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(name = "table")
@@ -49,28 +46,26 @@ public class DiagramXmlModel
 
     /**
      * Gets the value of the tables property.
-     * 
-     * <p>This accessor method returns a reference to the live list,
+     * <p>
+     * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the tables property.</p>
-     * 
+     * This is why there is not a <CODE>set</CODE> method for the tables property.
+     * </p>
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
+     *
      * <pre>
      * getTables().add(newItem);
      * </pre>
-     * 
-     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link TableXmlModel }
      * </p>
-     * 
-     * 
+     *
      * @return
-     *     The value of the tables property.
+     *         The value of the tables property.
      */
     public List<TableXmlModel> getTables() {
         if (tables == null) {
@@ -81,28 +76,26 @@ public class DiagramXmlModel
 
     /**
      * Gets the value of the notes property.
-     * 
-     * <p>This accessor method returns a reference to the live list,
+     * <p>
+     * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the notes property.</p>
-     * 
+     * This is why there is not a <CODE>set</CODE> method for the notes property.
+     * </p>
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
+     *
      * <pre>
      * getNotes().add(newItem);
      * </pre>
-     * 
-     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link NoteXmlModel }
      * </p>
-     * 
-     * 
+     *
      * @return
-     *     The value of the notes property.
+     *         The value of the notes property.
      */
     public List<NoteXmlModel> getNotes() {
         if (notes == null) {

@@ -14,12 +14,12 @@ import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -44,30 +44,27 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "physicalName",
-    "logicalName",
-    "domainId",
-    "type",
-    "enumNames",
-    "columnSize",
-    "decimal",
-    "unsigned",
-    "description",
-    "autoIncrement",
-    "notNull",
-    "primaryKey",
-    "uniqueKey",
-    "defaultValue"
+        "physicalName",
+        "logicalName",
+        "domainId",
+        "type",
+        "enumNames",
+        "columnSize",
+        "decimal",
+        "unsigned",
+        "description",
+        "autoIncrement",
+        "notNull",
+        "primaryKey",
+        "uniqueKey",
+        "defaultValue"
 })
 @XmlRootElement(name = "column")
 public class ColumnXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -115,11 +112,10 @@ public class ColumnXmlModel
 
     /**
      * physicalNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getPhysicalName() {
         return physicalName;
@@ -127,11 +123,10 @@ public class ColumnXmlModel
 
     /**
      * physicalNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setPhysicalName(String value) {
         this.physicalName = value;
@@ -139,11 +134,10 @@ public class ColumnXmlModel
 
     /**
      * logicalNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getLogicalName() {
         return logicalName;
@@ -151,11 +145,10 @@ public class ColumnXmlModel
 
     /**
      * logicalNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setLogicalName(String value) {
         this.logicalName = value;
@@ -163,11 +156,10 @@ public class ColumnXmlModel
 
     /**
      * domainIdプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getDomainId() {
         return domainId;
@@ -175,11 +167,10 @@ public class ColumnXmlModel
 
     /**
      * domainIdプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setDomainId(String value) {
         this.domainId = value;
@@ -187,11 +178,10 @@ public class ColumnXmlModel
 
     /**
      * typeプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getType() {
         return type;
@@ -199,11 +189,10 @@ public class ColumnXmlModel
 
     /**
      * typeプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setType(String value) {
         this.type = value;
@@ -211,28 +200,26 @@ public class ColumnXmlModel
 
     /**
      * Gets the value of the enumNames property.
-     * 
-     * <p>This accessor method returns a reference to the live list,
+     * <p>
+     * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the enumNames property.</p>
-     * 
+     * This is why there is not a <CODE>set</CODE> method for the enumNames property.
+     * </p>
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
+     *
      * <pre>
      * getEnumNames().add(newItem);
      * </pre>
-     * 
-     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      * </p>
-     * 
-     * 
+     *
      * @return
-     *     The value of the enumNames property.
+     *         The value of the enumNames property.
      */
     public List<String> getEnumNames() {
         if (enumNames == null) {
@@ -243,11 +230,10 @@ public class ColumnXmlModel
 
     /**
      * columnSizeプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Integer getColumnSize() {
         return columnSize;
@@ -255,11 +241,10 @@ public class ColumnXmlModel
 
     /**
      * columnSizeプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setColumnSize(Integer value) {
         this.columnSize = value;
@@ -267,11 +252,10 @@ public class ColumnXmlModel
 
     /**
      * decimalプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Integer getDecimal() {
         return decimal;
@@ -279,11 +263,10 @@ public class ColumnXmlModel
 
     /**
      * decimalプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setDecimal(Integer value) {
         this.decimal = value;
@@ -291,11 +274,10 @@ public class ColumnXmlModel
 
     /**
      * unsignedプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isUnsigned() {
         return unsigned;
@@ -303,11 +285,10 @@ public class ColumnXmlModel
 
     /**
      * unsignedプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setUnsigned(Boolean value) {
         this.unsigned = value;
@@ -315,11 +296,10 @@ public class ColumnXmlModel
 
     /**
      * descriptionプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getDescription() {
         return description;
@@ -327,11 +307,10 @@ public class ColumnXmlModel
 
     /**
      * descriptionプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setDescription(String value) {
         this.description = value;
@@ -339,11 +318,10 @@ public class ColumnXmlModel
 
     /**
      * autoIncrementプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isAutoIncrement() {
         return autoIncrement;
@@ -351,11 +329,10 @@ public class ColumnXmlModel
 
     /**
      * autoIncrementプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setAutoIncrement(Boolean value) {
         this.autoIncrement = value;
@@ -363,11 +340,10 @@ public class ColumnXmlModel
 
     /**
      * notNullプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isNotNull() {
         return notNull;
@@ -375,11 +351,10 @@ public class ColumnXmlModel
 
     /**
      * notNullプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setNotNull(Boolean value) {
         this.notNull = value;
@@ -387,11 +362,10 @@ public class ColumnXmlModel
 
     /**
      * primaryKeyプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isPrimaryKey() {
         return primaryKey;
@@ -399,11 +373,10 @@ public class ColumnXmlModel
 
     /**
      * primaryKeyプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setPrimaryKey(Boolean value) {
         this.primaryKey = value;
@@ -411,11 +384,10 @@ public class ColumnXmlModel
 
     /**
      * uniqueKeyプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isUniqueKey() {
         return uniqueKey;
@@ -423,11 +395,10 @@ public class ColumnXmlModel
 
     /**
      * uniqueKeyプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setUniqueKey(Boolean value) {
         this.uniqueKey = value;
@@ -435,11 +406,10 @@ public class ColumnXmlModel
 
     /**
      * defaultValueプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getDefaultValue() {
         return defaultValue;
@@ -447,11 +417,10 @@ public class ColumnXmlModel
 
     /**
      * defaultValueプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setDefaultValue(String value) {
         this.defaultValue = value;

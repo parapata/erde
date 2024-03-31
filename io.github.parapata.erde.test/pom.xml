@@ -110,7 +110,7 @@
 				<configuration>
 					<!--
 					<argLine>-XstartOnFirstThread</argLine>
--->
+					-->
 					<useUIHarness>true</useUIHarness>
 				</configuration>
 			</plugin>

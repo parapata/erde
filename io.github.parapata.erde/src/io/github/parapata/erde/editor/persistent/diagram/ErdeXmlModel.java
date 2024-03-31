@@ -12,12 +12,12 @@ import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -39,27 +39,24 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "color",
-    "font",
-    "dialectName",
-    "schemaName",
-    "lowerCase",
-    "logicalMode",
-    "includeView",
-    "notation",
-    "zoom",
-    "diagram",
-    "domains"
+        "color",
+        "font",
+        "dialectName",
+        "schemaName",
+        "lowerCase",
+        "logicalMode",
+        "includeView",
+        "notation",
+        "zoom",
+        "diagram",
+        "domains"
 })
 @XmlRootElement(name = "erde")
 public class ErdeXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -93,11 +90,10 @@ public class ErdeXmlModel
 
     /**
      * colorプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link ColorXmlModel }
-     *     
+     *         possible object is
+     *         {@link ColorXmlModel }
      */
     public ColorXmlModel getColor() {
         return color;
@@ -105,11 +101,10 @@ public class ErdeXmlModel
 
     /**
      * colorプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link ColorXmlModel }
-     *     
+     *            allowed object is
+     *            {@link ColorXmlModel }
      */
     public void setColor(ColorXmlModel value) {
         this.color = value;
@@ -117,11 +112,10 @@ public class ErdeXmlModel
 
     /**
      * fontプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link FontXmlModel }
-     *     
+     *         possible object is
+     *         {@link FontXmlModel }
      */
     public FontXmlModel getFont() {
         return font;
@@ -129,11 +123,10 @@ public class ErdeXmlModel
 
     /**
      * fontプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link FontXmlModel }
-     *     
+     *            allowed object is
+     *            {@link FontXmlModel }
      */
     public void setFont(FontXmlModel value) {
         this.font = value;
@@ -141,11 +134,10 @@ public class ErdeXmlModel
 
     /**
      * dialectNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getDialectName() {
         return dialectName;
@@ -153,11 +145,10 @@ public class ErdeXmlModel
 
     /**
      * dialectNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setDialectName(String value) {
         this.dialectName = value;
@@ -165,11 +156,10 @@ public class ErdeXmlModel
 
     /**
      * schemaNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getSchemaName() {
         return schemaName;
@@ -177,11 +167,10 @@ public class ErdeXmlModel
 
     /**
      * schemaNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setSchemaName(String value) {
         this.schemaName = value;
@@ -189,11 +178,10 @@ public class ErdeXmlModel
 
     /**
      * lowerCaseプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isLowerCase() {
         return lowerCase;
@@ -201,11 +189,10 @@ public class ErdeXmlModel
 
     /**
      * lowerCaseプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setLowerCase(Boolean value) {
         this.lowerCase = value;
@@ -213,11 +200,10 @@ public class ErdeXmlModel
 
     /**
      * logicalModeプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isLogicalMode() {
         return logicalMode;
@@ -225,11 +211,10 @@ public class ErdeXmlModel
 
     /**
      * logicalModeプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setLogicalMode(Boolean value) {
         this.logicalMode = value;
@@ -237,11 +222,10 @@ public class ErdeXmlModel
 
     /**
      * includeViewプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isIncludeView() {
         return includeView;
@@ -249,11 +233,10 @@ public class ErdeXmlModel
 
     /**
      * includeViewプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setIncludeView(Boolean value) {
         this.includeView = value;
@@ -261,11 +244,10 @@ public class ErdeXmlModel
 
     /**
      * notationプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getNotation() {
         return notation;
@@ -273,11 +255,10 @@ public class ErdeXmlModel
 
     /**
      * notationプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setNotation(String value) {
         this.notation = value;
@@ -285,7 +266,6 @@ public class ErdeXmlModel
 
     /**
      * zoomプロパティの値を取得します。
-     * 
      */
     public double getZoom() {
         return zoom;
@@ -293,7 +273,6 @@ public class ErdeXmlModel
 
     /**
      * zoomプロパティの値を設定します。
-     * 
      */
     public void setZoom(double value) {
         this.zoom = value;
@@ -301,11 +280,10 @@ public class ErdeXmlModel
 
     /**
      * diagramプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link DiagramXmlModel }
-     *     
+     *         possible object is
+     *         {@link DiagramXmlModel }
      */
     public DiagramXmlModel getDiagram() {
         return diagram;
@@ -313,11 +291,10 @@ public class ErdeXmlModel
 
     /**
      * diagramプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link DiagramXmlModel }
-     *     
+     *            allowed object is
+     *            {@link DiagramXmlModel }
      */
     public void setDiagram(DiagramXmlModel value) {
         this.diagram = value;
@@ -325,11 +302,10 @@ public class ErdeXmlModel
 
     /**
      * domainsプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link DomainsXmlModel }
-     *     
+     *         possible object is
+     *         {@link DomainsXmlModel }
      */
     public DomainsXmlModel getDomains() {
         return domains;
@@ -337,11 +313,10 @@ public class ErdeXmlModel
 
     /**
      * domainsプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link DomainsXmlModel }
-     *     
+     *            allowed object is
+     *            {@link DomainsXmlModel }
      */
     public void setDomains(DomainsXmlModel value) {
         this.domains = value;

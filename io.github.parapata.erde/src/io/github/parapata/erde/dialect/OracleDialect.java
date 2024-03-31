@@ -58,7 +58,6 @@ public class OracleDialect extends AbstractDialect {
         // Table Comments
         super.additions(root);
 
-        // TODO シーケンス機能を検討する
         TableDependencyCalculator.getSortedTable(root.getTables()).forEach(table -> {
             table.getColumns().forEach(column -> {
                 if (column.isAutoIncrement()) {
@@ -72,17 +71,33 @@ public class OracleDialect extends AbstractDialect {
 
                     print(String.format("CREATE SEQUENCE %s NOMAXVALUE NOCACHE NOORDER NOCYCLE", seqName));
                     println(getSeparator());
+                    newLine();
 
-                    println(String.format("CREATE TRIGGER %s", triggerName));
-                    println(String.format("BEFORE INSERT ON %s", table.getPhysicalName()));
-                    println(String.format("FOR EACH ROW"));
+                    println(String.format("CREATE OR REPLACE TRIGGER %s", triggerName));
+                    println(String.format("BEFORE INSERT ON %s FOR EACH ROW", table.getPhysicalName()));
+
                     println(String.format("BEGIN"));
+                    print(TAB_SPACE);
                     println(String.format("IF :NEW.%s IS NOT NULL THEN", column.getPhysicalName()));
-                    print(String.format("    SELECT %s.NEXTVAL INTO :NEW.%s FROM DUAL",
-                            seqName, column.getPhysicalName()));
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    println(String.format("SELECT"));
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    println(String.format("%s.NEXTVAL", seqName));
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    println(String.format("INTO :NEW.%s", column.getPhysicalName()));
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    println(String.format("FROM"));
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    print(TAB_SPACE);
+                    print(String.format("DUAL"));
                     println(getSeparator());
-                    println(String.format("INTO :NEW.%s FROM DUAL", column.getPhysicalName()));
-                    println(getSeparator());
+                    print(TAB_SPACE);
                     print(String.format("END IF"));
                     println(getSeparator());
                     print(String.format("END"));

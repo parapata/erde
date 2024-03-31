@@ -10,12 +10,12 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -27,17 +27,14 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "domains"
+        "domains"
 })
 @XmlRootElement(name = "domains")
 public class DomainsXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(name = "domain")
@@ -45,28 +42,26 @@ public class DomainsXmlModel
 
     /**
      * Gets the value of the domains property.
-     * 
-     * <p>This accessor method returns a reference to the live list,
+     * <p>
+     * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the domains property.</p>
-     * 
+     * This is why there is not a <CODE>set</CODE> method for the domains property.
+     * </p>
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
+     *
      * <pre>
      * getDomains().add(newItem);
      * </pre>
-     * 
-     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link DomainXmlModel }
      * </p>
-     * 
-     * 
+     *
      * @return
-     *     The value of the domains property.
+     *         The value of the domains property.
      */
     public List<DomainXmlModel> getDomains() {
         if (domains == null) {
