@@ -54,11 +54,19 @@
 			<groupId>org.jxls</groupId>
 			<artifactId>jxls-poi</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-jexl3</artifactId>
+		</dependency>
 
 		<!-- relax -->
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>serializer</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.relaxng</groupId>
@@ -95,14 +103,13 @@
 				<executions>
 					<execution>
 						<id>gen-jaxb</id>
-						<phase>install</phase>
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 						<configuration>
 							<target>
-								<echo
-									message="basedir path 1 : ${project.basedir}" />
+								<echo message="path : ${project.basedir}" />
 								<ant antfile="${project.basedir}/gen/build.xml"
 									target="gen" inheritAll="false" />
 							</target>
@@ -113,21 +120,17 @@
 			<plugin>
 				<groupId>net.revelc.code.formatter</groupId>
 				<artifactId>formatter-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>format</goal>
-						</goals>
-						<configuration>
-							<configFile>
-								${project.basedir}/src/formatter.xml</configFile>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<configFile>${project.basedir}/../config/formatter.xml</configFile>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

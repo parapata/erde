@@ -36,7 +36,7 @@ public class ValidationPreferencePage extends FieldEditorPreferencePage implemen
     @Override
     protected void createFieldEditors() {
         // TODO 設定ファイルから読込たい
-        setTitle("ERDEditor");
+        setTitle("ERDE");
 
         Composite parent = getFieldEditorParent();
 

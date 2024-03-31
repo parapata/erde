@@ -10,6 +10,7 @@ import java.sql.Driver;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,7 @@ abstract class JdbcMetaDataTest {
         }
     }
 
+    @Disabled
     @Test
     void test1() throws Exception {
         try (Connection con = driver.connect(prop.getProperty("url"), prop)) {
@@ -68,6 +70,7 @@ abstract class JdbcMetaDataTest {
         }
     }
 
+    @Disabled
     @Test
     void test2() throws Exception {
 
