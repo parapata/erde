@@ -12,12 +12,12 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -32,19 +32,16 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "location",
-    "text",
-    "noteConnections"
+        "location",
+        "text",
+        "noteConnections"
 })
 @XmlRootElement(name = "note")
 public class NoteXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -59,11 +56,10 @@ public class NoteXmlModel
 
     /**
      * locationプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link LocationXmlModel }
-     *     
+     *         possible object is
+     *         {@link LocationXmlModel }
      */
     public LocationXmlModel getLocation() {
         return location;
@@ -71,11 +67,10 @@ public class NoteXmlModel
 
     /**
      * locationプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link LocationXmlModel }
-     *     
+     *            allowed object is
+     *            {@link LocationXmlModel }
      */
     public void setLocation(LocationXmlModel value) {
         this.location = value;
@@ -83,11 +78,10 @@ public class NoteXmlModel
 
     /**
      * textプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getText() {
         return text;
@@ -95,11 +89,10 @@ public class NoteXmlModel
 
     /**
      * textプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setText(String value) {
         this.text = value;
@@ -107,28 +100,26 @@ public class NoteXmlModel
 
     /**
      * Gets the value of the noteConnections property.
-     * 
-     * <p>This accessor method returns a reference to the live list,
+     * <p>
+     * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the noteConnections property.</p>
-     * 
+     * This is why there is not a <CODE>set</CODE> method for the noteConnections property.
+     * </p>
      * <p>
      * For example, to add a new item, do as follows:
      * </p>
+     *
      * <pre>
      * getNoteConnections().add(newItem);
      * </pre>
-     * 
-     * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link NoteConnectionXmlModel }
      * </p>
-     * 
-     * 
+     *
      * @return
-     *     The value of the noteConnections property.
+     *         The value of the noteConnections property.
      */
     public List<NoteConnectionXmlModel> getNoteConnections() {
         if (noteConnections == null) {
@@ -139,11 +130,10 @@ public class NoteXmlModel
 
     /**
      * idプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getId() {
         return id;
@@ -151,11 +141,10 @@ public class NoteXmlModel
 
     /**
      * idプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setId(String value) {
         this.id = value;

@@ -9,12 +9,12 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -25,15 +25,12 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "font")
 public class FontXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlAttribute(name = "fontName", required = true)
@@ -44,11 +41,10 @@ public class FontXmlModel
 
     /**
      * fontNameプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getFontName() {
         return fontName;
@@ -56,11 +52,10 @@ public class FontXmlModel
 
     /**
      * fontNameプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setFontName(String value) {
         this.fontName = value;
@@ -68,7 +63,6 @@ public class FontXmlModel
 
     /**
      * fontSizeプロパティの値を取得します。
-     * 
      */
     public int getFontSize() {
         return fontSize;
@@ -76,7 +70,6 @@ public class FontXmlModel
 
     /**
      * fontSizeプロパティの値を設定します。
-     * 
      */
     public void setFontSize(int value) {
         this.fontSize = value;

@@ -12,12 +12,12 @@ import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>anonymous complex typeのJavaクラス。
- * 
- * <p>次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
- * 
+ * <p>
+ * anonymous complex typeのJavaクラス。
+ * <p>
+ * 次のスキーマ・フラグメントは、このクラス内に含まれる予期されるコンテンツを指定します。
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -38,22 +38,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "schema",
-    "withoutOIDs",
-    "characterSet",
-    "collation",
-    "storageEngine",
-    "primaryKeyLengthOfText"
+        "schema",
+        "withoutOIDs",
+        "characterSet",
+        "collation",
+        "storageEngine",
+        "primaryKeyLengthOfText"
 })
 @XmlRootElement(name = "tableProperties")
 public class TablePropertiesXmlModel
-    implements Serializable
-{
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement(required = true)
@@ -72,11 +69,10 @@ public class TablePropertiesXmlModel
 
     /**
      * schemaプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getSchema() {
         return schema;
@@ -84,11 +80,10 @@ public class TablePropertiesXmlModel
 
     /**
      * schemaプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setSchema(String value) {
         this.schema = value;
@@ -96,11 +91,10 @@ public class TablePropertiesXmlModel
 
     /**
      * withoutOIDsプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Boolean isWithoutOIDs() {
         return withoutOIDs;
@@ -108,11 +102,10 @@ public class TablePropertiesXmlModel
 
     /**
      * withoutOIDsプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setWithoutOIDs(Boolean value) {
         this.withoutOIDs = value;
@@ -120,11 +113,10 @@ public class TablePropertiesXmlModel
 
     /**
      * characterSetプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getCharacterSet() {
         return characterSet;
@@ -132,11 +124,10 @@ public class TablePropertiesXmlModel
 
     /**
      * characterSetプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setCharacterSet(String value) {
         this.characterSet = value;
@@ -144,11 +135,10 @@ public class TablePropertiesXmlModel
 
     /**
      * collationプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getCollation() {
         return collation;
@@ -156,11 +146,10 @@ public class TablePropertiesXmlModel
 
     /**
      * collationプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setCollation(String value) {
         this.collation = value;
@@ -168,11 +157,10 @@ public class TablePropertiesXmlModel
 
     /**
      * storageEngineプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public String getStorageEngine() {
         return storageEngine;
@@ -180,11 +168,10 @@ public class TablePropertiesXmlModel
 
     /**
      * storageEngineプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setStorageEngine(String value) {
         this.storageEngine = value;
@@ -192,11 +179,10 @@ public class TablePropertiesXmlModel
 
     /**
      * primaryKeyLengthOfTextプロパティの値を取得します。
-     * 
+     *
      * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *         possible object is
+     *         {@link String }
      */
     public Integer getPrimaryKeyLengthOfText() {
         return primaryKeyLengthOfText;
@@ -204,11 +190,10 @@ public class TablePropertiesXmlModel
 
     /**
      * primaryKeyLengthOfTextプロパティの値を設定します。
-     * 
+     *
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is
+     *            {@link String }
      */
     public void setPrimaryKeyLengthOfText(Integer value) {
         this.primaryKeyLengthOfText = value;
