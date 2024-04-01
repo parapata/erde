@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -48,13 +49,14 @@ public class HtmlGen {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(is);
 
-            String path = outPath.getPath();
+            Path path = outPath.toPath().resolve("html");
+            Files.createDirectories(path);
 
-            Path html = Paths.get(path, "index.html");
+            Path html = Paths.get(path.toFile().getAbsolutePath(), "index.html");
             convertXMLToHTMLWithXSL(doc, html);
 
             try (InputStream icon = HtmlGenerator.class.getResourceAsStream("html/check.svg")) {
-                OutputStream fos = new FileOutputStream(Paths.get(path, "check.svg").toFile());
+                OutputStream fos = new FileOutputStream(path.resolve("check.svg").toFile());
                 IOUtils.copyStream(icon, fos);
             }
         } catch (Exception e) {

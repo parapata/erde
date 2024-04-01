@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
     xmlns:lxslt="http://xml.apache.org/xslt"
     xmlns:redirect="http://xml.apache.org/xalan/redirect"
-    xmlns:utils="xalan://io.github.erde.generate.html.HtmlGenUtils"
+    xmlns:utils="xalan://io.github.parapata.erde.generate.html.HtmlGenUtils"
     extension-element-prefixes="redirect">
 
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
@@ -189,7 +189,6 @@
         .navi__menu {
             padding: 20px 30px;
         }
-
     </xsl:template>
 
     <!-- ********************************************************** -->

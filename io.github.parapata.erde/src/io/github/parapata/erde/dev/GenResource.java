@@ -35,9 +35,9 @@ public class GenResource {
 
     private static final String PROP_COMMENT = "ER-Diagram editor for Eclipse.";
 
-    private static final String US_FILE_NAME = "resources/io/github/erde/messages.properties";
-    private static final String JA_FILE_NAME = "resources/io/github/erde/messages_ja.properties";
-    private static final String SRC_FILE_NAME = "src/io/github/erde/Resource.java";
+    private static final String US_FILE_NAME = "src/io/github/parapata/erde/messages.properties";
+    private static final String JA_FILE_NAME = "src/io/github/parapata/erde/messages_ja.properties";
+    private static final String SRC_FILE_NAME = "src/io/github/parapata/erde/Resource.java";
 
     private static final String XLSL_FILE = "gen/properties_list.xlsx";
     private static final int START_ROW = 2;
