@@ -31,12 +31,16 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
 
 		<!-- JAXB -->
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
@@ -50,16 +54,32 @@
 			<artifactId>jaxb-xjc</artifactId>
 		</dependency>
 
+		<!-- jxls -->
 		<dependency>
 			<groupId>org.jxls</groupId>
 			<artifactId>jxls-poi</artifactId>
 		</dependency>
 
-		<!-- relax -->
+		<!-- relax, xslt -->
 		<dependency>
 			<groupId>xalan</groupId>
 			<artifactId>xalan</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>serializer</artifactId>
+		</dependency>
+<!--
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+		</dependency>
+-->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.relaxng</groupId>
 			<artifactId>trang</artifactId>
@@ -82,8 +102,7 @@
 							<includeScope>runtime</includeScope>
 							<outputDirectory>${project.build.directory}/libs</outputDirectory>
 							<excludeArtifactIds>
-								commons-logging,
-								log4j
+								commons-logging
 							</excludeArtifactIds>
 						</configuration>
 					</execution>

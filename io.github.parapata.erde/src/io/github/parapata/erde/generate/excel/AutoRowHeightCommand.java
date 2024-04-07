@@ -15,7 +15,7 @@ import org.jxls.transform.poi.PoiTransformer;
  * @author parapata
  * @since 1.0.16
  */
-public class AutoRowHeightCommand extends AbstractCommand {
+public class AutoRowHeightCommand extends AbstractCommand implements Command {
 
     public static final String COMMAND_NAME = "autoRowHeight";
 
