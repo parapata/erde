@@ -92,8 +92,8 @@ public abstract class AbstractErdeEntityEditPart extends AbstractErdeEditPart im
         refreshSourceConnections();
         refreshTargetConnections();
 
-        invokePropertyChangeListener(event, getSourceConnections());
-        invokePropertyChangeListener(event, getTargetConnections());
+        invokePropertyChangeListener(event, (List<PropertyChangeListener>) getSourceConnections());
+        invokePropertyChangeListener(event, (List<PropertyChangeListener>) getTargetConnections());
     }
 
     private void invokePropertyChangeListener(PropertyChangeEvent event, List<PropertyChangeListener> listeners) {

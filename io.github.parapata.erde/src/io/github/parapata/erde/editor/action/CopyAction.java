@@ -35,12 +35,11 @@ public class CopyAction extends SelectionAction implements IErdeAction {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void run() {
-        List<EditPart> selection = getSelectedObjects();
+        List<Object> selection = getSelectedObjects();
         List<BaseEntityModel> copies = new ArrayList<>();
-        for (EditPart editPart : selection) {
-            BaseEntityModel model = (BaseEntityModel) editPart.getModel();
+        for (Object editPart : selection) {
+            BaseEntityModel model = (BaseEntityModel) ((EditPart) editPart).getModel();
             BaseEntityModel clone = model.clone();
             setId(clone.generateId());
             copies.add(clone);
@@ -50,7 +49,6 @@ public class CopyAction extends SelectionAction implements IErdeAction {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected boolean calculateEnabled() {
         List<Object> selected = getSelectedObjects();
         if (selected.isEmpty()) {

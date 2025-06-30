@@ -2,12 +2,8 @@ package io.github.parapata.erde.dev;
 
 import java.util.Collection;
 import java.util.Iterator;
+import io.github.parapata.erde.dev.GenResourceBean;
 
-/**
- * GenResourceEnumTemplate.
- *
- * @author parapata
- */
 public class GenResourceEnumTemplate {
     protected static String nl;
 
@@ -19,11 +15,11 @@ public class GenResourceEnumTemplate {
     }
 
     public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-    protected final String TEXT_1 = "package io.github.erde;" + NL + "" + NL + "import java.util.Arrays;" + NL
+    protected final String TEXT_1 = "package io.github.parapata.erde;" + NL + "" + NL + "import java.util.Arrays;" + NL
             + "import java.util.MissingResourceException;" + NL + "import java.util.ResourceBundle;" + NL + "" + NL
-            + "import io.github.erde.core.util.StringUtils;" + NL + "" + NL + "/**" + NL + " * Resource Enum." + NL
-            + " *" + NL + " * @author parapata" + NL + " * @since 1.0.8" + NL + " */" + NL + "public enum Resource {"
-            + NL;
+            + "import io.github.parapata.erde.core.util.StringUtils;" + NL + "" + NL + "/**" + NL + " * Resource Enum."
+            + NL + " *" + NL + " * @author parapata" + NL + " * @since 1.0.8" + NL + " */" + NL
+            + "public enum Resource {" + NL;
     protected final String TEXT_2 = NL + "    /** key:";
     protected final String TEXT_3 = ". */";
     protected final String TEXT_4 = NL + "    ";

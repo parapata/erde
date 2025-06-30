@@ -8,6 +8,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Layer;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.gef.CompoundSnapToHelper;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.SnapToGeometry;
@@ -45,7 +46,6 @@ public class RootEditPart extends AbstractErdeEditPart {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void propertyChange(PropertyChangeEvent event) {
         if (RootModel.P_CHILDREN.equals(event.getPropertyName())) {
             refreshChildren();
@@ -61,16 +61,16 @@ public class RootEditPart extends AbstractErdeEditPart {
             List<? extends GraphicalEditPart> children = getChildren();
             for (GraphicalEditPart part : children) {
                 part.refresh();
-                List<AbstractErdeConnectionEditPart> conns = part.getSourceConnections();
-                for (AbstractErdeConnectionEditPart conn : conns) {
+                List<? extends ConnectionEditPart> conns = part.getSourceConnections();
+                for (ConnectionEditPart conn : conns) {
                     conn.refresh();
                 }
             }
         } else if (RootModel.P_NOTATION.equals(event.getPropertyName())) {
             List<? extends GraphicalEditPart> children = getChildren();
             for (GraphicalEditPart part : children) {
-                List<AbstractErdeConnectionEditPart> conns = part.getSourceConnections();
-                for (AbstractErdeConnectionEditPart conn : conns) {
+                List<? extends ConnectionEditPart> conns = part.getSourceConnections();
+                for (ConnectionEditPart conn : conns) {
                     conn.refresh();
                 }
             }
