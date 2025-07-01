@@ -4,7 +4,7 @@ Automatic-Module-Name: erde.test
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: io.github.parapata.erde.test
 Bundle-Vendor: %Bundle-Vendor
-Bundle-Version: 1.0.20
+Bundle-Version: 1.0.21
 Import-Package: org.apache.commons.lang3,
  org.junit.jupiter.api,
  org.junit.jupiter.params,
